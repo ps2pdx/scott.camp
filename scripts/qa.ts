@@ -91,7 +91,7 @@ async function main() {
       if (fc !== 'none') problems.push(`forced-colors: the fixed spine layer still paints (${fc})`);
       await ctx.close();
     }
-    const GATED = /terpscout-spin|martian-fruit|per-image-pricing/;
+    const GATED = /terpscout-spin|rosin-press|martian-fruit|per-image-pricing/;
     const engines: [string, Browser | null][] = [['chromium', browser], ['webkit', await webkit.launch().catch(() => null)]];
     for (const [name, b] of engines) {
       if (!b) { console.log(`${name}: not installed, disclosure check skipped`); continue; }
@@ -145,7 +145,7 @@ async function main() {
       await page.locator('#terpscout summary').click();
       await page.waitForTimeout(200);
       const r = await page.locator('#terpscout details').evaluate((d) => ({ open: (d as HTMLDetailsElement).open, video: !!d.querySelector('video'), stills: d.querySelectorAll('img').length }));
-      if (!r.open || r.video || r.stills !== 3) problems.push(`forced-colors, reduced-data: the disclosure does not open to stills only (${JSON.stringify(r)})`);
+      if (!r.open || r.video || r.stills !== 4) problems.push(`forced-colors, reduced-data: the disclosure does not open to stills only (${JSON.stringify(r)})`);
       await ctx.close();
     }
   } finally { await browser.close(); server.kill(); }

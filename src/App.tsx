@@ -64,6 +64,7 @@ export function App() {
           </div>
           <Disclosure summary={ts.gated.summary}>
             <Spin clip={ts.gated.spin} />
+            <Spin clip={ts.gated.reel} />
             {ts.gated.stills.map((e) => <Plate key={e.src} e={e} />)}
           </Disclosure>
         </Section>

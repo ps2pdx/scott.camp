@@ -61,11 +61,11 @@ it('the disclosure opens on click and carries the spin, the print and the pricin
   await open(details, 'click');
   expect(details.open).toBe(true);
   const g = COPY.terpscout.evidence.gated;
-  expect([...details.querySelectorAll('figcaption')].map((f) => f.textContent)).toEqual([g.spin, ...g.stills].map((e) => e.caption));
+  expect([...details.querySelectorAll('figcaption')].map((f) => f.textContent)).toEqual([g.spin, g.reel, ...g.stills].map((e) => e.caption));
   for (const img of details.querySelectorAll('img')) { expect(img.getAttribute('loading')).toBe('lazy'); expect(img.getAttribute('alt')!.length).toBeGreaterThan(10); }
   const v = details.querySelector('video')!;
   expect(v.getAttribute('aria-label')).toBe(g.spin.alt);
-  expect(details.querySelectorAll('video').length).toBe(1);
+  expect(details.querySelectorAll('video')[1].getAttribute('aria-label')).toBe(g.reel.alt);
   expect(v.getAttribute('preload')).toBe('none');
 });
 it('the disclosure opens from the keyboard: the summary is focusable and Enter toggles it', async () => {
@@ -120,7 +120,7 @@ it('the spin and the print carry their 2022 dates, no bracket left', () => {
   const ev = COPY.terpscout.evidence;
   expect(ev.gated.spin.caption).toBe('Product turntable, TerpScout studio, 2022');
   expect(ev.gated.stills[0].caption).toBe('Strain print, Martian Fruit, for a TerpScout client, 2022');
-  for (const e of [ev.gated.spin, ...ev.gated.stills, ...ev.shown]) expect(e.caption).not.toContain('[YEAR]');
+  for (const e of [ev.gated.spin, ev.gated.reel, ...ev.gated.stills, ...ev.shown]) expect(e.caption).not.toContain('[YEAR]');
 });
 it('evidence stacks full width, one figure above the next, with no pair wrapper', async () => {
   stubMatchMedia(false);
@@ -153,13 +153,14 @@ it('the TS mark sits on a white square tile: 120 px on desktop, 96 px on phones,
   expect(css).not.toMatch(/border-radius|box-shadow/);
   expect(COPY.terpscout.evidence.shown).toEqual([expect.objectContaining({ src: '/evidence/terpscout-mark.webp', caption: 'TerpScout mark', mark: true })]);
 });
-it('the disclosure holds the spin, the Martian Fruit print and the Per Image Pricing page, nothing else', async () => {
+it('the disclosure holds the spin, the rosin reel at full frame, the Martian Fruit print and the Per Image Pricing page, nothing else', async () => {
   stubMatchMedia(false);
   const { container } = render(<App />);
   const details = container.querySelector<HTMLDetailsElement>('#terpscout details')!;
   await open(details, 'click');
-  expect([...details.querySelectorAll('figcaption')].map((f) => f.textContent)).toEqual(['Product turntable, TerpScout studio, 2022', 'Strain print, Martian Fruit, for a TerpScout client, 2022', 'Per image pricing, Terp-Scouts cannabis photography, summer 2022']);
-  expect(container.innerHTML).not.toMatch(/rosin-press|trap-fuel|martian-fruit-detail/);
+  expect([...details.querySelectorAll('figcaption')].map((f) => f.textContent)).toEqual(['Product turntable, TerpScout studio, 2022', 'Rosin press reel, slow motion, 2024', 'Strain print, Martian Fruit, for a TerpScout client, 2022', 'Per image pricing, Terp-Scouts cannabis photography, summer 2022']);
+  expect(container.innerHTML).not.toMatch(/trap-fuel|martian-fruit-detail/);
+  expect(details.querySelector(`video[poster="${COPY.terpscout.evidence.gated.reel.poster}"]`)).not.toBeNull();
 });
 it('the Nertia block carries the Nertia mark on the same white tile, in the same place as the TS mark', () => {
   stubMatchMedia(false);
