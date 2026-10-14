@@ -60,6 +60,7 @@ it('the light page is eggshell, and pure white stays for the punch holes and the
   expect(lightBlock).toContain('--hole:#ffffff');
   expect(lightBlock).toContain('--sheet:#ffffff');
   expect(darkBlock).toContain('--s-page:#f3f1ea');
+  expect(darkBlock).toContain('--hole:#ffffff');
   expect(readFileSync('src/components/Punches.module.css', 'utf8')).toContain('background:var(--hole)');
 });
 it('ink bleed: 0.5 px on nav labels, 0.3 px on the primary button label, a text-shadow in the text colour, gone under forced colors and reduced data', () => {

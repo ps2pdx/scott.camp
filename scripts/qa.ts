@@ -62,7 +62,7 @@ async function main() {
       if (path === 'bell') {
         await page.locator('#hero').screenshot({ path: `${OUT}/hero-${width}-${mode}.png` });
         await page.locator('#terpscout').screenshot({ path: `${OUT}/terpscout-${width}-${mode}.png` });
-        await page.locator('#vantage ul').screenshot({ path: `${OUT}/transcript-${width}-${mode}.png` });
+        await page.locator('#vantage ul.transcript').screenshot({ path: `${OUT}/transcript-${width}-${mode}.png` });
         await page.locator('[data-part="index"]').screenshot({ path: `${OUT}/index-${width}-${mode}.png` });
         await page.locator('[data-part="section-body"] article').first().screenshot({ path: `${OUT}/specsheet-${width}-${mode}.png` });
         await page.locator('#nertia svg[role="img"]').first().screenshot({ path: `${OUT}/techsheet-${width}-${mode}.png` });
