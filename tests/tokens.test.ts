@@ -3,7 +3,7 @@ const css = readFileSync('src/styles/tokens.css', 'utf8');
 const REQUIRED = ['--s-ink','--s-page','--s-board','--s-endpaper','--s-cloth','--bg','--fg','--fg-muted','--line','--line-strong','--strike','--accent','--accent-fg','--focus','--halo','--grain','--s-1','--s-8','--t-hero','--t-meta-sm','--motion-chip'];
 const darkBlock = css.slice(0, css.indexOf('@media (prefers-color-scheme: light)'));
 const lightBlock = css.slice(css.indexOf(':root[data-theme="light"]{'));
-const MODE_TOKENS = ['--s-board','--s-endpaper','--bg','--fg','--fg-muted','--line','--line-strong','--halo','--sheet','--tech','--grain'];
+const MODE_TOKENS = ['--focus','--s-board','--s-endpaper','--bg','--fg','--fg-muted','--line','--line-strong','--halo','--sheet','--tech','--grain'];
 
 it('defines every token named in the spec', () => { for (const t of REQUIRED) expect(css, t).toContain(t + ':'); });
 it('light redefines the same mode set the system query does', () => {

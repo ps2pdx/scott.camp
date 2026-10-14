@@ -5,3 +5,4 @@
 html{transition:background-color var(--motion-theme),color var(--motion-theme)}
 a{text-decoration:underline;text-underline-offset:0.15em;text-decoration-thickness:1px}
 a:hover{text-decoration-color:var(--accent)}
+a:focus-visible,button:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
