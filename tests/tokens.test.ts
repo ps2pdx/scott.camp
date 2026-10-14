@@ -27,3 +27,7 @@ it('grain tiles are rebased so their mid-grey baseline multiplies to the surface
   const tex = readFileSync('src/styles/textures.css', 'utf8');
   expect(tex).toMatch(/\.grain::before\{[^}]*mix-blend-mode:multiply[^}]*filter:brightness\(2\)/);
 });
+it('the desktop rail scales with the viewport and draws the spine at its true aspect', () => {
+  expect(readFileSync('src/styles/tokens.css', 'utf8')).toMatch(/min-width:1024px\)\{:root\{[^}]*--rail:clamp\(56px,5vw,96px\)/);
+  expect(readFileSync('src/components/SpineRail.module.css', 'utf8')).toContain('repeat-y;background-size:100% auto');
+});
