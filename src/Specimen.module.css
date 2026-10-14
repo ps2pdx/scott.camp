@@ -29,7 +29,7 @@
 .hover a{transform:translate(0.5px,0.5px) rotate(1deg)}
 .focus a{outline:2px solid var(--focus);outline-offset:2px}
 .disabled a{opacity:0.4;pointer-events:none}
-.cells{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));border:1px solid var(--line-strong)}
+.cells{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));border:1px solid var(--line-strong)}
 .cell{text-decoration:none;display:flex;align-items:center;justify-content:center;min-height:44px;border-right:1px solid var(--line-strong);color:var(--fg)}
 .cell:last-child{border-right:0}
 .cell[aria-current]{background:var(--fg);color:var(--bg)}

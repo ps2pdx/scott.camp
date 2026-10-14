@@ -13,6 +13,7 @@ import { TechSheet } from '@/components/TechSheet';
 import { Index } from '@/components/Index';
 import { Footer } from '@/components/Footer';
 import { Plate, Spin } from '@/components/Evidence';
+import { DataTable } from '@/components/DataTable';
 import { Disclosure } from '@/components/Disclosure';
 import s from './App.module.css';
 
@@ -51,6 +52,20 @@ export function App() {
           </div>
           <p className={`transcript ${s.after}`}>{COPY.nertia.codeSiteLine} <a href={COPY.nertia.source.href}>{COPY.nertia.source.label} ↗</a></p>
           <p className={`transcript ${s.next}`}>{COPY.nertia.docs.line} <a href={COPY.nertia.docs.href}>{COPY.nertia.docs.label} ↗</a></p>
+        </Section>
+
+        <Section id="design-system" tools={COPY.designSystem.watermark} runningHead={COPY.designSystem.runningHead} title={COPY.designSystem.title} lead={COPY.designSystem.lead}>
+          <Label>Token tiers</Label>
+          <div className={s.gap}><DataTable label="Skin contract tokens by tier" rows={COPY.designSystem.tiers} /></div>
+          <div className={s.block}>
+            <Label>One change, two sites</Label>
+            <div className={s.stack}>{COPY.designSystem.figures.map((e) => <Plate key={e.src} e={e} />)}</div>
+          </div>
+          <div className={s.block}>
+            <Label>Tools that act on the system</Label>
+            <div className={s.gap}><DataTable label="MCP tools that act on the design system or publish" rows={COPY.designSystem.tools} /></div>
+          </div>
+          <p className={`transcript ${s.after}`}><a href={COPY.designSystem.links.docs.href}>{COPY.designSystem.links.docs.label} ↗</a> <a href={COPY.designSystem.links.contract.href}>{COPY.designSystem.links.contract.label} ↗</a></p>
         </Section>
 
         <Section id="work" tools={COPY.work.tools} runningHead={COPY.work.runningHead} eyebrow={COPY.work.eyebrow} title={COPY.work.title}>

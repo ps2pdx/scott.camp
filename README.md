@@ -58,6 +58,8 @@ Status on 2026-10-14: the code site `scottcamp` exists. Every push to `main` pub
 
 ## Decisions taken in the last review pass
 
+- Design system block (2026-10-14): tiers and the lead from `docs/design-system-contract.md` in ps2pdx/nertia; tool lines from the MCP tool list in `src/lib/mcp/jsonRpcEngine.ts`. The two figures are `npx create-nersh@latest` (0.2.0) scaffolding its default catalogue site in a scratch folder, built with `next build` once under `skinId: zinc` and once under `skinId: orange` (nothing else changed; `ds` was empty), shot at 1280 by 800 from `next start`.
+
 - The Zen Holo and Purple Scott spec sheet cards are hidden (2026-10-14) while their copy is pending; their Index rows stay. The cards return as soon as Scott supplies the copy: drop `placeholder: true` from their entries in `src/content/copy.ts`.
 
 - KAL Contracting is out of the Index (Scott, 2026-10-14); the rows run 01 to 13 with no gap and the volume faces follow (Pharm to Body is Vol. 07, Zen Holo and Purple Scott are 12 and 13).

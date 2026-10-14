@@ -7,7 +7,7 @@ export const VANTAGE_CASE_STUDY_URL = 'https://vantagecompute.nertia.ai';
 export const SOURCE_URL = 'https://github.com/ps2pdx/scott.camp';
 
 export const SECTIONS = [
-  { id: 'hero', label: 'Cover' }, { id: 'vantage', label: 'Vantage' }, { id: 'nertia', label: 'Nertia' },
+  { id: 'hero', label: 'Cover' }, { id: 'vantage', label: 'Vantage' }, { id: 'nertia', label: 'Nertia' }, { id: 'design-system', label: 'Design system' },
   { id: 'work', label: 'Work' }, { id: 'terpscout', label: 'TerpScout' }, { id: 'practice', label: 'Practice' }, { id: 'contact', label: 'Contact' },
 ] as const;
 
@@ -92,6 +92,36 @@ export const COPY = {
         ],
       },
     },
+  },
+  designSystem: {
+    runningHead: 'Design system [2026]', title: 'One contract, every site',
+    lead: 'Every nertia site inherits one skin contract: about twenty CSS variables and a single brand colour, --accent. An agent switches the skin through the MCP tool switch_site_skin, with no UI.',
+    tiers: [
+      ['Surface', '--background, --muted, --card, --card-bg, --card-border, --card-foreground', 'Page and section surface, subtle fill, the card surface system'],
+      ['Text', '--foreground, --muted-fg', 'Body and heading text, secondary text'],
+      ['Line', '--border, --border-width-hairline, --border-width-default, --border-width-strong', 'Hairlines and dividers, and their stroke weight'],
+      ['Accent', '--accent, --accent-fg', 'The single brand colour and its text'],
+      ['Radius', '--radius, --radius-sm, --radius-lg, --radius-pill', 'Base corner for cards, buttons and inputs; chips, large surfaces, pills'],
+      ['Shadow', '--shadow-sm, --shadow-md, --shadow-lg, --btn-shadow', 'The elevation ramp and button elevation'],
+      ['Motion', '--motion-duration-fast, --motion-duration-normal, --motion-ease', 'Hover, expand and collapse, easing'],
+      ['Type', '--font-sans, --font-heading, --font-body', 'Base, display and running text families; sizes are a shared fluid scale'],
+    ] as string[][],
+    figures: [
+      { src: '/evidence/catalogue-site-zinc.webp', width: 1280, height: 800, caption: 'The catalogue site under zinc', alt: 'The create-nersh catalogue site at 1280 px under the zinc preset: a centred headline, Build better software, faster, with outline buttons in near black.' },
+      { src: '/evidence/catalogue-site-orange.webp', width: 1280, height: 800, caption: 'The same site, one token change, under orange', alt: 'The same catalogue site with skinId set to orange: identical layout and copy, the buttons and their outlines now orange.' },
+    ],
+    tools: [
+      ['switch_site_skin', 'Switch the active skin preset; stored tokens clear so the new skin renders live'],
+      ['set_node_style', 'Set CSS on a node; presets store design system variables, so the node follows a skin change'],
+      ['set_card_hover', 'Set how every card answers a hover: lift, flat or none'],
+      ['set_section_frame', 'Run a section edge to edge, or make it fill the screen'],
+      ['update_copy', 'Patch the site copy slots'],
+      ['publish_site', 'Publish the draft to staging or production'],
+      ['publish_from_github', "Start a code site's own GitHub Action to build and upload the export"],
+      ['rollback_release', 'Put an earlier release live'],
+    ] as string[][],
+    links: { docs: { label: 'Documentation', href: '/specimen' }, contract: { label: 'Contract on GitHub', href: 'https://github.com/ps2pdx/nertia/blob/main/docs/design-system-contract.md' } },
+    watermark: ['Figma', 'oklch', 'CSS token systems', 'shadcn', 'MCP'],
   },
   work: {
     tools: ["Shopify", "Webflow", "Nertia", "Printful", "SEO/GEO", "Naming and rebrand", "Pricing and packaging"] as string[],

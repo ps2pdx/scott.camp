@@ -21,7 +21,7 @@ it('carries the code-site line, the provenance line and the resume', () => {
 it('places nine tech sheets and thirteen index rows', () => {
   const { container } = render(<App />);
   expect(container.querySelectorAll('figure svg[role="img"]').length).toBe(9);
-  expect(container.querySelectorAll('tr').length).toBe(13);
+  expect(container.querySelectorAll('#endpapers tr').length).toBe(13);
 });
 
 describe('theme boot', () => {
@@ -51,21 +51,22 @@ it('every content section carries a tool watermark: its own facts, a unique seed
   const { container } = render(<App />);
   const { readFileSync } = await import('node:fs');
   const seen = new Set<string>();
-  for (const id of ['vantage', 'nertia', 'work', 'terpscout', 'practice'] as const) {
+  for (const id of ['vantage', 'nertia', 'design-system', 'work', 'terpscout', 'practice'] as const) {
     const sec = container.querySelector(`#${id}`)!;
+    const items = id === 'design-system' ? COPY.designSystem.watermark : COPY[id].tools;
     const wm = sec.querySelector(':scope > [data-part="tools"]')!;
     expect(wm, id).not.toBeNull();
-    expect([...wm.querySelectorAll('ul.sr-only li')].map((l) => l.textContent)).toEqual(COPY[id].tools);
+    expect([...wm.querySelectorAll('ul.sr-only li')].map((l) => l.textContent)).toEqual(items);
     const moving = wm.querySelector('[aria-hidden="true"]')!;
     expect(moving.classList.contains('watermark')).toBe(true);
-    expect(moving.textContent).toBe(`${COPY[id].tools.join(' · ')} · `.repeat(2));
+    expect(moving.textContent).toBe(`${items.join(' · ')} · `.repeat(2));
     expect([72, 96, 128, 160]).toContain(Number(wm.getAttribute('data-size')));
     expect([24, 48, 72, 96]).toContain(Number(wm.getAttribute('data-offset')));
     expect(sec.getAttribute('data-wm-size')).toBe(wm.getAttribute('data-size'));
     seen.add(`${wm.getAttribute('data-size')}/${wm.getAttribute('data-offset')}`);
   }
-  expect(seen.size).toBe(5);
-  expect(container.querySelectorAll('[data-part="tools"]').length).toBe(5);
+  expect(seen.size).toBe(6);
+  expect(container.querySelectorAll('[data-part="tools"]').length).toBe(6);
   expect(container.querySelector('#hero [data-part="tools"], #contact [data-part="tools"], #endpapers [data-part="tools"]')).toBeNull();
   const css = readFileSync('src/components/ToolMark.module.css', 'utf8');
   expect(css).toMatch(/pointer-events:none;color:var\(--fg\);opacity:0.1/);
@@ -94,10 +95,10 @@ it('the cover holds only the eyebrow, the name line and the headline, no actions
   expect(COPY.practice.rows[0].text).toContain('Marquee Mondays');
   expect(COPY.practice.rows[0].text).not.toContain('Virgil');
 });
-it('sections run cover, yellow pages, Vantage, Nertia, Work, TerpScout, Practice, Contact', () => {
+it('sections run cover, yellow pages, Vantage, Nertia, Design system, Work, TerpScout, Practice, Contact', () => {
   const { container } = render(<App />);
-  expect([...container.querySelectorAll('section')].map((x) => x.id)).toEqual(['hero', 'endpapers', 'vantage', 'nertia', 'work', 'terpscout', 'practice', 'contact']);
-  expect(SECTIONS.map((x) => x.id)).toEqual(['hero', 'vantage', 'nertia', 'work', 'terpscout', 'practice', 'contact']);
+  expect([...container.querySelectorAll('section')].map((x) => x.id)).toEqual(['hero', 'endpapers', 'vantage', 'nertia', 'design-system', 'work', 'terpscout', 'practice', 'contact']);
+  expect(SECTIONS.map((x) => x.id)).toEqual(['hero', 'vantage', 'nertia', 'design-system', 'work', 'terpscout', 'practice', 'contact']);
 });
 it('Practice hides the placeholder cards until copy exists, keeps the Marquee Mondays row, its banners and the index rows', () => {
   const { container } = render(<App />);
@@ -112,7 +113,7 @@ it('Practice hides the placeholder cards until copy exists, keeps the Marquee Mo
 });
 it('the Nertia block links to the specimen as its documentation, beside the source line', () => {
   render(<App />);
-  const a = screen.getByRole('link', { name: 'Documentation ↗' });
+  const a = screen.getAllByRole('link', { name: 'Documentation ↗' })[0];
   expect(a).toHaveAttribute('href', '/specimen');
   expect(a.parentElement!.textContent).toContain('The design system this page is built with, documented on a page, not in a file.');
   expect(a.closest('#nertia')).not.toBeNull();
@@ -125,4 +126,18 @@ it('the cover carries the name as a title page would, once, beside the eyebrow',
   expect(line.classList.contains('meta')).toBe(true);
   expect(line.previousElementSibling!.textContent).toBe('"I design systems agents ship."');
   expect(container.textContent!.split('Portland, Oregon').length).toBe(2);
+});
+it('the design system block: the contract in tiers, one change across two presets, the tools, its links and watermark', () => {
+  const { container } = render(<App />);
+  const d = container.querySelector('#design-system')!;
+  expect(d.querySelector('h2')!.textContent).toBe('One contract, every site');
+  expect(d.textContent).toContain('Design system [2026]');
+  expect([...d.querySelectorAll('table')[0].querySelectorAll('tr')].map((r) => r.children[0].textContent)).toEqual(['Surface', 'Text', 'Line', 'Accent', 'Radius', 'Shadow', 'Motion', 'Type']);
+  expect([...d.querySelectorAll('figcaption')].map((f) => f.textContent)).toEqual(['The catalogue site under zinc', 'The same site, one token change, under orange']);
+  const tools = [...d.querySelectorAll('table')[1].querySelectorAll('td:first-child')].map((t) => t.textContent);
+  for (const t of ['switch_site_skin', 'update_copy', 'publish_site', 'publish_from_github']) expect(tools).toContain(t);
+  expect(d.querySelector('a[href="/specimen"]')!.textContent).toBe('Documentation ↗');
+  expect(d.querySelector('a[href="https://github.com/ps2pdx/nertia/blob/main/docs/design-system-contract.md"]')!.textContent).toBe('Contract on GitHub ↗');
+  expect(container.querySelector('#nertia')!.nextElementSibling).toBe(d);
+  expect(d.nextElementSibling!.id).toBe('work');
 });

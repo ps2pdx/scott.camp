@@ -72,7 +72,7 @@ it('phones keep the tables: no two-row nav, no stacked index, no portrait tech s
   const { readFileSync } = await import('node:fs');
   const nav = readFileSync('src/components/PunchNav.module.css', 'utf8');
   expect(nav).not.toMatch(/repeat\(4,/);
-  expect(nav).toContain('grid-template-columns:repeat(7,minmax(0,1fr))');
+  expect(nav).toContain('grid-template-columns:repeat(8,minmax(0,1fr))');
   const idx = readFileSync('src/components/Index.module.css', 'utf8');
   expect(idx).not.toMatch(/overflow-x|overflow-wrap|display:block/);
   expect(idx).not.toContain('font-size');

@@ -15,10 +15,10 @@ it('renders seven links to the seven sections with exactly one current and three
   expect(container.querySelectorAll('[aria-hidden="true"] [data-part="punch"]').length).toBe(3);
   expect(screen.getByRole('navigation', { name: 'Sections' })).toBeInTheDocument();
 });
-it('cells show 01 to 07 while each link keeps the section title as its name and title', () => {
+it('cells show 01 to 08 while each link keeps the section title as its name and title', () => {
   render(<PunchNav sections={SECTIONS} />);
   const links = screen.getAllByRole('link');
-  expect(links.map((a) => a.textContent)).toEqual(['01', '02', '03', '04', '05', '06', '07']);
+  expect(links.map((a) => a.textContent)).toEqual(['01', '02', '03', '04', '05', '06', '07', '08']);
   expect(links.map((a) => a.getAttribute('aria-label'))).toEqual(SECTIONS.map((x) => x.label));
   expect(links.map((a) => a.getAttribute('title'))).toEqual(SECTIONS.map((x) => x.label));
   for (const x of SECTIONS) expect(screen.getByRole('link', { name: x.label })).toBeInTheDocument();

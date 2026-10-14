@@ -63,9 +63,9 @@ async function main() {
         if (width >= 1024 && !stuck.rail) problems.push(`${path} ${width} ${mode}: the rail does not show at the left once past the cover`);
         await page.evaluate(() => window.scrollTo(0, 0));
         const order = await page.evaluate(() => [...document.querySelectorAll('section')].map((x) => x.id).join(','));
-        if (order !== 'hero,endpapers,vantage,nertia,work,terpscout,practice,contact') problems.push(`${path} ${width} ${mode}: section order is ${order}`);
+        if (order !== 'hero,endpapers,vantage,nertia,design-system,work,terpscout,practice,contact') problems.push(`${path} ${width} ${mode}: section order is ${order}`);
         const cellTargets = await page.evaluate(() => [...document.querySelectorAll('nav a')].map((x) => x.getAttribute('href')).join(','));
-        if (cellTargets !== '#hero,#vantage,#nertia,#work,#terpscout,#practice,#contact') problems.push(`${path} ${width} ${mode}: nav targets are ${cellTargets}`);
+        if (cellTargets !== '#hero,#vantage,#nertia,#design-system,#work,#terpscout,#practice,#contact') problems.push(`${path} ${width} ${mode}: nav targets are ${cellTargets}`);
         for (const id of ['vantage', 'work', 'contact']) {
           await page.click(`nav a[href="#${id}"]`);
           await page.waitForTimeout(400);
