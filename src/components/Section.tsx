@@ -7,7 +7,7 @@ export function Section({ id, runningHead, eyebrow, title, lead, surface = 'page
   id: string; runningHead: string; eyebrow?: string; title?: string; lead?: string; surface?: 'page' | 'board'; first?: boolean; children: ReactNode;
 }) {
   return (
-    <section id={id} {...(first ? { 'data-first': '' } : {})} className={`grain ${surface === 'board' ? `tex-board ${s.board}` : 'tex-paper'} ${s.section} ${first ? 'first' : ''}`}>
+    <section id={id} {...(first ? { 'data-first': '' } : {})} className={`grain ${surface === 'board' ? `tex-board ${s.board}` : 'tex-paper'} ${s.section} ${first ? 'first' : 'cut'}`}>
       <div className={s.wrap}>
         <div className={s.head}>
           <div className={s.titles}>

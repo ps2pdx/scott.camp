@@ -4,7 +4,7 @@ import { ThemeToggle } from './ThemeToggle';
 import s from './Footer.module.css';
 export function Footer() {
   return (
-    <footer className={s.foot}>
+    <footer className={`cut ${s.foot}`}>
       <div className={s.wrap}>
         <ul className={`meta ${s.links}`}>
           {COPY.footer.links.map((l) => <li key={l.href}><a href={l.href}>{l.label} ↗</a></li>)}

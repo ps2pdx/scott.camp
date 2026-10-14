@@ -2,3 +2,4 @@
 @media (min-width:1024px){.rail{display:block;position:fixed;left:0;top:0;bottom:0;width:var(--rail);z-index:5;background:#1c1b19 url(/textures/spine.webp) repeat-y;background-size:100% auto}}
 .band{display:block;height:clamp(80px,10vw,112px);background:#1c1b19 url(/textures/spine-band.webp) repeat-x;background-size:auto 100%}
 @media (min-width:1024px){.band{display:none}}
+.reveal{position:fixed;inset:0;z-index:-1;pointer-events:none;will-change:transform;background:url(/textures/spine-band.webp) repeat;background-size:auto clamp(80px,10vw,112px)}

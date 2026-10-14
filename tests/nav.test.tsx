@@ -29,3 +29,13 @@ it('on phones the spine band sits above the nav and the footer carries none', as
   expect(container.querySelector('footer [data-part="band"]')).toBeNull();
   expect(container.querySelectorAll('[data-part="band"]').length).toBe(1);
 });
+it('one fixed spine layer sits behind the page and every divider after the hero is a cut', async () => {
+  const { App } = await import('@/App');
+  const { container } = render(<App />);
+  expect(container.querySelectorAll('[data-part="reveal"]').length).toBe(1);
+  expect(container.querySelector('[data-part="reveal"]')).toHaveAttribute('aria-hidden', 'true');
+  const sections = [...container.querySelectorAll('main > section')];
+  expect(sections[0].classList.contains('cut')).toBe(false);
+  for (const s of sections.slice(1)) expect(s.classList.contains('cut')).toBe(true);
+  expect(container.querySelector('footer')!.classList.contains('cut')).toBe(true);
+});

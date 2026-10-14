@@ -5,7 +5,7 @@ import { mkdirSync } from 'node:fs';
 const OUT = '.parity';
 const PORT = 4178;
 const BASE = `http://localhost:${PORT}`;
-const TEXTURES_OFF = '.grain::before{display:none}.rail{background-image:none !important;width:2px !important}.band{background-image:none !important}.chip{background-image:none !important}.hole{filter:none !important}';
+const TEXTURES_OFF = '.grain::before{display:none}.rail{background-image:none !important;width:2px !important}.band{background-image:none !important}.reveal{display:none !important}.cut{border-top-color:var(--line-strong) !important}.chip{background-image:none !important}.hole{filter:none !important}';
 
 async function launch(): Promise<Browser> {
   try { return await chromium.launch(); } catch { return chromium.launch({ channel: 'chrome' }); }
@@ -47,6 +47,8 @@ async function main() {
           const top = await page.evaluate((i) => document.getElementById(i)!.getBoundingClientRect().top, id);
           if (top < r.nav - 1) problems.push(`${path} ${width} ${mode}: #${id} lands under the nav (${top} < ${r.nav})`);
         }
+        const cut = await page.evaluate(() => ({ border: getComputedStyle(document.getElementById('vantage')!).borderTopColor, reveal: getComputedStyle(document.querySelector('[data-part="reveal"]')!).position }));
+        if (cut.border !== 'rgba(0, 0, 0, 0)' || cut.reveal !== 'fixed') problems.push(`${path} ${width} ${mode}: the divider is not a cut over the fixed spine (${JSON.stringify(cut)})`);
         await page.evaluate(() => window.scrollTo(0, 0));
         console.log(`${path} ${width} ${mode}: nav ${Math.round(r.nav)}px`);
       }
@@ -60,7 +62,17 @@ async function main() {
       await cdp.send('Emulation.setEmulatedMedia', { features: [{ name: 'prefers-reduced-data', value: 'reduce' }] });
       await page.goto(`${BASE}/bell/`, { waitUntil: 'networkidle' });
       await page.addStyleTag({ content: TEXTURES_OFF });
+      const plain = await page.evaluate(() => ({ border: getComputedStyle(document.getElementById('vantage')!).borderTopColor, reveal: getComputedStyle(document.querySelector('[data-part="reveal"]')!).display }));
+      if (plain.border === 'rgba(0, 0, 0, 0)' || plain.reveal !== 'none') problems.push(`reduced-data ${width}: the divider is not a plain rule (${JSON.stringify(plain)})`);
       await page.screenshot({ path: `${OUT}/bell-${width}-textures-off.png`, fullPage: true });
+      await ctx.close();
+    }
+    {
+      const ctx = await browser.newContext({ viewport: { width: 390, height: 900 }, forcedColors: 'active' });
+      const page = await ctx.newPage();
+      await page.goto(`${BASE}/bell/`, { waitUntil: 'networkidle' });
+      const fc = await page.evaluate(() => getComputedStyle(document.querySelector('[data-part="reveal"]')!).display);
+      if (fc !== 'none') problems.push(`forced-colors: the fixed spine layer still paints (${fc})`);
       await ctx.close();
     }
   } finally { await browser.close(); server.kill(); }

@@ -1,6 +1,6 @@
-.section{padding:var(--s-8) 0;border-top:2px solid var(--line-strong)}
+.section{padding:var(--s-8) 0;background-color:var(--bg)}
 .section:global(.first){border-top:0}
-.board{background:var(--s-board)}
+.board{background-color:var(--s-board)}
 .wrap{max-width:var(--max);padding:0 var(--gutter);margin:0}
 @media (min-width:1024px){.wrap{padding-left:calc(var(--rail) + var(--gutter))}}
 .head{display:flex;justify-content:space-between;align-items:flex-start;gap:var(--s-4);margin-bottom:var(--s-6)}

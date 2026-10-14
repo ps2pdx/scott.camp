@@ -1,4 +1,4 @@
-.hero{padding:var(--s-8) 0;min-height:calc(100vh - 176px);display:flex}
+.hero{padding:var(--s-8) 0;background-color:var(--bg);min-height:calc(100vh - 176px);display:flex}
 .heroWrap{max-width:var(--max);padding:0 var(--gutter);display:flex;flex-direction:column;gap:var(--s-6);flex:1}
 @media (min-width:1024px){.heroWrap{padding-left:calc(var(--rail) + var(--gutter))}}
 .heroHead{display:flex;justify-content:space-between;align-items:flex-start;gap:var(--s-4)}
