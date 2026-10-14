@@ -40,7 +40,7 @@ export const COPY = {
     eyebrow: 'Nertia', runningHead: 'Nertia', title: "A product designed from the buyer's side",
     lead: 'An agent-native site builder, shipped as a web application and as an MCP server. I designed it, built it, and took it to market.',
     rows: [
-      { when: '12/2025', who: 'Origin', text: 'It started as a design system generator: a brand schema, tokens, typography, animation, decision logic. The site builder came later. Nine months on, the design system is the part every site inherits.' },
+      { when: '12/2025', who: 'Origin', text: 'It started as a design system generator: a brand schema, tokens, typography, animation, decision logic. The site builder came later. Ten months on, the design system is the part every site inherits.' },
       { when: '[DATE]', who: 'Default', text: "Everything is included by default instead of unbundled into add-ons. Hosting and domains pass through at cost. Export stays open, no contract, domains live in the client's own account. The bet: we monetize the product, not the exit. If someone leaves, the product wasn't good enough. That is the correct signal, and lock-in only hides it." },
       { when: '04/16/26', who: 'Evidence', text: 'Launched as an AI brand generator. Research said the durable need was shipping and maintaining live sites, not generating identity assets. Changed the product rather than the messaging.' },
       { when: '[DATE]', who: 'Distribution', text: 'The MCP server exposes site creation, layout, copy, SEO, and publishing as tools an agent invokes directly. The product is fully operable by Claude without a UI. That is a channel choice, not a technical flourish: meet the buyer inside the surface they already work in.' },

@@ -44,3 +44,4 @@ it('ScoutCamp is $10M total, 2020 to 2022, with no per-year rate anywhere', () =
   expect(COPY.terpscout.rows.find((r) => r.who === 'Volume')).toEqual({ when: '2020 to 2022', who: 'Volume', text: '$10M across three wholesale locations and about 30 vendors.' });
   expect(COPY.terpscout.runningHead).toBe('TerpScout [2016 to 2022]');
 });
+it('the Nertia origin row counts ten months from December 2025', () => { expect(COPY.nertia.rows.find((r) => r.who === 'Origin')!.text).toContain('Ten months on,'); });
