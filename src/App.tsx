@@ -31,7 +31,7 @@ export function App() {
       <SpineBand />
       <PunchNav sections={SECTIONS} />
       <main>
-        <Section id="endpapers" surface="endpaper" runningHead={h.runningHead}>
+        <Section id="endpapers" surface="endpaper">
           <p className={`text ${s.lead}`}>{h.lead}</p>
           <Transcript rows={h.facts} tight className={s.after} />
           <Transcript rows={[COPY.endpapers.virgil]} className={s.after} />

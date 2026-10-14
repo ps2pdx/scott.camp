@@ -14,7 +14,7 @@ async function main() {
       const p = await (await b.newContext({ viewport: { width: 1280, height: 900 }, deviceScaleFactor: dpr, colorScheme: mode })).newPage();
       await p.goto(`http://localhost:${PORT}/bell/`, { waitUntil: 'networkidle' });
       await p.locator('nav a').nth(1).screenshot({ path: `.parity/ink-nav-${name}-dpr${dpr}-${mode}.png` });
-      await p.locator('#hero [data-variant="primary"]').screenshot({ path: `.parity/ink-button-${name}-dpr${dpr}-${mode}.png` });
+      await p.locator('#contact [data-variant="primary"]').screenshot({ path: `.parity/ink-button-${name}-dpr${dpr}-${mode}.png` });
       await p.context().close();
     }
     await b.close();
