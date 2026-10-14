@@ -1,4 +1,4 @@
-import { chromium, type Browser } from 'playwright';
+import { chromium, webkit, type Browser } from 'playwright';
 import { spawn } from 'node:child_process';
 import { mkdirSync } from 'node:fs';
 
@@ -73,6 +73,63 @@ async function main() {
       await page.goto(`${BASE}/bell/`, { waitUntil: 'networkidle' });
       const fc = await page.evaluate(() => getComputedStyle(document.querySelector('[data-part="reveal"]')!).display);
       if (fc !== 'none') problems.push(`forced-colors: the fixed spine layer still paints (${fc})`);
+      await ctx.close();
+    }
+    const GATED = /terpscout-spin|martian-fruit|per-image-pricing/;
+    const engines: [string, Browser | null][] = [['chromium', browser], ['webkit', await webkit.launch().catch(() => null)]];
+    for (const [name, b] of engines) {
+      if (!b) { console.log(`${name}: not installed, disclosure check skipped`); continue; }
+      for (const width of [1280, 390]) {
+        const ctx = await b.newContext({ viewport: { width, height: 900 }, colorScheme: 'dark' });
+        const page = await ctx.newPage();
+        const hits: string[] = [];
+        page.on('request', (r) => { if (GATED.test(r.url())) hits.push(r.url()); });
+        await page.goto(`${BASE}/bell/`, { waitUntil: 'networkidle' });
+        const block = page.locator('#terpscout');
+        const shoot = async (file: string) => {
+          await page.evaluate(() => window.scrollTo(0, 0));
+          await page.waitForTimeout(300);
+          const box = (await block.boundingBox())!;
+          await page.screenshot({ path: `${OUT}/${file}`, fullPage: true, clip: { x: 0, y: box.y, width, height: box.height } });
+        };
+        for (let y = 0; y < 40; y++) { await page.mouse.wheel(0, 900); await page.waitForTimeout(40); }
+        await block.scrollIntoViewIfNeeded();
+        await page.waitForTimeout(600);
+        if (hits.length) problems.push(`${name} ${width}: the closed disclosure fetched ${hits.join(', ')}`);
+        if (name === 'chromium') await shoot(`terpscout-${width}-closed.png`);
+        const summary = page.locator('#terpscout summary');
+        await summary.focus();
+        await page.keyboard.press('Enter');
+        await page.waitForTimeout(200);
+        if (!(await page.locator('#terpscout details').evaluate((d) => (d as HTMLDetailsElement).open))) problems.push(`${name} ${width}: Enter on the summary did not open the disclosure`);
+        await page.locator('#terpscout video').scrollIntoViewIfNeeded();
+        await page.waitForTimeout(1200);
+        const playing = await page.locator('#terpscout video').evaluate((v) => !(v as HTMLVideoElement).paused);
+        if (!playing) problems.push(`${name} ${width}: the spin does not play once opened and in view`);
+        for (const img of await page.locator('#terpscout details img').all()) await img.scrollIntoViewIfNeeded();
+        await page.waitForTimeout(800);
+        if (!hits.some((h) => h.includes('per-image-pricing'))) problems.push(`${name} ${width}: the opened disclosure did not load its stills`);
+        if (name === 'chromium') await shoot(`terpscout-${width}-open.png`);
+        await summary.focus();
+        await page.keyboard.press('Space');
+        await page.waitForTimeout(200);
+        const after = await page.locator('#terpscout details').evaluate((d) => ({ open: (d as HTMLDetailsElement).open, paused: (d.querySelector('video') as HTMLVideoElement).paused }));
+        if (after.open || !after.paused) problems.push(`${name} ${width}: Space did not close the disclosure and pause the spin (${JSON.stringify(after)})`);
+        console.log(`${name} ${width}: disclosure closed fetches 0, opens by keyboard, plays in view, pauses on close`);
+        await ctx.close();
+      }
+      if (b !== browser) await b.close();
+    }
+    {
+      const ctx = await browser.newContext({ viewport: { width: 390, height: 900 }, forcedColors: 'active' });
+      const page = await ctx.newPage();
+      const cdp = await ctx.newCDPSession(page);
+      await cdp.send('Emulation.setEmulatedMedia', { features: [{ name: 'prefers-reduced-data', value: 'reduce' }, { name: 'forced-colors', value: 'active' }] });
+      await page.goto(`${BASE}/bell/`, { waitUntil: 'networkidle' });
+      await page.locator('#terpscout summary').click();
+      await page.waitForTimeout(200);
+      const r = await page.locator('#terpscout details').evaluate((d) => ({ open: (d as HTMLDetailsElement).open, video: !!d.querySelector('video'), stills: d.querySelectorAll('img').length }));
+      if (!r.open || r.video || r.stills !== 4) problems.push(`forced-colors, reduced-data: the disclosure does not open to stills only (${JSON.stringify(r)})`);
       await ctx.close();
     }
   } finally { await browser.close(); server.kill(); }

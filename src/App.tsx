@@ -13,6 +13,7 @@ import { Index } from '@/components/Index';
 import { RunningHead } from '@/components/RunningHead';
 import { Footer } from '@/components/Footer';
 import { EvidenceVideo } from '@/components/EvidenceVideo';
+import { Disclosure } from '@/components/Disclosure';
 import s from './App.module.css';
 
 type Still = { src: string; width: number; height: number; caption: string; alt: string };
@@ -67,13 +68,16 @@ export function App() {
 
         <Section id="terpscout" runningHead={COPY.terpscout.runningHead} eyebrow={COPY.terpscout.eyebrow} title={COPY.terpscout.title} lead={COPY.terpscout.lead}>
           <Transcript rows={COPY.terpscout.rows} />
-          <figure className={s.spin}>
-            <div className={s.spinStage}><EvidenceVideo clip={ts.spin} className={s.spinMedia} /></div>
-            <figcaption className="meta-sm">{ts.spin.caption}</figcaption>
-          </figure>
           <div className={s.stack}>
-            {[...ts.stills, ts.mark].map((e) => <Plate key={e.src} e={e} />)}
+            {ts.shown.map((e) => <Plate key={e.src} e={e} />)}
           </div>
+          <Disclosure summary={ts.gated.summary}>
+            <figure className={s.spin}>
+              <div className={s.spinStage}><EvidenceVideo clip={ts.gated.spin} className={s.spinMedia} /></div>
+              <figcaption className="meta-sm">{ts.gated.spin.caption}</figcaption>
+            </figure>
+            {ts.gated.stills.map((e) => <Plate key={e.src} e={e} />)}
+          </Disclosure>
         </Section>
 
         <Section id="work" surface="board" runningHead={COPY.work.runningHead} eyebrow={COPY.work.eyebrow} title={COPY.work.title}>

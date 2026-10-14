@@ -1,10 +1,10 @@
-import { render, screen } from '@testing-library/react';
+import { fireEvent, render, waitFor } from '@testing-library/react';
 import { readFileSync, readdirSync, statSync } from 'node:fs';
 import { EvidenceVideo } from '@/components/EvidenceVideo';
 import { App } from '@/App';
 import { COPY } from '@/content/copy';
 
-const clip = COPY.terpscout.evidence.spin;
+const clip = COPY.terpscout.evidence.gated.spin;
 const stubMatchMedia = (matches: boolean) => {
   window.matchMedia = ((query: string) => ({ matches, media: query, addEventListener() {}, removeEventListener() {} })) as unknown as typeof window.matchMedia;
 };
@@ -32,15 +32,73 @@ it('reduced motion or reduced data renders the still only', () => {
   expect(container.querySelector('img')!.getAttribute('src')).toBe(clip.poster);
   expect(container.querySelector('img')!.getAttribute('alt')).toBe(clip.alt);
 });
-it('TerpScout carries the spin, the stills and the mark, each captioned with alt text', () => {
+const open = async (details: HTMLDetailsElement, how: 'click' | 'key') => {
+  const summary = details.querySelector('summary')!;
+  if (how === 'click') fireEvent.click(summary);
+  else { summary.focus(); fireEvent.keyDown(summary, { key: 'Enter' }); if (!details.open) fireEvent.click(summary); }
+  await waitFor(() => expect(details.querySelector('video, img')).not.toBeNull());
+};
+it('TerpScout shows only the menu and the wordmark until the disclosure is opened', () => {
   stubMatchMedia(false);
   const { container } = render(<App />);
   const block = container.querySelector('#terpscout')!;
   const ev = COPY.terpscout.evidence;
-  const caps = [ev.spin, ...ev.stills, ev.mark].map((e) => e.caption);
-  expect([...block.querySelectorAll('figcaption')].map((f) => f.textContent)).toEqual(caps);
-  for (const img of block.querySelectorAll('img')) expect(img.getAttribute('alt')!.length).toBeGreaterThan(10);
-  expect(block.querySelector('video')!.getAttribute('aria-label')).toBe(ev.spin.alt);
+  expect([...block.querySelectorAll('img')].map((i) => i.getAttribute('src'))).toEqual(ev.shown.map((e) => e.src));
+  expect([...block.querySelectorAll('figcaption')].map((f) => f.textContent)).toEqual(ev.shown.map((e) => e.caption));
+  expect(block.querySelector('video')).toBeNull();
+  const details = block.querySelector('details')!;
+  expect(details.open).toBe(false);
+  expect(details.parentElement!.lastElementChild).toBe(details);
+  const summary = details.querySelector('summary')!;
+  expect(summary.textContent).toContain(ev.gated.summary);
+  expect(summary.querySelector('[aria-hidden="true"]')!.textContent).toBe('ShowHide');
+});
+it('the disclosure opens on click and carries the spin, the print, its detail and the pricing page', async () => {
+  stubMatchMedia(false);
+  const { container } = render(<App />);
+  const details = container.querySelector<HTMLDetailsElement>('#terpscout details')!;
+  await open(details, 'click');
+  expect(details.open).toBe(true);
+  const g = COPY.terpscout.evidence.gated;
+  expect([...details.querySelectorAll('figcaption')].map((f) => f.textContent)).toEqual([g.spin, ...g.stills].map((e) => e.caption));
+  for (const img of details.querySelectorAll('img')) { expect(img.getAttribute('loading')).toBe('lazy'); expect(img.getAttribute('alt')!.length).toBeGreaterThan(10); }
+  const v = details.querySelector('video')!;
+  expect(v.getAttribute('aria-label')).toBe(g.spin.alt);
+  expect(v.getAttribute('preload')).toBe('none');
+});
+it('the disclosure opens from the keyboard: the summary is focusable and Enter toggles it', async () => {
+  stubMatchMedia(false);
+  const { container } = render(<App />);
+  const details = container.querySelector<HTMLDetailsElement>('#terpscout details')!;
+  const summary = details.querySelector('summary')!;
+  summary.focus();
+  expect(document.activeElement).toBe(summary);
+  await open(details, 'key');
+  expect(details.open).toBe(true);
+});
+it('the video does not play while the disclosure is closed, and pauses when it closes', async () => {
+  stubMatchMedia(false);
+  const play = vi.spyOn(HTMLMediaElement.prototype, 'play').mockResolvedValue(undefined);
+  const pause = vi.spyOn(HTMLMediaElement.prototype, 'pause').mockImplementation(() => {});
+  let fire: ((e: { isIntersecting: boolean }[]) => void) | null = null;
+  (globalThis as any).IntersectionObserver = class { constructor(cb: any) { fire = cb; } observe() {} unobserve() {} disconnect() {} };
+  const { container } = render(<App />);
+  expect(play).not.toHaveBeenCalled();
+  const details = container.querySelector<HTMLDetailsElement>('#terpscout details')!;
+  await open(details, 'click');
+  expect(play).not.toHaveBeenCalled();
+  fire!([{ isIntersecting: true }]);
+  expect(play).toHaveBeenCalledTimes(1);
+  details.open = false;
+  details.dispatchEvent(new Event('toggle'));
+  expect(pause).toHaveBeenCalled();
+  play.mockRestore(); pause.mockRestore();
+  (globalThis as any).IntersectionObserver = class { observe() {} unobserve() {} disconnect() {} };
+});
+it('forced colors also renders the still only', () => {
+  window.matchMedia = ((query: string) => ({ matches: query.includes('forced-colors'), media: query, addEventListener() {}, removeEventListener() {} })) as unknown as typeof window.matchMedia;
+  const { container } = render(<EvidenceVideo clip={clip} />);
+  expect(container.querySelector('video')).toBeNull();
 });
 it('evidence files keep the budgets', () => {
   let total = 0;
@@ -58,17 +116,21 @@ it('the TerpScout index row spans the studio years', () => {
 });
 it('the spin and the print carry their 2022 dates, no bracket left', () => {
   const ev = COPY.terpscout.evidence;
-  expect(ev.spin.caption).toBe('Product turntable, TerpScout studio, 2022');
-  expect(ev.stills[0].caption).toBe('Strain print, Martian Fruit, for a TerpScout client, 2022');
-  for (const e of [ev.spin, ...ev.stills, ev.mark]) expect(e.caption).not.toContain('[YEAR]');
+  expect(ev.gated.spin.caption).toBe('Product turntable, TerpScout studio, 2022');
+  expect(ev.gated.stills[0].caption).toBe('Strain print, Martian Fruit, for a TerpScout client, 2022');
+  for (const e of [ev.gated.spin, ...ev.gated.stills, ...ev.shown]) expect(e.caption).not.toContain('[YEAR]');
 });
-it('evidence stacks full width, one figure above the next, with no pair wrapper', () => {
+it('evidence stacks full width, one figure above the next, with no pair wrapper', async () => {
   stubMatchMedia(false);
   const { container } = render(<App />);
   for (const id of ['terpscout', 'practice']) {
     const stills = [...container.querySelectorAll(`#${id} img`)].map((i) => i.closest('figure')!);
     for (const f of stills) expect(f.parentElement!.className).toBe('stack');
   }
+  const d = container.querySelector<HTMLDetailsElement>('#terpscout details')!;
+  fireEvent.click(d.querySelector('summary')!);
+  await waitFor(() => expect(d.querySelector('img')).not.toBeNull());
+  for (const f of d.querySelectorAll('figure')) expect(f.parentElement!.className).toBe('body');
   expect(container.querySelector('.evidence')).toBeNull();
   const css = readFileSync('src/App.module.css', 'utf8');
   expect(css).toMatch(/\.stack\{[^}]*flex-direction:column/);

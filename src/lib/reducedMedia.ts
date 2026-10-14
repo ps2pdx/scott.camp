@@ -1,6 +1,6 @@
 import { useSyncExternalStore } from 'react';
 
-const QUERY = '(prefers-reduced-motion: reduce), (prefers-reduced-data: reduce)';
+const QUERY = '(prefers-reduced-motion: reduce), (prefers-reduced-data: reduce), (forced-colors: active)';
 const mql = () => (typeof window !== 'undefined' && window.matchMedia ? window.matchMedia(QUERY) : null);
 
 function subscribe(cb: () => void) {
