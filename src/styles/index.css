@@ -1,0 +1,7 @@
+@import './tokens.css';
+@import './base.css';
+@import './type.css';
+@import './textures.css';
+html{transition:background-color var(--motion-theme),color var(--motion-theme)}
+a{text-decoration:underline;text-underline-offset:0.15em;text-decoration-thickness:1px}
+a:hover{text-decoration-color:var(--accent)}

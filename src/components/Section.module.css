@@ -5,4 +5,4 @@
 @media (min-width:1024px){.wrap{padding-left:calc(var(--rail) + var(--gutter))}}
 .head{display:flex;justify-content:space-between;align-items:flex-start;gap:var(--s-4);margin-bottom:var(--s-6)}
 .titles{display:flex;flex-direction:column;gap:var(--s-3);max-width:40em}
-@media (max-width:1023px){.section{padding:var(--s-6) 0}}
+@media (max-width:1023px){.section{padding:var(--s-6) 0}.head{flex-direction:column;gap:var(--s-3)}.head>:last-child{order:-1}}

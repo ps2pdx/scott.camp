@@ -1,4 +1,4 @@
 .page{background:var(--bg);color:var(--fg)}
 .board{background:var(--s-board)}
-.endpaper{background:var(--s-endpaper);color:#000;--fg:#000;--line:rgba(0,0,0,0.25);--grain:0.14}
+.endpaper{background:var(--s-endpaper);color:#000;--fg:#000;--line:rgba(0,0,0,0.25);--line-strong:#000;--grain:0.14}
 .tech{background:var(--tech)}
