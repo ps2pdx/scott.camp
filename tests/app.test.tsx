@@ -89,7 +89,7 @@ it('the cover holds only the eyebrow, the name line and the headline, no actions
   expect(cover.querySelector('p, ul, table')).toBeNull();
   expect(cover.textContent).toContain('"I design systems agents ship."');
   const v = COPY.endpapers.virgil;
-  expect(v).toEqual({ when: '2015 to 2016', who: 'Virgil', text: 'Virgil Abloh played Euphoria, Portland, the room that is 45 East now. He dapped me up in the crowd. We exchanged pleasantries, as far as club sound at 1 AM allows.' });
+  expect(v).toEqual({ when: '2015 to 2016', who: 'Virgil', text: 'I met Virgil once. He dapped me up at 45 East, Euphoria at the time, after playing a cool set.' });
   expect(container.querySelector('#endpapers')!.textContent).toContain(v.text);
   expect(container.textContent!.split('dapped me up').length).toBe(2);
   expect(container.querySelectorAll('#endpapers del').length).toBe(0);

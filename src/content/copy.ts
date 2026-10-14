@@ -25,7 +25,7 @@ export const COPY = {
     ] as TranscriptRow[],
   },
   endpapers: {
-    virgil: { when: '2015 to 2016', who: 'Virgil', text: 'Virgil Abloh played Euphoria, Portland, the room that is 45 East now. He dapped me up in the crowd. We exchanged pleasantries, as far as club sound at 1 AM allows.' } as TranscriptRow,
+    virgil: { when: '2015 to 2016', who: 'Virgil', text: 'I met Virgil once. He dapped me up at 45 East, Euphoria at the time, after playing a cool set.' } as TranscriptRow,
   },
   vantage: {
     mark: { src: '/evidence/vantage-mark.svg', width: 175, height: 40, name: 'Vantage Compute', wide: true },
