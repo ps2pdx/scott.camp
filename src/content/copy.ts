@@ -1,0 +1,136 @@
+export type TranscriptRow = { when: string; who: string; text: string };
+export type IndexRow = { no: string; name: string; description: string; year: string; struck: boolean };
+export type Sheet = { title: string; fields: Record<string, string>; body?: string; href?: string; label?: string; placeholder?: boolean };
+export type TechSheetData = { sheet: string; view: string; stack: string; src: string; date: string; sections: string[] };
+
+export const VANTAGE_CASE_STUDY_URL = 'https://vantagecompute.nertia.ai';
+export const SOURCE_URL = 'https://github.com/ps2pdx/scott.camp';
+
+export const SECTIONS = [
+  { id: 'hero', label: 'Hero' }, { id: 'vantage', label: 'Vantage' }, { id: 'nertia', label: 'Nertia' },
+  { id: 'terpscout', label: 'TerpScout' }, { id: 'work', label: 'Work' }, { id: 'practice', label: 'Practice' }, { id: 'contact', label: 'Contact' },
+] as const;
+
+export const COPY = {
+  hero: {
+    eyebrow: "Something's clicked",
+    runningHead: 'Portland, Oregon',
+    headline: 'I design systems agents ship.',
+    lead: 'I built the product marketing function at an early-stage AI/HPC orchestration company: positioning, competitive intelligence, and the sales enablement behind enterprise briefings. Then I built a product of my own, because a marketer who can ship argues from evidence instead of opinion.',
+    actions: { email: { label: 'Email me', href: 'mailto:ps2pdx@gmail.com' }, resume: { label: 'Resume', bracket: 'PDF', href: '/Scott_Campbell_Resume.pdf' } },
+    facts: [
+      { when: '[FACT 01]', who: '', text: 'Early-stage AI/HPC platform' },
+      { when: '[FACT 02]', who: '', text: '50+ competitors mapped' },
+      { when: '[FACT 03]', who: '', text: '4 live client sites' },
+      { when: '[FACT 04]', who: '', text: '$10M sold, 2019 to 2021, regulated CPG' },
+    ] as TranscriptRow[],
+  },
+  vantage: {
+    eyebrow: 'Vantage Compute', runningHead: 'Vantage [2024 to 2026]', title: 'Founding product marketing',
+    lead: 'Early-stage orchestration platform: one chip-agnostic control plane over Slurm and Kubernetes for AI/ML training, inference, simulation, and life sciences workloads, running across public cloud, private cloud, and on-prem. I was the first marketing hire and built the function from nothing, July 2024 to August 2026.',
+    rows: [
+      { when: '[DATE]', who: 'Positioning', text: 'Translated Slurm orchestration, NVIDIA GPU architecture (H100, A100, L40S), and hybrid cloud into value propositions that survived contact with ML engineers and CTOs. Adopted across enterprise sales, product documentation, and seed-round investor materials.' },
+      { when: '[DATE]', who: 'Competitive', text: 'Mapped positioning, pricing, and go-to-market across 50+ infrastructure competitors: CoreWeave, Lambda Labs, Together AI, Nebius. The map became the differentiation strategy and the objection-handling script sales actually used.' },
+      { when: '[DATE]', who: 'Verticals', text: 'Four target markets, four distinct stories: AI/ML training, R&D simulation, advanced manufacturing, life sciences. Each mapped platform capability to a buyer problem rather than restating the spec sheet.' },
+      { when: '[DATE]', who: 'Enablement', text: 'Battle cards, technical one-pagers, demo narratives, and Figma asset libraries used in enterprise briefings including Traton Group (Volkswagen/Scania). Trademarked the brand position: VirtuallyLimitless, Future Compute Layer. A technical content program built for AI search drove 35% of qualified pipeline inside six months.' },
+    ] as TranscriptRow[],
+    caseStudy: { label: 'Case study', href: VANTAGE_CASE_STUDY_URL },
+  },
+  nertia: {
+    eyebrow: 'Nertia', runningHead: 'Nertia', title: "A product designed from the buyer's side",
+    lead: 'An agent-native site builder, shipped as a web application and as an MCP server. I designed it, built it, and took it to market.',
+    rows: [
+      { when: '01/15/26', who: 'Origin', text: 'It started as a design system generator: a brand schema, tokens, typography, animation, decision logic. The site builder came later. Nine months on, the design system is the part every site inherits.' },
+      { when: '[DATE]', who: 'Default', text: "Everything is included by default instead of unbundled into add-ons. Hosting and domains pass through at cost. Export stays open, no contract, domains live in the client's own account. The bet: we monetize the product, not the exit. If someone leaves, the product wasn't good enough. That is the correct signal, and lock-in only hides it." },
+      { when: '04/16/26', who: 'Evidence', text: 'Launched as an AI brand generator. Research said the durable need was shipping and maintaining live sites, not generating identity assets. Changed the product rather than the messaging.' },
+      { when: '[DATE]', who: 'Distribution', text: 'The MCP server exposes site creation, layout, copy, SEO, and publishing as tools an agent invokes directly. The product is fully operable by Claude without a UI. That is a channel choice, not a technical flourish: meet the buyer inside the surface they already work in.' },
+      { when: '[DATE]', who: 'Identity', text: 'Named the tiers from physics: Zero-Point, Particle, Wave. The voice moved from quantum to motion. Built the brand and the design system the product ships with, so every site it makes inherits the contract.' },
+      { when: '[DATE]', who: 'Plotswitch', text: 'A productized agency brand running on the platform, built to test the positioning against real buyers with published tiers and a stated competitive frame against Squarespace, Wix, Webflow, and WordPress. Pricing you can read is pricing you can be argued with about, which is the point.' },
+    ] as TranscriptRow[],
+    sheets: [
+      { title: 'Editor', fields: { Sheet: 'Editor', Role: 'Design, build', Stack: 'Next.js' }, body: 'Tap to edit on a phone, side panel on a desktop. The preview is the site.' },
+      { title: 'MCP server', fields: { Sheet: 'MCP server', Role: 'Design, build', Stack: 'MCP' }, body: 'Every builder action is a tool. An agent runs the product without the UI.' },
+      { title: 'Hosted runtime', fields: { Sheet: 'Hosted runtime', Role: 'Design, build', Stack: 'Render, Worker' }, body: 'One site.json renders the same in the app, in the export and on the open-source package.' },
+      { title: 'Design systems', fields: { Sheet: 'Design systems', Role: 'Design, build', Stack: 'oklch' }, body: 'About twenty variables and a single accent. Any skin on any layout is a coherent site, by contract, not by review.' },
+    ] as Sheet[],
+    tech: [
+      { sheet: 'NERTIA EDITOR', view: 'DESKTOP, 1280', stack: 'NEXT.JS, SHADCN', src: 'RENDERED FROM APP STRUCTURE', date: '2026', sections: ['TOP BAR', 'SITE PREVIEW, LIVE', 'INSERT DOCK', 'ELEMENT PANEL', 'CHAT ISLAND'] },
+      { sheet: 'NERTIA MCP SERVER', view: 'TOOLS', stack: 'MCP, CLAUDE CONNECTOR', src: 'RENDERED FROM TOOL LIST', date: '2026', sections: ['CREATE_SITE', 'SET_SECTION_LAYOUT', 'UPDATE_COPY', 'UPDATE_SEO', 'PUBLISH_SITE', 'PUBLISH_FROM_GITHUB'] },
+      { sheet: 'NERTIA HOSTED RUNTIME', view: 'SITE', stack: '@NERSH/RENDER, WORKER', src: 'RENDERED FROM RUNTIME', date: '2026', sections: ['SITE SURFACE', 'TOKENS, OKLCH', 'SECTIONS', '*.NERTIA.AI ROUTING', 'STATIC EXPORT'] },
+      { sheet: 'NERTIA DESIGN SYSTEMS', view: 'SKIN CONTRACT', stack: 'OKLCH TOKENS', src: 'RENDERED FROM CONTRACT', date: '2026', sections: ['ONE ACCENT', 'SURFACE + TEXT + LINE', 'RADIUS, SHADOW, MOTION', 'TYPE SCALE, FLUID', '26 PRESETS'] },
+    ] as TechSheetData[],
+    codeSiteLine: 'This page is a code site published by an agent.',
+    source: { label: 'Source on GitHub', href: SOURCE_URL },
+  },
+  terpscout: {
+    eyebrow: 'TerpScout', runningHead: 'TerpScout [2016 to 2021]', title: 'Proof of positioning',
+    lead: 'A brand I built became a network I sold through, at half the going rate. TerpScout, dba of ScoutCamp, was an OLCC-regulated recreational cannabis distribution consultancy: it facilitated product-to-cash transfers and rented space from established wholesale licenses. The site is gone. The sales logs are not.',
+    rows: [
+      { when: '2016', who: 'Brand', text: 'Rogue River Botanicals: full brand and website, kraft paper and wax seal packaging. Then sales for them, on the strength of the brand.' },
+      { when: '[DATE]', who: 'Network', text: 'Sales at Sweet Life Distribution and LTRMN Distribution. Four years compiling a network of producers and shops, then out on my own.' },
+      { when: '2019', who: 'Price', text: 'Distributors took 10%. I cut the middleman out and charged 5%. Ten percent is a lot when the work is gas and the drive.' },
+      { when: '2019 to 2021', who: 'Volume', text: '$5M a year across three wholesale locations and about 30 vendors.' },
+      { when: '2019 to 2021', who: 'Delivery', text: 'I drove every delivery to the shop and every payment to the producer.' },
+    ] as TranscriptRow[],
+  },
+  work: {
+    eyebrow: 'Work', runningHead: 'Work', title: 'Four live sites, four different positioning problems',
+    index: [
+      { no: '01', name: 'Ali Sharifi Rugs', description: 'Site built by hand, photography, later moved to WordPress', year: '2010s', struck: true },
+      { no: '02', name: 'KAL Contracting', description: 'Masonry and general contractor, Portland; site now on Webflow', year: '2025', struck: true },
+      { no: '03', name: 'Rogue River Botanicals', description: 'Brand, website, kraft and wax seal packaging', year: '2016', struck: true },
+      { no: '04', name: 'TerpScout, dba ScoutCamp', description: 'OLCC-regulated distribution consultancy, $5M a year', year: '2019 to 2021', struck: true },
+      { no: '05', name: 'Vantage Compute', description: 'Founding product marketing, AI/HPC orchestration', year: '2024 to 2026', struck: true },
+      { no: '06', name: 'Nertia', description: 'Agent-native site builder, web app and MCP server', year: '2025', struck: true },
+      { no: '07', name: 'Plotswitch', description: 'Productized agency brand, the pricing experiment', year: '2026', struck: true },
+      { no: '08', name: 'pharmtobody.com', description: 'Family mushroom farm, Shopify, 12-week CSA program', year: '2026', struck: false },
+      { no: '09', name: 'purezerophotography.com', description: 'Documentary photography, two tiers, published entry pricing', year: '2026', struck: false },
+      { no: '10', name: 'bend.cleaning', description: 'Cascade Cleaning renamed, booking and review capture', year: '2026', struck: false },
+      { no: '11', name: 'fullscopesupply.com', description: 'Commercial general contractor, lead generation', year: '2026', struck: false },
+      { no: '12', name: 'Zen Holo', description: 'Blender animation plus AI music', year: '2026', struck: true },
+      { no: '13', name: 'Purple Scott', description: 'DJ identity', year: '2012', struck: true },
+    ] as IndexRow[],
+    sheets: [
+      { title: 'Pharm to Body', fields: { Sheet: 'pharmtobody.com', Role: 'Design, build', Stack: 'Shopify' }, body: 'A family mushroom farm with no ecommerce history and a subscription product to sell. Shopify build carrying a 12-week CSA program, fresh and dried catalog, grow kits, and a workshop calendar.', href: 'https://pharmtobody.com', label: 'pharmtobody.com' },
+      { title: 'Pure Zero', fields: { Sheet: 'purezerophotography.com', Role: 'Design, build', Stack: 'Nertia' }, body: 'High-ticket creative services, where the usual failure is hiding the price. Packaged into two tiers with published entry pricing, a documentary-only niche stated up front, and client stories doing the work of case studies.', href: 'https://purezerophotography.com', label: 'purezerophotography.com' },
+      { title: 'Bend Cleaning', fields: { Sheet: 'bend.cleaning', Role: 'Design, build', Stack: 'Nertia' }, body: 'Renaming an established business without losing the referral base it was built on. Cascade Cleaning became Bend Cleaning, with the rename announced on the site rather than quietly absorbed, plus booking and review capture.', href: 'https://bend.cleaning', label: 'bend.cleaning' },
+      { title: 'Full Scope Supply', fields: { Sheet: 'fullscopesupply.com', Role: 'Design, build', Stack: 'Nertia' }, body: 'A commercial general contractor whose pipeline ran entirely on word of mouth. Lead generation built around self-performed trades and single-point accountability, the actual differentiator, not the license number.', href: 'https://fullscopesupply.com', label: 'fullscopesupply.com' },
+    ] as Sheet[],
+    tech: [
+      { sheet: 'PHARMTOBODY.COM', view: 'PHONE, 390', stack: 'SHOPIFY', src: 'RENDERED FROM SITE STRUCTURE', date: '2026', sections: ['NAV, ONE ACTION', 'HERO, CSA SIGNUP', '12-WEEK CSA PROGRAM', 'FRESH / DRIED CATALOG', 'GROW KITS', 'WORKSHOP CALENDAR'] },
+      { sheet: 'PUREZEROPHOTOGRAPHY.COM', view: 'PHONE, 390', stack: 'NERTIA', src: 'RENDERED FROM SITE STRUCTURE', date: '2026', sections: ['NAV', 'HERO, DOCUMENTARY ONLY', 'TWO TIERS, ENTRY PRICING', 'CLIENT STORIES', 'CONTACT'] },
+      { sheet: 'BEND.CLEANING', view: 'PHONE, 390', stack: 'NERTIA', src: 'RENDERED FROM SITE STRUCTURE', date: '2026', sections: ['NAV', 'HERO, THE RENAME NOTICE', 'SERVICES', 'BOOKING', 'REVIEW CAPTURE', 'CONTACT'] },
+      { sheet: 'FULLSCOPESUPPLY.COM', view: 'PHONE, 390', stack: 'NERTIA', src: 'RENDERED FROM SITE STRUCTURE', date: '2026', sections: ['NAV', 'HERO', 'SELF-PERFORMED TRADES', 'SINGLE-POINT ACCOUNTABILITY', 'PROJECTS', 'LEAD FORM'] },
+    ] as TechSheetData[],
+  },
+  practice: {
+    eyebrow: 'Creative practice', runningHead: 'Practice', title: 'Beyond the day job',
+    sheets: [
+      { title: 'Zen Holo', fields: { Sheet: 'Zen Holo', Role: 'Animation, music', Stack: 'Blender' }, placeholder: true },
+      { title: 'Purple Scott', fields: { Sheet: 'Purple Scott', Role: 'DJ', Stack: 'Ableton' }, placeholder: true, href: 'https://purplescott.com', label: 'purplescott.com' },
+    ] as Sheet[],
+    rows: [
+      { when: '[DATE]', who: 'Scott', text: 'Virgil Abloh played Euphoria, Portland, the room that is 45 East now. He dapped me up in the crowd. We exchanged pleasantries, as far as club sound at 1 AM allows.' },
+    ] as TranscriptRow[],
+  },
+  contact: {
+    eyebrow: 'Contact', runningHead: 'Contact', title: "Let's talk",
+    lead: "I'm looking for a senior role where design systems, product marketing and agents meet: AI infrastructure, developer platforms, or something equally hard to explain. Portland-based, remote-friendly, happy to travel.",
+    rows: [
+      { when: 'Email', who: '', text: 'ps2pdx@gmail.com' },
+      { when: 'Phone', who: '', text: '(503) 806-4457' },
+    ] as TranscriptRow[],
+    links: { email: 'mailto:ps2pdx@gmail.com', phone: 'tel:+15038064457' },
+    resume: { label: 'Download resume', bracket: 'PDF', href: '/Scott_Campbell_Resume.pdf' },
+  },
+  footer: {
+    links: [
+      { label: 'LinkedIn', href: 'https://linkedin.com/in/scottsuper' },
+      { label: 'Nertia', href: 'https://nertia.ai' },
+      { label: 'Plotswitch', href: 'https://plotswitch.com' },
+      { label: 'Source on GitHub', href: SOURCE_URL },
+    ],
+    tagline: 'Built on Nertia. Of course it is.',
+  },
+  volumes: { hero: { no: '0', name: "Something's clicked", year: '2026' } },
+} as const;
