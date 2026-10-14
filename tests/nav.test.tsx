@@ -56,3 +56,13 @@ it('the first cell is named Cover', () => {
   expect(first).toHaveAttribute('title', 'Cover');
   expect(first).toHaveAttribute('href', '#hero');
 });
+it('the spine bookends the page: a band after the footer, at every width, above the rail', async () => {
+  const { App } = await import('@/App');
+  const { readFileSync } = await import('node:fs');
+  const { container } = render(<App />);
+  const end = container.querySelector('[data-part="band-end"]')!;
+  expect(end).toHaveAttribute('aria-hidden', 'true');
+  expect(container.querySelector('footer')!.nextElementSibling).toBe(end);
+  expect(end.nextElementSibling).toBeNull();
+  expect(readFileSync('src/components/SpineRail.module.css', 'utf8')).toContain('.end.end{display:block;position:relative;z-index:6}');
+});

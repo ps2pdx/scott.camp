@@ -1,7 +1,7 @@
 import { COPY, SECTIONS } from '@/content/copy';
 import { PunchFilterDefs } from '@/components/Punches';
 import { PunchNav } from '@/components/PunchNav';
-import { SpineBand, SpineRail, SpineReveal } from '@/components/SpineRail';
+import { SpineBand, SpineEnd, SpineRail, SpineReveal } from '@/components/SpineRail';
 import { Section } from '@/components/Section';
 import { Cover } from '@/components/Cover';
 import { Label } from '@/components/Label';
@@ -84,6 +84,7 @@ export function App() {
         </Section>
       </main>
       <Footer />
+      <SpineEnd />
     </>
   );
 }
