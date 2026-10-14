@@ -9,7 +9,7 @@ it('renders the seven sections in order with running heads', () => {
   const { container } = render(<App />);
   expect([...container.querySelectorAll('section')].map((s) => s.id)).toEqual(SECTIONS.map((s) => s.id));
   expect(screen.getByText('Portland, Oregon')).toBeInTheDocument();
-  expect(screen.getByText('"Something\'s clicked"')).toBeInTheDocument();
+  expect(screen.getByText('"Something Click\'d"')).toBeInTheDocument();
   expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(COPY.hero.headline);
 });
 it('carries the code-site line, the provenance line and the resume', () => {

@@ -13,7 +13,7 @@ export const SECTIONS = [
 
 export const COPY = {
   hero: {
-    eyebrow: "Something's clicked",
+    eyebrow: "Something Click'd",
     runningHead: 'Portland, Oregon',
     headline: 'I design systems agents ship.',
     lead: 'I built the product marketing function at an early-stage AI/HPC orchestration company: positioning, competitive intelligence, and the sales enablement behind enterprise briefings. Then I built a product of my own, because a marketer who can ship argues from evidence instead of opinion.',
@@ -152,5 +152,5 @@ export const COPY = {
     ],
     tagline: 'Built on Nertia. Of course it is.',
   },
-  volumes: { hero: { no: '0', name: "Something's clicked", year: '2026' } },
+  volumes: { hero: { no: '0', name: "Something Click'd", year: '2026' } },
 } as const;
