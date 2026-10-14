@@ -10,12 +10,12 @@ describe('build', () => {
     }
   });
 
-  it('root is a redirect sheet under 1 KB that points at /bell/', () => {
+  it('root is a redirect sheet under 1 KB that points at /bell', () => {
     const html = readFileSync('out/index.html', 'utf8');
     expect(statSync('out/index.html').size).toBeLessThan(1024);
-    expect(html).toContain('url=/bell/');
-    expect(html).toContain("location.replace('/bell/')");
-    expect(html).toContain('href="/bell/"');
+    expect(html).toContain('url=/bell');
+    expect(html).toContain("location.replace('/bell')");
+    expect(html).toContain('href="/bell"');
   });
 
   it('the theme boot script runs before the stylesheet and the module script', () => {
@@ -32,7 +32,7 @@ describe('build', () => {
 
   it('404 carries the link and no refresh', () => {
     const html = readFileSync('out/404.html', 'utf8');
-    expect(html).toContain('href="/bell/"');
+    expect(html).toContain('href="/bell"');
     expect(html).not.toContain('http-equiv="refresh"');
   });
 });
