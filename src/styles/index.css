@@ -2,7 +2,7 @@
 @import './base.css';
 @import './type.css';
 @import './textures.css';
-html{transition:background-color var(--motion-theme),color var(--motion-theme)}
+html{transition:background-color var(--motion-theme),color var(--motion-theme);scroll-padding-top:var(--nav-h)}
 a{text-decoration:underline;text-underline-offset:0.15em;text-decoration-thickness:1px}
 a:hover{text-decoration-color:var(--accent)}
 a:focus-visible,button:focus-visible{outline:2px solid var(--focus);outline-offset:2px}

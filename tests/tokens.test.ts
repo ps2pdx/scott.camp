@@ -17,3 +17,9 @@ it('textures drop under reduced data and forced colors', () => {
   expect(tex).toContain('@media (prefers-reduced-data: reduce),(forced-colors: active)');
   expect(tex).toContain('.grain::before{display:none}');
 });
+it('anchor jumps clear the sticky nav at both widths', () => {
+  const idx = readFileSync('src/styles/index.css', 'utf8');
+  expect(idx).toMatch(/html\{[^}]*scroll-padding-top:var\(--nav-h\)/);
+  expect(css).toMatch(/--nav-h:9rem/);
+  expect(css).toMatch(/@media \(min-width:1024px\)\{:root\{[^}]*--nav-h:7rem/);
+});
