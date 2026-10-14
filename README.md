@@ -31,7 +31,6 @@ Status on 2026-10-14: the code site `scottcamp` exists. Every push to `main` pub
 
 - Per-item dates for Vantage (four rows) and Nertia (Default, Distribution, Identity, Plotswitch).
 - Hero fact 04 reads "$10M sold, 2019 to 2021, regulated CPG", the two-year total of the $5M a year in TerpScout. You said "10M ARR"; if ARR is right, change both lines together.
-- The Nertia index year (2025) next to the 01/15/26 origin row: confirm which is right.
 - Creative practice copy for Zen Holo and Purple Scott.
 - The evidence set: the sales log page, two studio frames, four FX30 screen clips. Each lands as its own commit once the files exist.
 
@@ -44,6 +43,8 @@ Status on 2026-10-14: the code site `scottcamp` exists. Every push to `main` pub
 - Years for the TerpScout evidence, from file creation dates: the spin ("Comp 1.mp4") was exported 2022-12-08, so its caption reads 2022; the Martian Fruit print ("Martian Fruit Print.jpg") was created 2022-09-22, so its caption reads 2022; the Squishy reels are from May 2024 and are not on the page.
 
 - Sweet Life and LTRMN years, the TerpScout "Network" row: 2017 to 2020. Source: the resume on the page (`public/Scott_Campbell_Resume.pdf`): The Sweet Life, Account Executive, Oct 2017 to Dec 2019; LTRMN, Business Development Manager, Jan 2019 to Dec 2020.
+
+- Nertia index year: Scott: started December 2025; the resume's Jan 2023 is wrong and Scott will reissue the PDF. The index row stays 2025 and the Nertia origin row reads 12/2025. Note: the repo's first commit is dated 01/15/26 (the date the origin row carried before); it is kept here, not on the page.
 
 ## Design sources
 

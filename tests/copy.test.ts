@@ -33,3 +33,7 @@ it('hero facts carry real labels, not placeholder brackets', () => {
 });
 it('the TerpScout running head spans 2016 to 2022', () => { expect(COPY.terpscout.runningHead).toBe('TerpScout [2016 to 2022]'); });
 it('the TerpScout Network row is dated 2017 to 2020 from the resume', () => { expect(COPY.terpscout.rows.find((r) => r.who === 'Network')!.when).toBe('2017 to 2020'); });
+it('Nertia started December 2025: origin row 12/2025, index year 2025', () => {
+  expect(COPY.nertia.rows.find((r) => r.who === 'Origin')!.when).toBe('12/2025');
+  expect(COPY.work.index.find((r) => r.name === 'Nertia')!.year).toBe('2025');
+});
