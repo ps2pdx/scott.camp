@@ -61,7 +61,7 @@ export function App() {
         </Section>
 
         <Section id="work" tools={COPY.work.tools} runningHead={COPY.work.runningHead} eyebrow={COPY.work.eyebrow} title={COPY.work.title}>
-          <Grid columns={2}>{COPY.work.sheets.map((sh, i) => { const v = vol(String(8 + i).padStart(2, '0')); return <SpecSheet key={sh.title} sheet={sh} volume={{ no: v.no, name: v.name, year: v.year }} />; })}</Grid>
+          <Grid columns={2}>{COPY.work.sheets.map((sh, i) => { const v = vol(String(7 + i).padStart(2, '0')); return <SpecSheet key={sh.title} sheet={sh} volume={{ no: v.no, name: v.name, year: v.year }} />; })}</Grid>
           <div className={s.techBlock}>
             <Label>Tech sheets</Label>
             <div className={s.techGrid}>{COPY.work.tech.map((t) => <TechSheet key={t.sheet} data={t} />)}</div>
@@ -69,7 +69,7 @@ export function App() {
         </Section>
 
         <Section id="practice" tools={COPY.practice.tools} surface="board" runningHead={COPY.practice.runningHead} eyebrow={COPY.practice.eyebrow} title={COPY.practice.title}>
-          <Grid columns={2}>{COPY.practice.sheets.map((sh, i) => { const v = vol(String(13 + i)); return <SpecSheet key={sh.title} sheet={sh} volume={{ no: v.no, name: v.name, year: v.year }} />; })}</Grid>
+          <Grid columns={2}>{COPY.practice.sheets.map((sh, i) => { const v = vol(String(12 + i)); return <SpecSheet key={sh.title} sheet={sh} volume={{ no: v.no, name: v.name, year: v.year }} />; })}</Grid>
           <Transcript rows={COPY.practice.rows} className={s.after} />
           <div className={s.stack}>
             {COPY.practice.evidence.map((e) => <Plate key={e.src} e={e} />)}

@@ -22,8 +22,8 @@ it('never says Series A', () => { expect(JSON.stringify(COPY.vantage)).not.toCon
 it('no sheet header field is empty', () => {
   for (const s of [...COPY.work.sheets, ...COPY.practice.sheets, ...COPY.nertia.sheets]) for (const [k, v] of Object.entries(s.fields)) expect(v, `${s.title} ${k}`).not.toBe('');
 });
-it('index has fourteen rows numbered 01 to 14 with five unstruck', () => {
-  expect(COPY.work.index.map((r) => r.no)).toEqual(Array.from({ length: 14 }, (_, i) => String(i + 1).padStart(2, '0')));
+it('index has thirteen rows numbered 01 to 13 with five unstruck, KAL Contracting gone', () => {
+  expect(COPY.work.index.map((r) => r.no)).toEqual(Array.from({ length: 13 }, (_, i) => String(i + 1).padStart(2, '0')));
   expect(COPY.work.index.filter((r) => !r.struck).map((r) => r.name)).toEqual(['Pharm to Body', 'Pure Zero Photography', 'Bend Cleaning', 'Full Scope Supply', 'Typeshit']);
 });
 it('the hero headline is locked', () => { expect(COPY.hero.headline).toBe("Something Click'd"); expect(COPY.hero.eyebrow).toBe('I design systems agents ship.'); expect(VANTAGE_CASE_STUDY_URL).toMatch(/^https:/); });
@@ -45,3 +45,7 @@ it('ScoutCamp is $10M total, 2020 to 2022, with no per-year rate anywhere', () =
   expect(COPY.terpscout.runningHead).toBe('TerpScout [2016 to 2022]');
 });
 it('the Nertia origin row counts ten months from December 2025', () => { expect(COPY.nertia.rows.find((r) => r.who === 'Origin')!.text).toContain('Ten months on,'); });
+it('KAL Contracting is not in the index and Pharm to Body is Vol. 07', () => {
+  expect(COPY.work.index.some((r) => r.name === 'KAL Contracting')).toBe(false);
+  expect(COPY.work.index.find((r) => r.name === 'Pharm to Body')!.no).toBe('07');
+});

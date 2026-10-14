@@ -9,9 +9,9 @@ it('Index strikes the rows that are not this section and keeps their text', () =
   const { container } = render(<Index rows={COPY.work.index} />);
   const table = screen.getByRole('table', { name: /Index/ });
   const rows = screen.getAllByRole('row');
-  expect(rows.length).toBe(14);
+  expect(rows.length).toBe(13);
   const struck = rows.filter((r) => r.querySelector('del'));
-  expect(struck.length).toBe(9);
+  expect(struck.length).toBe(8);
   expect(struck[0].textContent).toContain('Ali Sharifi Rugs');
   expect(rows.filter((r) => !r.querySelector('del')).map((r) => r.children[1].textContent)).toEqual(['Pharm to Body', 'Pure Zero Photography', 'Bend Cleaning', 'Full Scope Supply', 'Typeshit']);
   const scroller = table.parentElement!;
@@ -27,7 +27,7 @@ it('VolumeFace is a spread: empty verso, recto with number, name, year', () => {
   expect(screen.getByText('Pharm to Body')).toBeInTheDocument();
   expect(screen.getByText('2026')).toBeInTheDocument();
 });
-it('fourteen faces number 01 to 14 in index order', () => {
+it('thirteen faces number 01 to 13 in index order', () => {
   const { container } = render(<>{COPY.work.index.map((r) => <VolumeFace key={r.no} no={r.no} name={r.name} year={r.year} />)}</>);
   const nos = [...container.querySelectorAll('[data-part="vol"]')].map((e) => e.textContent);
   expect(nos).toEqual(COPY.work.index.map((r) => `Vol. ${r.no}`));

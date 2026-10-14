@@ -47,7 +47,7 @@ Status on 2026-10-14: the code site `scottcamp` exists. Every push to `main` pub
 
 - Nertia index year: Scott: started December 2025; the resume's Jan 2023 is wrong and Scott will reissue the PDF. The index row stays 2025 and the Nertia origin row reads 12/2025. Note: the repo's first commit is dated 01/15/26 (the date the origin row carried before); it is kept here, not on the page.
 
-- ScoutCamp revenue: Scott: $10M total, 2020 to 2022; the resume's '$10M+ annual' is to be corrected by Scott. Hero fact 04, the TerpScout Volume and Delivery rows and index row 04 now read 2020 to 2022 and $10M, with no per-year rate.
+- ScoutCamp revenue: Scott: $10M total, 2020 to 2022; the resume's '$10M+ annual' is to be corrected by Scott. Hero fact 04, the TerpScout Volume and Delivery rows and index row 03 now read 2020 to 2022 and $10M, with no per-year rate.
 
 ## Design sources
 
@@ -57,6 +57,8 @@ Status on 2026-10-14: the code site `scottcamp` exists. Every push to `main` pub
 - Originals on Scott's Mac: `~/Desktop/untitle/fullsize/` and `~/Desktop/untitle/fullsize/new/`; Photos album `somethings click'd`.
 
 ## Decisions taken in the last review pass
+
+- KAL Contracting is out of the Index (Scott, 2026-10-14); the rows run 01 to 13 with no gap and the volume faces follow (Pharm to Body is Vol. 07, Zen Holo and Purple Scott are 12 and 13).
 
 - Type is three roles at four sizes (Scott, 2026-10-14: "too many font variations, simplify for digestibility"). Display, Helvetica Neue Bold uppercase: `--t-display` (fluid, the hero headline only) and `--t-title` (28 px, 20 px on phones: section titles, the volume face numbers and names, spec sheet titles). Text, Helvetica Neue regular: `--t-text` (18 px, 16 px on phones: leads and card bodies). Meta, Courier New regular uppercase: `--t-meta` (13 px, 11 px on phones: eyebrows, nav cells, running heads, captions, index and table cells, spec sheet fields, tech sheet text, footer links, button and disclosure labels); transcript rows are `--t-meta` in sentence case. Tech sheets size their viewBox to their rendered width so their text stays `--t-meta`; they sit in a row of 480 px sheets that wraps. The OG and favicon faces keep their own sizes: they are images, not page type. Work spec sheets sit two across so a volume name at `--t-title` fits its recto. Distinct font declarations went from 34 to 19 (5 of the 19 are the OG and favicon face sizes); inventories in `.parity/type-inventory.md` and `type-inventory-after.md`. The button label is now Meta, not the 14 px Display label; it keeps its 0.3 px ink bleed.
 
