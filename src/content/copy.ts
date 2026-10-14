@@ -93,7 +93,7 @@ export const COPY = {
       { no: '01', name: 'Ali Sharifi Rugs', description: 'Site built by hand, photography, later moved to WordPress', year: '2010s', struck: true },
       { no: '02', name: 'KAL Contracting', description: 'Masonry and general contractor, Portland; site now on Webflow', year: '2025', struck: true },
       { no: '03', name: 'Rogue River Botanicals', description: 'Brand, website, kraft and wax seal packaging', year: '2016', struck: true },
-      { no: '04', name: 'TerpScout, dba ScoutCamp', description: 'OLCC-regulated distribution consultancy, $5M a year', year: '2019 to 2021', struck: true },
+      { no: '04', name: 'TerpScout, dba ScoutCamp', description: 'OLCC-regulated distribution consultancy, then a cannabis photography studio, $5M a year', year: '2019 to 2022', struck: true },
       { no: '05', name: 'Vantage Compute', description: 'Founding product marketing, AI/HPC orchestration', year: '2024 to 2026', struck: true },
       { no: '06', name: 'Nertia', description: 'Agent-native site builder, web app and MCP server', year: '2025', struck: true },
       { no: '07', name: 'Plotswitch', description: 'Productized agency brand, the pricing experiment', year: '2026', struck: true },
