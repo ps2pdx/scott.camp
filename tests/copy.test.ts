@@ -31,3 +31,4 @@ it('hero facts carry real labels, not placeholder brackets', () => {
   expect(COPY.hero.facts.map((f) => f.when)).toEqual(['Vantage', 'Vantage', 'Work', 'TerpScout']);
   expect(COPY.hero.facts[3].text).toBe('$10M sold, 2019 to 2021, regulated CPG');
 });
+it('the TerpScout running head spans 2016 to 2022', () => { expect(COPY.terpscout.runningHead).toBe('TerpScout [2016 to 2022]'); });

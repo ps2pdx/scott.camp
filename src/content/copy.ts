@@ -63,7 +63,7 @@ export const COPY = {
     source: { label: 'Source on GitHub', href: SOURCE_URL },
   },
   terpscout: {
-    eyebrow: 'TerpScout', runningHead: 'TerpScout [2016 to 2021]', title: 'Proof of positioning',
+    eyebrow: 'TerpScout', runningHead: 'TerpScout [2016 to 2022]', title: 'Proof of positioning',
     lead: 'A brand I built became a network I sold through, at half the going rate. TerpScout, dba of ScoutCamp, was an OLCC-regulated recreational cannabis distribution consultancy: it facilitated product-to-cash transfers and rented space from established wholesale licenses. The site is gone. The sales logs are not.',
     rows: [
       { when: '2016', who: 'Brand', text: 'Rogue River Botanicals: full brand and website, kraft paper and wax seal packaging. Then sales for them, on the strength of the brand.' },

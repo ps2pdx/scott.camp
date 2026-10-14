@@ -19,7 +19,7 @@ The Playwright scripts use the bundled Chromium and fall back to the installed C
 
 `.github/workflows/nertia-publish.yml` builds `out/` and runs `npx @nersh/publish out --site $NERTIA_SITE` on every push to `main`. That lands on staging at https://scottcamp.nertia.ai/ only. Production stays a manual decision.
 
-Status on 2026-10-14: the code site does not exist yet. The latest run stops at the guard step because `NERTIA_SITE` is unset.
+Status on 2026-10-14: the code site `scottcamp` exists. Every push to `main` publishes to staging at https://scottcamp.nertia.ai/; Scott puts it live from the dashboard. Live at https://scott.camp/bell.
 
 ### Scott's three manual steps (once)
 
