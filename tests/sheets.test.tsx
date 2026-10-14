@@ -7,10 +7,17 @@ import { COPY } from '@/content/copy';
 
 it('Index strikes the rows that are not this section and keeps their text', () => {
   const { container } = render(<Index rows={COPY.work.index} />);
-  const struck = container.querySelectorAll('tr[data-struck]');
+  const table = screen.getByRole('table', { name: /Index/ });
+  const rows = screen.getAllByRole('row');
+  expect(rows.length).toBe(13);
+  const struck = rows.filter((r) => r.querySelector('del'));
   expect(struck.length).toBe(9);
   expect(struck[0].textContent).toContain('Ali Sharifi Rugs');
-  expect(container.querySelectorAll('tr').length).toBe(13);
+  expect(rows.filter((r) => !r.querySelector('del')).map((r) => r.children[1].textContent)).toEqual(['pharmtobody.com', 'purezerophotography.com', 'bend.cleaning', 'fullscopesupply.com']);
+  const scroller = table.parentElement!;
+  expect(scroller).toHaveAttribute('data-part', 'index-scroll');
+  expect(scroller).toHaveAttribute('tabindex', '0');
+  expect(container.querySelector('table')).toBe(table);
 });
 it('VolumeFace is a spread: empty verso, recto with number, name, year', () => {
   const { container } = render(<VolumeFace no="08" name="pharmtobody.com" year="2026" />);
@@ -30,6 +37,22 @@ it('TechSheet draws one box per section and the SRC line', () => {
   expect(container.querySelectorAll('[data-part="box"]').length).toBe(data.sections.length);
   expect(container.textContent).toContain('RENDERED FROM SITE STRUCTURE');
   expect(screen.getByRole('img', { name: `Tech sheet: ${data.sheet}` })).toBeInTheDocument();
+});
+it('TechSheet keeps the step labels clear of the header block in both layouts', () => {
+  for (const narrow of [false, true]) {
+    const { container, unmount } = render(<TechSheet data={COPY.work.tech[3]} narrow={narrow} />);
+    const steps = [...container.querySelectorAll('[data-part="step"]')];
+    const header = container.querySelector('[data-part="header"]')!;
+    const hy = [...header.querySelectorAll('text')].map((t) => Number(t.getAttribute('y')));
+    const headerBottom = Math.max(...hy);
+    for (const st of steps) expect(Number(st.getAttribute('y')), st.textContent!).toBeGreaterThan(headerBottom + 8);
+    const vb = container.querySelector('svg')!.getAttribute('viewBox')!.split(' ').map(Number);
+    const fs = Number(steps[0].parentElement!.getAttribute('font-size'));
+    const longest = Math.max(...steps.map((st) => st.textContent!.length));
+    expect(Number(steps[0].getAttribute('x')) + longest * fs * 0.6, 'label fits').toBeLessThanOrEqual(vb[2] - 8);
+    if (narrow) expect(fs * 360 / vb[2], 'readable at 360 px').toBeGreaterThanOrEqual(10.5);
+    unmount();
+  }
 });
 it('SpecSheet omits empty fields and renders the quoted title', () => {
   render(<SpecSheet sheet={{ title: 'Pure Zero', fields: { Sheet: 'purezerophotography.com', Role: 'Design, build', Stack: 'Nertia' }, href: 'https://purezerophotography.com', label: 'purezerophotography.com' }} volume={{ no: '09', year: '2026' }} />);
