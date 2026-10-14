@@ -60,5 +60,5 @@ Status on 2026-10-14: the code site `scottcamp` exists. Every push to `main` pub
 
 - Light `--focus` is dark green `#005a14` (volt fails 3:1 on white); dark keeps volt. The spec says focus is the cloth in both modes.
 - Light `--fg-muted` is 75% black, not 45%, so muted copy passes 4.5:1 on the light board after grain.
-- The grain tiles are high-pass images centred on mid grey, which under `multiply` greyed the white page to about `#e8e8e8`. `filter: brightness(2)` on the grain layer puts that baseline back at the surface color, so the light page is white and only the fibres darken.
+- Light page surface is eggshell `#f3f1ea` (`--s-page`, light `--bg`), not white (Scott, 2026-10-14). Pure white stays only where the canvas draws it: the punch holes (`--hole`, the white layer beneath the sheet), the spec sheet (`--sheet`) and the tech sheet punches. Light grain is 0.14. The grain tiles are high-pass images centred on mid grey; `filter: brightness(2)` on the grain layer rebases that grey to 1.0 so `multiply` leaves the surface colour itself (eggshell stays eggshell, black stays black) and only the fibres darken. With textures off the page is the flat `--bg`.
 - The Vantage and TerpScout running heads keep their brackets: the spec sets those date ranges as Bracket devices, not as unknowns.

@@ -55,3 +55,10 @@ it('section dividers are 2 px cuts over one fixed spine layer, and plain rules u
   expect(reveal).not.toMatch(/filter|mix-blend|background-attachment/);
   for (const f of ['src/components/Section.module.css', 'src/components/Footer.module.css', 'src/App.module.css']) expect(readFileSync(f, 'utf8')).toContain('background-color:var(--bg)');
 });
+it('the light page is eggshell, and pure white stays for the punch holes and the sheet', () => {
+  expect(lightBlock).toContain('--bg:#f3f1ea');
+  expect(lightBlock).toContain('--hole:#ffffff');
+  expect(lightBlock).toContain('--sheet:#ffffff');
+  expect(darkBlock).toContain('--s-page:#f3f1ea');
+  expect(readFileSync('src/components/Punches.module.css', 'utf8')).toContain('background:var(--hole)');
+});
