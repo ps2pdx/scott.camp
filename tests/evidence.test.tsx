@@ -136,3 +136,10 @@ it('evidence stacks full width, one figure above the next, with no pair wrapper'
   expect(css).toMatch(/\.stack\{[^}]*flex-direction:column/);
   expect(css).not.toMatch(/repeat\(2,minmax\(0,1fr\)\);gap:var\(--s-4\);align-items:start/);
 });
+it('the spin sits in a black figure no wider than 480 px, capped at 52vh, caption beneath', () => {
+  const css = readFileSync('src/App.module.css', 'utf8');
+  expect(css).toMatch(/\.spinStage\{background:#000;/);
+  expect(css).toMatch(/\.spinMedia\{[^}]*max-height:52vh/);
+  expect(css).toMatch(/@media \(min-width:640px\)\{\.spin\{max-width:480px\}\}/);
+  expect(css).not.toMatch(/70vh/);
+});
