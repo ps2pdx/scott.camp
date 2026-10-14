@@ -38,11 +38,12 @@ const open = async (details: HTMLDetailsElement, how: 'click' | 'key') => {
   else { summary.focus(); fireEvent.keyDown(summary, { key: 'Enter' }); if (!details.open) fireEvent.click(summary); }
   await waitFor(() => expect(details.querySelector('video, img')).not.toBeNull());
 };
-it('TerpScout shows only the menu and the wordmark until the disclosure is opened', () => {
+it('TerpScout shows only the wordmark until the disclosure is opened', () => {
   stubMatchMedia(false);
   const { container } = render(<App />);
   const block = container.querySelector('#terpscout')!;
   const ev = COPY.terpscout.evidence;
+  expect(ev.shown.map((e) => e.src)).toEqual(['/evidence/terpscout-wordmark.webp']);
   expect([...block.querySelectorAll('img')].map((i) => i.getAttribute('src'))).toEqual(ev.shown.map((e) => e.src));
   expect([...block.querySelectorAll('figcaption')].map((f) => f.textContent)).toEqual(ev.shown.map((e) => e.caption));
   expect(block.querySelector('video')).toBeNull();

@@ -74,7 +74,6 @@ export const COPY = {
     ] as TranscriptRow[],
     evidence: {
       shown: [
-        { src: '/evidence/flower-menu-table.webp', width: 1600, height: 1707, caption: 'Wholesale flower menu for a TerpScout client, December 2022. The index device, before this page.', alt: 'Wholesale flower menu table with columns Strain, Lineage, Terpenes and THC, seventeen strains from K-Smorz to Strawberry Pie, the last row Zuyaqui struck through.' },
         { src: '/evidence/terpscout-wordmark.webp', width: 600, height: 90, caption: 'Terpscout wordmark', alt: 'Terpscout, set in red with a trademark sign.' },
       ],
       gated: {
