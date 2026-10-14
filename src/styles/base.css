@@ -1,0 +1,5 @@
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;background:var(--bg,#000);color:var(--fg,#fff)}
+img,svg,video{display:block;max-width:100%}
+a{color:inherit}
