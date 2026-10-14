@@ -134,7 +134,7 @@ it('the design system block: the contract in tiers, the live generator, the tool
   expect(d.querySelector('h2')!.textContent).toBe('One contract, every site');
   expect(d.textContent).toContain('Design system [2026]');
   expect([...d.querySelectorAll('table')[0].querySelectorAll('tr')].map((r) => r.children[0].textContent)).toEqual(['Surface', 'Text', 'Line', 'Accent', 'Radius', 'Shadow', 'Motion', 'Type']);
-  expect(d.querySelector('[data-part="generator"] figcaption')!.textContent).toBe('The generator that started Nertia: one colour in, the whole contract out.');
+  expect(d.querySelector('[data-part="brand-generator"] figcaption')!.textContent).toContain('The Zero-Point generator that started Nertia, January 2026');
   expect(d.querySelector('img[src*="catalogue-site"]')).toBeNull();
   const tools = [...d.querySelector('table[aria-label^="MCP"]')!.querySelectorAll('td:first-child')].map((t) => t.textContent);
   for (const t of ['switch_site_skin', 'update_copy', 'publish_site', 'publish_from_github']) expect(tools).toContain(t);

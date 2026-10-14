@@ -1,0 +1,1062 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`the default answers produce the same brand system, CSS and decision summary every time > brand system 1`] = `
+{
+  "borders": {
+    "radius": {
+      "2xl": "1.5rem",
+      "full": "9999px",
+      "lg": "0.75rem",
+      "md": "0.5rem",
+      "none": "0",
+      "sm": "0.25rem",
+      "xl": "1rem",
+    },
+    "width": {
+      "medium": "2px",
+      "thick": "4px",
+      "thin": "1px",
+    },
+  },
+  "breakpoints": {
+    "2xl": "1536px",
+    "lg": "1024px",
+    "md": "768px",
+    "sm": "640px",
+    "xl": "1280px",
+  },
+  "colors": {
+    "accent": {
+      "dark": "#FFA07A",
+      "light": "#FF6B6B",
+    },
+    "accentHover": {
+      "dark": "#FF6B6B",
+      "light": "#E85D5D",
+    },
+    "background": {
+      "dark": "#0A0A0A",
+      "light": "#FFFFFF",
+    },
+    "border": {
+      "default": {
+        "dark": "#2D2D2D",
+        "light": "#E5E7EB",
+      },
+      "focus": {
+        "dark": "#FFA07A",
+        "light": "#FF6B6B",
+      },
+      "strong": {
+        "dark": "#404040",
+        "light": "#D1D5DB",
+      },
+      "subtle": {
+        "dark": "#1F1F1F",
+        "light": "#F3F4F6",
+      },
+    },
+    "cardBackground": {
+      "dark": "#141414",
+      "light": "#FFFFFF",
+    },
+    "cardBorder": {
+      "dark": "#2D2D2D",
+      "light": "#E5E7EB",
+    },
+    "error": {
+      "dark": "#F87171",
+      "light": "#EF4444",
+    },
+    "foreground": {
+      "dark": "#EDEDED",
+      "light": "#171717",
+    },
+    "muted": {
+      "dark": "#9CA3AF",
+      "light": "#6B7280",
+    },
+    "overlay": {
+      "dark": "rgba(0, 0, 0, 0.7)",
+      "light": "rgba(0, 0, 0, 0.5)",
+    },
+    "success": {
+      "dark": "#34D399",
+      "light": "#10B981",
+    },
+    "surface": {
+      "default": {
+        "dark": "#0F0F0F",
+        "light": "#FFFFFF",
+      },
+      "elevated": {
+        "dark": "#1A1A1A",
+        "light": "#FFFFFF",
+      },
+      "sunken": {
+        "dark": "#050505",
+        "light": "#F5F5F5",
+      },
+    },
+    "usageRatios": {
+      "accent": 10,
+      "background": 60,
+      "surface": 30,
+    },
+    "warning": {
+      "dark": "#FBBF24",
+      "light": "#F59E0B",
+    },
+  },
+  "components": {
+    "alert": {
+      "borderLeftWidth": "4px",
+      "padding": "1.5rem",
+      "variants": {
+        "error": {
+          "background": {
+            "dark": "#7F1D1D",
+            "light": "#FEF2F2",
+          },
+          "border": {
+            "dark": "#EF4444",
+            "light": "#EF4444",
+          },
+          "icon": "x",
+        },
+        "info": {
+          "background": {
+            "dark": "#1E3A5F",
+            "light": "#EFF6FF",
+          },
+          "border": {
+            "dark": "#3B82F6",
+            "light": "#3B82F6",
+          },
+          "icon": "info",
+        },
+        "success": {
+          "background": {
+            "dark": "#064E3B",
+            "light": "#ECFDF5",
+          },
+          "border": {
+            "dark": "#10B981",
+            "light": "#10B981",
+          },
+          "icon": "check",
+        },
+        "warning": {
+          "background": {
+            "dark": "#78350F",
+            "light": "#FFFBEB",
+          },
+          "border": {
+            "dark": "#F59E0B",
+            "light": "#F59E0B",
+          },
+          "icon": "alert",
+        },
+      },
+    },
+    "button": {
+      "borderRadius": "0.5rem",
+      "fontSize": "0.875rem",
+      "fontWeight": 500,
+      "letterSpacing": "0.025em",
+      "outline": {
+        "background": {
+          "dark": "transparent",
+          "light": "transparent",
+        },
+        "backgroundHover": {
+          "dark": "#FFA07A10",
+          "light": "#FF6B6B10",
+        },
+        "border": {
+          "dark": "#FFA07A",
+          "light": "#FF6B6B",
+        },
+        "foreground": {
+          "dark": "#FFA07A",
+          "light": "#FF6B6B",
+        },
+      },
+      "paddingX": "1.5rem",
+      "paddingY": "0.75rem",
+      "primary": {
+        "background": {
+          "dark": "#FFA07A",
+          "light": "#FF6B6B",
+        },
+        "backgroundHover": {
+          "dark": "#FF6B6B",
+          "light": "#E85D5D",
+        },
+        "border": {
+          "dark": "#FFA07A",
+          "light": "#FF6B6B",
+        },
+        "foreground": {
+          "dark": "#FFFFFF",
+          "light": "#FFFFFF",
+        },
+      },
+      "secondary": {
+        "background": {
+          "dark": "#2D2D2D",
+          "light": "#F3F4F6",
+        },
+        "backgroundHover": {
+          "dark": "#404040",
+          "light": "#E5E7EB",
+        },
+        "border": {
+          "dark": "#404040",
+          "light": "#E5E7EB",
+        },
+        "foreground": {
+          "dark": "#EDEDED",
+          "light": "#171717",
+        },
+      },
+    },
+    "card": {
+      "borderRadius": "0.75rem",
+      "variants": {
+        "feature": {
+          "background": {
+            "dark": "#1A1A1A",
+            "light": "#F9FAFB",
+          },
+          "border": {
+            "dark": "#2D2D2D",
+            "light": "#E5E7EB",
+          },
+          "padding": "1.5rem",
+        },
+        "image": {
+          "background": {
+            "dark": "#1A1A1A",
+            "light": "#F3F4F6",
+          },
+          "border": {
+            "dark": "#2D2D2D",
+            "light": "#E5E7EB",
+          },
+          "padding": "0",
+        },
+        "stat": {
+          "background": {
+            "dark": "#121212",
+            "light": "#FFFFFF",
+          },
+          "border": {
+            "dark": "#2D2D2D",
+            "light": "#E5E7EB",
+          },
+          "padding": "1.5rem",
+        },
+      },
+    },
+    "input": {
+      "background": {
+        "dark": "#121212",
+        "light": "#FFFFFF",
+      },
+      "border": {
+        "dark": "#2D2D2D",
+        "light": "#E5E7EB",
+      },
+      "borderFocus": {
+        "dark": "#FFA07A",
+        "light": "#FF6B6B",
+      },
+      "borderRadius": "0.5rem",
+      "fontSize": "1rem",
+      "paddingX": "1rem",
+      "paddingY": "0.75rem",
+      "placeholder": {
+        "dark": "#6B7280",
+        "light": "#9CA3AF",
+      },
+    },
+    "navigation": {
+      "background": {
+        "dark": "#0A0A0A",
+        "light": "#FFFFFF",
+      },
+      "height": "64px",
+      "linkColor": {
+        "dark": "#9CA3AF",
+        "light": "#6B7280",
+      },
+      "linkHover": {
+        "dark": "#EDEDED",
+        "light": "#171717",
+      },
+    },
+    "table": {
+      "borderColor": {
+        "dark": "#2D2D2D",
+        "light": "#E5E7EB",
+      },
+      "cellPaddingX": "1rem",
+      "cellPaddingY": "0.75rem",
+      "headerBackground": {
+        "dark": "#1A1A1A",
+        "light": "#F9FAFB",
+      },
+      "rowHover": {
+        "dark": "#1E1E1E",
+        "light": "#F3F4F6",
+      },
+      "rowStripe": {
+        "dark": "#121212",
+        "light": "#F9FAFB",
+      },
+    },
+  },
+  "grid": {
+    "desktop": {
+      "columns": 12,
+      "gutter": "24px",
+      "margin": "32px",
+      "maxWidth": "1280px",
+    },
+    "mobile": {
+      "columns": 4,
+      "gutter": "16px",
+      "margin": "16px",
+    },
+  },
+  "icons": {
+    "boundingBox": "24px",
+    "categories": [
+      "interface",
+      "navigation",
+      "social",
+      "actions",
+    ],
+    "sizes": {
+      "default": "24px",
+      "hero": "48px",
+      "large": "32px",
+      "small": "16px",
+    },
+    "strokeCaps": "rounded",
+    "strokeWeight": "1.5px",
+  },
+  "imagery": {
+    "guidelines": {
+      "do": [
+        "Use high-quality, professional images",
+        "Maintain consistent color grading",
+        "Feature real products and people",
+      ],
+      "dont": [
+        "Use generic stock photos",
+        "Over-saturate or heavily filter images",
+        "Use cluttered or busy compositions",
+      ],
+    },
+    "photoTreatment": {
+      "colorGrading": "warm tones",
+      "contrast": "high",
+      "style": "rich and detailed",
+    },
+    "styles": [
+      "Professional consumer apps photography",
+      "Clean product shots with consistent lighting",
+      "Abstract geometric backgrounds",
+    ],
+  },
+  "metadata": {
+    "generatedAt": "2026-01-20T00:00:00.000Z",
+    "name": "Halo Smash Burgers",
+    "version": "2.0.0",
+  },
+  "motion": {
+    "duration": {
+      "base": "300ms",
+      "fast": "200ms",
+      "instant": "100ms",
+      "slow": "500ms",
+    },
+    "easing": {
+      "default": "cubic-bezier(0.4, 0, 0.2, 1)",
+      "in": "cubic-bezier(0.4, 0, 1, 1)",
+      "inOut": "cubic-bezier(0.4, 0, 0.2, 1)",
+      "out": "cubic-bezier(0, 0, 0.2, 1)",
+    },
+    "interactions": {
+      "fade": {
+        "duration": "300ms",
+        "opacity": [
+          0,
+          1,
+        ],
+      },
+      "hover": {
+        "duration": "200ms",
+        "scale": 1.02,
+      },
+      "slide": {
+        "duration": "200ms",
+        "transform": "translateY(8px)",
+      },
+    },
+    "principles": [
+      "Performance first",
+      "Purposeful motion",
+      "Subtle enhancement",
+    ],
+  },
+  "shadows": {
+    "lg": "0 10px 15px -3px rgb(0 0 0 / 0.1)",
+    "md": "0 4px 6px -1px rgb(0 0 0 / 0.1)",
+    "sm": "0 1px 2px 0 rgb(0 0 0 / 0.05)",
+    "xl": "0 20px 25px -5px rgb(0 0 0 / 0.1)",
+  },
+  "spacing": {
+    "0": "0",
+    "1": "0.25rem",
+    "12": "3rem",
+    "16": "4rem",
+    "2": "0.5rem",
+    "24": "6rem",
+    "2xl": "3rem",
+    "3": "0.75rem",
+    "3xl": "4rem",
+    "4": "1rem",
+    "4xl": "6rem",
+    "6": "1.5rem",
+    "8": "2rem",
+    "lg": "1.5rem",
+    "md": "1rem",
+    "semantic": {
+      "card": {
+        "padding": "1.5rem",
+      },
+      "component": {
+        "gap": "1rem",
+      },
+      "container": {
+        "maxWidth": "80rem",
+        "paddingX": "1.5rem",
+      },
+      "inline": {
+        "gap": "0.25rem",
+      },
+      "section": {
+        "paddingX": "2rem",
+        "paddingY": "4rem",
+      },
+      "text": {
+        "gap": "0.5rem",
+      },
+    },
+    "sm": "0.5rem",
+    "xl": "2rem",
+    "xs": "0.25rem",
+  },
+  "typography": {
+    "fontFamily": {
+      "body": "Nunito, sans-serif",
+      "display": "Fredoka, sans-serif",
+      "mono": "Space Mono, monospace",
+      "sans": "Nunito, sans-serif",
+    },
+    "fontSize": {
+      "2xl": "1.5rem",
+      "3xl": "1.875rem",
+      "4xl": "2.25rem",
+      "5xl": "3rem",
+      "6xl": "3.75rem",
+      "base": "1rem",
+      "lg": "1.125rem",
+      "sm": "0.875rem",
+      "xl": "1.25rem",
+      "xs": "0.75rem",
+    },
+    "fontWeight": {
+      "bold": 700,
+      "medium": 500,
+      "normal": 400,
+      "semibold": 600,
+    },
+    "letterSpacing": {
+      "normal": "0em",
+      "tight": "-0.025em",
+      "wide": "0.025em",
+      "wider": "0.05em",
+      "widest": "0.1em",
+    },
+    "lineHeight": {
+      "normal": 1.5,
+      "relaxed": 1.75,
+      "tight": 1.25,
+    },
+    "scale": {
+      "body": {
+        "font": "body",
+        "lineHeight": 1.5,
+        "size": "1rem",
+        "weight": 400,
+      },
+      "h1": {
+        "font": "display",
+        "lineHeight": 1.15,
+        "size": "3rem",
+        "weight": 700,
+      },
+      "h2": {
+        "font": "display",
+        "lineHeight": 1.25,
+        "size": "2.25rem",
+        "weight": 600,
+      },
+      "h3": {
+        "font": "display",
+        "lineHeight": 1.3,
+        "size": "1.875rem",
+        "weight": 600,
+      },
+      "h4": {
+        "font": "body",
+        "lineHeight": 1.4,
+        "size": "1.5rem",
+        "weight": 500,
+      },
+      "label": {
+        "font": "body",
+        "lineHeight": 1.5,
+        "size": "0.875rem",
+        "weight": 500,
+      },
+      "micro": {
+        "font": "body",
+        "letterSpacing": "0.05em",
+        "lineHeight": 1.4,
+        "size": "0.625rem",
+        "textTransform": "uppercase",
+        "weight": 500,
+      },
+      "small": {
+        "font": "body",
+        "lineHeight": 1.5,
+        "size": "0.75rem",
+        "weight": 400,
+      },
+    },
+  },
+  "voiceAndTone": {
+    "attributes": {
+      "clarity": {
+        "description": "We communicate complex ideas simply and directly.",
+        "example": "We make the complex simple.",
+        "name": "Clear",
+      },
+      "tone": {
+        "description": "Our communication is playful and resonates with consumers.",
+        "example": ""Halo Smash Burgers delivers playful results."",
+        "name": "playful",
+      },
+    },
+    "coreMessage": "Halo Smash Burgers is the playful solution for consumers in consumer apps.",
+    "examples": {
+      "cta": [
+        "Let's Go",
+        "Try It Free",
+        "Jump In",
+        "Get Started",
+      ],
+      "descriptions": [
+        "Halo Smash Burgers empowers consumers with playful solutions.",
+        "Experience the friendly approach to consumer apps.",
+        "Join thousands who trust Halo Smash Burgers for their consumer apps needs.",
+      ],
+      "headlines": [
+        "Halo Smash Burgers: Where playful meets results",
+        "The friendly way to transform your consumer apps",
+        "Built for consumers who demand more",
+      ],
+    },
+    "guidelines": {
+      "do": [
+        "Use active voice",
+        "Lead with benefits, not features",
+        "Be specific with numbers and metrics",
+      ],
+      "dont": [
+        "Use jargon without explanation",
+        "Make unsubstantiated claims",
+        "Use passive constructions",
+      ],
+    },
+    "personality": [
+      "playful",
+      "friendly",
+      "bold",
+    ],
+    "writingStyle": "playful, friendly, bold communication style tailored for consumers in the Consumer Apps space.",
+  },
+  "zIndex": {
+    "base": 0,
+    "dropdown": 20,
+    "fixed": 40,
+    "modal": 50,
+    "popover": 60,
+    "raised": 10,
+    "sticky": 30,
+    "tooltip": 70,
+  },
+}
+`;
+
+exports[`the default answers produce the same brand system, CSS and decision summary every time > css 1`] = `
+":root {
+  --background: #FFFFFF;
+  --foreground: #171717;
+  --muted: #6B7280;
+  --accent: #FF6B6B;
+  --accent-hover: #E85D5D;
+  --card-background: #FFFFFF;
+  --card-border: #E5E7EB;
+  --success: #10B981;
+  --warning: #F59E0B;
+  --error: #EF4444;
+  --overlay: rgba(0, 0, 0, 0.5);
+  --surface-default: #FFFFFF;
+  --surface-elevated: #FFFFFF;
+  --surface-sunken: #F5F5F5;
+  --border-color-default: #E5E7EB;
+  --border-color-subtle: #F3F4F6;
+  --border-color-strong: #D1D5DB;
+  --border-color-focus: #FF6B6B;
+  --font-sans: Nunito, sans-serif;
+  --font-mono: Space Mono, monospace;
+  --font-display: Fredoka, sans-serif;
+  --font-body: Nunito, sans-serif;
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: 1.875rem;
+  --text-4xl: 2.25rem;
+  --text-5xl: 3rem;
+  --text-6xl: 3.75rem;
+  --font-normal: 400;
+  --font-medium: 500;
+  --font-semibold: 600;
+  --font-bold: 700;
+  --leading-tight: 1.25;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.75;
+  --tracking-tight: -0.025em;
+  --tracking-normal: 0em;
+  --tracking-wide: 0.025em;
+  --tracking-wider: 0.05em;
+  --tracking-widest: 0.1em;
+  --scale-h1-size: 3rem;
+  --scale-h1-weight: 700;
+  --scale-h1-line-height: 1.15;
+  --scale-h2-size: 2.25rem;
+  --scale-h2-weight: 600;
+  --scale-h2-line-height: 1.25;
+  --scale-h3-size: 1.875rem;
+  --scale-h3-weight: 600;
+  --scale-h3-line-height: 1.3;
+  --scale-h4-size: 1.5rem;
+  --scale-h4-weight: 500;
+  --scale-h4-line-height: 1.4;
+  --scale-body-size: 1rem;
+  --scale-body-weight: 400;
+  --scale-body-line-height: 1.5;
+  --scale-label-size: 0.875rem;
+  --scale-label-weight: 500;
+  --scale-label-line-height: 1.5;
+  --scale-small-size: 0.75rem;
+  --scale-small-weight: 400;
+  --scale-small-line-height: 1.5;
+  --scale-micro-size: 0.625rem;
+  --scale-micro-weight: 500;
+  --scale-micro-line-height: 1.4;
+  --scale-micro-letter-spacing: 0.05em;
+  --grid-desktop-columns: 12;
+  --grid-desktop-gutter: 24px;
+  --grid-desktop-max-width: 1280px;
+  --grid-desktop-margin: 32px;
+  --grid-mobile-columns: 4;
+  --grid-mobile-gutter: 16px;
+  --grid-mobile-margin: 16px;
+  --spacing-0: 0;
+  --spacing-1: 0.25rem;
+  --spacing-2: 0.5rem;
+  --spacing-3: 0.75rem;
+  --spacing-4: 1rem;
+  --spacing-6: 1.5rem;
+  --spacing-8: 2rem;
+  --spacing-12: 3rem;
+  --spacing-16: 4rem;
+  --spacing-24: 6rem;
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 1.5rem;
+  --spacing-xl: 2rem;
+  --spacing-2xl: 3rem;
+  --spacing-3xl: 4rem;
+  --spacing-4xl: 6rem;
+  --spacing-section-x: 2rem;
+  --spacing-section-y: 4rem;
+  --spacing-card: 1.5rem;
+  --spacing-component-gap: 1rem;
+  --spacing-text-gap: 0.5rem;
+  --spacing-inline-gap: 0.25rem;
+  --spacing-container-max-width: 80rem;
+  --spacing-container-x: 1.5rem;
+  --icon-sm: 16px;
+  --icon-default: 24px;
+  --icon-lg: 32px;
+  --icon-hero: 48px;
+  --icon-stroke: 1.5px;
+  --icon-bounding-box: 24px;
+  --btn-primary-bg: #FF6B6B;
+  --btn-primary-fg: #FFFFFF;
+  --btn-primary-bg-hover: #E85D5D;
+  --btn-primary-border: #FF6B6B;
+  --btn-secondary-bg: #F3F4F6;
+  --btn-secondary-fg: #171717;
+  --btn-secondary-bg-hover: #E5E7EB;
+  --btn-secondary-border: #E5E7EB;
+  --btn-outline-bg: transparent;
+  --btn-outline-fg: #FF6B6B;
+  --btn-outline-bg-hover: #FF6B6B10;
+  --btn-outline-border: #FF6B6B;
+  --btn-padding-x: 1.5rem;
+  --btn-padding-y: 0.75rem;
+  --btn-font-size: 0.875rem;
+  --btn-font-weight: 500;
+  --btn-radius: 0.5rem;
+  --btn-letter-spacing: 0.025em;
+  --card-radius: 0.75rem;
+  --card-feature-bg: #F9FAFB;
+  --card-feature-border: #E5E7EB;
+  --card-feature-padding: 1.5rem;
+  --card-stat-bg: #FFFFFF;
+  --card-stat-border: #E5E7EB;
+  --card-stat-padding: 1.5rem;
+  --card-image-bg: #F3F4F6;
+  --card-image-border: #E5E7EB;
+  --card-image-padding: 0;
+  --input-bg: #FFFFFF;
+  --input-border: #E5E7EB;
+  --input-border-focus: #FF6B6B;
+  --input-placeholder: #9CA3AF;
+  --input-padding-x: 1rem;
+  --input-padding-y: 0.75rem;
+  --input-font-size: 1rem;
+  --input-radius: 0.5rem;
+  --alert-padding: 1.5rem;
+  --alert-border-left-width: 4px;
+  --alert-info-bg: #EFF6FF;
+  --alert-info-border: #3B82F6;
+  --alert-success-bg: #ECFDF5;
+  --alert-success-border: #10B981;
+  --alert-warning-bg: #FFFBEB;
+  --alert-warning-border: #F59E0B;
+  --alert-error-bg: #FEF2F2;
+  --alert-error-border: #EF4444;
+  --table-header-bg: #F9FAFB;
+  --table-row-stripe: #F9FAFB;
+  --table-row-hover: #F3F4F6;
+  --table-border: #E5E7EB;
+  --table-cell-padding-x: 1rem;
+  --table-cell-padding-y: 0.75rem;
+  --nav-bg: #FFFFFF;
+  --nav-link: #6B7280;
+  --nav-link-hover: #171717;
+  --nav-height: 64px;
+  --radius-none: 0;
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+  --radius-2xl: 1.5rem;
+  --radius-full: 9999px;
+  --border-thin: 1px;
+  --border-medium: 2px;
+  --border-thick: 4px;
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1);
+  --duration-instant: 100ms;
+  --duration-fast: 200ms;
+  --duration-base: 300ms;
+  --duration-slow: 500ms;
+  --easing-default: cubic-bezier(0.4, 0, 0.2, 1);
+  --easing-in: cubic-bezier(0.4, 0, 1, 1);
+  --easing-out: cubic-bezier(0, 0, 0.2, 1);
+  --easing-inOut: cubic-bezier(0.4, 0, 0.2, 1);
+  --interaction-hover-scale: 1.02;
+  --interaction-hover-duration: 200ms;
+  --interaction-fade-duration: 300ms;
+  --interaction-slide-transform: translateY(8px);
+  --interaction-slide-duration: 200ms;
+  --z-base: 0;
+  --z-raised: 10;
+  --z-dropdown: 20;
+  --z-sticky: 30;
+  --z-fixed: 40;
+  --z-modal: 50;
+  --z-popover: 60;
+  --z-tooltip: 70;
+  --breakpoint-sm: 640px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1280px;
+  --breakpoint-2xl: 1536px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+  --background: #0A0A0A;
+  --foreground: #EDEDED;
+  --muted: #9CA3AF;
+  --accent: #FFA07A;
+  --accent-hover: #FF6B6B;
+  --card-background: #141414;
+  --card-border: #2D2D2D;
+  --success: #34D399;
+  --warning: #FBBF24;
+  --error: #F87171;
+  --overlay: rgba(0, 0, 0, 0.7);
+  --surface-default: #0F0F0F;
+  --surface-elevated: #1A1A1A;
+  --surface-sunken: #050505;
+  --border-color-default: #2D2D2D;
+  --border-color-subtle: #1F1F1F;
+  --border-color-strong: #404040;
+  --border-color-focus: #FFA07A;
+  --font-sans: Nunito, sans-serif;
+  --font-mono: Space Mono, monospace;
+  --font-display: Fredoka, sans-serif;
+  --font-body: Nunito, sans-serif;
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: 1.875rem;
+  --text-4xl: 2.25rem;
+  --text-5xl: 3rem;
+  --text-6xl: 3.75rem;
+  --font-normal: 400;
+  --font-medium: 500;
+  --font-semibold: 600;
+  --font-bold: 700;
+  --leading-tight: 1.25;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.75;
+  --tracking-tight: -0.025em;
+  --tracking-normal: 0em;
+  --tracking-wide: 0.025em;
+  --tracking-wider: 0.05em;
+  --tracking-widest: 0.1em;
+  --scale-h1-size: 3rem;
+  --scale-h1-weight: 700;
+  --scale-h1-line-height: 1.15;
+  --scale-h2-size: 2.25rem;
+  --scale-h2-weight: 600;
+  --scale-h2-line-height: 1.25;
+  --scale-h3-size: 1.875rem;
+  --scale-h3-weight: 600;
+  --scale-h3-line-height: 1.3;
+  --scale-h4-size: 1.5rem;
+  --scale-h4-weight: 500;
+  --scale-h4-line-height: 1.4;
+  --scale-body-size: 1rem;
+  --scale-body-weight: 400;
+  --scale-body-line-height: 1.5;
+  --scale-label-size: 0.875rem;
+  --scale-label-weight: 500;
+  --scale-label-line-height: 1.5;
+  --scale-small-size: 0.75rem;
+  --scale-small-weight: 400;
+  --scale-small-line-height: 1.5;
+  --scale-micro-size: 0.625rem;
+  --scale-micro-weight: 500;
+  --scale-micro-line-height: 1.4;
+  --scale-micro-letter-spacing: 0.05em;
+  --grid-desktop-columns: 12;
+  --grid-desktop-gutter: 24px;
+  --grid-desktop-max-width: 1280px;
+  --grid-desktop-margin: 32px;
+  --grid-mobile-columns: 4;
+  --grid-mobile-gutter: 16px;
+  --grid-mobile-margin: 16px;
+  --spacing-0: 0;
+  --spacing-1: 0.25rem;
+  --spacing-2: 0.5rem;
+  --spacing-3: 0.75rem;
+  --spacing-4: 1rem;
+  --spacing-6: 1.5rem;
+  --spacing-8: 2rem;
+  --spacing-12: 3rem;
+  --spacing-16: 4rem;
+  --spacing-24: 6rem;
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 1.5rem;
+  --spacing-xl: 2rem;
+  --spacing-2xl: 3rem;
+  --spacing-3xl: 4rem;
+  --spacing-4xl: 6rem;
+  --spacing-section-x: 2rem;
+  --spacing-section-y: 4rem;
+  --spacing-card: 1.5rem;
+  --spacing-component-gap: 1rem;
+  --spacing-text-gap: 0.5rem;
+  --spacing-inline-gap: 0.25rem;
+  --spacing-container-max-width: 80rem;
+  --spacing-container-x: 1.5rem;
+  --icon-sm: 16px;
+  --icon-default: 24px;
+  --icon-lg: 32px;
+  --icon-hero: 48px;
+  --icon-stroke: 1.5px;
+  --icon-bounding-box: 24px;
+  --btn-primary-bg: #FFA07A;
+  --btn-primary-fg: #FFFFFF;
+  --btn-primary-bg-hover: #FF6B6B;
+  --btn-primary-border: #FFA07A;
+  --btn-secondary-bg: #2D2D2D;
+  --btn-secondary-fg: #EDEDED;
+  --btn-secondary-bg-hover: #404040;
+  --btn-secondary-border: #404040;
+  --btn-outline-bg: transparent;
+  --btn-outline-fg: #FFA07A;
+  --btn-outline-bg-hover: #FFA07A10;
+  --btn-outline-border: #FFA07A;
+  --btn-padding-x: 1.5rem;
+  --btn-padding-y: 0.75rem;
+  --btn-font-size: 0.875rem;
+  --btn-font-weight: 500;
+  --btn-radius: 0.5rem;
+  --btn-letter-spacing: 0.025em;
+  --card-radius: 0.75rem;
+  --card-feature-bg: #1A1A1A;
+  --card-feature-border: #2D2D2D;
+  --card-feature-padding: 1.5rem;
+  --card-stat-bg: #121212;
+  --card-stat-border: #2D2D2D;
+  --card-stat-padding: 1.5rem;
+  --card-image-bg: #1A1A1A;
+  --card-image-border: #2D2D2D;
+  --card-image-padding: 0;
+  --input-bg: #121212;
+  --input-border: #2D2D2D;
+  --input-border-focus: #FFA07A;
+  --input-placeholder: #6B7280;
+  --input-padding-x: 1rem;
+  --input-padding-y: 0.75rem;
+  --input-font-size: 1rem;
+  --input-radius: 0.5rem;
+  --alert-padding: 1.5rem;
+  --alert-border-left-width: 4px;
+  --alert-info-bg: #1E3A5F;
+  --alert-info-border: #3B82F6;
+  --alert-success-bg: #064E3B;
+  --alert-success-border: #10B981;
+  --alert-warning-bg: #78350F;
+  --alert-warning-border: #F59E0B;
+  --alert-error-bg: #7F1D1D;
+  --alert-error-border: #EF4444;
+  --table-header-bg: #1A1A1A;
+  --table-row-stripe: #121212;
+  --table-row-hover: #1E1E1E;
+  --table-border: #2D2D2D;
+  --table-cell-padding-x: 1rem;
+  --table-cell-padding-y: 0.75rem;
+  --nav-bg: #0A0A0A;
+  --nav-link: #9CA3AF;
+  --nav-link-hover: #EDEDED;
+  --nav-height: 64px;
+  --radius-none: 0;
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+  --radius-2xl: 1.5rem;
+  --radius-full: 9999px;
+  --border-thin: 1px;
+  --border-medium: 2px;
+  --border-thick: 4px;
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1);
+  --duration-instant: 100ms;
+  --duration-fast: 200ms;
+  --duration-base: 300ms;
+  --duration-slow: 500ms;
+  --easing-default: cubic-bezier(0.4, 0, 0.2, 1);
+  --easing-in: cubic-bezier(0.4, 0, 1, 1);
+  --easing-out: cubic-bezier(0, 0, 0.2, 1);
+  --easing-inOut: cubic-bezier(0.4, 0, 0.2, 1);
+  --interaction-hover-scale: 1.02;
+  --interaction-hover-duration: 200ms;
+  --interaction-fade-duration: 300ms;
+  --interaction-slide-transform: translateY(8px);
+  --interaction-slide-duration: 200ms;
+  --z-base: 0;
+  --z-raised: 10;
+  --z-dropdown: 20;
+  --z-sticky: 30;
+  --z-fixed: 40;
+  --z-modal: 50;
+  --z-popover: 60;
+  --z-tooltip: 70;
+  --breakpoint-sm: 640px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1280px;
+  --breakpoint-2xl: 1536px;
+  }
+}"
+`;
+
+exports[`the default answers produce the same brand system, CSS and decision summary every time > summary 1`] = `
+"## Industry Intelligence: Consumer Apps
+- Default color mood: warm
+- Suggested motion: energetic
+- Icon style: solid
+
+## Personality-Derived Design:
+- Border radius: pill
+- Spacing: balanced
+- Contrast: high
+- Motion: expressive
+- Typography family: humanist
+
+## Audience Optimization: General Consumers
+- Formality: casual
+- Technical level: low
+- Accessibility: high
+- Voice tone: friendly, approachable, clear, helpful
+- Avoid: technical jargon, complex terms, formal language
+
+## Recommendations:
+- Primary color mode: both
+- Motion intensity: expressive
+- Accessibility target: WCAG AAA
+- Suggested display fonts: Baloo 2, Comfortaa, Varela Round
+- Suggested body fonts: Nunito, Comfortaa, Quicksand
+- Suggested mono fonts: Geist Mono, IBM Plex Mono, Roboto Mono"
+`;
