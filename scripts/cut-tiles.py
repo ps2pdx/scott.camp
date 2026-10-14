@@ -83,6 +83,7 @@ def spine_tile():
     sp = load('IMG_2981.JPG').crop((1150, 0, 1930, 4032)).resize((160, 827), Image.LANCZOS)
     t = Image.new('RGB', (160, 1654)); t.paste(sp, (0, 0)); t.paste(ImageOps.flip(sp), (0, 827))
     t.save(OUT + 'spine.webp', quality=Q + 5)
+    t.transpose(Image.ROTATE_270).save(OUT + 'spine-band.webp', quality=Q + 5)
 
 def matched(img, ref_stat, own_stat):
     return Image.merge('RGB', tuple(c.point(lambda v, rm=rm, rs=rs, om=om, os_=os_: max(0, min(255, int((v - om) * rs / os_ + rm))))

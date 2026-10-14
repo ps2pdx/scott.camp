@@ -9,7 +9,7 @@ Derived from one physical copy of ICONS (Zak Group for Virgil Abloh and Nike, Ta
 | paper | IMG_2999 | blank page, high-pass, mirrored |
 | board | IMG_2939 | uncovered board, high-pass, mirrored |
 | cloth | IMG_2976 | one 3024 px square, lit to the cover (IMG_2975) |
-| spine | IMG_2981 | edge-on, stacked with its mirror |
+| spine | IMG_2981 | edge-on, stacked with its mirror; spine-band is the same tile turned 90 degrees for the phone band |
 | chip | IMG_3027 | bottom-right corner, straightened 3 degrees, straight cut, synthetic shadow |
 
 Spec: ps2pdx/nertia docs/superpowers/specs/2026-10-13-scott-camp-design-system.md. Prototype: claude.ai artifact R5WnhPbqkKSfmzCWyAY4na.
