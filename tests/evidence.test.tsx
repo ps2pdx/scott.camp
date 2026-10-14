@@ -144,3 +144,9 @@ it('the spin sits in a black figure no wider than 480 px, capped at 52vh, captio
   expect(css).toMatch(/@media \(min-width:640px\)\{\.spin\{max-width:480px\}\}/);
   expect(css).not.toMatch(/70vh/);
 });
+it('the wordmark draws at half size: 300 px on desktop, half the column on phones, left-aligned', () => {
+  const css = readFileSync('src/App.module.css', 'utf8');
+  expect(css).toContain('.mark img{width:min(300px,50%)}');
+  expect(css).toContain('.mark{align-items:flex-start}');
+  expect(COPY.terpscout.evidence.shown[0]).toMatchObject({ src: '/evidence/terpscout-wordmark.webp', mark: true });
+});

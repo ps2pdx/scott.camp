@@ -16,10 +16,10 @@ import { EvidenceVideo } from '@/components/EvidenceVideo';
 import { Disclosure } from '@/components/Disclosure';
 import s from './App.module.css';
 
-type Still = { src: string; width: number; height: number; caption: string; alt: string };
+type Still = { src: string; width: number; height: number; caption: string; alt: string; mark?: boolean };
 function Plate({ e }: { e: Still }) {
   return (
-    <figure className={s.plate}>
+    <figure className={e.mark ? `${s.plate} ${s.mark}` : s.plate}>
       <img src={e.src} width={e.width} height={e.height} alt={e.alt} loading="lazy" decoding="async" />
       <figcaption className="meta-sm">{e.caption}</figcaption>
     </figure>
