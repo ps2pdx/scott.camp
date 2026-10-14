@@ -11,6 +11,8 @@ jobs:
         with: { ref: '${{ inputs.ref || github.ref }}' }
       - uses: actions/setup-node@v5
         with: { node-version: 22, cache: npm }
+      - name: Require the NERTIA_SITE variable
+        run: test -n "${{ vars.NERTIA_SITE }}" || { echo "::error::Set the repository variable NERTIA_SITE (Settings, Variables, Actions) to the nertia site slug, scottcamp."; exit 1; }
       - run: npm ci && npm run build && test -f out/index.html
       - run: npx @nersh/publish out --site ${{ vars.NERTIA_SITE }}
         env:
