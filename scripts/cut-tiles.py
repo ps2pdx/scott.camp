@@ -79,11 +79,22 @@ def cloth_tile(target):
     tile.save(OUT + 'cloth.webp', quality=Q)
     return tile
 
+# IMG_2983: the sharpest, most evenly lit full-height run of the Smyth-sewn spine (glue gloss, black thread,
+# white paper, yellow signatures). It leans about 34 px over 3500 rows, so it is turned 0.56 degrees upright
+# first. The run is cut at 320 px wide (double the old 160 px cut from IMG_2981), toned to the old tile's
+# per-channel mean and spread, and wrapped on itself with a 64 px blended seam so the rail stacks.
+SPINE_W, SPINE_SEAM = 320, 64
+
 def spine_tile():
-    sp = load('IMG_2981.JPG').crop((1150, 0, 1930, 4032)).resize((160, 827), Image.LANCZOS)
-    t = Image.new('RGB', (160, 1654)); t.paste(sp, (0, 0)); t.paste(ImageOps.flip(sp), (0, 827))
-    t.save(OUT + 'spine.webp', quality=Q + 5)
-    t.transpose(Image.ROTATE_270).save(OUT + 'spine-band.webp', quality=Q + 5)
+    im = load('IMG_2983.JPG').rotate(0.56, resample=Image.BICUBIC, center=(1665, 2016))
+    run = im.crop((1250, 40, 2080, 3990))
+    run = run.resize((SPINE_W, round(run.height * SPINE_W / run.width)), Image.LANCZOS)
+    old = load('IMG_2981.JPG').crop((1150, 0, 1930, 4032)).resize((160, 827), Image.LANCZOS)
+    run = matched(run, ImageStat.Stat(old), ImageStat.Stat(run))
+    t = wrap_axis(run, run.height - SPINE_SEAM, SPINE_SEAM, 'y')
+    t.save(OUT + 'spine.webp', quality=Q)
+    t.transpose(Image.ROTATE_270).save(OUT + 'spine-band.webp', quality=Q)
+    print('spine tile', t.size)
 
 def matched(img, ref_stat, own_stat):
     return Image.merge('RGB', tuple(c.point(lambda v, rm=rm, rs=rs, om=om, os_=os_: max(0, min(255, int((v - om) * rs / os_ + rm))))
