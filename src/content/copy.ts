@@ -39,6 +39,7 @@ export const COPY = {
   nertia: {
     eyebrow: 'Nertia', runningHead: 'Nertia', title: "A product designed from the buyer's side",
     lead: 'An agent-native site builder, shipped as a web application and as an MCP server. I designed it, built it, and took it to market.',
+    mark: { src: '/evidence/nertia-mark.svg', width: 240, height: 199, caption: 'Nertia mark', alt: 'Nertia mark: a single black looping stroke, like a figure eight drawn in one motion.', mark: true },
     rows: [
       { when: '12/2025', who: 'Origin', text: 'It started as a design system generator: a brand schema, tokens, typography, animation, decision logic. The site builder came later. Ten months on, the design system is the part every site inherits.' },
       { when: '04/16/26', who: 'Evidence', text: 'Launched as an AI brand generator. Research said the durable need was shipping and maintaining live sites, not generating identity assets. Changed the product rather than the messaging.' },

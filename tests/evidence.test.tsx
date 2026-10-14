@@ -170,3 +170,12 @@ it('the rosin press reel and the Trap Fuel study sit inside the disclosure only'
   expect(caps.indexOf(g.reel.caption)).toBe(caps.indexOf(g.spin.caption) + 1);
   expect([...block.querySelectorAll('figure')].filter((f) => !details.contains(f)).some((f) => /rosin|trap-fuel/.test(f.innerHTML))).toBe(false);
 });
+it('the Nertia block carries the Nertia mark on the same white tile, in the same place as the TS mark', () => {
+  stubMatchMedia(false);
+  const { container } = render(<App />);
+  const fig = container.querySelector('#nertia figure img[src="/evidence/nertia-mark.svg"]')!.closest('figure')!;
+  expect(fig.className).toContain('mark');
+  expect(fig.parentElement!.className).toBe('stack');
+  expect(fig.querySelector('figcaption')!.textContent).toBe('Nertia mark');
+  expect(readFileSync('public/evidence/nertia-mark.svg', 'utf8')).toContain('fill="#000000"');
+});

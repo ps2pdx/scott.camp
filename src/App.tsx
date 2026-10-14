@@ -49,6 +49,7 @@ export function App() {
 
         <Section id="nertia" runningHead={COPY.nertia.runningHead} eyebrow={COPY.nertia.eyebrow} title={COPY.nertia.title} lead={COPY.nertia.lead}>
           <Transcript rows={COPY.nertia.rows} />
+          <div className={s.stack}><Plate e={COPY.nertia.mark} /></div>
           <div className={s.techBlock}>
             <Label>Tech sheets</Label>
             <div className={s.techGrid}>{COPY.nertia.tech.map((t) => <TechSheet key={t.sheet} data={t} />)}</div>
