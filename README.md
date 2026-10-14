@@ -35,13 +35,14 @@ Status on 2026-10-14: the code site `scottcamp` exists. Every push to `main` pub
 - The Nertia index year (2025) next to the 01/15/26 origin row: confirm which is right.
 - Creative practice copy for Zen Holo and Purple Scott.
 - The evidence set: the sales log page, two studio frames, four FX30 screen clips. Each lands as its own commit once the files exist.
-- [YEAR] for the spin, the print and the reel.
 
 ## Resolved facts
 
 - The Euphoria night is Marquee Mondays, District, 2017: seventeen weekly nights of curated live DJs, residents Purple Scott, Dirty Deeds and Token, ending 5 June 2017. Sources: the event banners (012 dated 04 24 17; 017 dated 06 05 17, Bad Technique, Everettz, Residents) and the Purple Scott Facebook Page's past events and albums (001 Suma, a 49-photo album; 016 the Memorial Day party, 29 May 2017; 017 on Mon 5 June 2017). District, 220 SW Ankeny St, Portland, est. 2014; 9 PM, no cover; Jägermeister sponsor mark on the banners. Now the Practice row's date and first sentence. Open: whether Euphoria is the room inside District.
 
 - TerpScout evidence, 2019 to 2022: the studio phase, now in the index row and under the TerpScout block. Sources, all Scott's own work, converted into `public/evidence/`: `terpscout/product-loop.mp4` (the spin, 720 px H.264, poster from the first frame); `terpscout/martian-fruit-print-torn.jpg` (the strain print, cultivator credit kept, plus a 320 px trichome detail cut 1:1 from the source); page 3 of `terpscout/terp-scouts-photography-pricing-summer-2022.pdf` (Per Image Pricing, summer 2022); page 1 of `terpscout/flower-menu-2022-12.pdf` cropped to the table (December 2022); `terpscout/terpscout-wordmark-red.webp` (the mark). The Squishy fresh press reel is left out: the Squishy Scientific logo is printed on the mat and fills its end card.
+
+- Years for the TerpScout evidence, from file creation dates: the spin ("Comp 1.mp4") was exported 2022-12-08, so its caption reads 2022; the Martian Fruit print ("Martian Fruit Print.jpg") was created 2022-09-22, so its caption reads 2022; the Squishy reels are from May 2024 and are not on the page.
 
 ## Design sources
 
