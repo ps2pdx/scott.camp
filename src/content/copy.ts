@@ -83,7 +83,6 @@ export const COPY = {
       gated: {
         summary: 'Cannabis product work, 21 and over',
         spin: { src: '/evidence/terpscout-spin.mp4', poster: '/evidence/terpscout-spin-poster.webp', width: 720, height: 1280, caption: 'Product turntable, TerpScout studio, 2022', alt: 'A purple and green cola turns slowly on a turntable against a black ground, every trichome lit.' },
-        reel: { src: '/evidence/rosin-press-reel.mp4', poster: '/evidence/rosin-press-reel-poster.webp', width: 600, height: 1000, caption: 'Rosin press reel, slow motion, 2024', alt: 'Slow motion close-up: gloved fingers fold a white mesh press bag with an orange edge, and golden rosin spreads glossy and stringy across it.' },
         stills: [
           { src: '/evidence/martian-fruit-print.webp', width: 1000, height: 1404, caption: 'Strain print, Martian Fruit, for a TerpScout client, 2022', alt: 'Strain print: a Martian Fruit cola on black framed by torn white paper, MARTIAN FRUIT set in black over yellow, and a yellow credit block reading Modified Bananas x Pineapple Pez, breeder Ronin Seeds, cultivator Boring Glory, photography Terpscouting.' },
           { src: '/evidence/martian-fruit-detail.webp', width: 320, height: 320, caption: 'Detail, Martian Fruit print', alt: 'Detail of the Martian Fruit print at full size: frosted trichomes, orange pistils and purple sugar leaves.' },
