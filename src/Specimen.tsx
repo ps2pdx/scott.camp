@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react';
 import { COPY, SECTIONS } from '@/content/copy';
 import { TEXTURES, provenance } from '@/content/textures';
 import { PunchFilterDefs, Punches } from '@/components/Punches';
@@ -7,38 +8,62 @@ import { Index } from '@/components/Index';
 import { Button } from '@/components/Button';
 import { SpecSheet } from '@/components/SpecSheet';
 import { TechSheet } from '@/components/TechSheet';
+import { SpineBand } from '@/components/SpineRail';
+import { Disclosure } from '@/components/Disclosure';
+import { Plate, Spin } from '@/components/Evidence';
 import s from './Specimen.module.css';
 
-const SURFACES = ['Ink', 'Page', 'Board', 'Endpaper', 'Cloth'] as const;
+export const LIVING_LINE = 'Living documentation. Every part the site uses is shown here first.';
 
-function Half({ mode }: { mode: 'dark' | 'light' }) {
-  return (
-    <div className={`${s.half} ${s[mode]}`} data-mode={mode}>
-      <h2 className="meta">Surfaces, {mode}</h2>
-      <div className={s.swatches}>{SURFACES.map((n) => <div key={n} data-surface={n.toLowerCase()} className="meta-sm">{n}</div>)}</div>
-      <h2 className="meta">Volume face, OG and favicon</h2>
-      <div className={s.faces}>
-        <div id={mode === 'dark' ? 'og-face' : undefined}><VolumeFace no={COPY.volumes.hero.no} name={COPY.volumes.hero.name} year={COPY.volumes.hero.year} /></div>
-        <VolumeFace no="12" name="Zen Holo" year="2026" />
-        <div id={mode === 'dark' ? 'favicon-face' : undefined}><VolumeFace no="0" name="" year="" size="favicon" /></div>
-      </div>
-      <h2 className="meta">Textures, with provenance</h2>
-      <div className={s.tiles}>{TEXTURES.map((t) => <div key={t.file}><div className={s.tile} data-tile={t.file} /><div className="meta-sm muted">{provenance(t)}</div></div>)}</div>
-      <h2 className="meta">Type</h2>
+type Mode = 'dark' | 'light';
+const SURFACES = [
+  { key: 'ink', name: 'Ink', value: '#000000' },
+  { key: 'eggshell', name: 'Eggshell, light page', value: '#f3f1ea' },
+  { key: 'white', name: 'White, holes and sheets', value: '#ffffff' },
+  { key: 'board', name: 'Board', value: 'var(--s-board)' },
+  { key: 'endpaper', name: 'Endpaper', value: 'var(--s-endpaper)' },
+  { key: 'cloth', name: 'Cloth', value: '#2bf52b' },
+] as const;
+
+const ts = COPY.terpscout.evidence;
+
+export const PARTS: { caption: string; render: (mode: Mode) => ReactNode }[] = [
+  { caption: 'Surfaces', render: () => <div className={s.swatches}>{SURFACES.map((x) => <div key={x.key} data-surface={x.key} className="meta-sm">{x.name}{x.value.startsWith('#') ? <><br />{x.value}</> : null}</div>)}</div> },
+  { caption: 'Volume face, OG and favicon', render: (mode) => (
+    <div className={s.faces}>
+      <div id={mode === 'dark' ? 'og-face' : undefined}><VolumeFace no={COPY.volumes.hero.no} name={COPY.volumes.hero.name} year={COPY.volumes.hero.year} /></div>
+      <VolumeFace no="12" name="Zen Holo" year="2026" />
+      <div id={mode === 'dark' ? 'favicon-face' : undefined}><VolumeFace no="0" name="" year="" size="favicon" /></div>
+    </div>
+  ) },
+  { caption: 'Textures, with provenance', render: () => <div className={s.tiles}>{TEXTURES.map((t) => <div key={t.file}><div className={s.tile} data-tile={t.file} /><div className="meta-sm muted">{provenance(t)}</div></div>)}</div> },
+  { caption: 'Type', render: () => (
+    <>
       <div className={`display ${s.display}`}>Display 700</div>
       <div className="display t-title">Title, uppercase, -0.02em</div>
       <p className="text t-lead">Lead. Helvetica Neue, as written, 400.</p>
       <p className="text t-body">Body. One idea per sentence. No italics, no weight between 400 and 700.</p>
       <div className="meta">Meta · Courier New · uppercase · 0.04em</div>
       <div className="transcript">Transcript. Courier New, as written, 1.5. 10/13/26 11:05:00 PM</div>
-      <h2 className="meta">Punch nav</h2>
+    </>
+  ) },
+  { caption: 'Spine band, phones, above the nav', render: () => <SpineBand className={s.band} /> },
+  { caption: 'Punch nav, numbered cells, titles as names', render: () => (
+    <>
       <Punches />
-      <div className={s.cells}>{SECTIONS.map((x, i) => <a key={x.id} href={`#${x.id}`} className={`meta-sm ${s.cell}`} {...(i === 0 ? { 'aria-current': 'location' as const } : {})}>{x.label}</a>)}</div>
-      <h2 className="meta">Transcript</h2>
-      <Transcript rows={[{ when: '10/21/16', who: 'Virgil', text: 'The theory is to underline its existence by being specific.' }, { when: '[DATE]', who: 'Scott', text: 'Every row is dated with the real date of the thing.' }]} />
-      <h2 className="meta">Index, struck rows</h2>
-      <Index rows={COPY.work.index.slice(6, 9)} />
-      <h2 className="meta">Buttons and states</h2>
+      <div className={s.cells}>{SECTIONS.map((x, i) => <a key={x.id} href={`#${x.id}`} aria-label={x.label} title={x.label} className={`meta-sm ${s.cell}`} {...(i === 0 ? { 'aria-current': 'location' as const } : {})}>{String(i + 1).padStart(2, '0')}</a>)}</div>
+    </>
+  ) },
+  { caption: 'Divider cut, 2 px over the spine', render: () => (
+    <div className={s.cutDemo} data-part="cut-demo">
+      <div className={`meta-sm ${s.cutBlock}`}>Section above</div>
+      <div className={`cut meta-sm ${s.cutBlock}`}>Section below, cut</div>
+    </div>
+  ) },
+  { caption: 'Transcript', render: () => <Transcript rows={[{ when: '10/21/16', who: 'Virgil', text: 'The theory is to underline its existence by being specific.' }, { when: '[DATE]', who: 'Scott', text: 'Every row is dated with the real date of the thing.' }]} /> },
+  { caption: 'Index, struck rows', render: () => <Index rows={COPY.work.index.slice(6, 9)} /> },
+  { caption: 'Cloth button, one weave across the box, and states', render: (mode) => (
+    <>
       <div className={s.btns}>
         <Button href="#r" variant="primary">Rest</Button>
         <span className={s.hover}><Button href="#h" variant="primary">Hover</Button></span>
@@ -50,15 +75,31 @@ function Half({ mode }: { mode: 'dark' | 'light' }) {
         <a href="#l">Text link ↗</a>
         <span className="meta">[{mode.toUpperCase()}]</span>
       </div>
-      <h2 className="meta">Spec sheet and tech sheet</h2>
-      <div className={s.pair}>
-        <SpecSheet sheet={COPY.work.sheets[1]} volume={{ no: '09', year: '2026' }} />
-        <TechSheet data={COPY.work.tech[1]} />
-      </div>
+    </>
+  ) },
+  { caption: 'Evidence figure, stacked, caption beneath', render: () => <div className={s.stack}><Plate e={COPY.practice.evidence[0]} /><Plate e={ts.shown[0]} /></div> },
+  { caption: 'Disclosure summary row, video figure with poster inside', render: () => <Disclosure summary={ts.gated.summary}><Spin clip={ts.gated.spin} /></Disclosure> },
+  { caption: 'Spec sheet and tech sheet', render: () => (
+    <div className={s.pair}>
+      <SpecSheet sheet={COPY.work.sheets[1]} volume={{ no: '09', name: '', year: '2026' }} />
+      <TechSheet data={COPY.work.tech[1]} />
+    </div>
+  ) },
+];
+
+function Half({ mode }: { mode: Mode }) {
+  return (
+    <div className={`${s.half} ${s[mode]}`} data-mode={mode}>
+      {PARTS.map((p) => <section key={p.caption} className={s.part}><h2 className="meta">{p.caption === 'Surfaces' ? `Surfaces, ${mode}` : p.caption}</h2>{p.render(mode)}</section>)}
     </div>
   );
 }
 
 export function Specimen() {
-  return (<div className={s.sp}><PunchFilterDefs /><Half mode="dark" /><Half mode="light" /></div>);
+  return (
+    <>
+      <p className={`meta ${s.living}`}>{LIVING_LINE}</p>
+      <div className={s.sp}><PunchFilterDefs /><Half mode="dark" /><Half mode="light" /></div>
+    </>
+  );
 }

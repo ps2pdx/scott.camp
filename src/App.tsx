@@ -12,19 +12,9 @@ import { TechSheet } from '@/components/TechSheet';
 import { Index } from '@/components/Index';
 import { RunningHead } from '@/components/RunningHead';
 import { Footer } from '@/components/Footer';
-import { EvidenceVideo } from '@/components/EvidenceVideo';
+import { Plate, Spin } from '@/components/Evidence';
 import { Disclosure } from '@/components/Disclosure';
 import s from './App.module.css';
-
-type Still = { src: string; width: number; height: number; caption: string; alt: string; mark?: boolean };
-function Plate({ e }: { e: Still }) {
-  return (
-    <figure className={e.mark ? `${s.plate} ${s.mark}` : s.plate}>
-      <img src={e.src} width={e.width} height={e.height} alt={e.alt} loading="lazy" decoding="async" />
-      <figcaption className="meta-sm">{e.caption}</figcaption>
-    </figure>
-  );
-}
 
 const vol = (no: string) => COPY.work.index.find((r) => r.no === no)!;
 
@@ -72,10 +62,7 @@ export function App() {
             {ts.shown.map((e) => <Plate key={e.src} e={e} />)}
           </div>
           <Disclosure summary={ts.gated.summary}>
-            <figure className={s.spin}>
-              <div className={s.spinStage}><EvidenceVideo clip={ts.gated.spin} className={s.spinMedia} /></div>
-              <figcaption className="meta-sm">{ts.gated.spin.caption}</figcaption>
-            </figure>
+            <Spin clip={ts.gated.spin} />
             {ts.gated.stills.map((e) => <Plate key={e.src} e={e} />)}
           </Disclosure>
         </Section>
