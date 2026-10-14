@@ -23,7 +23,7 @@ it('is living documentation laid out as one catalogue: groups in order, one part
   expect(rows.length).toBe(PARTS.length);
   for (const r of rows) { expect(r.children.length).toBe(2); expect(r.lastElementChild!.querySelectorAll('.meta').length).toBe(2); }
   const names = PARTS.map((p) => p.name);
-  for (const want of [/Disclosure summary row/, /Evidence figure/, /Video figure with poster/, /Spine band/, /Divider cut/, /Cloth button/, /Punch nav, numbered/, /TerpScout mark/, /Nertia mark/, /Type ink/, /Spacing scale/]) expect(names.some((n) => want.test(n)), String(want)).toBe(true);
+  for (const want of [/Disclosure summary row/, /Evidence figure/, /Video figure with poster/, /Spine band/, /Divider cut/, /Cloth button/, /Punch nav, numbered/, /Section marks on white tiles/, /Type ink/, /Spacing scale/]) expect(names.some((n) => want.test(n)), String(want)).toBe(true);
   expect(PARTS.filter((p) => p.group === 'Type').slice(0, 5).map((p) => p.name)).toEqual(['Display', 'Title', 'Text', 'Meta', 'Transcript']);
   expect(container.querySelector('[data-surface="eggshell"]')!.textContent).toContain('#f3f1ea');
   expect(container.querySelectorAll('[data-part="band"]').length).toBe(1);

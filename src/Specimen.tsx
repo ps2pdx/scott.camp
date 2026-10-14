@@ -13,6 +13,7 @@ import { SpineBand, SpineReveal } from '@/components/SpineRail';
 import { Disclosure } from '@/components/Disclosure';
 import { Plate, Spin } from '@/components/Evidence';
 import { ToolTape } from '@/components/ToolTape';
+import { Mark } from '@/components/Mark';
 import s from './Specimen.module.css';
 
 export const LIVING_LINE = 'Living documentation. Every part the site uses is shown here first.';
@@ -54,8 +55,7 @@ export const PARTS: Part[] = [
 
   { group: 'Spacing', name: 'Spacing scale', tokens: '--s-1 to --s-8', render: () => <div className={s.space}>{SPACE.map((n) => <div key={n} className={s.spaceRow}><span className="meta">--s-{n}</span><span className={s.bar} data-s={n} /></div>)}</div> },
 
-  { group: 'Marks', name: 'TerpScout mark, white tile', tokens: '.mark 120 px, 96 px on phones, #ffffff', render: () => <Plate e={ts.shown[0]} /> },
-  { group: 'Marks', name: 'Nertia mark, white tile', tokens: '.mark 120 px, 96 px on phones, #ffffff', render: () => <Plate e={COPY.nertia.mark} /> },
+  { group: 'Marks', name: 'Section marks on white tiles: Vantage, Nertia, TerpScout', tokens: '.mark 120 px square, .wide 120 by 48, 96 px on phones, 10 percent inset, #ffffff', render: () => <div className={s.marks}><Mark mark={COPY.vantage.mark} /><Mark mark={COPY.nertia.mark} /><Mark mark={COPY.terpscout.mark} /></div> },
   { group: 'Marks', name: 'Volume face, OG and favicon', tokens: '.display .t-title, recto #f5e04a', render: () => (
     <div className={s.faces}>
       <div id="og-face"><VolumeFace no={COPY.volumes.hero.no} name={COPY.volumes.hero.name} year={COPY.volumes.hero.year} /></div>

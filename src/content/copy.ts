@@ -26,6 +26,7 @@ export const COPY = {
     ] as TranscriptRow[],
   },
   vantage: {
+    mark: { src: '/evidence/vantage-mark.svg', width: 175, height: 40, name: 'Vantage Compute', wide: true },
     tools: ["Product positioning", "Competitive intelligence", "Sales enablement", "Technical messaging", "Naming and trademark", "Investor communications", "SEO/GEO", "Figma", "HubSpot", "Zoho", "GA4", "Slurm", "Kubernetes", "NVIDIA GPU architecture", "Docker"] as string[],
     eyebrow: 'Vantage Compute', runningHead: 'Vantage [2024 to 2026]', title: 'Founding product marketing',
     lead: 'Early-stage orchestration platform: one chip-agnostic control plane over Slurm and Kubernetes for AI/ML training, inference, simulation, and life sciences workloads, running across public cloud, private cloud, and on-prem. I was the first marketing hire and built the function from nothing, July 2024 to August 2026.',
@@ -41,7 +42,7 @@ export const COPY = {
     tools: ["Next.js", "React", "TypeScript", "Tailwind CSS", "Firebase", "Claude API", "MCP server development", "LLM tool schema design", "Agent-native product design", "CSS token systems", "Brand system design", "Git/GitHub", "Core Web Vitals"] as string[],
     eyebrow: 'Nertia', runningHead: 'Nertia', title: "A product designed from the buyer's side",
     lead: 'An agent-native site builder, shipped as a web application and as an MCP server. I designed it, built it, and took it to market.',
-    mark: { src: '/evidence/nertia-mark.svg', width: 240, height: 199, caption: 'Nertia mark', alt: 'Nertia mark: a single black looping stroke, like a figure eight drawn in one motion.', mark: true },
+    mark: { src: '/evidence/nertia-mark.svg', width: 240, height: 199, name: 'Nertia' },
     rows: [
       { when: '12/2025', who: 'Origin', text: 'It started as a design system generator: a brand schema, tokens, typography, animation, decision logic. The site builder came later. Ten months on, the design system is the part every site inherits.' },
       { when: '04/16/26', who: 'Evidence', text: 'Launched as an AI brand generator. Research said the durable need was shipping and maintaining live sites, not generating identity assets. Changed the product rather than the messaging.' },
@@ -66,6 +67,7 @@ export const COPY = {
     source: { label: 'Source on GitHub', href: SOURCE_URL },
   },
   terpscout: {
+    mark: { src: '/evidence/terpscout-mark.webp', width: 240, height: 240, name: 'TerpScout' },
     tools: ["P&L", "Sales and distribution", "Territory strategy", "Compliance", "Cannabis photography", "Adobe Premiere Pro", "Print design"] as string[],
     eyebrow: 'TerpScout', runningHead: 'TerpScout [2016 to 2022]', title: 'Proof of positioning',
     lead: 'A brand I built became a network I sold through, at half the going rate. TerpScout, dba of ScoutCamp, was an OLCC-regulated recreational cannabis distribution consultancy: it facilitated product-to-cash transfers and rented space from established wholesale licenses. The site is gone. The sales logs are not.',
@@ -77,9 +79,6 @@ export const COPY = {
       { when: '2020 to 2022', who: 'Delivery', text: 'I drove every delivery to the shop and every payment to the producer.' },
     ] as TranscriptRow[],
     evidence: {
-      shown: [
-        { src: '/evidence/terpscout-mark.webp', width: 240, height: 240, caption: 'TerpScout mark', alt: 'TerpScout mark: the letters TS inside a ring of rainbow segments.', mark: true },
-      ],
       gated: {
         summary: 'Cannabis product work, 21 and over',
         spin: { src: '/evidence/terpscout-spin.mp4', poster: '/evidence/terpscout-spin-poster.webp', width: 720, height: 1280, caption: 'Product turntable, TerpScout studio, 2022', alt: 'A purple and green cola turns slowly on a turntable against a black ground, every trichome lit.' },

@@ -42,14 +42,13 @@ export function App() {
           </div>
         </section>
 
-        <Section id="vantage" tools={COPY.vantage.tools} runningHead={COPY.vantage.runningHead} eyebrow={COPY.vantage.eyebrow} title={COPY.vantage.title} lead={COPY.vantage.lead}>
+        <Section id="vantage" tools={COPY.vantage.tools} mark={COPY.vantage.mark} runningHead={COPY.vantage.runningHead} eyebrow={COPY.vantage.eyebrow} title={COPY.vantage.title} lead={COPY.vantage.lead}>
           <Transcript rows={COPY.vantage.rows} />
           <p className={`transcript ${s.after}`}><a href={COPY.vantage.caseStudy.href}>{COPY.vantage.caseStudy.label} ↗</a></p>
         </Section>
 
-        <Section id="nertia" tools={COPY.nertia.tools} runningHead={COPY.nertia.runningHead} eyebrow={COPY.nertia.eyebrow} title={COPY.nertia.title} lead={COPY.nertia.lead}>
+        <Section id="nertia" tools={COPY.nertia.tools} mark={COPY.nertia.mark} runningHead={COPY.nertia.runningHead} eyebrow={COPY.nertia.eyebrow} title={COPY.nertia.title} lead={COPY.nertia.lead}>
           <Transcript rows={COPY.nertia.rows} />
-          <div className={s.stack}><Plate e={COPY.nertia.mark} /></div>
           <div className={s.techBlock}>
             <Label>Tech sheets</Label>
             <div className={s.techGrid}>{COPY.nertia.tech.map((t) => <TechSheet key={t.sheet} data={t} />)}</div>
@@ -57,11 +56,8 @@ export function App() {
           <p className={`transcript ${s.after}`}>{COPY.nertia.codeSiteLine} <a href={COPY.nertia.source.href}>{COPY.nertia.source.label} ↗</a></p>
         </Section>
 
-        <Section id="terpscout" tools={COPY.terpscout.tools} runningHead={COPY.terpscout.runningHead} eyebrow={COPY.terpscout.eyebrow} title={COPY.terpscout.title} lead={COPY.terpscout.lead}>
+        <Section id="terpscout" tools={COPY.terpscout.tools} mark={COPY.terpscout.mark} runningHead={COPY.terpscout.runningHead} eyebrow={COPY.terpscout.eyebrow} title={COPY.terpscout.title} lead={COPY.terpscout.lead}>
           <Transcript rows={COPY.terpscout.rows} />
-          <div className={s.stack}>
-            {ts.shown.map((e) => <Plate key={e.src} e={e} />)}
-          </div>
           <Disclosure summary={ts.gated.summary}>
             <Spin clip={ts.gated.spin} />
             <Spin clip={ts.gated.reel} />

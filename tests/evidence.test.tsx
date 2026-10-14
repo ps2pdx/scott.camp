@@ -38,14 +38,13 @@ const open = async (details: HTMLDetailsElement, how: 'click' | 'key') => {
   else { summary.focus(); fireEvent.keyDown(summary, { key: 'Enter' }); if (!details.open) fireEvent.click(summary); }
   await waitFor(() => expect(details.querySelector('video, img')).not.toBeNull());
 };
-it('TerpScout shows only the TS mark until the disclosure is opened', () => {
+it('TerpScout shows only its mark at the top until the disclosure is opened', () => {
   stubMatchMedia(false);
   const { container } = render(<App />);
   const block = container.querySelector('#terpscout')!;
   const ev = COPY.terpscout.evidence;
-  expect(ev.shown.map((e) => e.src)).toEqual(['/evidence/terpscout-mark.webp']);
-  expect([...block.querySelectorAll('img')].map((i) => i.getAttribute('src'))).toEqual(ev.shown.map((e) => e.src));
-  expect([...block.querySelectorAll('figcaption')].map((f) => f.textContent)).toEqual(ev.shown.map((e) => e.caption));
+  expect([...block.querySelectorAll('img')].map((i) => i.getAttribute('src'))).toEqual(['/evidence/terpscout-mark.webp']);
+  expect(block.querySelectorAll('figcaption').length).toBe(0);
   expect(block.querySelector('video')).toBeNull();
   const details = block.querySelector('details')!;
   expect(details.open).toBe(false);
@@ -120,13 +119,13 @@ it('the spin and the print carry their 2022 dates, no bracket left', () => {
   const ev = COPY.terpscout.evidence;
   expect(ev.gated.spin.caption).toBe('Product turntable, TerpScout studio, 2022');
   expect(ev.gated.stills[0].caption).toBe('Strain print, Martian Fruit, for a TerpScout client, 2022');
-  for (const e of [ev.gated.spin, ev.gated.reel, ...ev.gated.stills, ...ev.shown]) expect(e.caption).not.toContain('[YEAR]');
+  for (const e of [ev.gated.spin, ev.gated.reel, ...ev.gated.stills]) expect(e.caption).not.toContain('[YEAR]');
 });
 it('evidence stacks full width, one figure above the next, with no pair wrapper', async () => {
   stubMatchMedia(false);
   const { container } = render(<App />);
   for (const id of ['terpscout', 'practice']) {
-    const stills = [...container.querySelectorAll(`#${id} img`)].map((i) => i.closest('figure')!);
+    const stills = [...container.querySelectorAll(`#${id} figure img`)].map((i) => i.closest('figure')!);
     for (const f of stills) expect(f.parentElement!.className).toBe('stack');
   }
   const d = container.querySelector<HTMLDetailsElement>('#terpscout details')!;
@@ -145,13 +144,22 @@ it('the spin sits in a black figure no wider than 480 px, capped at 52vh, captio
   expect(css).toMatch(/@media \(min-width:640px\)\{\.spin\{max-width:480px\}\}/);
   expect(css).not.toMatch(/70vh/);
 });
-it('the TS mark sits on a white square tile: 120 px on desktop, 96 px on phones, left-aligned, no radius, no shadow', () => {
-  const css = readFileSync('src/components/Evidence.module.css', 'utf8');
-  expect(css).toContain('.mark img{width:120px;height:120px;padding:12px;background:#fff;object-fit:contain}');
-  expect(css).toContain('@media (max-width:639px){.mark img{width:96px;height:96px;padding:10px}}');
-  expect(css).toContain('.mark{align-items:flex-start}');
+it('Vantage, Nertia and TerpScout open with their mark on a white tile beside the running head; Work and Practice carry none', () => {
+  stubMatchMedia(false);
+  const { container } = render(<App />);
+  for (const [id, name, src] of [['vantage', 'Vantage Compute', '/evidence/vantage-mark.svg'], ['nertia', 'Nertia', '/evidence/nertia-mark.svg'], ['terpscout', 'TerpScout', '/evidence/terpscout-mark.webp']]) {
+    const m = container.querySelector(`#${id} [data-part="mark"]`)!;
+    expect(m.getAttribute('src')).toBe(src);
+    expect(m.getAttribute('aria-label')).toBe(name);
+    expect(m.previousElementSibling!.textContent).toBe(COPY[id as 'vantage'].runningHead);
+    expect(m.compareDocumentPosition(container.querySelector(`#${id} h2`)!) & Node.DOCUMENT_POSITION_PRECEDING).toBeTruthy();
+  }
+  expect(container.querySelector('#work [data-part="mark"], #practice [data-part="mark"]')).toBeNull();
+  const css = readFileSync('src/components/Mark.module.css', 'utf8');
+  expect(css).toContain('.mark{display:block;flex:none;width:120px;height:120px;padding:12px;background:#fff;object-fit:contain}');
+  expect(css).toContain('.wide{height:48px}');
   expect(css).not.toMatch(/border-radius|box-shadow/);
-  expect(COPY.terpscout.evidence.shown).toEqual([expect.objectContaining({ src: '/evidence/terpscout-mark.webp', caption: 'TerpScout mark', mark: true })]);
+  expect(readFileSync('public/evidence/vantage-mark.svg', 'utf8')).not.toContain('fill="white"');
 });
 it('the disclosure holds the spin, the rosin reel at full frame, the Martian Fruit print and the Per Image Pricing page, nothing else', async () => {
   stubMatchMedia(false);
@@ -162,12 +170,4 @@ it('the disclosure holds the spin, the rosin reel at full frame, the Martian Fru
   expect(container.innerHTML).not.toMatch(/trap-fuel|martian-fruit-detail/);
   expect(details.querySelector(`video[poster="${COPY.terpscout.evidence.gated.reel.poster}"]`)).not.toBeNull();
 });
-it('the Nertia block carries the Nertia mark on the same white tile, in the same place as the TS mark', () => {
-  stubMatchMedia(false);
-  const { container } = render(<App />);
-  const fig = container.querySelector('#nertia figure img[src="/evidence/nertia-mark.svg"]')!.closest('figure')!;
-  expect(fig.className).toContain('mark');
-  expect(fig.parentElement!.className).toBe('stack');
-  expect(fig.querySelector('figcaption')!.textContent).toBe('Nertia mark');
-  expect(readFileSync('public/evidence/nertia-mark.svg', 'utf8')).toContain('fill="#000000"');
-});
+
