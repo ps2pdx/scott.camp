@@ -7,7 +7,7 @@ export function Plate({ e }: { e: Still }) {
   return (
     <figure className={e.mark ? `${s.plate} ${s.mark}` : s.plate}>
       <img src={e.src} width={e.width} height={e.height} alt={e.alt} loading="lazy" decoding="async" />
-      <figcaption className="meta-sm">{e.caption}</figcaption>
+      <figcaption className="meta">{e.caption}</figcaption>
     </figure>
   );
 }
@@ -16,7 +16,7 @@ export function Spin({ clip }: { clip: EvidenceClip & { caption: string } }) {
   return (
     <figure className={s.spin}>
       <div className={s.spinStage}><EvidenceVideo clip={clip} className={s.spinMedia} /></div>
-      <figcaption className="meta-sm">{clip.caption}</figcaption>
+      <figcaption className="meta">{clip.caption}</figcaption>
     </figure>
   );
 }

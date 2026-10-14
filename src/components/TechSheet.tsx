@@ -1,36 +1,51 @@
+import { useLayoutEffect, useRef, useState } from 'react';
 import type { TechSheetData } from '@/content/copy';
 import s from './TechSheet.module.css';
 
-type Layout = { w: number; h: number; frame: [number, number, number, number]; head: { x: number; y: number; dy: number; fs: number }; step: { x: number; fs: number; span?: [number, number] }; punches: number[] };
+const W = 480, H = 300, FRAME: [number, number, number, number] = [24, 28, 104, 252], HEAD_X = 136, STEP_X = 176, PUNCHES = [80, 240, 400];
+const LINE = 16;
 
-const WIDE: Layout = { w: 480, h: 300, frame: [24, 28, 104, 252], head: { x: 170, y: 42, dy: 13, fs: 10 }, step: { x: 176, fs: 11, span: [130, 276] }, punches: [80, 240, 400] };
+function useWidth() {
+  const ref = useRef<HTMLElement>(null);
+  const [w, setW] = useState(W);
+  useLayoutEffect(() => {
+    const el = ref.current;
+    if (!el || typeof ResizeObserver === 'undefined') return;
+    const ro = new ResizeObserver(([e]) => { if (e.contentRect.width) setW(e.contentRect.width); });
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
+  return [ref, w] as const;
+}
 
 export function TechSheet({ data }: { data: TechSheetData }) {
-  const L = WIDE;
-  const [fx, fy, fw, fh] = L.frame;
-  const n = data.sections.length, inset = 6, gap = 6, bh = (fh - 2 * inset - gap * (n - 1)) / n;
-  const rows = data.sections.map((sec, i) => {
-    const y = fy + inset + i * (bh + gap), cy = y + bh / 2;
-    const ty = L.step.span ? L.step.span[0] + (n > 1 ? (i * (L.step.span[1] - L.step.span[0])) / (n - 1) : 0) : cy + 4;
-    return { sec, y, cy, ty };
-  });
+  const [ref, width] = useWidth();
+  const k = width / W, vw = width, vh = H * k;
+  const [fx, fy, fw, fh] = FRAME.map((v) => v * k);
+  const n = data.sections.length, inset = 6 * k, gap = 6 * k, bh = (fh - 2 * inset - gap * (n - 1)) / n;
   const hdr = [['SHEET', data.sheet], ['VIEW', data.view], ['STACK', data.stack], ['SRC', data.src], ['DATE', data.date]];
-  const ruleY = L.head.y + L.head.dy * (hdr.length - 1) + 10;
+  const headY = fy + 12, ruleY = headY + LINE * (hdr.length - 1) + 8;
+  const top = ruleY + 22, bottom = fy + fh - 6;
+  const rows = data.sections.map((sec, i) => {
+    const y = fy + inset + i * (bh + gap);
+    return { sec, y, cy: y + bh / 2, ty: top + (n > 1 ? (i * (bottom - top)) / (n - 1) : 0) };
+  });
+  const stepX = STEP_X * k;
   return (
-    <figure className={`grain tex-paper ${s.fig}`}>
-      <svg role="img" aria-label={`Tech sheet: ${data.sheet}`} viewBox={`0 0 ${L.w} ${L.h}`} className={s.svg}>
-        <rect width={L.w} height={L.h} fill="url(#gp)" />
+    <figure ref={ref} className={`grain tex-paper ${s.fig}`}>
+      <svg role="img" aria-label={`Tech sheet: ${data.sheet}`} viewBox={`0 0 ${vw} ${vh}`} className={`meta ${s.svg}`}>
+        <rect width={vw} height={vh} fill="url(#gp)" />
         <g className={s.stroke} fill="none" strokeWidth="1.2">
           <rect x={fx} y={fy} width={fw} height={fh} />
           {rows.map((r) => <rect key={r.sec} data-part="box" className="box" x={fx + inset} y={r.y} width={fw - 2 * inset} height={bh} />)}
-          <path d={rows.map((r) => `M${fx + fw} ${r.cy}L${L.step.x - 6} ${r.ty - 4}`).join('')} strokeDasharray="2 2" />
-          <path d={`M${L.head.x} ${ruleY}H${L.w - 12}`} strokeWidth="0.6" />
+          <path d={rows.map((r) => `M${fx + fw} ${r.cy}L${stepX - 6} ${r.ty - 4}`).join('')} strokeDasharray="2 2" />
+          <path d={`M${HEAD_X * k} ${ruleY}H${vw - 4}`} strokeWidth="0.6" />
         </g>
-        <g fontSize={L.step.fs}>{rows.map((r, i) => <text key={r.sec} data-part="step" x={L.step.x} y={r.ty}>{`${i + 1}  ${r.sec}`}</text>)}</g>
-        <g data-part="header" fontSize={L.head.fs}>{hdr.map(([k, v], i) => <text key={k} x={L.head.x} y={L.head.y + i * L.head.dy}>{`${k.padEnd(6)} ${v}`}</text>)}</g>
-        {L.punches.map((cx) => <circle key={cx} className={`${s.stroke} ${s.punch}`} cx={cx} cy="12" r="4" strokeWidth="0.6" />)}
+        <g>{rows.map((r, i) => <text key={r.sec} data-part="step" x={stepX} y={r.ty}>{`${i + 1}  ${r.sec}`}</text>)}</g>
+        <g data-part="header">{hdr.map(([key, v], i) => <text key={key} x={HEAD_X * k} y={headY + i * LINE}>{`${key.padEnd(6)} ${v}`}</text>)}</g>
+        {PUNCHES.map((cx) => <circle key={cx} className={`${s.stroke} ${s.punch}`} cx={cx * k} cy="12" r="4" strokeWidth="0.6" />)}
       </svg>
-      <figcaption className="meta-sm muted">{data.sheet} · Tech sheet · Rendered</figcaption>
+      <figcaption className="meta muted">{data.sheet} · Tech sheet · Rendered</figcaption>
     </figure>
   );
 }

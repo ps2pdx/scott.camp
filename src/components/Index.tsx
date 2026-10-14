@@ -6,7 +6,7 @@ export function Index({ rows }: { rows: readonly IndexRow[] }) {
     <div className={s.page} data-part="index">
       <Label>Index</Label>
       <div className={s.scroll} data-part="index-scroll">
-        <table className={`transcript ${s.table}`} aria-label="Index of work. Struck rows belong to other sections.">
+        <table className={`meta ${s.table}`} aria-label="Index of work. Struck rows belong to other sections.">
           <tbody>
             {rows.map((r) => (
               <tr key={r.no} {...(r.struck ? { 'data-struck': '' } : {})} className={r.struck ? `struck ${s.struck}` : ''}>

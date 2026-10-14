@@ -39,21 +39,20 @@ it('TechSheet draws one box per section and the SRC line', () => {
   expect(container.textContent).toContain('RENDERED FROM SITE STRUCTURE');
   expect(screen.getByRole('img', { name: `Tech sheet: ${data.sheet}` })).toBeInTheDocument();
 });
-it('TechSheet keeps one landscape layout at every width, step labels clear of the header', () => {
-  {
-    const { container, unmount } = render(<TechSheet data={COPY.work.tech[3]} />);
-    const steps = [...container.querySelectorAll('[data-part="step"]')];
-    const header = container.querySelector('[data-part="header"]')!;
-    const hy = [...header.querySelectorAll('text')].map((t) => Number(t.getAttribute('y')));
-    const headerBottom = Math.max(...hy);
-    for (const st of steps) expect(Number(st.getAttribute('y')), st.textContent!).toBeGreaterThan(headerBottom + 8);
-    const vb = container.querySelector('svg')!.getAttribute('viewBox')!.split(' ').map(Number);
-    const fs = Number(steps[0].parentElement!.getAttribute('font-size'));
-    const longest = Math.max(...steps.map((st) => st.textContent!.length));
-    expect(Number(steps[0].getAttribute('x')) + longest * fs * 0.6, 'label fits').toBeLessThanOrEqual(vb[2] - 8);
-    expect(vb[2]).toBeGreaterThan(vb[3]);
-    unmount();
-  }
+it('TechSheet keeps one landscape layout, its text at the Meta size in a viewBox that tracks the rendered width', () => {
+  const { container } = render(<TechSheet data={COPY.work.tech[3]} />);
+  const steps = [...container.querySelectorAll('[data-part="step"]')];
+  const header = container.querySelector('[data-part="header"]')!;
+  const headerBottom = Math.max(...[...header.querySelectorAll('text')].map((t) => Number(t.getAttribute('y'))));
+  for (const st of steps) expect(Number(st.getAttribute('y')), st.textContent!).toBeGreaterThan(headerBottom + 8);
+  const vb = container.querySelector('svg')!.getAttribute('viewBox')!.split(' ').map(Number);
+  expect(vb[2]).toBeGreaterThan(vb[3]);
+  expect(container.querySelector('[font-size]')).toBeNull();
+  expect(container.querySelector('svg')!.classList.contains('meta')).toBe(true);
+  const fs = 13 * 0.64;
+  const longest = Math.max(...steps.map((st) => st.textContent!.length));
+  expect(Number(steps[0].getAttribute('x')) + longest * fs, 'label fits').toBeLessThanOrEqual(vb[2] - 8);
+  for (const t of header.querySelectorAll('text')) expect(Number(t.getAttribute('x')) + t.textContent!.length * fs, t.textContent!).toBeLessThanOrEqual(vb[2] - 4);
 });
 it('SpecSheet omits empty fields and renders the quoted title', () => {
   render(<SpecSheet sheet={{ title: 'Pure Zero', fields: { Sheet: 'purezerophotography.com', Role: 'Design, build', Stack: 'Nertia' }, href: 'https://purezerophotography.com', label: 'purezerophotography.com' }} volume={{ no: '09', year: '2026' }} />);
@@ -76,7 +75,7 @@ it('phones keep the tables: no two-row nav, no stacked index, no portrait tech s
   expect(nav).toContain('grid-template-columns:repeat(7,minmax(0,1fr))');
   const idx = readFileSync('src/components/Index.module.css', 'utf8');
   expect(idx).not.toMatch(/overflow-x|overflow-wrap|display:block/);
-  expect(idx).toContain('.table{font-size:10px}');
+  expect(idx).not.toContain('font-size');
   expect(readFileSync('src/components/TechSheet.tsx', 'utf8')).not.toMatch(/NARROW|useNarrow/);
   expect(readFileSync('src/components/Transcript.module.css', 'utf8')).not.toMatch(/grid-template-columns:1fr/);
 });
@@ -95,9 +94,9 @@ it('one tone per data set: the Work index is the yellow page edge to edge, every
   expect(readFileSync('src/components/Section.module.css', 'utf8')).toMatch(/\.endpaper\{background-color:var\(--s-endpaper\);color:#000;--fg:#000;[^}]*--line-strong:#000/);
   expect(readFileSync('src/components/Index.tsx', 'utf8')).not.toContain('Surface');
 });
-it('Work carries five tech sheets, Typeshit last, read from the live site, laid out three plus two', () => {
+it('Work carries five tech sheets, Typeshit last, read from the live site, in one row of 480 px sheets that wraps', () => {
   expect(COPY.work.tech.length).toBe(5);
   expect(COPY.work.tech[4]).toEqual({ sheet: 'TYPESHIT.SHOP', view: 'PHONE, 390', stack: 'NERTIA, PRINTFUL', src: 'RENDERED FROM SITE STRUCTURE', date: '2026', sections: ['HEADER, BRAND', 'NAV, ABOUT, HELP, CART', 'SHOP, PRODUCT GRID', 'ADD TO CART', 'FOOTER, LINK GROUP', 'COPYRIGHT'] });
   const { readFileSync } = require('node:fs');
-  expect(readFileSync('src/App.module.css', 'utf8')).toContain('.techGrid3{grid-template-columns:repeat(3,minmax(0,1fr))}');
+  expect(readFileSync('src/App.module.css', 'utf8')).toContain('.techGrid{display:flex;flex-wrap:wrap;gap:var(--s-5)}');
 });

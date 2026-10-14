@@ -53,3 +53,7 @@ it('ThemeToggle flips data-theme and localStorage', () => {
   expect(document.documentElement.getAttribute('data-theme')).toBe(getTheme());
   expect(localStorage.getItem('theme')).toBe(getTheme());
 });
+it('Grid of five in two columns closes the last row with an empty cell', () => {
+  const { container } = render(<Grid columns={2}><i /><i /><i /><i /><i /></Grid>);
+  expect(container.querySelector('[data-part="filler"]')).toHaveAttribute('aria-hidden', 'true');
+});

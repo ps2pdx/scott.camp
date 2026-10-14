@@ -56,16 +56,18 @@ async function main() {
         await page.evaluate(() => window.scrollTo(0, 0));
         console.log(`${path} ${width} ${mode}: nav ${Math.round(r.nav)}px`);
       }
+      for (let y = 0; y < 30; y++) { await page.mouse.wheel(0, 1200); await page.waitForTimeout(30); }
+      await page.waitForTimeout(400);
       await page.screenshot({ path: `${OUT}/${path}-${width}-${mode}.png`, fullPage: true });
       if (path === 'bell') {
         await page.locator('#hero').screenshot({ path: `${OUT}/hero-${width}-${mode}.png` });
         await page.locator('#terpscout').screenshot({ path: `${OUT}/terpscout-${width}-${mode}.png` });
-        if (width === 390) {
-          await page.evaluate(() => window.scrollTo(0, 0));
-          await page.locator('nav').screenshot({ path: `${OUT}/nav-390-${mode}.png` });
-          await page.locator('[data-part="index-scroll"] >> xpath=..').screenshot({ path: `${OUT}/index-390-${mode}.png` });
-          await page.locator('#nertia figure').first().screenshot({ path: `${OUT}/techsheet-390-${mode}.png` });
-        }
+        await page.locator('#vantage ul').screenshot({ path: `${OUT}/transcript-${width}-${mode}.png` });
+        await page.locator('[data-part="index"]').screenshot({ path: `${OUT}/index-${width}-${mode}.png` });
+        await page.locator('[data-part="section-body"] article').first().screenshot({ path: `${OUT}/specsheet-${width}-${mode}.png` });
+        await page.locator('#nertia svg[role="img"]').first().screenshot({ path: `${OUT}/techsheet-${width}-${mode}.png` });
+        await page.evaluate(() => window.scrollTo(0, 0));
+        await page.locator('nav').screenshot({ path: `${OUT}/nav-${width}-${mode}.png` });
       }
       await ctx.close();
     }

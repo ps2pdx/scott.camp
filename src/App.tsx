@@ -32,8 +32,8 @@ export function App() {
         <section id="hero" className={`grain tex-paper ${s.hero} first`}>
           <div className={s.heroWrap}>
             <div className={s.heroHead}><Label>{h.eyebrow}</Label><RunningHead>{h.runningHead}</RunningHead></div>
-            <h1 className={`display t-hero ${s.headline}`}>{h.headline}</h1>
-            <p className={`text t-lead ${s.lead}`}>{h.lead}</p>
+            <h1 className={`display t-display ${s.headline}`}>{h.headline}</h1>
+            <p className={`text ${s.lead}`}>{h.lead}</p>
             <div className={s.btns}>
               <Button href={h.actions.email.href} variant="primary">{h.actions.email.label}</Button>
               <Button href={h.actions.resume.href} variant="secondary" bracket={h.actions.resume.bracket} download>{h.actions.resume.label}</Button>
@@ -73,10 +73,10 @@ export function App() {
           <Index rows={COPY.work.index} />
         </Section>
         <SectionBody>
-          <Grid columns={3}>{COPY.work.sheets.map((sh, i) => { const v = vol(String(8 + i).padStart(2, '0')); return <SpecSheet key={sh.title} sheet={sh} volume={{ no: v.no, name: v.name, year: v.year }} />; })}</Grid>
+          <Grid columns={2}>{COPY.work.sheets.map((sh, i) => { const v = vol(String(8 + i).padStart(2, '0')); return <SpecSheet key={sh.title} sheet={sh} volume={{ no: v.no, name: v.name, year: v.year }} />; })}</Grid>
           <div className={s.techBlock}>
             <Label>Tech sheets</Label>
-            <div className={`${s.techGrid} ${s.techGrid3}`}>{COPY.work.tech.map((t) => <TechSheet key={t.sheet} data={t} />)}</div>
+            <div className={s.techGrid}>{COPY.work.tech.map((t) => <TechSheet key={t.sheet} data={t} />)}</div>
           </div>
         </SectionBody>
 

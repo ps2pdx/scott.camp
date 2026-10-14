@@ -10,8 +10,8 @@ export function Footer() {
           {COPY.footer.links.map((l) => <li key={l.href}><a href={l.href}>{l.label} ↗</a></li>)}
           <li><ThemeToggle /></li>
         </ul>
-        <p className="text t-body">{COPY.footer.tagline}</p>
-        <p className="meta-sm muted">{PROVENANCE_LINE}</p>
+        <p className="text">{COPY.footer.tagline}</p>
+        <p className="meta muted">{PROVENANCE_LINE}</p>
       </div>
     </footer>
   );

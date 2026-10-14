@@ -1,6 +1,6 @@
 import { readFileSync } from 'node:fs';
 const css = readFileSync('src/styles/tokens.css', 'utf8');
-const REQUIRED = ['--s-ink','--s-page','--s-board','--s-endpaper','--s-cloth','--bg','--fg','--fg-muted','--line','--line-strong','--strike','--accent','--accent-fg','--focus','--halo','--grain','--s-1','--s-8','--t-hero','--t-meta-sm','--motion-chip'];
+const REQUIRED = ['--s-ink','--s-page','--s-board','--s-endpaper','--s-cloth','--bg','--fg','--fg-muted','--line','--line-strong','--strike','--accent','--accent-fg','--focus','--halo','--grain','--s-1','--s-8','--t-display','--t-title','--t-text','--t-meta','--motion-chip'];
 const darkBlock = css.slice(0, css.indexOf('@media (prefers-color-scheme: light)'));
 const lightBlock = css.slice(css.indexOf(':root[data-theme="light"]{'));
 const MODE_TOKENS = ['--focus','--tech-ink','--s-board','--s-endpaper','--bg','--fg','--fg-muted','--line','--line-strong','--halo','--sheet','--tech','--grain'];
@@ -71,4 +71,21 @@ it('ink bleed: 0.5 px on nav labels, 0.3 px on the primary button label, a text-
   expect(readFileSync('src/components/PunchNav.tsx', 'utf8')).toContain('bleed-nav');
   expect(readFileSync('src/components/Button.tsx', 'utf8')).toContain('chip bleed-btn');
   for (const f of ['src/components/Button.module.css', 'src/components/PunchNav.module.css']) expect(readFileSync(f, 'utf8')).not.toContain('text-shadow');
+});
+it('type is three roles at four sizes: no other size, no Courier bold, no letter-spacing besides the two roles', async () => {
+  const { globSync } = await import('node:fs');
+  expect(css).toContain('--t-display:clamp(');
+  expect(css).toMatch(/--t-title:28px;--t-text:18px;--t-meta:13px/);
+  expect(css).toContain('@media (max-width:639px){:root{--t-title:20px;--t-text:16px;--t-meta:11px}}');
+  expect(css).not.toMatch(/--t-(hero|heading|lead|body|meta-sm)/);
+  const files = globSync('src/**/*.css').filter((f) => !f.endsWith('tokens.css') && !f.endsWith('VolumeFace.module.css'));
+  for (const f of files) {
+    const t = readFileSync(f, 'utf8');
+    for (const m of t.matchAll(/font-size:([^;}]+)/g)) expect(m[1], f).toMatch(/^var\(--t-(display|title|text|meta)\)$/);
+    for (const m of t.matchAll(/letter-spacing:([^;}]+)/g)) expect(['-0.02em', '0.04em'], f).toContain(m[1]);
+    expect(t, f).not.toMatch(/font-weight:(?!400|700)/);
+  }
+  const type = readFileSync('src/styles/type.css', 'utf8');
+  expect(type).toMatch(/\.meta\{font-family:'Courier New'[^}]*font-weight:400/);
+  expect(type).not.toMatch(/meta-sm|t-hero|t-lead|t-body|t-heading/);
 });

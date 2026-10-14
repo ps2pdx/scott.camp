@@ -12,7 +12,7 @@ export function Disclosure({ summary, children }: { summary: string; children: R
   };
   return (
     <details ref={ref} className={s.disclosure} onToggle={onToggle}>
-      <summary className={s.summary}>
+      <summary className={`meta ${s.summary}`}>
         <span>{summary}</span>
         <span className={`meta ${s.state}`} aria-hidden="true"><span className={s.show}>Show</span><span className={s.hide}>Hide</span></span>
       </summary>

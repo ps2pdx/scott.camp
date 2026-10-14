@@ -9,105 +9,115 @@ import { Surface } from '@/components/Surface';
 import { Button } from '@/components/Button';
 import { SpecSheet } from '@/components/SpecSheet';
 import { TechSheet } from '@/components/TechSheet';
-import { SpineBand } from '@/components/SpineRail';
+import { SpineBand, SpineReveal } from '@/components/SpineRail';
 import { Disclosure } from '@/components/Disclosure';
 import { Plate, Spin } from '@/components/Evidence';
 import s from './Specimen.module.css';
 
 export const LIVING_LINE = 'Living documentation. Every part the site uses is shown here first.';
 
-type Mode = 'dark' | 'light';
+type Part = { group: string; name: string; tokens: string; render: () => ReactNode };
+
 const SURFACES = [
   { key: 'ink', name: 'Ink', value: '#000000' },
-  { key: 'eggshell', name: 'Eggshell, light page', value: '#f3f1ea' },
-  { key: 'white', name: 'White, holes and sheets', value: '#ffffff' },
-  { key: 'board', name: 'Board', value: 'var(--s-board)' },
-  { key: 'endpaper', name: 'Endpaper', value: 'var(--s-endpaper)' },
+  { key: 'eggshell', name: 'Eggshell', value: '#f3f1ea' },
+  { key: 'white', name: 'White', value: '#ffffff' },
+  { key: 'board', name: 'Board', value: '' },
+  { key: 'endpaper', name: 'Endpaper', value: '' },
   { key: 'cloth', name: 'Cloth', value: '#2bf52b' },
 ] as const;
-
+const SPACE = [1, 2, 3, 4, 5, 6, 7, 8];
 const ts = COPY.terpscout.evidence;
+const tile = (file: string) => TEXTURES.find((t) => t.file === file)!;
 
-export const PARTS: { caption: string; render: (mode: Mode) => ReactNode }[] = [
-  { caption: 'Surfaces', render: () => <div className={s.swatches}>{SURFACES.map((x) => <div key={x.key} data-surface={x.key} className="meta-sm">{x.name}{x.value.startsWith('#') ? <><br />{x.value}</> : null}</div>)}</div> },
-  { caption: 'Volume face, OG and favicon', render: (mode) => (
-    <div className={s.faces}>
-      <div id={mode === 'dark' ? 'og-face' : undefined}><VolumeFace no={COPY.volumes.hero.no} name={COPY.volumes.hero.name} year={COPY.volumes.hero.year} /></div>
-      <VolumeFace no="12" name="Zen Holo" year="2026" />
-      <div id={mode === 'dark' ? 'favicon-face' : undefined}><VolumeFace no="0" name="" year="" size="favicon" /></div>
-    </div>
-  ) },
-  { caption: 'Textures, with provenance', render: () => <div className={s.tiles}>{TEXTURES.map((t) => <div key={t.file}><div className={s.tile} data-tile={t.file} /><div className="meta-sm muted">{provenance(t)}</div></div>)}</div> },
-  { caption: 'Type', render: () => (
-    <>
-      <div className={`display ${s.display}`}>Display 700</div>
-      <div className="display t-title">Title, uppercase, -0.02em</div>
-      <p className="text t-lead">Lead. Helvetica Neue, as written, 400.</p>
-      <p className="text t-body">Body. One idea per sentence. No italics, no weight between 400 and 700.</p>
-      <div className="meta">Meta · Courier New · uppercase · 0.04em</div>
-      <div className="transcript">Transcript. Courier New, as written, 1.5. 10/13/26 11:05:00 PM</div>
-    </>
-  ) },
-  { caption: 'Type ink: nav label 0.5 px bleed, button label 0.3 px, without for comparison', render: () => (
+const swatches = (mode: 'dark' | 'light') => (
+  <div className={`${s.mode} ${s[mode]}`} data-mode={mode}>
+    <span className="meta">{mode}</span>
+    <div className={s.swatches}>{SURFACES.map((x) => <div key={x.key} data-surface={x.key} className="meta">{x.name}{x.value ? <><br />{x.value}</> : null}</div>)}</div>
+  </div>
+);
+
+export const PARTS: Part[] = [
+  { group: 'Surfaces', name: 'Surfaces, dark and light', tokens: '--s-ink --s-page --s-white --s-board --s-endpaper --s-cloth --bg --hole --sheet', render: () => <div className={s.pair}>{swatches('dark')}{swatches('light')}</div> },
+
+  { group: 'Type', name: 'Display', tokens: '.display .t-display --t-display, fluid', render: () => <div className="display t-display">Something Click'd</div> },
+  { group: 'Type', name: 'Title', tokens: '.display .t-title --t-title, 28 px, 20 px on phones', render: () => <div className="display t-title">Five live sites</div> },
+  { group: 'Type', name: 'Text', tokens: '.text --t-text, 18 px, 16 px on phones', render: () => <p className="text">Lead paragraphs and card bodies. One idea per sentence.</p> },
+  { group: 'Type', name: 'Meta', tokens: '.meta --t-meta, 13 px, 11 px on phones, uppercase', render: () => <div className="meta">Eyebrows, nav, captions, tables, buttons</div> },
+  { group: 'Type', name: 'Transcript', tokens: '.transcript --t-meta, sentence case', render: () => <div className="transcript">10/13/26 11:05:00 PM. Every row is dated with the real date of the thing.</div> },
+  { group: 'Type', name: 'Type ink', tokens: '.bleed-nav 0.5 px, .bleed-btn 0.3 px, text-shadow in the text colour', render: () => (
     <div className={s.ink}>
-      <span className="meta-sm">Vantage, no bleed</span><span className="meta-sm bleed-nav">Vantage, 0.5 px bleed</span>
-      <span className={`${s.inkBtn}`}>Email me, no bleed</span><span className={`bleed-btn ${s.inkBtn}`}>Email me, 0.3 px bleed</span>
+      <span className="meta">Vantage, no bleed</span><span className="meta bleed-nav">Vantage, 0.5 px bleed</span>
     </div>
   ) },
-  { caption: 'Spine band, phones, above the nav', render: () => <SpineBand className={s.band} /> },
-  { caption: 'Punch nav, numbered cells, titles as names', render: () => (
-    <>
+
+  { group: 'Spacing', name: 'Spacing scale', tokens: '--s-1 to --s-8', render: () => <div className={s.space}>{SPACE.map((n) => <div key={n} className={s.spaceRow}><span className="meta">--s-{n}</span><span className={s.bar} data-s={n} /></div>)}</div> },
+
+  { group: 'Marks', name: 'TerpScout mark, white tile', tokens: '.mark 120 px, 96 px on phones, #ffffff', render: () => <Plate e={ts.shown[0]} /> },
+  { group: 'Marks', name: 'Nertia mark, white tile', tokens: '.mark 120 px, 96 px on phones, #ffffff', render: () => <Plate e={COPY.nertia.mark} /> },
+  { group: 'Marks', name: 'Volume face, OG and favicon', tokens: '.display .t-title, recto #f5e04a', render: () => (
+    <div className={s.faces}>
+      <div id="og-face"><VolumeFace no={COPY.volumes.hero.no} name={COPY.volumes.hero.name} year={COPY.volumes.hero.year} /></div>
+      <div id="favicon-face"><VolumeFace no="0" name="" year="" size="favicon" /></div>
+    </div>
+  ) },
+
+  { group: 'Controls', name: 'Cloth button, rest, hover, focus, disabled', tokens: '.chip .meta .bleed-btn, cloth.webp, --focus', render: () => (
+    <div className={s.row}>
+      <Button href="#r" variant="primary">Rest</Button>
+      <span className={s.hover}><Button href="#h" variant="primary">Hover</Button></span>
+      <span className={s.focus}><Button href="#f" variant="primary">Focus</Button></span>
+      <span className={s.disabled}><Button href="#d" variant="primary">Disabled</Button></span>
+    </div>
+  ) },
+  { group: 'Controls', name: 'Secondary button and text link', tokens: '.meta --line-strong', render: () => <div className={s.row}><Button href="#r" variant="secondary">Secondary</Button><a href="#l" className="meta">Text link ↗</a></div> },
+  { group: 'Controls', name: 'Punch nav, numbered cells, titles as names', tokens: '.meta .bleed-nav --hole --line-strong', render: () => (
+    <div>
       <Punches />
-      <div className={s.cells}>{SECTIONS.map((x, i) => <a key={x.id} href={`#${x.id}`} aria-label={x.label} title={x.label} className={`meta-sm ${s.cell}`} {...(i === 0 ? { 'aria-current': 'location' as const } : {})}>{String(i + 1).padStart(2, '0')}</a>)}</div>
-    </>
+      <div className={s.cells}>{SECTIONS.map((x, i) => <a key={x.id} href={`#${x.id}`} aria-label={x.label} title={x.label} className={`meta bleed-nav ${s.cell}`} {...(i === 0 ? { 'aria-current': 'location' as const } : {})}>{String(i + 1).padStart(2, '0')}</a>)}</div>
+    </div>
   ) },
-  { caption: 'Divider cut, 2 px over the spine', render: () => (
+  { group: 'Controls', name: 'Disclosure summary row', tokens: '.meta --line-strong, closed by default', render: () => <Disclosure summary="Disclosure, closed by default"><Plate e={COPY.practice.evidence[1]} /></Disclosure> },
+
+  ...TEXTURES.filter((t) => t.file !== 'chip').map((t): Part => ({ group: 'Textures', name: `${t.name} tile`, tokens: provenance(t), render: () => <div className={s.tile} data-tile={t.file} /> })),
+  { group: 'Textures', name: 'Spine band, phones, above the nav', tokens: `spine-band.webp, ${provenance(tile('spine'))}`, render: () => <SpineBand className={s.band} /> },
+  { group: 'Textures', name: 'Divider cut, 2 px over the spine', tokens: '.cut --strike', render: () => (
     <div className={s.cutDemo} data-part="cut-demo">
-      <div className={`meta-sm ${s.cutBlock}`}>Section above</div>
-      <div className={`cut meta-sm ${s.cutBlock}`}>Section below, cut</div>
+      <div className={`meta ${s.cutBlock}`}>Section above</div>
+      <div className={`cut meta ${s.cutBlock}`}>Section below, cut</div>
     </div>
   ) },
-  { caption: 'Transcript', render: () => <Transcript rows={[{ when: '10/21/16', who: 'Virgil', text: 'The theory is to underline its existence by being specific.' }, { when: '[DATE]', who: 'Scott', text: 'Every row is dated with the real date of the thing.' }]} /> },
-  { caption: 'Index, the yellow page edge to edge, struck rows', render: () => <Surface kind="endpaper" className={s.yellow}><Index rows={COPY.work.index.slice(6, 9)} /></Surface> },
-  { caption: 'Cloth button, one weave across the box, and states', render: (mode) => (
-    <>
-      <div className={s.btns}>
-        <Button href="#r" variant="primary">Rest</Button>
-        <span className={s.hover}><Button href="#h" variant="primary">Hover</Button></span>
-        <span className={s.focus}><Button href="#f" variant="primary">Focus</Button></span>
-        <span className={s.disabled}><Button href="#d" variant="primary">Disabled</Button></span>
-      </div>
-      <div className={s.btns}>
-        <Button href="#r" variant="secondary">Secondary</Button>
-        <a href="#l">Text link ↗</a>
-        <span className="meta">[{mode.toUpperCase()}]</span>
-      </div>
-    </>
-  ) },
-  { caption: 'Evidence figure, stacked, caption beneath', render: () => <div className={s.stack}><Plate e={COPY.practice.evidence[0]} /></div> },
-  { caption: 'Identity mark, white tile, both modes', render: () => <div className={s.marks}><Plate e={ts.shown[0]} /><Plate e={COPY.nertia.mark} /></div> },
-  { caption: 'Disclosure summary row, video figure with poster inside', render: () => <Disclosure summary={ts.gated.summary}><Spin clip={ts.gated.spin} /></Disclosure> },
-  { caption: 'Spec sheet and tech sheet', render: () => (
-    <div className={s.pair}>
-      <SpecSheet sheet={COPY.work.sheets[1]} volume={{ no: '09', name: '', year: '2026' }} />
-      <TechSheet data={COPY.work.tech[1]} />
-    </div>
-  ) },
+
+  { group: 'Figures', name: 'Evidence figure, image, caption beneath', tokens: '.plate .meta', render: () => <Plate e={COPY.practice.evidence[0]} /> },
+  { group: 'Figures', name: 'Video figure with poster, inside the age gate', tokens: '.spin, 480 px, 52vh, preload none', render: () => <Disclosure summary={ts.gated.summary}><Spin clip={ts.gated.spin} /></Disclosure> },
+
+  { group: 'Tables', name: 'Index rows, the yellow page', tokens: '.meta --s-endpaper --strike', render: () => <Surface kind="endpaper" className={s.yellow}><Index rows={COPY.work.index.slice(6, 9)} /></Surface> },
+  { group: 'Tables', name: 'Transcript row', tokens: '.transcript --t-meta', render: () => <Transcript rows={[{ when: '10/21/16', who: 'Virgil', text: 'The theory is to underline its existence by being specific.' }]} /> },
+  { group: 'Tables', name: 'Spec sheet', tokens: '.meta fields, .t-title, .text, --sheet', render: () => <div className={s.sheet}><SpecSheet sheet={COPY.work.sheets[1]} volume={{ no: '09', name: 'Pure Zero Photography', year: '2026' }} /></div> },
+  { group: 'Tables', name: 'Tech sheet', tokens: '.meta in a viewBox that tracks its width, --tech --tech-ink', render: () => <div className={s.sheet480}><TechSheet data={COPY.work.tech[4]} /></div> },
 ];
 
-function Half({ mode }: { mode: Mode }) {
-  return (
-    <div className={`${s.half} ${s[mode]}`} data-mode={mode}>
-      {PARTS.map((p) => <section key={p.caption} className={s.part}><h2 className="meta">{p.caption === 'Surfaces' ? `Surfaces, ${mode}` : p.caption}</h2>{p.render(mode)}</section>)}
-    </div>
-  );
-}
+const GROUPS = [...new Set(PARTS.map((p) => p.group))];
 
 export function Specimen() {
   return (
     <>
-      <p className={`meta ${s.living}`}>{LIVING_LINE}</p>
-      <div className={s.sp}><PunchFilterDefs /><Half mode="dark" /><Half mode="light" /></div>
+      <PunchFilterDefs />
+      <SpineReveal />
+      <main className={s.sp}>
+        <p className={`meta ${s.living}`}>{LIVING_LINE}</p>
+        {GROUPS.map((g) => (
+          <section key={g} className={`cut ${s.group}`} aria-label={g}>
+            <h2 className={`meta muted ${s.groupName}`}>{g}</h2>
+            {PARTS.filter((p) => p.group === g).map((p) => (
+              <div key={p.name} className={s.part} data-part-name={p.name}>
+                <div className={s.specimen}>{p.render()}</div>
+                <div className={s.labels}><h3 className="meta">{p.name}</h3><span className="meta muted">{p.tokens}</span></div>
+              </div>
+            ))}
+          </section>
+        ))}
+      </main>
     </>
   );
 }

@@ -13,7 +13,7 @@ export function Section({ id, runningHead, eyebrow, title, lead, surface = 'page
           <div className={s.titles}>
             {eyebrow ? <Label>{eyebrow}</Label> : null}
             {title ? <h2 className="display t-title">{title}</h2> : null}
-            {lead ? <p className="text t-lead muted">{lead}</p> : null}
+            {lead ? <p className="text muted">{lead}</p> : null}
           </div>
           <RunningHead>{runningHead}</RunningHead>
         </div>
