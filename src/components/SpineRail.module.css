@@ -1,0 +1,4 @@
+.rail{display:none}
+@media (min-width:1024px){.rail{display:block;position:fixed;left:0;top:0;bottom:0;width:var(--rail);z-index:5;background:#1c1b19 url(/textures/spine.webp) repeat-y;background-size:var(--rail) auto}}
+.band{display:block;height:1.25rem;background:#1c1b19 url(/textures/spine.webp) repeat-x;background-size:auto 1.25rem}
+@media (min-width:1024px){.band{display:none}}
