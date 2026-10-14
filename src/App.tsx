@@ -76,7 +76,7 @@ export function App() {
           <Grid columns={3}>{COPY.work.sheets.map((sh, i) => { const v = vol(String(8 + i).padStart(2, '0')); return <SpecSheet key={sh.title} sheet={sh} volume={{ no: v.no, name: v.name, year: v.year }} />; })}</Grid>
           <div className={s.techBlock}>
             <Label>Tech sheets</Label>
-            <div className={s.techGrid}>{COPY.work.tech.map((t) => <TechSheet key={t.sheet} data={t} />)}</div>
+            <div className={`${s.techGrid} ${s.techGrid3}`}>{COPY.work.tech.map((t) => <TechSheet key={t.sheet} data={t} />)}</div>
           </div>
         </SectionBody>
 

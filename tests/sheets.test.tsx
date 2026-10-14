@@ -95,3 +95,9 @@ it('one tone per data set: the Work index is the yellow page edge to edge, every
   expect(readFileSync('src/components/Section.module.css', 'utf8')).toMatch(/\.endpaper\{background-color:var\(--s-endpaper\);color:#000;--fg:#000;[^}]*--line-strong:#000/);
   expect(readFileSync('src/components/Index.tsx', 'utf8')).not.toContain('Surface');
 });
+it('Work carries five tech sheets, Typeshit last, read from the live site, laid out three plus two', () => {
+  expect(COPY.work.tech.length).toBe(5);
+  expect(COPY.work.tech[4]).toEqual({ sheet: 'TYPESHIT.SHOP', view: 'PHONE, 390', stack: 'NERTIA, PRINTFUL', src: 'RENDERED FROM SITE STRUCTURE', date: '2026', sections: ['HEADER, BRAND', 'NAV, ABOUT, HELP, CART', 'SHOP, PRODUCT GRID', 'ADD TO CART', 'FOOTER, LINK GROUP', 'COPYRIGHT'] });
+  const { readFileSync } = require('node:fs');
+  expect(readFileSync('src/App.module.css', 'utf8')).toContain('.techGrid3{grid-template-columns:repeat(3,minmax(0,1fr))}');
+});

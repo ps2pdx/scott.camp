@@ -120,6 +120,7 @@ export const COPY = {
       { sheet: 'PUREZEROPHOTOGRAPHY.COM', view: 'PHONE, 390', stack: 'NERTIA', src: 'RENDERED FROM SITE STRUCTURE', date: '2026', sections: ['NAV', 'HERO, DOCUMENTARY ONLY', 'TWO TIERS, ENTRY PRICING', 'CLIENT STORIES', 'CONTACT'] },
       { sheet: 'BEND.CLEANING', view: 'PHONE, 390', stack: 'NERTIA', src: 'RENDERED FROM SITE STRUCTURE', date: '2026', sections: ['NAV', 'HERO, THE RENAME NOTICE', 'SERVICES', 'BOOKING', 'REVIEW CAPTURE', 'CONTACT'] },
       { sheet: 'FULLSCOPESUPPLY.COM', view: 'PHONE, 390', stack: 'NERTIA', src: 'RENDERED FROM SITE STRUCTURE', date: '2026', sections: ['NAV', 'HERO', 'SELF-PERFORMED TRADES', 'SINGLE-POINT ACCOUNTABILITY', 'PROJECTS', 'LEAD FORM'] },
+      { sheet: 'TYPESHIT.SHOP', view: 'PHONE, 390', stack: 'NERTIA, PRINTFUL', src: 'RENDERED FROM SITE STRUCTURE', date: '2026', sections: ['HEADER, BRAND', 'NAV, ABOUT, HELP, CART', 'SHOP, PRODUCT GRID', 'ADD TO CART', 'FOOTER, LINK GROUP', 'COPYRIGHT'] },
     ] as TechSheetData[],
   },
   practice: {
