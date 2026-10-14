@@ -92,6 +92,7 @@ it('the cover holds only the eyebrow, the name line and the headline, no actions
   expect(v).toEqual({ when: '2015 to 2016', who: 'Virgil', text: 'Virgil Abloh played Euphoria, Portland, the room that is 45 East now. He dapped me up in the crowd. We exchanged pleasantries, as far as club sound at 1 AM allows.' });
   expect(container.querySelector('#endpapers')!.textContent).toContain(v.text);
   expect(container.textContent!.split('dapped me up').length).toBe(2);
+  expect(container.querySelectorAll('#endpapers del').length).toBe(0);
   expect(COPY.practice.rows[0].text).toContain('Marquee Mondays');
   expect(COPY.practice.rows[0].text).not.toContain('Virgil');
 });

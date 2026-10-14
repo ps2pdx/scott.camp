@@ -22,9 +22,9 @@ it('never says Series A', () => { expect(JSON.stringify(COPY.vantage)).not.toCon
 it('no sheet header field is empty', () => {
   for (const s of [...COPY.work.sheets, ...COPY.practice.sheets, ...COPY.nertia.sheets]) for (const [k, v] of Object.entries(s.fields)) expect(v, `${s.title} ${k}`).not.toBe('');
 });
-it('index has thirteen rows numbered 01 to 13 with five unstruck, KAL Contracting gone', () => {
+it('index has thirteen rows numbered 01 to 13, none struck on the front matter, KAL Contracting gone', () => {
   expect(COPY.work.index.map((r) => r.no)).toEqual(Array.from({ length: 13 }, (_, i) => String(i + 1).padStart(2, '0')));
-  expect(COPY.work.index.filter((r) => !r.struck).map((r) => r.name)).toEqual(['Pharm to Body', 'Pure Zero Photography', 'Bend Cleaning', 'Full Scope Supply', 'Typeshit']);
+  expect(COPY.work.index.filter((r) => r.struck)).toEqual([]);
 });
 it('the hero headline is locked', () => { expect(COPY.hero.headline).toBe("Something Click'd"); expect(COPY.hero.eyebrow).toBe('I design systems agents ship.'); expect(VANTAGE_CASE_STUDY_URL).toMatch(/^https:/); });
 it('hero facts carry real labels, not placeholder brackets', () => {

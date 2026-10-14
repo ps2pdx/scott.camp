@@ -6,7 +6,7 @@ import { SpecSheet } from '@/components/SpecSheet';
 import { COPY } from '@/content/copy';
 
 it('Index strikes the rows that are not this section and keeps their text', () => {
-  const { container } = render(<Index rows={COPY.work.index} />);
+  const { container } = render(<Index rows={COPY.work.index.map((r, i) => ({ ...r, struck: i < 6 || i > 10 }))} />);
   const table = screen.getByRole('table', { name: /Index/ });
   const rows = screen.getAllByRole('row');
   expect(rows.length).toBe(13);

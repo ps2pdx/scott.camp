@@ -96,7 +96,7 @@ export const PARTS: Part[] = [
   { group: 'Figures', name: 'Evidence figure, image, caption beneath', tokens: '.plate .meta', render: () => <Plate e={COPY.practice.evidence[0]} /> },
   { group: 'Figures', name: 'Video figure with poster, inside the age gate', tokens: '.spin, 480 px, 52vh, preload none', render: () => <Disclosure summary={ts.gated.summary}><Spin clip={ts.gated.spin} /></Disclosure> },
 
-  { group: 'Tables', name: 'Index rows, the yellow page', tokens: '.meta --s-endpaper --strike', render: () => <Surface kind="endpaper" className={s.yellow}><Index rows={COPY.work.index.slice(5, 8)} /></Surface> },
+  { group: 'Tables', name: 'Index rows, the yellow page, with the struck device', tokens: '.meta --s-endpaper --strike', render: () => <Surface kind="endpaper" className={s.yellow}><Index rows={COPY.work.index.slice(5, 8).map((r, i) => ({ ...r, struck: i === 0 }))} /></Surface> },
   { group: 'Tables', name: 'Transcript row', tokens: '.transcript --t-meta', render: () => <Transcript rows={[{ when: '10/21/16', who: 'Virgil', text: 'The theory is to underline its existence by being specific.' }]} /> },
   { group: 'Tables', name: 'Spec sheet', tokens: '.meta fields, .t-title, .text, --sheet', render: () => <div className={s.sheet}><SpecSheet sheet={COPY.work.sheets[1]} volume={{ no: '08', name: 'Pure Zero Photography', year: '2026' }} /></div> },
   { group: 'Tables', name: 'Tech sheet', tokens: '.meta in a viewBox that tracks its width, --tech --tech-ink', render: () => <div className={s.sheet480}><TechSheet data={COPY.work.tech[4]} /></div> },
