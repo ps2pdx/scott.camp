@@ -48,6 +48,12 @@ export const PARTS: { caption: string; render: (mode: Mode) => ReactNode }[] = [
       <div className="transcript">Transcript. Courier New, as written, 1.5. 10/13/26 11:05:00 PM</div>
     </>
   ) },
+  { caption: 'Type ink: nav label 0.5 px bleed, button label 0.3 px, without for comparison', render: () => (
+    <div className={s.ink}>
+      <span className="meta-sm">Vantage, no bleed</span><span className="meta-sm bleed-nav">Vantage, 0.5 px bleed</span>
+      <span className={`${s.inkBtn}`}>Email me, no bleed</span><span className={`bleed-btn ${s.inkBtn}`}>Email me, 0.3 px bleed</span>
+    </div>
+  ) },
   { caption: 'Spine band, phones, above the nav', render: () => <SpineBand className={s.band} /> },
   { caption: 'Punch nav, numbered cells, titles as names', render: () => (
     <>

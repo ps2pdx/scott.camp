@@ -62,3 +62,13 @@ it('the light page is eggshell, and pure white stays for the punch holes and the
   expect(darkBlock).toContain('--s-page:#f3f1ea');
   expect(readFileSync('src/components/Punches.module.css', 'utf8')).toContain('background:var(--hole)');
 });
+it('ink bleed: 0.5 px on nav labels, 0.3 px on the primary button label, a text-shadow in the text colour, gone under forced colors and reduced data', () => {
+  const tex = readFileSync('src/styles/textures.css', 'utf8');
+  expect(tex).toContain('.bleed-nav{text-shadow:0 0 0.5px currentColor}');
+  expect(tex).toContain('.bleed-btn{text-shadow:0 0 0.3px currentColor}');
+  expect(tex.slice(tex.indexOf('@media (prefers-reduced-data'))).toContain('.bleed-nav,.bleed-btn{text-shadow:none !important}');
+  expect(tex).not.toMatch(/text-stroke/);
+  expect(readFileSync('src/components/PunchNav.tsx', 'utf8')).toContain('bleed-nav');
+  expect(readFileSync('src/components/Button.tsx', 'utf8')).toContain('chip bleed-btn');
+  for (const f of ['src/components/Button.module.css', 'src/components/PunchNav.module.css']) expect(readFileSync(f, 'utf8')).not.toContain('text-shadow');
+});

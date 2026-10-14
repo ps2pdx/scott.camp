@@ -41,3 +41,5 @@
 @media (max-width:639px){.swatches{grid-template-columns:repeat(3,minmax(0,1fr))}}
 .yellow{padding:var(--s-5) var(--s-4)}
 .marks{display:flex;gap:var(--s-5);flex-wrap:wrap;align-items:flex-start}
+.ink{display:grid;grid-template-columns:repeat(2,max-content);gap:var(--s-3) var(--s-5);align-items:center}
+.inkBtn{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-weight:700;font-size:14px;text-transform:uppercase;background:#28d941;color:rgba(0,0,0,0.86);padding:var(--s-2) var(--s-3)}
