@@ -65,7 +65,7 @@ export function App() {
         </Section>
 
         <Section id="practice" surface="board" runningHead={COPY.practice.runningHead} eyebrow={COPY.practice.eyebrow} title={COPY.practice.title}>
-          <Grid columns={2}>{COPY.practice.sheets.map((sh, i) => { const v = vol(String(12 + i)); return <SpecSheet key={sh.title} sheet={sh} volume={{ no: v.no, year: v.year }} />; })}</Grid>
+          <Grid columns={2}>{COPY.practice.sheets.map((sh, i) => { const v = vol(String(13 + i)); return <SpecSheet key={sh.title} sheet={sh} volume={{ no: v.no, year: v.year }} />; })}</Grid>
           <Transcript rows={COPY.practice.rows} className={s.after} />
         </Section>
 

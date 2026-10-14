@@ -32,6 +32,12 @@ it('Grid of four marks the fourth child as the span', () => {
   expect(cells[3]).toHaveAttribute('data-span');
   expect(container.querySelectorAll('[data-span]').length).toBe(1);
 });
+it('Grid of five lays out three plus two and closes the row with an empty cell', () => {
+  const { container } = render(<Grid columns={3}><i /><i /><i /><i /><i /></Grid>);
+  expect(container.querySelectorAll('[data-part="cell"]').length).toBe(5);
+  expect(container.querySelectorAll('[data-span]').length).toBe(0);
+  expect(container.querySelector('[data-part="filler"]')).toHaveAttribute('aria-hidden', 'true');
+});
 it('Button is a real link with the primary variant and a bracket', () => {
   render(<Button href="/r.pdf" variant="primary" bracket="PDF">Resume</Button>);
   const a = screen.getByRole('link', { name: 'Resume [PDF]' });

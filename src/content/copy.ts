@@ -21,7 +21,7 @@ export const COPY = {
     facts: [
       { when: 'Vantage', who: '', text: 'Early-stage AI/HPC platform' },
       { when: 'Vantage', who: '', text: '50+ competitors mapped' },
-      { when: 'Work', who: '', text: '4 live client sites' },
+      { when: 'Work', who: '', text: '5 live client sites' },
       { when: 'TerpScout', who: '', text: '$10M sold, 2019 to 2021, regulated CPG' },
     ] as TranscriptRow[],
   },
@@ -74,7 +74,7 @@ export const COPY = {
     ] as TranscriptRow[],
   },
   work: {
-    eyebrow: 'Work', runningHead: 'Work', title: 'Four live sites, four different positioning problems',
+    eyebrow: 'Work', runningHead: 'Work', title: 'Five live sites, five different positioning problems',
     index: [
       { no: '01', name: 'Ali Sharifi Rugs', description: 'Site built by hand, photography, later moved to WordPress', year: '2010s', struck: true },
       { no: '02', name: 'KAL Contracting', description: 'Masonry and general contractor, Portland; site now on Webflow', year: '2025', struck: true },
@@ -87,14 +87,16 @@ export const COPY = {
       { no: '09', name: 'purezerophotography.com', description: 'Documentary photography, two tiers, published entry pricing', year: '2026', struck: false },
       { no: '10', name: 'bend.cleaning', description: 'Cascade Cleaning renamed, booking and review capture', year: '2026', struck: false },
       { no: '11', name: 'fullscopesupply.com', description: 'Commercial general contractor, lead generation', year: '2026', struck: false },
-      { no: '12', name: 'Zen Holo', description: 'Blender animation plus AI music', year: '2026', struck: true },
-      { no: '13', name: 'Purple Scott', description: 'DJ identity', year: '2012', struck: true },
+      { no: '12', name: 'typeshit.shop', description: 'Developer streetwear, print on demand through Printful', year: '2026', struck: false },
+      { no: '13', name: 'Zen Holo', description: 'Blender animation plus AI music', year: '2026', struck: true },
+      { no: '14', name: 'Purple Scott', description: 'DJ identity', year: '2012', struck: true },
     ] as IndexRow[],
     sheets: [
       { title: 'Pharm to Body', fields: { Sheet: 'pharmtobody.com', Role: 'Design, build', Stack: 'Shopify' }, body: 'A family mushroom farm with no ecommerce history and a subscription product to sell. Shopify build carrying a 12-week CSA program, fresh and dried catalog, grow kits, and a workshop calendar.', href: 'https://pharmtobody.com', label: 'pharmtobody.com' },
       { title: 'Pure Zero', fields: { Sheet: 'purezerophotography.com', Role: 'Design, build', Stack: 'Nertia' }, body: 'High-ticket creative services, where the usual failure is hiding the price. Packaged into two tiers with published entry pricing, a documentary-only niche stated up front, and client stories doing the work of case studies.', href: 'https://purezerophotography.com', label: 'purezerophotography.com' },
       { title: 'Bend Cleaning', fields: { Sheet: 'bend.cleaning', Role: 'Design, build', Stack: 'Nertia' }, body: 'Renaming an established business without losing the referral base it was built on. Cascade Cleaning became Bend Cleaning, with the rename announced on the site rather than quietly absorbed, plus booking and review capture.', href: 'https://bend.cleaning', label: 'bend.cleaning' },
       { title: 'Full Scope Supply', fields: { Sheet: 'fullscopesupply.com', Role: 'Design, build', Stack: 'Nertia' }, body: 'A commercial general contractor whose pipeline ran entirely on word of mouth. Lead generation built around self-performed trades and single-point accountability, the actual differentiator, not the license number.', href: 'https://fullscopesupply.com', label: 'fullscopesupply.com' },
+      { title: 'Typeshit', fields: { Sheet: 'typeshit.shop', Role: 'Design, build', Stack: 'Nertia, Printful' }, body: 'A developer streetwear brand selling print on demand through Printful. Heavyweight cotton for people whose builds pass locally. The site carries the voice and hands the cart to the fulfilment house without the seam showing.', href: 'https://typeshit.shop', label: 'typeshit.shop' },
     ] as Sheet[],
     tech: [
       { sheet: 'PHARMTOBODY.COM', view: 'PHONE, 390', stack: 'SHOPIFY', src: 'RENDERED FROM SITE STRUCTURE', date: '2026', sections: ['NAV, ONE ACTION', 'HERO, CSA SIGNUP', '12-WEEK CSA PROGRAM', 'FRESH / DRIED CATALOG', 'GROW KITS', 'WORKSHOP CALENDAR'] },

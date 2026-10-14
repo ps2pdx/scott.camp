@@ -4,4 +4,4 @@
 .cell{background:var(--bg);min-width:0}
 .span{grid-column:1 / -1}
 @media (max-width:1023px){.three{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media (max-width:639px){.three,.two{grid-template-columns:1fr}}
+@media (max-width:639px){.three,.two{grid-template-columns:1fr}.filler{display:none}}

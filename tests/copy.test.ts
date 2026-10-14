@@ -22,9 +22,9 @@ it('never says Series A', () => { expect(JSON.stringify(COPY.vantage)).not.toCon
 it('no sheet header field is empty', () => {
   for (const s of [...COPY.work.sheets, ...COPY.practice.sheets, ...COPY.nertia.sheets]) for (const [k, v] of Object.entries(s.fields)) expect(v, `${s.title} ${k}`).not.toBe('');
 });
-it('index has thirteen rows numbered 01 to 13 with four unstruck', () => {
-  expect(COPY.work.index.map((r) => r.no)).toEqual(Array.from({ length: 13 }, (_, i) => String(i + 1).padStart(2, '0')));
-  expect(COPY.work.index.filter((r) => !r.struck).map((r) => r.name)).toEqual(['pharmtobody.com', 'purezerophotography.com', 'bend.cleaning', 'fullscopesupply.com']);
+it('index has fourteen rows numbered 01 to 14 with five unstruck', () => {
+  expect(COPY.work.index.map((r) => r.no)).toEqual(Array.from({ length: 14 }, (_, i) => String(i + 1).padStart(2, '0')));
+  expect(COPY.work.index.filter((r) => !r.struck).map((r) => r.name)).toEqual(['pharmtobody.com', 'purezerophotography.com', 'bend.cleaning', 'fullscopesupply.com', 'typeshit.shop']);
 });
 it('the hero headline is locked', () => { expect(COPY.hero.headline).toBe('I design systems agents ship.'); expect(VANTAGE_CASE_STUDY_URL).toMatch(/^https:/); });
 it('hero facts carry real labels, not placeholder brackets', () => {
