@@ -53,3 +53,5 @@
 .bar[data-s="6"]{width:var(--s-6)}
 .bar[data-s="7"]{width:var(--s-7)}
 .bar[data-s="8"]{width:var(--s-8)}
+.tapeDemo{position:relative;overflow-x:clip;height:calc(var(--s-6) + var(--s-6));margin:0 calc(-1 * var(--gutter))}
+.tapeDemo>[data-part="tools"]{top:var(--s-4)}

@@ -91,7 +91,7 @@ it('one tone per data set: the Work index is the yellow page edge to edge, every
   const body = container.querySelector('#work + [data-part="section-body"]')!;
   expect(body.querySelectorAll('article').length).toBe(COPY.work.sheets.length);
   expect(body.querySelector('table')).toBeNull();
-  expect(readFileSync('src/components/Section.module.css', 'utf8')).toMatch(/\.endpaper\{background-color:var\(--s-endpaper\);color:#000;--fg:#000;[^}]*--line-strong:#000/);
+  expect(readFileSync('src/components/Section.module.css', 'utf8')).toMatch(/\.endpaper\{--tape:#000000;--tape-ink:var\(--s-endpaper\);background-color:var\(--s-endpaper\);color:#000;--fg:#000;[^}]*--line-strong:#000/);
   expect(readFileSync('src/components/Index.tsx', 'utf8')).not.toContain('Surface');
 });
 it('Work carries five tech sheets, Typeshit last, read from the live site, in one row of 480 px sheets that wraps', () => {

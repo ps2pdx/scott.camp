@@ -42,12 +42,12 @@ export function App() {
           </div>
         </section>
 
-        <Section id="vantage" runningHead={COPY.vantage.runningHead} eyebrow={COPY.vantage.eyebrow} title={COPY.vantage.title} lead={COPY.vantage.lead}>
+        <Section id="vantage" tools={COPY.vantage.tools} runningHead={COPY.vantage.runningHead} eyebrow={COPY.vantage.eyebrow} title={COPY.vantage.title} lead={COPY.vantage.lead}>
           <Transcript rows={COPY.vantage.rows} />
           <p className={`transcript ${s.after}`}><a href={COPY.vantage.caseStudy.href}>{COPY.vantage.caseStudy.label} ↗</a></p>
         </Section>
 
-        <Section id="nertia" runningHead={COPY.nertia.runningHead} eyebrow={COPY.nertia.eyebrow} title={COPY.nertia.title} lead={COPY.nertia.lead}>
+        <Section id="nertia" tools={COPY.nertia.tools} runningHead={COPY.nertia.runningHead} eyebrow={COPY.nertia.eyebrow} title={COPY.nertia.title} lead={COPY.nertia.lead}>
           <Transcript rows={COPY.nertia.rows} />
           <div className={s.stack}><Plate e={COPY.nertia.mark} /></div>
           <div className={s.techBlock}>
@@ -57,7 +57,7 @@ export function App() {
           <p className={`transcript ${s.after}`}>{COPY.nertia.codeSiteLine} <a href={COPY.nertia.source.href}>{COPY.nertia.source.label} ↗</a></p>
         </Section>
 
-        <Section id="terpscout" runningHead={COPY.terpscout.runningHead} eyebrow={COPY.terpscout.eyebrow} title={COPY.terpscout.title} lead={COPY.terpscout.lead}>
+        <Section id="terpscout" tools={COPY.terpscout.tools} runningHead={COPY.terpscout.runningHead} eyebrow={COPY.terpscout.eyebrow} title={COPY.terpscout.title} lead={COPY.terpscout.lead}>
           <Transcript rows={COPY.terpscout.rows} />
           <div className={s.stack}>
             {ts.shown.map((e) => <Plate key={e.src} e={e} />)}
@@ -69,7 +69,7 @@ export function App() {
           </Disclosure>
         </Section>
 
-        <Section id="work" surface="endpaper" runningHead={COPY.work.runningHead} eyebrow={COPY.work.eyebrow} title={COPY.work.title}>
+        <Section id="work" tools={COPY.work.tools} surface="endpaper" runningHead={COPY.work.runningHead} eyebrow={COPY.work.eyebrow} title={COPY.work.title}>
           <Index rows={COPY.work.index} />
         </Section>
         <SectionBody>
@@ -80,7 +80,7 @@ export function App() {
           </div>
         </SectionBody>
 
-        <Section id="practice" surface="board" runningHead={COPY.practice.runningHead} eyebrow={COPY.practice.eyebrow} title={COPY.practice.title}>
+        <Section id="practice" tools={COPY.practice.tools} surface="board" runningHead={COPY.practice.runningHead} eyebrow={COPY.practice.eyebrow} title={COPY.practice.title}>
           <Grid columns={2}>{COPY.practice.sheets.map((sh, i) => { const v = vol(String(13 + i)); return <SpecSheet key={sh.title} sheet={sh} volume={{ no: v.no, name: v.name, year: v.year }} />; })}</Grid>
           <Transcript rows={COPY.practice.rows} className={s.after} />
           <div className={s.stack}>

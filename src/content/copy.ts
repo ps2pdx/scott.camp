@@ -26,6 +26,7 @@ export const COPY = {
     ] as TranscriptRow[],
   },
   vantage: {
+    tools: ["Product positioning", "Competitive intelligence", "Sales enablement", "Technical messaging", "Naming and trademark", "Investor communications", "SEO/GEO", "Figma", "HubSpot", "Zoho", "GA4", "Slurm", "Kubernetes", "NVIDIA GPU architecture", "Docker"] as string[],
     eyebrow: 'Vantage Compute', runningHead: 'Vantage [2024 to 2026]', title: 'Founding product marketing',
     lead: 'Early-stage orchestration platform: one chip-agnostic control plane over Slurm and Kubernetes for AI/ML training, inference, simulation, and life sciences workloads, running across public cloud, private cloud, and on-prem. I was the first marketing hire and built the function from nothing, July 2024 to August 2026.',
     rows: [
@@ -37,6 +38,7 @@ export const COPY = {
     caseStudy: { label: 'Case study', href: VANTAGE_CASE_STUDY_URL },
   },
   nertia: {
+    tools: ["Next.js", "React", "TypeScript", "Tailwind CSS", "Firebase", "Claude API", "MCP server development", "LLM tool schema design", "Agent-native product design", "CSS token systems", "Brand system design", "Git/GitHub", "Core Web Vitals"] as string[],
     eyebrow: 'Nertia', runningHead: 'Nertia', title: "A product designed from the buyer's side",
     lead: 'An agent-native site builder, shipped as a web application and as an MCP server. I designed it, built it, and took it to market.',
     mark: { src: '/evidence/nertia-mark.svg', width: 240, height: 199, caption: 'Nertia mark', alt: 'Nertia mark: a single black looping stroke, like a figure eight drawn in one motion.', mark: true },
@@ -64,6 +66,7 @@ export const COPY = {
     source: { label: 'Source on GitHub', href: SOURCE_URL },
   },
   terpscout: {
+    tools: ["P&L", "Sales and distribution", "Territory strategy", "Compliance", "Cannabis photography", "Adobe Premiere Pro", "Print design"] as string[],
     eyebrow: 'TerpScout', runningHead: 'TerpScout [2016 to 2022]', title: 'Proof of positioning',
     lead: 'A brand I built became a network I sold through, at half the going rate. TerpScout, dba of ScoutCamp, was an OLCC-regulated recreational cannabis distribution consultancy: it facilitated product-to-cash transfers and rented space from established wholesale licenses. The site is gone. The sales logs are not.',
     rows: [
@@ -91,6 +94,7 @@ export const COPY = {
     },
   },
   work: {
+    tools: ["Shopify", "Webflow", "Nertia", "Printful", "SEO/GEO", "Naming and rebrand", "Pricing and packaging"] as string[],
     eyebrow: 'Work', runningHead: 'Work', title: 'Five live sites, five different positioning problems',
     index: [
       { no: '01', name: 'Ali Sharifi Rugs', description: 'Site built by hand, photography, later moved to WordPress', year: '2010s', struck: true },
@@ -124,6 +128,7 @@ export const COPY = {
     ] as TechSheetData[],
   },
   practice: {
+    tools: ["Blender", "Ableton", "Animation", "DJing"] as string[],
     eyebrow: 'Creative practice', runningHead: 'Practice', title: 'Beyond the day job',
     sheets: [
       { title: 'Zen Holo', fields: { Sheet: 'Zen Holo', Role: 'Animation, music', Stack: 'Blender' }, placeholder: true },

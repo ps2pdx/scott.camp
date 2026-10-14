@@ -47,3 +47,24 @@ it('Practice carries the Marquee Mondays evidence pair with captions and alt tex
   render(<App />);
   for (const c of ['Event banner, Marquee Mondays 017, District, 5 June 2017', 'Series banner, Marquee Mondays, District, 2017']) expect(screen.getByText(c).closest('figure')!.querySelector('img')!.getAttribute('alt')).toMatch(/Marquee Mondays/);
 });
+it('every content section carries a tool tape with its own facts, moving copy hidden, a static list for screen readers', async () => {
+  const { container } = render(<App />);
+  const { readFileSync } = await import('node:fs');
+  for (const id of ['vantage', 'nertia', 'terpscout', 'work', 'practice'] as const) {
+    const tape = container.querySelector(`#${id} > [data-part="tools"]`)!;
+    expect(tape, id).not.toBeNull();
+    expect([...tape.querySelectorAll('ul.sr-only li')].map((l) => l.textContent)).toEqual(COPY[id].tools);
+    const moving = tape.querySelector('[aria-hidden="true"]')!;
+    expect(moving.textContent).toBe(`${COPY[id].tools.join(' · ')} · `.repeat(2));
+  }
+  expect(container.querySelectorAll('[data-part="tools"]').length).toBe(5);
+  expect(container.querySelector('#hero [data-part="tools"], #contact [data-part="tools"]')).toBeNull();
+  expect(COPY.practice.tools).toEqual(['Blender', 'Ableton', 'Animation', 'DJing']);
+  const css = readFileSync('src/components/ToolTape.module.css', 'utf8');
+  expect(css).toMatch(/\.tape\{[^}]*transform:rotate\(-2deg\)/);
+  expect(css).toMatch(/animation:tape 90s linear infinite/);
+  expect(css).not.toMatch(/box-shadow|border-radius/);
+  const still = css.slice(css.indexOf('@media (prefers-reduced-motion: reduce),(prefers-reduced-data: reduce),(forced-colors: active)'));
+  expect(still).toMatch(/\.track\{animation:none/);
+  expect(still).toContain('.run+.run{display:none}');
+});

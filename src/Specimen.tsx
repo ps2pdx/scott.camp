@@ -12,6 +12,7 @@ import { TechSheet } from '@/components/TechSheet';
 import { SpineBand, SpineReveal } from '@/components/SpineRail';
 import { Disclosure } from '@/components/Disclosure';
 import { Plate, Spin } from '@/components/Evidence';
+import { ToolTape } from '@/components/ToolTape';
 import s from './Specimen.module.css';
 
 export const LIVING_LINE = 'Living documentation. Every part the site uses is shown here first.';
@@ -77,6 +78,7 @@ export const PARTS: Part[] = [
       <div className={s.cells}>{SECTIONS.map((x, i) => <a key={x.id} href={`#${x.id}`} aria-label={x.label} title={x.label} className={`meta bleed-nav ${s.cell}`} {...(i === 0 ? { 'aria-current': 'location' as const } : {})}>{String(i + 1).padStart(2, '0')}</a>)}</div>
     </div>
   ) },
+  { group: 'Controls', name: 'Tools strip, tape over the section edge, -2 degrees', tokens: '.meta --tape --tape-ink --s-6, 90 s loop, paused on hover', render: () => <div className={s.tapeDemo}><ToolTape items={COPY.nertia.tools} /></div> },
   { group: 'Controls', name: 'Disclosure summary row', tokens: '.meta --line-strong, closed by default', render: () => <Disclosure summary="Disclosure, closed by default"><Plate e={COPY.practice.evidence[1]} /></Disclosure> },
 
   ...TEXTURES.filter((t) => t.file !== 'chip').map((t): Part => ({ group: 'Textures', name: `${t.name} tile`, tokens: provenance(t), render: () => <div className={s.tile} data-tile={t.file} /> })),
