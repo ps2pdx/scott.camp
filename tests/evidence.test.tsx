@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import { readdirSync, statSync } from 'node:fs';
+import { readFileSync, readdirSync, statSync } from 'node:fs';
 import { EvidenceVideo } from '@/components/EvidenceVideo';
 import { App } from '@/App';
 import { COPY } from '@/content/copy';
@@ -32,12 +32,12 @@ it('reduced motion or reduced data renders the still only', () => {
   expect(container.querySelector('img')!.getAttribute('src')).toBe(clip.poster);
   expect(container.querySelector('img')!.getAttribute('alt')).toBe(clip.alt);
 });
-it('TerpScout carries the spin, two pairs and the mark, each captioned with alt text', () => {
+it('TerpScout carries the spin, the stills and the mark, each captioned with alt text', () => {
   stubMatchMedia(false);
   const { container } = render(<App />);
   const block = container.querySelector('#terpscout')!;
   const ev = COPY.terpscout.evidence;
-  const caps = [ev.spin, ...ev.pairs.flat(), ev.mark].map((e) => e.caption);
+  const caps = [ev.spin, ...ev.stills, ev.mark].map((e) => e.caption);
   expect([...block.querySelectorAll('figcaption')].map((f) => f.textContent)).toEqual(caps);
   for (const img of block.querySelectorAll('img')) expect(img.getAttribute('alt')!.length).toBeGreaterThan(10);
   expect(block.querySelector('video')!.getAttribute('aria-label')).toBe(ev.spin.alt);
@@ -59,6 +59,18 @@ it('the TerpScout index row spans the studio years', () => {
 it('the spin and the print carry their 2022 dates, no bracket left', () => {
   const ev = COPY.terpscout.evidence;
   expect(ev.spin.caption).toBe('Product turntable, TerpScout studio, 2022');
-  expect(ev.pairs[0][0].caption).toBe('Strain print, Martian Fruit, for a TerpScout client, 2022');
-  for (const e of [ev.spin, ...ev.pairs.flat(), ev.mark]) expect(e.caption).not.toContain('[YEAR]');
+  expect(ev.stills[0].caption).toBe('Strain print, Martian Fruit, for a TerpScout client, 2022');
+  for (const e of [ev.spin, ...ev.stills, ev.mark]) expect(e.caption).not.toContain('[YEAR]');
+});
+it('evidence stacks full width, one figure above the next, with no pair wrapper', () => {
+  stubMatchMedia(false);
+  const { container } = render(<App />);
+  for (const id of ['terpscout', 'practice']) {
+    const stills = [...container.querySelectorAll(`#${id} img`)].map((i) => i.closest('figure')!);
+    for (const f of stills) expect(f.parentElement!.className).toBe('stack');
+  }
+  expect(container.querySelector('.evidence')).toBeNull();
+  const css = readFileSync('src/App.module.css', 'utf8');
+  expect(css).toMatch(/\.stack\{[^}]*flex-direction:column/);
+  expect(css).not.toMatch(/repeat\(2,minmax\(0,1fr\)\);gap:var\(--s-4\);align-items:start/);
 });

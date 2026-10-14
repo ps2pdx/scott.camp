@@ -15,6 +15,16 @@ import { Footer } from '@/components/Footer';
 import { EvidenceVideo } from '@/components/EvidenceVideo';
 import s from './App.module.css';
 
+type Still = { src: string; width: number; height: number; caption: string; alt: string };
+function Plate({ e }: { e: Still }) {
+  return (
+    <figure className={s.plate}>
+      <img src={e.src} width={e.width} height={e.height} alt={e.alt} loading="lazy" decoding="async" />
+      <figcaption className="meta-sm">{e.caption}</figcaption>
+    </figure>
+  );
+}
+
 const vol = (no: string) => COPY.work.index.find((r) => r.no === no)!;
 
 export function App() {
@@ -61,20 +71,9 @@ export function App() {
             <div className={s.spinStage}><EvidenceVideo clip={ts.spin} className={s.spinMedia} /></div>
             <figcaption className="meta-sm">{ts.spin.caption}</figcaption>
           </figure>
-          {ts.pairs.map((pair) => (
-            <div key={pair[0].src} className={s.evidence}>
-              {pair.map((e) => (
-                <figure key={e.src} className={s.plate}>
-                  <img src={e.src} width={e.width} height={e.height} alt={e.alt} loading="lazy" decoding="async" />
-                  <figcaption className="meta-sm">{e.caption}</figcaption>
-                </figure>
-              ))}
-            </div>
-          ))}
-          <figure className={`${s.plate} ${s.mark}`}>
-            <img src={ts.mark.src} width={ts.mark.width} height={ts.mark.height} alt={ts.mark.alt} loading="lazy" decoding="async" />
-            <figcaption className="meta-sm">{ts.mark.caption}</figcaption>
-          </figure>
+          <div className={s.stack}>
+            {[...ts.stills, ts.mark].map((e) => <Plate key={e.src} e={e} />)}
+          </div>
         </Section>
 
         <Section id="work" surface="board" runningHead={COPY.work.runningHead} eyebrow={COPY.work.eyebrow} title={COPY.work.title}>
@@ -89,13 +88,8 @@ export function App() {
         <Section id="practice" surface="board" runningHead={COPY.practice.runningHead} eyebrow={COPY.practice.eyebrow} title={COPY.practice.title}>
           <Grid columns={2}>{COPY.practice.sheets.map((sh, i) => { const v = vol(String(13 + i)); return <SpecSheet key={sh.title} sheet={sh} volume={{ no: v.no, name: v.name, year: v.year }} />; })}</Grid>
           <Transcript rows={COPY.practice.rows} className={s.after} />
-          <div className={s.evidence}>
-            {COPY.practice.evidence.map((e) => (
-              <figure key={e.src} className={s.plate}>
-                <img src={e.src} width={e.width} height={e.height} alt={e.alt} loading="lazy" decoding="async" />
-                <figcaption className="meta-sm">{e.caption}</figcaption>
-              </figure>
-            ))}
+          <div className={s.stack}>
+            {COPY.practice.evidence.map((e) => <Plate key={e.src} e={e} />)}
           </div>
         </Section>
 
