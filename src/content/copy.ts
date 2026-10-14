@@ -68,6 +68,7 @@ export const COPY = {
     ] as TechSheetData[],
     codeSiteLine: 'This page is a code site published by an agent.',
     source: { label: 'Source on GitHub', href: SOURCE_URL },
+    docs: { line: 'The design system this page is built with, documented on a page, not in a file.', label: 'Documentation', href: '/specimen' },
   },
   terpscout: {
     mark: { src: '/evidence/terpscout-mark.webp', width: 240, height: 240, name: 'TerpScout' },

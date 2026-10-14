@@ -99,3 +99,11 @@ it('Practice hides the placeholder cards until copy exists, keeps the Marquee Mo
   expect(names).toContain('Zen Holo');
   expect(names).toContain('Purple Scott');
 });
+it('the Nertia block links to the specimen as its documentation, beside the source line', () => {
+  render(<App />);
+  const a = screen.getByRole('link', { name: 'Documentation ↗' });
+  expect(a).toHaveAttribute('href', '/specimen');
+  expect(a.parentElement!.textContent).toContain('The design system this page is built with, documented on a page, not in a file.');
+  expect(a.closest('#nertia')).not.toBeNull();
+  expect(a.parentElement!.previousElementSibling!.textContent).toContain('Source on GitHub');
+});

@@ -50,6 +50,7 @@ export function App() {
             <div className={s.techGrid}>{COPY.nertia.tech.map((t) => <TechSheet key={t.sheet} data={t} />)}</div>
           </div>
           <p className={`transcript ${s.after}`}>{COPY.nertia.codeSiteLine} <a href={COPY.nertia.source.href}>{COPY.nertia.source.label} ↗</a></p>
+          <p className={`transcript ${s.next}`}>{COPY.nertia.docs.line} <a href={COPY.nertia.docs.href}>{COPY.nertia.docs.label} ↗</a></p>
         </Section>
 
         <Section id="work" tools={COPY.work.tools} runningHead={COPY.work.runningHead} eyebrow={COPY.work.eyebrow} title={COPY.work.title}>
