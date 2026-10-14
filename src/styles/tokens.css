@@ -1,0 +1,32 @@
+:root{
+  --s-ink:#000000;--s-page:#ffffff;--s-board:#1c1b19;--s-endpaper:#f2dc46;--s-cloth:#2bf52b;
+  --bg:#000000;--fg:#ffffff;--fg-muted:rgba(255,255,255,0.62);
+  --line:rgba(255,255,255,0.18);--line-strong:#ffffff;--strike:2px;
+  --accent:#2bf52b;--accent-fg:#000000;--focus:#2bf52b;--halo:rgba(255,255,255,0.10);
+  --sheet:#1c1b19;--tech:#2a2927;--grain:0.12;
+  --s-1:0.25rem;--s-2:0.5rem;--s-3:1rem;--s-4:1.5rem;--s-5:2.5rem;--s-6:4rem;--s-7:6rem;--s-8:8rem;
+  --gutter:1.25rem;--max:72rem;--rail:2.5rem;
+  --t-hero:clamp(2.75rem,8vw + 1rem,7rem);--t-title:clamp(2rem,4vw + 1rem,3.5rem);
+  --t-heading:clamp(1.25rem,1.2vw + 1rem,1.75rem);--t-lead:clamp(1.125rem,0.6vw + 1rem,1.375rem);
+  --t-body:1rem;--t-meta:0.8125rem;--t-meta-sm:0.6875rem;
+  --motion-fast:120ms;--motion-theme:200ms;--motion-chip:160ms;
+  color-scheme:dark;
+}
+:root[data-theme="light"],
+:root:not([data-theme]){ /* overridden below by the media query when the system is light */ }
+@media (prefers-color-scheme: light){
+  :root:not([data-theme]){
+    --s-board:#a8a49c;--s-endpaper:#f5e04a;
+    --bg:#ffffff;--fg:#000000;--fg-muted:rgba(0,0,0,0.45);
+    --line:rgba(0,0,0,0.12);--line-strong:#000000;--halo:rgba(0,0,0,0.10);
+    --sheet:#ffffff;--tech:#e9e7e2;--grain:0.18;color-scheme:light;
+  }
+}
+:root[data-theme="light"]{
+  --s-board:#a8a49c;--s-endpaper:#f5e04a;
+  --bg:#ffffff;--fg:#000000;--fg-muted:rgba(0,0,0,0.45);
+  --line:rgba(0,0,0,0.12);--line-strong:#000000;--halo:rgba(0,0,0,0.10);
+  --sheet:#ffffff;--tech:#e9e7e2;--grain:0.18;color-scheme:light;
+}
+@media (min-width:1024px){:root{--gutter:2.5rem}}
+@media (prefers-reduced-motion: reduce){:root{--motion-fast:0ms;--motion-theme:0ms;--motion-chip:0ms}}
