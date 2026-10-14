@@ -32,3 +32,4 @@ it('hero facts carry real labels, not placeholder brackets', () => {
   expect(COPY.hero.facts[3].text).toBe('$10M sold, 2019 to 2021, regulated CPG');
 });
 it('the TerpScout running head spans 2016 to 2022', () => { expect(COPY.terpscout.runningHead).toBe('TerpScout [2016 to 2022]'); });
+it('the TerpScout Network row is dated 2017 to 2020 from the resume', () => { expect(COPY.terpscout.rows.find((r) => r.who === 'Network')!.when).toBe('2017 to 2020'); });

@@ -29,7 +29,6 @@ Status on 2026-10-14: the code site `scottcamp` exists. Every push to `main` pub
 
 ## Open facts (rendered as brackets until confirmed)
 
-- Sweet Life and LTRMN years (TerpScout "Network" row).
 - Per-item dates for Vantage (four rows) and Nertia (Default, Distribution, Identity, Plotswitch).
 - Hero fact 04 reads "$10M sold, 2019 to 2021, regulated CPG", the two-year total of the $5M a year in TerpScout. You said "10M ARR"; if ARR is right, change both lines together.
 - The Nertia index year (2025) next to the 01/15/26 origin row: confirm which is right.
@@ -43,6 +42,8 @@ Status on 2026-10-14: the code site `scottcamp` exists. Every push to `main` pub
 - TerpScout evidence, 2019 to 2022: the studio phase, now in the index row and under the TerpScout block. Sources, all Scott's own work, converted into `public/evidence/`: `terpscout/product-loop.mp4` (the spin, 720 px H.264, poster from the first frame); `terpscout/martian-fruit-print-torn.jpg` (the strain print, cultivator credit kept, plus a 320 px trichome detail cut 1:1 from the source); page 3 of `terpscout/terp-scouts-photography-pricing-summer-2022.pdf` (Per Image Pricing, summer 2022); page 1 of `terpscout/flower-menu-2022-12.pdf` cropped to the table (December 2022); `terpscout/terpscout-wordmark-red.webp` (the mark). The Squishy fresh press reel is left out: the Squishy Scientific logo is printed on the mat and fills its end card.
 
 - Years for the TerpScout evidence, from file creation dates: the spin ("Comp 1.mp4") was exported 2022-12-08, so its caption reads 2022; the Martian Fruit print ("Martian Fruit Print.jpg") was created 2022-09-22, so its caption reads 2022; the Squishy reels are from May 2024 and are not on the page.
+
+- Sweet Life and LTRMN years, the TerpScout "Network" row: 2017 to 2020. Source: the resume on the page (`public/Scott_Campbell_Resume.pdf`): The Sweet Life, Account Executive, Oct 2017 to Dec 2019; LTRMN, Business Development Manager, Jan 2019 to Dec 2020.
 
 ## Design sources
 

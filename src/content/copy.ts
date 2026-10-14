@@ -67,7 +67,7 @@ export const COPY = {
     lead: 'A brand I built became a network I sold through, at half the going rate. TerpScout, dba of ScoutCamp, was an OLCC-regulated recreational cannabis distribution consultancy: it facilitated product-to-cash transfers and rented space from established wholesale licenses. The site is gone. The sales logs are not.',
     rows: [
       { when: '2016', who: 'Brand', text: 'Rogue River Botanicals: full brand and website, kraft paper and wax seal packaging. Then sales for them, on the strength of the brand.' },
-      { when: '[DATE]', who: 'Network', text: 'Sales at Sweet Life Distribution and LTRMN Distribution. Four years compiling a network of producers and shops, then out on my own.' },
+      { when: '2017 to 2020', who: 'Network', text: 'Sales at Sweet Life Distribution and LTRMN Distribution. Four years compiling a network of producers and shops, then out on my own.' },
       { when: '2019', who: 'Price', text: 'Distributors took 10%. I cut the middleman out and charged 5%. Ten percent is a lot when the work is gas and the drive.' },
       { when: '2019 to 2021', who: 'Volume', text: '$5M a year across three wholesale locations and about 30 vendors.' },
       { when: '2019 to 2021', who: 'Delivery', text: 'I drove every delivery to the shop and every payment to the producer.' },
