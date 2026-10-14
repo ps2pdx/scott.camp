@@ -13,17 +13,17 @@ it('Index strikes the rows that are not this section and keeps their text', () =
   const struck = rows.filter((r) => r.querySelector('del'));
   expect(struck.length).toBe(9);
   expect(struck[0].textContent).toContain('Ali Sharifi Rugs');
-  expect(rows.filter((r) => !r.querySelector('del')).map((r) => r.children[1].textContent)).toEqual(['pharmtobody.com', 'purezerophotography.com', 'bend.cleaning', 'fullscopesupply.com', 'typeshit.shop']);
+  expect(rows.filter((r) => !r.querySelector('del')).map((r) => r.children[1].textContent)).toEqual(['Pharm to Body', 'Pure Zero Photography', 'Bend Cleaning', 'Full Scope Supply', 'Typeshit']);
   const scroller = table.parentElement!;
   expect(scroller).toHaveAttribute('data-part', 'index-scroll');
   expect(scroller).toHaveAttribute('tabindex', '0');
   expect(container.querySelector('table')).toBe(table);
 });
 it('VolumeFace is a spread: empty verso, recto with number, name, year', () => {
-  const { container } = render(<VolumeFace no="08" name="pharmtobody.com" year="2026" />);
+  const { container } = render(<VolumeFace no="08" name="Pharm to Body" year="2026" />);
   expect(container.querySelector('[data-part="verso"]')?.textContent).toBe('');
   expect(screen.getByText('Vol. 08')).toBeInTheDocument();
-  expect(screen.getByText('pharmtobody.com')).toBeInTheDocument();
+  expect(screen.getByText('Pharm to Body')).toBeInTheDocument();
   expect(screen.getByText('2026')).toBeInTheDocument();
 });
 it('fourteen faces number 01 to 14 in index order', () => {
@@ -58,4 +58,13 @@ it('SpecSheet omits empty fields and renders the quoted title', () => {
   render(<SpecSheet sheet={{ title: 'Pure Zero', fields: { Sheet: 'purezerophotography.com', Role: 'Design, build', Stack: 'Nertia' }, href: 'https://purezerophotography.com', label: 'purezerophotography.com' }} volume={{ no: '09', year: '2026' }} />);
   expect(screen.getByText('"Pure Zero"')).toBeInTheDocument();
   expect(screen.getByRole('link', { name: /purezerophotography\.com/ })).toHaveAttribute('href', 'https://purezerophotography.com');
+});
+it('the index names companies, never URLs, and the Work faces carry the name while the Sheet field keeps the domain', async () => {
+  for (const r of COPY.work.index) expect(r.name, r.no).not.toMatch(/\.(com|shop|cleaning)$/);
+  const { App } = await import('@/App');
+  const { container } = render(<App />);
+  const work = container.querySelector('#work')!;
+  const first = work.querySelector('article')!;
+  expect(first.textContent).toContain('Pharm to Body');
+  expect(first.textContent).toContain('pharmtobody.com');
 });

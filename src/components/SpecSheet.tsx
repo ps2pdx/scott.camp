@@ -2,11 +2,11 @@ import type { Sheet } from '@/content/copy';
 import { VolumeFace } from './VolumeFace';
 import { Bracket } from './Bracket';
 import s from './SpecSheet.module.css';
-export function SpecSheet({ sheet, volume }: { sheet: Sheet; volume: { no: string; year: string } }) {
+export function SpecSheet({ sheet, volume }: { sheet: Sheet; volume: { no: string; name: string; year: string } }) {
   const fields = Object.entries(sheet.fields).filter(([, v]) => v);
   return (
     <article className={`grain tex-paper ${s.sheet}`}>
-      <VolumeFace no={volume.no} name={sheet.fields.Sheet ?? sheet.title} year={volume.year} />
+      <VolumeFace no={volume.no} name={volume.name} year={volume.year} />
       <div className={s.hdr}>{fields.map(([k, v]) => <div key={k}><b className="muted">{k}</b>{v}</div>)}</div>
       <div className={s.in}>
         <h3 className="display t-heading">{`"${sheet.title}"`}{sheet.placeholder ? <> <Bracket className="meta-sm">PLACEHOLDER</Bracket></> : null}</h3>
