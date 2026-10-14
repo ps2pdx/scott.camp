@@ -58,7 +58,7 @@ Status on 2026-10-14: the code site `scottcamp` exists. Every push to `main` pub
 
 ## Decisions taken in the last review pass
 
-- Design system block (2026-10-14): tiers and the lead from `docs/design-system-contract.md` in ps2pdx/nertia; tool lines from the MCP tool list in `src/lib/mcp/jsonRpcEngine.ts`. The two figures are `npx create-nersh@latest` (0.2.0) scaffolding its default catalogue site in a scratch folder, built with `next build` once under `skinId: zinc` and once under `skinId: orange` (nothing else changed; `ds` was empty), shot at 1280 by 800 from `next start`.
+- Design system block (2026-10-14): the generator figure runs nertia's own expansion, vendored read-only into `src/lib/generator/` from ps2pdx/nertia at d9d25008 (`expandSiteDs`, `resolveDensityBand` and `densityBandToSpacingVars`, the `brandColors` helpers, `m3BrandRoles`, `brandColorsToTokensWithPalette` and `mergeBrandColorsIntoDsWithPalette`, the zinc theme, `tintedShadows`, `modeTokens`, `modeToCoreVars`), with one dependency, `@materialx/material-color-utilities` 0.4.8, as nertia uses. The two preset screenshots it replaced are deleted. tiers and the lead from `docs/design-system-contract.md` in ps2pdx/nertia; tool lines from the MCP tool list in `src/lib/mcp/jsonRpcEngine.ts`.
 
 - The Zen Holo and Purple Scott spec sheet cards are hidden (2026-10-14) while their copy is pending; their Index rows stay. The cards return as soon as Scott supplies the copy: drop `placeholder: true` from their entries in `src/content/copy.ts`.
 

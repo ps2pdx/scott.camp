@@ -1,0 +1,25 @@
+.fig{margin:0;display:flex;flex-direction:column;gap:var(--s-3)}
+.controls{display:flex;flex-wrap:wrap;gap:var(--s-3);align-items:flex-end}
+.field{display:flex;flex-direction:column;gap:var(--s-1)}
+.swatch{width:64px;height:40px;padding:0;border:1px solid var(--line-strong);background:none;cursor:pointer}
+.hex{width:10ch;height:40px;padding:0 var(--s-2);border:1px solid var(--line-strong);background:transparent;color:var(--fg)}
+.hex[aria-invalid="true"]{border-color:var(--fg-muted)}
+.mode{height:40px;padding:0 var(--s-3);background:none;border:1px solid var(--line-strong);color:var(--fg);cursor:pointer}
+.swatch:focus-visible,.hex:focus-visible,.mode:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+.body{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:var(--s-4);align-items:start}
+@media (max-width:1023px){.body{grid-template-columns:1fr}}
+.sample{background:var(--background);color:var(--foreground);font-family:var(--font-body);padding:var(--s-5) var(--s-4);display:flex;flex-direction:column;gap:var(--s-3);border:1px solid var(--line)}
+.h{margin:0;font-family:var(--font-heading);font-size:var(--t-title);font-weight:700;line-height:1.1}
+.p{margin:0;font-size:var(--t-text);line-height:1.5;color:var(--muted-fg)}
+.label{color:var(--muted-fg)}
+.btns{display:flex;gap:var(--s-2);flex-wrap:wrap}
+.primary,.outline{display:inline-flex;align-items:center;min-height:40px;padding:0 var(--s-4);border-radius:var(--radius);text-decoration:none;font-size:var(--t-meta);font-weight:700}
+.primary{background:var(--accent);color:var(--accent-fg);box-shadow:var(--btn-shadow)}
+.outline{border:1px solid var(--border);color:var(--foreground)}
+.card{display:flex;flex-direction:column;gap:var(--s-1);padding:var(--s-3);background:var(--card);color:var(--card-foreground);border:1px solid var(--card-border);border-radius:var(--radius);box-shadow:var(--shadow-md);font-size:var(--t-text)}
+.table{width:100%;border-collapse:collapse;font-size:var(--t-text)}
+.table td{border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:var(--s-2) 0}
+.readout{margin:0;display:flex;flex-direction:column;text-transform:none}
+.row{display:grid;grid-template-columns:19ch minmax(0,1fr);gap:var(--s-3);padding:var(--s-1) 0;border-bottom:1px solid var(--line)}
+.row dt{white-space:nowrap}
+.row dd{margin:0;overflow-wrap:anywhere;color:var(--fg-muted)}

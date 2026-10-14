@@ -128,14 +128,15 @@ it('the cover carries the name as a title page would, once, beside the eyebrow',
   expect(line.previousElementSibling!.textContent).toBe('"I design systems agents ship."');
   expect(container.textContent!.split('Portland, Oregon').length).toBe(2);
 });
-it('the design system block: the contract in tiers, one change across two presets, the tools, its links and watermark', () => {
+it('the design system block: the contract in tiers, the live generator, the tools, its links and watermark', () => {
   const { container } = render(<App />);
   const d = container.querySelector('#design-system')!;
   expect(d.querySelector('h2')!.textContent).toBe('One contract, every site');
   expect(d.textContent).toContain('Design system [2026]');
   expect([...d.querySelectorAll('table')[0].querySelectorAll('tr')].map((r) => r.children[0].textContent)).toEqual(['Surface', 'Text', 'Line', 'Accent', 'Radius', 'Shadow', 'Motion', 'Type']);
-  expect([...d.querySelectorAll('figcaption')].map((f) => f.textContent)).toEqual(['The catalogue site under zinc', 'The same site, one token change, under orange']);
-  const tools = [...d.querySelectorAll('table')[1].querySelectorAll('td:first-child')].map((t) => t.textContent);
+  expect(d.querySelector('[data-part="generator"] figcaption')!.textContent).toBe('The generator that started Nertia: one colour in, the whole contract out.');
+  expect(d.querySelector('img[src*="catalogue-site"]')).toBeNull();
+  const tools = [...d.querySelector('table[aria-label^="MCP"]')!.querySelectorAll('td:first-child')].map((t) => t.textContent);
   for (const t of ['switch_site_skin', 'update_copy', 'publish_site', 'publish_from_github']) expect(tools).toContain(t);
   expect(d.querySelector('a[href="/specimen"]')!.textContent).toBe('Documentation ↗');
   expect(d.querySelector('a[href="https://github.com/ps2pdx/nertia/blob/main/docs/design-system-contract.md"]')!.textContent).toBe('Contract on GitHub ↗');

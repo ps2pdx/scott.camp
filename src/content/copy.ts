@@ -106,10 +106,6 @@ export const COPY = {
       ['Motion', '--motion-duration-fast, --motion-duration-normal, --motion-ease', 'Hover, expand and collapse, easing'],
       ['Type', '--font-sans, --font-heading, --font-body', 'Base, display and running text families; sizes are a shared fluid scale'],
     ] as string[][],
-    figures: [
-      { src: '/evidence/catalogue-site-zinc.webp', width: 1280, height: 800, caption: 'The catalogue site under zinc', alt: 'The create-nersh catalogue site at 1280 px under the zinc preset: a centred headline, Build better software, faster, with outline buttons in near black.' },
-      { src: '/evidence/catalogue-site-orange.webp', width: 1280, height: 800, caption: 'The same site, one token change, under orange', alt: 'The same catalogue site with skinId set to orange: identical layout and copy, the buttons and their outlines now orange.' },
-    ],
     tools: [
       ['switch_site_skin', 'Switch the active skin preset; stored tokens clear so the new skin renders live'],
       ['set_node_style', 'Set CSS on a node; presets store design system variables, so the node follows a skin change'],

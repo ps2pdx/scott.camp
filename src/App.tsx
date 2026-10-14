@@ -14,6 +14,7 @@ import { Index } from '@/components/Index';
 import { Footer } from '@/components/Footer';
 import { Plate, Spin } from '@/components/Evidence';
 import { DataTable } from '@/components/DataTable';
+import { Generator } from '@/components/Generator';
 import { Disclosure } from '@/components/Disclosure';
 import s from './App.module.css';
 
@@ -58,8 +59,8 @@ export function App() {
           <Label>Token tiers</Label>
           <div className={s.gap}><DataTable label="Skin contract tokens by tier" rows={COPY.designSystem.tiers} /></div>
           <div className={s.block}>
-            <Label>One change, two sites</Label>
-            <div className={s.stack}>{COPY.designSystem.figures.map((e) => <Plate key={e.src} e={e} />)}</div>
+            <Label>Generator</Label>
+            <div className={s.gap}><Generator /></div>
           </div>
           <div className={s.block}>
             <Label>Tools that act on the system</Label>
