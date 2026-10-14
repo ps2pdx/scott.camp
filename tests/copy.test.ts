@@ -26,7 +26,7 @@ it('index has fourteen rows numbered 01 to 14 with five unstruck', () => {
   expect(COPY.work.index.map((r) => r.no)).toEqual(Array.from({ length: 14 }, (_, i) => String(i + 1).padStart(2, '0')));
   expect(COPY.work.index.filter((r) => !r.struck).map((r) => r.name)).toEqual(['Pharm to Body', 'Pure Zero Photography', 'Bend Cleaning', 'Full Scope Supply', 'Typeshit']);
 });
-it('the hero headline is locked', () => { expect(COPY.hero.headline).toBe('I design systems agents ship.'); expect(VANTAGE_CASE_STUDY_URL).toMatch(/^https:/); });
+it('the hero headline is locked', () => { expect(COPY.hero.headline).toBe("Something Click'd"); expect(COPY.hero.eyebrow).toBe('I design systems agents ship.'); expect(VANTAGE_CASE_STUDY_URL).toMatch(/^https:/); });
 it('hero facts carry real labels, not placeholder brackets', () => {
   expect(COPY.hero.facts.map((f) => f.when)).toEqual(['Vantage', 'Vantage', 'Work', 'TerpScout']);
   expect(COPY.hero.facts[3].text).toBe('$10M sold, 2020 to 2022, regulated CPG');

@@ -13,9 +13,9 @@ export const SECTIONS = [
 
 export const COPY = {
   hero: {
-    eyebrow: "Something Click'd",
+    eyebrow: 'I design systems agents ship.',
     runningHead: 'Portland, Oregon',
-    headline: 'I design systems agents ship.',
+    headline: "Something Click'd",
     lead: 'I built the product marketing function at an early-stage AI/HPC orchestration company: positioning, competitive intelligence, and the sales enablement behind enterprise briefings. Then I built a product of my own, because a marketer who can ship argues from evidence instead of opinion.',
     actions: { email: { label: 'Email me', href: 'mailto:ps2pdx@gmail.com' }, resume: { label: 'Resume', bracket: 'PDF', href: '/Scott_Campbell_Resume.pdf' } },
     facts: [
