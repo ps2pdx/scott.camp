@@ -37,13 +37,15 @@ it('on phones the spine band sits above the nav and the footer carries none', as
   expect(container.querySelector('footer [data-part="band"]')).toBeNull();
   expect(container.querySelectorAll('[data-part="band"]').length).toBe(1);
 });
-it('one fixed spine layer sits behind the page and every divider after the hero is a cut', async () => {
+it('the cover comes first, above the rail and the nav; every section after it is a cut over one fixed spine layer', async () => {
   const { App } = await import('@/App');
   const { container } = render(<App />);
   expect(container.querySelectorAll('[data-part="reveal"]').length).toBe(1);
-  expect(container.querySelector('[data-part="reveal"]')).toHaveAttribute('aria-hidden', 'true');
-  const sections = [...container.querySelectorAll('main > section')];
-  expect(sections[0].classList.contains('cut')).toBe(false);
-  for (const s of sections.slice(1)) expect(s.classList.contains('cut')).toBe(true);
+  const cover = container.querySelector('#hero')!;
+  expect(cover).toHaveAttribute('data-part', 'cover');
+  for (const sel of ['[data-part="rail"]', '[data-part="band"]', 'nav', 'main']) expect(cover.compareDocumentPosition(container.querySelector(sel)!) & Node.DOCUMENT_POSITION_FOLLOWING, sel).toBeTruthy();
+  expect(cover.classList.contains('cut')).toBe(false);
+  for (const sec of container.querySelectorAll('main > section')) expect(sec.classList.contains('cut')).toBe(true);
   expect(container.querySelector('footer')!.classList.contains('cut')).toBe(true);
 });
+

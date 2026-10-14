@@ -53,7 +53,7 @@ it('section dividers are 2 px cuts over one fixed spine layer, and plain rules u
   expect(reveal).toMatch(/position:fixed;inset:0;z-index:-1;pointer-events:none;will-change:transform/);
   expect(reveal).toContain('url(/textures/spine-band.webp)');
   expect(reveal).not.toMatch(/filter|mix-blend|background-attachment/);
-  for (const f of ['src/components/Section.module.css', 'src/components/Footer.module.css', 'src/App.module.css']) expect(readFileSync(f, 'utf8')).toContain('background-color:var(--bg)');
+  for (const f of ['src/components/Section.module.css', 'src/components/Footer.module.css']) expect(readFileSync(f, 'utf8')).toContain('background-color:var(--bg)');
 });
 it('the light page is eggshell, and pure white stays for the punch holes and the sheet', () => {
   expect(lightBlock).toContain('--bg:#f3f1ea');

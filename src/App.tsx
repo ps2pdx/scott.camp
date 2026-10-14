@@ -2,7 +2,8 @@ import { COPY, SECTIONS } from '@/content/copy';
 import { PunchFilterDefs } from '@/components/Punches';
 import { PunchNav } from '@/components/PunchNav';
 import { SpineBand, SpineRail, SpineReveal } from '@/components/SpineRail';
-import { Section, SectionBody } from '@/components/Section';
+import { Section } from '@/components/Section';
+import { Cover } from '@/components/Cover';
 import { Label } from '@/components/Label';
 import { Transcript } from '@/components/Transcript';
 import { Button } from '@/components/Button';
@@ -10,7 +11,6 @@ import { Grid } from '@/components/Grid';
 import { SpecSheet } from '@/components/SpecSheet';
 import { TechSheet } from '@/components/TechSheet';
 import { Index } from '@/components/Index';
-import { RunningHead } from '@/components/RunningHead';
 import { Footer } from '@/components/Footer';
 import { Plate, Spin } from '@/components/Evidence';
 import { Disclosure } from '@/components/Disclosure';
@@ -25,22 +25,17 @@ export function App() {
     <>
       <PunchFilterDefs />
       <SpineReveal />
+      <Cover id="hero" />
       <SpineRail />
       <SpineBand />
       <PunchNav sections={SECTIONS} />
       <main>
-        <section id="hero" className={`grain tex-paper ${s.hero} first`}>
-          <div className={s.heroWrap}>
-            <div className={s.heroHead}><Label>{h.eyebrow}</Label><RunningHead>{h.runningHead}</RunningHead></div>
-            <h1 className={`display t-display ${s.headline}`}>{h.headline}</h1>
-            <p className={`text ${s.lead}`}>{h.lead}</p>
-            <div className={s.btns}>
-              <Button href={h.actions.email.href} variant="primary">{h.actions.email.label}</Button>
-              <Button href={h.actions.resume.href} variant="secondary" bracket={h.actions.resume.bracket} download>{h.actions.resume.label}</Button>
-            </div>
-            <Transcript rows={h.facts} tight className={s.facts} />
-          </div>
-        </section>
+        <Section id="endpapers" surface="endpaper" runningHead={h.runningHead}>
+          <p className={`text ${s.lead}`}>{h.lead}</p>
+          <Transcript rows={h.facts} tight className={s.after} />
+          <Transcript rows={[COPY.endpapers.virgil]} className={s.after} />
+          <div className={s.index}><Index rows={COPY.work.index} /></div>
+        </Section>
 
         <Section id="vantage" tools={COPY.vantage.tools} mark={COPY.vantage.mark} runningHead={COPY.vantage.runningHead} eyebrow={COPY.vantage.eyebrow} title={COPY.vantage.title} lead={COPY.vantage.lead}>
           <Transcript rows={COPY.vantage.rows} />
@@ -65,16 +60,13 @@ export function App() {
           </Disclosure>
         </Section>
 
-        <Section id="work" tools={COPY.work.tools} surface="endpaper" runningHead={COPY.work.runningHead} eyebrow={COPY.work.eyebrow} title={COPY.work.title}>
-          <Index rows={COPY.work.index} />
-        </Section>
-        <SectionBody>
+        <Section id="work" tools={COPY.work.tools} runningHead={COPY.work.runningHead} eyebrow={COPY.work.eyebrow} title={COPY.work.title}>
           <Grid columns={2}>{COPY.work.sheets.map((sh, i) => { const v = vol(String(8 + i).padStart(2, '0')); return <SpecSheet key={sh.title} sheet={sh} volume={{ no: v.no, name: v.name, year: v.year }} />; })}</Grid>
           <div className={s.techBlock}>
             <Label>Tech sheets</Label>
             <div className={s.techGrid}>{COPY.work.tech.map((t) => <TechSheet key={t.sheet} data={t} />)}</div>
           </div>
-        </SectionBody>
+        </Section>
 
         <Section id="practice" tools={COPY.practice.tools} surface="board" runningHead={COPY.practice.runningHead} eyebrow={COPY.practice.eyebrow} title={COPY.practice.title}>
           <Grid columns={2}>{COPY.practice.sheets.map((sh, i) => { const v = vol(String(13 + i)); return <SpecSheet key={sh.title} sheet={sh} volume={{ no: v.no, name: v.name, year: v.year }} />; })}</Grid>

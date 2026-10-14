@@ -13,6 +13,7 @@ import { SpineBand, SpineReveal } from '@/components/SpineRail';
 import { Disclosure } from '@/components/Disclosure';
 import { Plate, Spin } from '@/components/Evidence';
 import { ToolTape } from '@/components/ToolTape';
+import { Cover } from '@/components/Cover';
 import { Mark } from '@/components/Mark';
 import s from './Specimen.module.css';
 
@@ -41,6 +42,8 @@ const swatches = (mode: 'dark' | 'light') => (
 
 export const PARTS: Part[] = [
   { group: 'Surfaces', name: 'Surfaces, dark and light', tokens: '--s-ink --s-page --s-white --s-board --s-endpaper --s-cloth --bg --hole --sheet', render: () => <div className={s.pair}>{swatches('dark')}{swatches('light')}</div> },
+
+  { group: 'Surfaces', name: 'Cover, volt cloth, full bleed above the nav and the rail', tokens: '.chip cloth.webp 204 px, #28d941, ink type, outline actions, 1 px cut edge', render: () => <Cover compact /> },
 
   { group: 'Type', name: 'Display', tokens: '.display .t-display --t-display, fluid', render: () => <div className="display t-display">Something Click'd</div> },
   { group: 'Type', name: 'Title', tokens: '.display .t-title --t-title, 28 px, 20 px on phones', render: () => <div className="display t-title">Five live sites</div> },

@@ -37,14 +37,31 @@ async function main() {
         if (r.stacked) problems.push(`${path} ${width} ${mode}: the index table is stacked or relaid out`);
         if (r.tallestCell > 48) problems.push(`${path} ${width} ${mode}: a nav cell wraps (${r.tallestCell}px)`);
         if (r.indexScrolls) problems.push(`${path} ${width} ${mode}: the index scrolls inside its box`);
-        if (width < 1024) {
-          const band = await page.evaluate(() => {
-            const b = document.querySelector('[data-part="band"]') as HTMLElement | null;
-            const nav = document.querySelector('nav')!;
-            return { top: b ? b.getBoundingClientRect().top : -1, height: b ? b.getBoundingClientRect().height : 0, beforeNav: !!b && !!(b.compareDocumentPosition(nav) & Node.DOCUMENT_POSITION_FOLLOWING), inFooter: !!document.querySelector('footer [data-part="band"]') };
-          });
-          if (band.top !== 0 || band.height < 80 || !band.beforeNav || band.inFooter) problems.push(`${path} ${width} ${mode}: the spine band is not the top band above the nav (${JSON.stringify(band)})`);
-        }
+        const top = await page.evaluate(() => {
+          const cover = document.getElementById('hero')!.getBoundingClientRect();
+          const b = document.querySelector('[data-part="band"]') as HTMLElement;
+          const nav = document.querySelector('nav')!.getBoundingClientRect();
+          const hit = document.elementFromPoint(20, Math.min(200, cover.height - 10));
+          return { coverH: cover.height, vh: innerHeight, navTop: nav.top, bandTop: b.getBoundingClientRect().top, bandShown: getComputedStyle(b).display !== 'none', coverOnTop: !!hit && !!hit.closest('#hero') };
+        });
+        if (top.coverH < top.vh - 2) problems.push(`${path} ${width} ${mode}: the cover does not fill the first viewport (${top.coverH} < ${top.vh})`);
+        if (!top.coverOnTop) problems.push(`${path} ${width} ${mode}: the rail or the nav shows over the cover`);
+        if (Math.abs(top.navTop - top.coverH - (top.bandShown ? top.bandTop - top.coverH + (await page.evaluate(() => (document.querySelector('[data-part="band"]') as HTMLElement).getBoundingClientRect().height)) : 0)) > 2) problems.push(`${path} ${width} ${mode}: the nav does not start at the cover's bottom edge (${JSON.stringify(top)})`);
+        if (top.bandShown && Math.abs(top.bandTop - top.coverH) > 2) problems.push(`${path} ${width} ${mode}: the spine band does not start after the cover (${JSON.stringify(top)})`);
+        await page.screenshot({ path: `${OUT}/cover-${width}-${mode}-0.png` });
+        await page.evaluate(() => window.scrollTo(0, 200));
+        await page.waitForTimeout(200);
+        await page.screenshot({ path: `${OUT}/cover-${width}-${mode}-200.png` });
+        await page.evaluate((h) => window.scrollTo(0, h + 400), top.coverH);
+        await page.waitForTimeout(200);
+        const stuck = await page.evaluate(() => {
+          const nav = document.querySelector('nav')!.getBoundingClientRect();
+          const hit = document.elementFromPoint(10, nav.bottom + 60);
+          return { navTop: Math.round(nav.top), rail: !!hit && hit.getAttribute('data-part') === 'rail' };
+        });
+        if (stuck.navTop !== 0) problems.push(`${path} ${width} ${mode}: the nav does not stick to the top after the cover (${stuck.navTop})`);
+        if (width >= 1024 && !stuck.rail) problems.push(`${path} ${width} ${mode}: the rail does not show at the left once past the cover`);
+        await page.evaluate(() => window.scrollTo(0, 0));
         for (const id of ['vantage', 'work', 'contact']) {
           await page.click(`nav a[href="#${id}"]`);
           await page.waitForTimeout(400);
@@ -61,10 +78,11 @@ async function main() {
       await page.screenshot({ path: `${OUT}/${path}-${width}-${mode}.png`, fullPage: true });
       if (path === 'bell') {
         await page.locator('#hero').screenshot({ path: `${OUT}/hero-${width}-${mode}.png` });
+        await page.locator('#endpapers').screenshot({ path: `${OUT}/endpapers-${width}-${mode}.png` });
         await page.locator('#terpscout').screenshot({ path: `${OUT}/terpscout-${width}-${mode}.png` });
         await page.locator('#vantage ul.transcript').screenshot({ path: `${OUT}/transcript-${width}-${mode}.png` });
         await page.locator('[data-part="index"]').screenshot({ path: `${OUT}/index-${width}-${mode}.png` });
-        await page.locator('[data-part="section-body"] article').first().screenshot({ path: `${OUT}/specsheet-${width}-${mode}.png` });
+        await page.locator('#work article').first().screenshot({ path: `${OUT}/specsheet-${width}-${mode}.png` });
         await page.locator('#nertia svg[role="img"]').first().screenshot({ path: `${OUT}/techsheet-${width}-${mode}.png` });
         await page.evaluate(() => window.scrollTo(0, 0));
         await page.locator('nav').screenshot({ path: `${OUT}/nav-${width}-${mode}.png` });

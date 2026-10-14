@@ -7,7 +7,7 @@ beforeAll(() => { (globalThis as any).IntersectionObserver = class { observe() {
 
 it('renders the seven sections in order with running heads', () => {
   const { container } = render(<App />);
-  expect([...container.querySelectorAll('section')].map((s) => s.id)).toEqual(SECTIONS.map((s) => s.id));
+  expect([...container.querySelectorAll('section')].map((s) => s.id)).toEqual(['hero', 'endpapers', ...SECTIONS.slice(1).map((s) => s.id)]);
   expect(screen.getByText('Portland, Oregon')).toBeInTheDocument();
   expect(screen.getByText('"I design systems agents ship."')).toBeInTheDocument();
   expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent("Something Click'd");
@@ -67,4 +67,19 @@ it('every content section carries a tool tape with its own facts, moving copy hi
   const still = css.slice(css.indexOf('@media (prefers-reduced-motion: reduce),(prefers-reduced-data: reduce),(forced-colors: active)'));
   expect(still).toMatch(/\.track\{animation:none/);
   expect(still).toContain('.run+.run{display:none}');
+});
+it('the cover holds only the eyebrow, the headline and two outline actions; the Virgil row sits on the yellow pages, once', () => {
+  const { container } = render(<App />);
+  const cover = container.querySelector('#hero')!;
+  expect(cover.querySelector('h1')!.textContent).toBe("Something Click'd");
+  expect(cover.querySelector('h1')!.classList.contains('bleed-btn')).toBe(true);
+  expect([...cover.querySelectorAll('a')].map((a) => a.getAttribute('data-variant'))).toEqual(['secondary', 'secondary']);
+  expect(cover.querySelector('p, ul, table')).toBeNull();
+  expect(cover.textContent).toContain('"I design systems agents ship."');
+  const v = COPY.endpapers.virgil;
+  expect(v).toEqual({ when: '2015 to 2016', who: 'Virgil', text: 'Virgil Abloh played Euphoria, Portland, the room that is 45 East now. He dapped me up in the crowd. We exchanged pleasantries, as far as club sound at 1 AM allows.' });
+  expect(container.querySelector('#endpapers')!.textContent).toContain(v.text);
+  expect(container.textContent!.split('dapped me up').length).toBe(2);
+  expect(COPY.practice.rows[0].text).toContain('Marquee Mondays');
+  expect(COPY.practice.rows[0].text).not.toContain('Virgil');
 });

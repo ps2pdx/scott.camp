@@ -26,6 +26,3 @@ export function Section({ id, runningHead, eyebrow, title, lead, surface = 'page
   );
 }
 
-export function SectionBody({ children }: { children: ReactNode }) {
-  return <div data-part="section-body" className={`grain tex-paper ${s.section} cut`}><div className={s.wrap}>{children}</div></div>;
-}

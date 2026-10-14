@@ -25,6 +25,9 @@ export const COPY = {
       { when: 'TerpScout', who: '', text: '$10M sold, 2020 to 2022, regulated CPG' },
     ] as TranscriptRow[],
   },
+  endpapers: {
+    virgil: { when: '2015 to 2016', who: 'Virgil', text: 'Virgil Abloh played Euphoria, Portland, the room that is 45 East now. He dapped me up in the crowd. We exchanged pleasantries, as far as club sound at 1 AM allows.' } as TranscriptRow,
+  },
   vantage: {
     mark: { src: '/evidence/vantage-mark.svg', width: 175, height: 40, name: 'Vantage Compute', wide: true },
     tools: ["Product positioning", "Competitive intelligence", "Sales enablement", "Technical messaging", "Naming and trademark", "Investor communications", "SEO/GEO", "Figma", "HubSpot", "Zoho", "GA4", "Slurm", "Kubernetes", "NVIDIA GPU architecture", "Docker"] as string[],
@@ -132,7 +135,7 @@ export const COPY = {
       { title: 'Purple Scott', fields: { Sheet: 'Purple Scott', Role: 'DJ', Stack: 'Ableton' }, placeholder: true, href: 'https://purplescott.com', label: 'purplescott.com' },
     ] as Sheet[],
     rows: [
-      { when: '2017', who: 'Scott', text: 'Marquee Mondays, District, 2017: seventeen weekly nights of curated live DJs, residents Purple Scott, Dirty Deeds and Token, ending 5 June 2017. Virgil Abloh played Euphoria, Portland, the room that is 45 East now. He dapped me up in the crowd. We exchanged pleasantries, as far as club sound at 1 AM allows.' },
+      { when: '2017', who: 'Scott', text: 'Marquee Mondays, District, 2017: seventeen weekly nights of curated live DJs, residents Purple Scott, Dirty Deeds and Token, ending 5 June 2017.' },
     ] as TranscriptRow[],
     evidence: [
       { src: '/evidence/marquee-mondays-017.webp', width: 1600, height: 1066, caption: 'Event banner, Marquee Mondays 017, District, 5 June 2017', alt: 'Black event banner: [Marquee Mondays] 017, 06 05 17, Bad Technique, Everettz, Residents (Purple Scott, Dirty Deeds, Token), District est. 2014, 220 SW Ankeny St, 9 PM, no cover, beside a crushed can in glitch colours.' },
