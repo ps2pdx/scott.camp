@@ -43,3 +43,7 @@ describe('theme boot', () => {
     expect(document.documentElement.hasAttribute('data-theme')).toBe(false);
   });
 });
+it('Practice carries the Marquee Mondays evidence pair with captions and alt text', () => {
+  render(<App />);
+  for (const c of ['Event banner, Marquee Mondays 017, District, 5 June 2017', 'Series banner, Marquee Mondays, District, 2017']) expect(screen.getByText(c).closest('figure')!.querySelector('img')!.getAttribute('alt')).toMatch(/Marquee Mondays/);
+});

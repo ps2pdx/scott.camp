@@ -114,6 +114,10 @@ export const COPY = {
     rows: [
       { when: '2017', who: 'Scott', text: 'Marquee Mondays, District, 2017: seventeen weekly nights of curated live DJs, residents Purple Scott, Dirty Deeds and Token, ending 5 June 2017. Virgil Abloh played Euphoria, Portland, the room that is 45 East now. He dapped me up in the crowd. We exchanged pleasantries, as far as club sound at 1 AM allows.' },
     ] as TranscriptRow[],
+    evidence: [
+      { src: '/evidence/marquee-mondays-017.webp', width: 1600, height: 1066, caption: 'Event banner, Marquee Mondays 017, District, 5 June 2017', alt: 'Black event banner: [Marquee Mondays] 017, 06 05 17, Bad Technique, Everettz, Residents (Purple Scott, Dirty Deeds, Token), District est. 2014, 220 SW Ankeny St, 9 PM, no cover, beside a crushed can in glitch colours.' },
+      { src: '/evidence/marquee-mondays-series.webp', width: 1535, height: 460, caption: 'Series banner, Marquee Mondays, District, 2017', alt: 'Series banner photographed in the room: the Marquee Mondays, Purple Scott and District marks over a brick wall with a painted portrait, purple chandeliers and people at the balcony rail.' },
+    ],
   },
   contact: {
     eyebrow: 'Contact', runningHead: 'Contact', title: "Let's talk",

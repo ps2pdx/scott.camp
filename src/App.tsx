@@ -67,6 +67,14 @@ export function App() {
         <Section id="practice" surface="board" runningHead={COPY.practice.runningHead} eyebrow={COPY.practice.eyebrow} title={COPY.practice.title}>
           <Grid columns={2}>{COPY.practice.sheets.map((sh, i) => { const v = vol(String(13 + i)); return <SpecSheet key={sh.title} sheet={sh} volume={{ no: v.no, year: v.year }} />; })}</Grid>
           <Transcript rows={COPY.practice.rows} className={s.after} />
+          <div className={s.evidence}>
+            {COPY.practice.evidence.map((e) => (
+              <figure key={e.src} className={s.plate}>
+                <img src={e.src} width={e.width} height={e.height} alt={e.alt} loading="lazy" decoding="async" />
+                <figcaption className="meta-sm">{e.caption}</figcaption>
+              </figure>
+            ))}
+          </div>
         </Section>
 
         <Section id="contact" runningHead={COPY.contact.runningHead} eyebrow={COPY.contact.eyebrow} title={COPY.contact.title} lead={COPY.contact.lead}>
