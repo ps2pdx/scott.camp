@@ -71,12 +71,51 @@ def wrap_len(g, axis, lo, hi, span=200):
         return ImageStat.Stat(ImageChops.difference(g.crop(a), g.crop(b))).mean[0]
     return min(range(lo, hi + 1), key=diff)
 
+def periodic_blur(img, radius):
+    w, h = img.size
+    mosaic = Image.new(img.mode, (w * 3, h * 3))
+    for i in range(3):
+        for j in range(3):
+            mosaic.paste(img, (i * w, j * h))
+    return mosaic.filter(ImageFilter.GaussianBlur(radius)).crop((w, h, 2 * w, 2 * h))
+
+def periodic_flatten(tile, radius):
+    """Evens out the light falloff and the focus falloff across the frame (local mean and local contrast),
+    measured on a 3 x 3 mosaic so the correction wraps with the tile and no repeat reads as a band."""
+    w, h = tile.size
+    low = periodic_blur(tile, radius)
+    lum = tile.convert('L'); lum_low = low.convert('L')
+    amp = periodic_blur(ImageChops.difference(lum, lum_low), radius)
+    mean = ImageStat.Stat(tile).mean
+    target = ImageStat.Stat(amp).mean[0]
+    src, lo, am = tile.load(), low.load(), amp.load()
+    out = Image.new('RGB', (w, h)); dst = out.load()
+    for y in range(h):
+        for x in range(w):
+            g = target / max(1.0, am[x, y])
+            dst[x, y] = tuple(max(0, min(255, int(m + (c - l) * g + 0.5))) for c, l, m in zip(src[x, y], lo[x, y], mean))
+    return out
+
+# The cloth also covers the full-bleed cover, so it must be seamless at that size: about 60 by 72 weave pitches,
+# feathers of 280 px (x) and 500 px (y) of the photo, phase-matched repeat lengths, and the light and focus
+# falloff across the frame evened out (local mean and contrast) so no repeat reads as a band.
+# The tile keeps the button's weave scale: 597 by 646 px, drawn at 189 by 204 CSS px.
+CLOTH_PITCHES_X, CLOTH_PITCHES_Y, FEATHER_X, FEATHER_Y = 60, 72, 280, 500
+
 def cloth_tile(target):
-    cw, ch, m = round(PITCH_X * 65), round(PITCH_Y * 72), 60
-    src = load('IMG_2976.JPG').crop((0, 500, cw + m, 500 + ch + m))
+    mx, my = FEATHER_X, FEATHER_Y
+    im = load('IMG_2976.JPG')
+    nx, ny = round(PITCH_X * CLOTH_PITCHES_X), round(PITCH_Y * CLOTH_PITCHES_Y)
+    # The repeat lengths are tuned to where the weave lines up with itself, so the seams land in phase.
+    cw = wrap_len(im.crop((0, 500, im.width, 500 + ny)), 'x', nx - 23, min(nx + 23, im.width - mx), span=150)
+    ch = wrap_len(im.crop((0, 500, cw, 500 + ny + my)), 'y', ny - 20, ny + 20, span=150)
+    src = im.crop((0, 500, cw + mx, 500 + ch + my))
     src = lift(gained(src, [t / v for t, v in zip(target, ImageStat.Stat(src).mean)]))
-    tile = wrap_axis(wrap_axis(src, cw, m, 'x'), ch, m, 'y').resize((CLOTH_TILE, CLOTH_TILE), Image.LANCZOS)
+    tile = wrap_axis(wrap_axis(src, cw, mx, 'x'), ch, my, 'y')
+    tile = tile.resize((round(CLOTH_TILE * cw / round(PITCH_X * 65)), round(CLOTH_TILE * ch / round(PITCH_Y * 72))), Image.LANCZOS)
+    tile = periodic_flatten(tile, 14)
     tile.save(OUT + 'cloth.webp', quality=Q)
+    print('cloth tile', tile.size, 'repeat', cw, ch)
     return tile
 
 # IMG_2983: the sharpest, most evenly lit full-height run of the Smyth-sewn spine (glue gloss, black thread,

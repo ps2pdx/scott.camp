@@ -7,7 +7,7 @@ export const VANTAGE_CASE_STUDY_URL = 'https://vantagecompute.nertia.ai';
 export const SOURCE_URL = 'https://github.com/ps2pdx/scott.camp';
 
 export const SECTIONS = [
-  { id: 'hero', label: 'Hero' }, { id: 'vantage', label: 'Vantage' }, { id: 'nertia', label: 'Nertia' },
+  { id: 'hero', label: 'Cover' }, { id: 'vantage', label: 'Vantage' }, { id: 'nertia', label: 'Nertia' },
   { id: 'work', label: 'Work' }, { id: 'terpscout', label: 'TerpScout' }, { id: 'practice', label: 'Practice' }, { id: 'contact', label: 'Contact' },
 ] as const;
 

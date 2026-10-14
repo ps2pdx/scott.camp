@@ -49,3 +49,10 @@ it('the cover comes first, above the rail and the nav; every section after it is
   expect(container.querySelector('footer')!.classList.contains('cut')).toBe(true);
 });
 
+it('the first cell is named Cover', () => {
+  render(<PunchNav sections={SECTIONS} />);
+  const first = screen.getAllByRole('link')[0];
+  expect(first).toHaveAttribute('aria-label', 'Cover');
+  expect(first).toHaveAttribute('title', 'Cover');
+  expect(first).toHaveAttribute('href', '#hero');
+});
