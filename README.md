@@ -38,7 +38,7 @@ Status on 2026-10-14: the code site does not exist yet. The latest run stops at 
 
 ## Resolved facts
 
-- The Euphoria night: Marquee Mondays, District, 2015: a weekly of curated live DJs, about four months. Now the Practice row's date and first sentence.
+- The Euphoria night: Marquee Mondays, District, 2017: a weekly of curated live DJs, about four months. Source: the event banner for night 012 (04 24 17, Dirty Sprite, Purple Scott, Dirty Deeds, District, 220 SW Ankeny St), so the series ran at least twelve weeks. Now the Practice row's date and first sentence. Open: whether Euphoria is the room inside District.
 
 ## Design sources
 

@@ -112,7 +112,7 @@ export const COPY = {
       { title: 'Purple Scott', fields: { Sheet: 'Purple Scott', Role: 'DJ', Stack: 'Ableton' }, placeholder: true, href: 'https://purplescott.com', label: 'purplescott.com' },
     ] as Sheet[],
     rows: [
-      { when: '2015', who: 'Scott', text: 'Marquee Mondays, District, 2015: a weekly of curated live DJs, about four months. Virgil Abloh played Euphoria, Portland, the room that is 45 East now. He dapped me up in the crowd. We exchanged pleasantries, as far as club sound at 1 AM allows.' },
+      { when: '2017', who: 'Scott', text: 'Marquee Mondays, District, 2017: a weekly of curated live DJs, about four months. Virgil Abloh played Euphoria, Portland, the room that is 45 East now. He dapped me up in the crowd. We exchanged pleasantries, as far as club sound at 1 AM allows.' },
     ] as TranscriptRow[],
   },
   contact: {
