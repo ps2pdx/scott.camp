@@ -47,52 +47,94 @@ def cloth_target():
     cover = load('IMG_2975.jpeg')
     return ImageStat.Stat(cover, mask=gmask(cover)).mean
 
+# Weave pitch by FFT, photo px (x, y): IMG_3027 about (41.4, 37.4), IMG_2976 about (45.6, 40.8).
+# The chip sheet is IMG_3027 at 0.24, so the tile is IMG_2976 at 0.24 * 41.4 / 45.6: one sheet px is one tile px,
+# and with both drawn at 24/76 the weave is one pitch across the inner edge.
+CLOTH_TILE, PITCH_X, PITCH_Y = 646, 45.6, 40.8
+
+def wrap_axis(im, n, m, axis):
+    """First n px along axis, the first m px faded into the m px past the end, so the tile wraps on itself."""
+    w, h = im.size
+    if axis == 'x':
+        a = im.crop((0, 0, n, h)); ramp = Image.linear_gradient('L').rotate(90).resize((m, h))
+        a.paste(Image.composite(a.crop((0, 0, m, h)), im.crop((n, 0, n + m, h)), ramp), (0, 0))
+    else:
+        a = im.crop((0, 0, w, n)); ramp = Image.linear_gradient('L').resize((w, m))
+        a.paste(Image.composite(a.crop((0, 0, w, m)), im.crop((0, n, w, n + m)), ramp), (0, 0))
+    return a
+
+def wrap_len(g, axis, lo, hi, span=200):
+    """The repeat length in lo..hi where the weave lines up with itself best."""
+    g = g.convert('L'); w, h = g.size
+    def diff(n):
+        a, b = ((0, 0, span, h), (n, 0, n + span, h)) if axis == 'x' else ((0, 0, w, span), (0, n, w, n + span))
+        return ImageStat.Stat(ImageChops.difference(g.crop(a), g.crop(b))).mean[0]
+    return min(range(lo, hi + 1), key=diff)
+
 def cloth_tile(target):
-    sq = load('IMG_2976.JPG').crop((0, 700, 3024, 3724))
-    sq = lift(gained(sq, [t / v for t, v in zip(target, ImageStat.Stat(sq).mean)]))
-    sq.resize((1024, 1024), Image.LANCZOS).save(OUT + 'cloth.webp', quality=Q)
+    cw, ch, m = round(PITCH_X * 65), round(PITCH_Y * 72), 60
+    src = load('IMG_2976.JPG').crop((0, 500, cw + m, 500 + ch + m))
+    src = lift(gained(src, [t / v for t, v in zip(target, ImageStat.Stat(src).mean)]))
+    tile = wrap_axis(wrap_axis(src, cw, m, 'x'), ch, m, 'y').resize((CLOTH_TILE, CLOTH_TILE), Image.LANCZOS)
+    tile.save(OUT + 'cloth.webp', quality=Q)
+    return tile
 
 def spine_tile():
     sp = load('IMG_2981.JPG').crop((1150, 0, 1930, 4032)).resize((160, 827), Image.LANCZOS)
     t = Image.new('RGB', (160, 1654)); t.paste(sp, (0, 0)); t.paste(ImageOps.flip(sp), (0, 827))
     t.save(OUT + 'spine.webp', quality=Q + 5)
 
-def chip_slice(target):
+def matched(img, ref_stat, own_stat):
+    return Image.merge('RGB', tuple(c.point(lambda v, rm=rm, rs=rs, om=om, os_=os_: max(0, min(255, int((v - om) * rs / os_ + rm))))
+                                    for c, rm, rs, om, os_ in zip(img.split(), ref_stat.mean, ref_stat.stddev, own_stat.mean, own_stat.stddev)))
+
+def chip_slice(target, tile):
     im = load('IMG_3027.JPG').rotate(-3.03, resample=Image.BICUBIC, center=(1480, 2010))
     cx, cy, IN, OUT_ = 1514, 2032, 260, 60
-    patch = im.crop((cx - IN, cy - IN, cx + OUT_, cy + OUT_)); W = patch.size[0]
-    pmean = ImageStat.Stat(patch, mask=gmask(patch)).mean
-    patch = lift(gained(patch, [t / v for t, v in zip(target, pmean)]))
+    W = IN + OUT_; w = int(W * 0.24); half = w // 2; m = 40
+    patch = im.crop((cx - IN, cy - IN, cx + OUT_, cy + OUT_))
+    gain = [t / v for t, v in zip(target, ImageStat.Stat(patch, mask=gmask(patch)).mean)]
+    prep = lambda img: lift(gained(img, gain))
+    patch = prep(patch)
+    # The edge bands are long straight runs of the same edge, cut to a length where the weave repeats and
+    # wrapped on themselves: no flipped pieces, so the band reads as plain cloth at the corner's scale.
+    ry = wrap_len(im.crop((cx - IN, cy - IN - 900, cx - 40, cy - IN - 100)), 'y', 290, 345)
+    bx = wrap_len(im.crop((cx - IN - 900, cy - IN, cx - IN - 100, cy - 40)), 'x', 290, 345)
+    right = prep(wrap_axis(im.crop((cx - IN, cy - IN - 40 - ry - m, cx + OUT_, cy - IN - 40)), ry, m, 'y'))
+    bottom = prep(wrap_axis(im.crop((cx - IN - 40 - bx - m, cy - IN, cx - IN - 40, cy + OUT_)), bx, m, 'x'))
+    # Tone and contrast follow the cloth tile, measured at the scale both are drawn at (one sheet px = one tile px).
+    ref = ImageStat.Stat(tile)
+    def to_tile(img, cloth):
+        probe = img.crop(cloth); probe = probe.resize((int(probe.width * 0.24), int(probe.height * 0.24)), Image.LANCZOS)
+        return matched(img, ref, ImageStat.Stat(probe))
+    patch = to_tile(patch, (0, 0, IN - 20, IN - 20))
+    right = to_tile(right, (0, 0, IN - 20, ry))
+    bottom = to_tile(bottom, (0, 0, bx, IN - 20))
     pm = Image.new('L', patch.size, 0); ImageDraw.Draw(pm).rectangle((0, 0, IN - 1, IN - 1), fill=255)
     pm = pm.filter(ImageFilter.GaussianBlur(1))
     sh = Image.new('L', patch.size, 0); ImageDraw.Draw(sh).rectangle((0, 0, IN + 5, IN + 5), fill=50)
     sh = sh.filter(ImageFilter.GaussianBlur(9))
     alpha = ImageChops.lighter(pm, sh)
-    rgb = Image.composite(patch, Image.new('RGB', patch.size, (0, 0, 0)), pm)
-    p = rgb.copy(); p.putalpha(alpha)
-    w = int(W * 0.24); p = p.resize((w, w), Image.LANCZOS); half = w // 2
-    br, bl, tr, tl = p, ImageOps.mirror(p), ImageOps.flip(p), ImageOps.flip(ImageOps.mirror(p))
+    def cut(rgb, pmask, amask):
+        out = Image.composite(rgb, Image.new('RGB', rgb.size, (0, 0, 0)), pmask); out.putalpha(amask); return out
+    row = lambda mask, n: mask.crop((0, IN // 2, W, IN // 2 + 1)).resize((W, n), Image.NEAREST)
+    col = lambda mask, n: mask.crop((IN // 2, 0, IN // 2 + 1, W)).resize((n, W), Image.NEAREST)
+    p = cut(patch, pm, alpha).resize((w, w), Image.LANCZOS)
+    rb = cut(right, row(pm, ry), row(alpha, ry)).resize((w, w), Image.LANCZOS)
+    bb = cut(bottom, col(pm, bx), col(alpha, bx)).resize((w, w), Image.LANCZOS)
     sheet = Image.new('RGBA', (w * 3, w * 3), (0, 0, 0, 0))
-    sheet.paste(tl, (0, 0)); sheet.paste(tr, (2 * w, 0)); sheet.paste(bl, (0, 2 * w)); sheet.paste(br, (2 * w, 2 * w))
-    # Edge bands are four quarter-length pieces, alternately flipped, so they cover the full slice
-    # and the band's last row mirrors its first: every repeat at any border width meets itself.
-    assert w % 4 == 0, w
-    q = w // 4
-    right = p.crop((0, 0, w, q)); bottom = p.crop((0, 0, q, w))
-    left, top = ImageOps.mirror(right), ImageOps.flip(bottom)
-    for i in range(4):
-        sheet.paste(right if i % 2 == 0 else ImageOps.flip(right), (2 * w, w + i * q))
-        sheet.paste(left if i % 2 == 0 else ImageOps.flip(left), (0, w + i * q))
-        sheet.paste(bottom if i % 2 == 0 else ImageOps.mirror(bottom), (w + i * q, 2 * w))
-        sheet.paste(top if i % 2 == 0 else ImageOps.mirror(top), (w + i * q, 0))
+    sheet.paste(ImageOps.flip(ImageOps.mirror(p)), (0, 0)); sheet.paste(ImageOps.flip(p), (2 * w, 0))
+    sheet.paste(ImageOps.mirror(p), (0, 2 * w)); sheet.paste(p, (2 * w, 2 * w))
+    sheet.paste(rb, (2 * w, w)); sheet.paste(ImageOps.mirror(rb), (0, w))
+    sheet.paste(bb, (w, 2 * w)); sheet.paste(ImageOps.flip(bb), (w, 0))
     sheet.paste(p.crop((0, 0, half, half)).resize((w, w), Image.LANCZOS), (w, w))
-    sheet.save(OUT + 'chip.png')
-    print('chip slice', w)
+    sheet.save(OUT + 'chip.png', optimize=True)
+    print('chip slice', w, 'band repeats', ry, bx)
 
 if __name__ == '__main__':
     target = cloth_target()
     gray_tile('IMG_2939.jpeg', (100, 400, 900, 1200), 2.2, 'board')
     gray_tile('IMG_2999.JPG', (200, 1800, 1400, 3000), 1.6, 'paper')
-    cloth_tile(target)
+    tile = cloth_tile(target)
     spine_tile()
-    chip_slice(target)
+    chip_slice(target, tile)
