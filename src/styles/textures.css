@@ -2,6 +2,16 @@
 .grain::before{content:"";position:absolute;inset:0;pointer-events:none;background-size:512px 512px;mix-blend-mode:multiply;opacity:var(--grain);background-image:var(--tex);filter:brightness(2)}
 .grain>*{position:relative}
 .cut{border-top:2px solid transparent;background-clip:padding-box}
+:root{--wm-k:1}
+@media (max-width:639px){:root{--wm-k:0.5}}
+[data-wm-size="72"]{--wm-size:72px}
+[data-wm-size="96"]{--wm-size:96px}
+[data-wm-size="128"]{--wm-size:128px}
+[data-wm-size="160"]{--wm-size:160px}
+[data-wm-offset="24"]{--wm-offset:24px}
+[data-wm-offset="48"]{--wm-offset:48px}
+[data-wm-offset="72"]{--wm-offset:72px}
+[data-wm-offset="96"]{--wm-offset:96px}
 .bleed-nav{text-shadow:0 0 0.5px currentColor}
 .bleed-btn{text-shadow:0 0 0.3px currentColor}
 .tex-paper{--tex:image-set(url(/textures/paper-512.webp) 1x,url(/textures/paper-1024.webp) 2x)}

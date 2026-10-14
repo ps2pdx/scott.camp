@@ -12,7 +12,7 @@ import { TechSheet } from '@/components/TechSheet';
 import { SpineBand, SpineReveal } from '@/components/SpineRail';
 import { Disclosure } from '@/components/Disclosure';
 import { Plate, Spin } from '@/components/Evidence';
-import { ToolTape } from '@/components/ToolTape';
+import { ToolMark } from '@/components/ToolMark';
 import { Cover } from '@/components/Cover';
 import { Mark } from '@/components/Mark';
 import s from './Specimen.module.css';
@@ -50,6 +50,7 @@ export const PARTS: Part[] = [
   { group: 'Type', name: 'Text', tokens: '.text --t-text, 18 px, 16 px on phones', render: () => <p className="text">Lead paragraphs and card bodies. One idea per sentence.</p> },
   { group: 'Type', name: 'Meta', tokens: '.meta --t-meta, 13 px, 11 px on phones, uppercase', render: () => <div className="meta">Eyebrows, nav, captions, tables, buttons</div> },
   { group: 'Type', name: 'Transcript', tokens: '.transcript --t-meta, sentence case', render: () => <div className="transcript">10/13/26 11:05:00 PM. Every row is dated with the real date of the thing.</div> },
+  { group: 'Type', name: 'Meta, watermark: Courier New Bold, 72 to 160 px, 10 percent', tokens: '.watermark, data-size 72 96 128 160, half on phones, opacity 0.1, 90 s loop', render: () => <div className={s.wmDemo} data-wm-size="96" data-wm-offset="24"><ToolMark id="vantage" items={COPY.nertia.tools} /></div> },
   { group: 'Type', name: 'Type ink', tokens: '.bleed-nav 0.5 px, .bleed-btn 0.3 px, text-shadow in the text colour', render: () => (
     <div className={s.ink}>
       <span className="meta">Vantage, no bleed</span><span className="meta bleed-nav">Vantage, 0.5 px bleed</span>
@@ -81,7 +82,6 @@ export const PARTS: Part[] = [
       <div className={s.cells}>{SECTIONS.map((x, i) => <a key={x.id} href={`#${x.id}`} aria-label={x.label} title={x.label} className={`meta bleed-nav ${s.cell}`} {...(i === 0 ? { 'aria-current': 'location' as const } : {})}>{String(i + 1).padStart(2, '0')}</a>)}</div>
     </div>
   ) },
-  { group: 'Controls', name: 'Tools strip, tape over the section edge, -2 degrees', tokens: '.meta --tape --tape-ink --s-6, 90 s loop, paused on hover', render: () => <div className={s.tapeDemo}><ToolTape items={COPY.nertia.tools} /></div> },
   { group: 'Controls', name: 'Disclosure summary row', tokens: '.meta --line-strong, closed by default', render: () => <Disclosure summary="Disclosure, closed by default"><Plate e={COPY.practice.evidence[1]} /></Disclosure> },
 
   ...TEXTURES.filter((t) => t.file !== 'chip').map((t): Part => ({ group: 'Textures', name: `${t.name} tile`, tokens: provenance(t), render: () => <div className={s.tile} data-tile={t.file} /> })),

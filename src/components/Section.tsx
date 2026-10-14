@@ -1,16 +1,16 @@
 import type { ReactNode } from 'react';
 import { Label } from './Label';
 import { RunningHead } from './RunningHead';
-import { ToolTape } from './ToolTape';
+import { ToolMark, watermarkPlacement } from './ToolMark';
 import { Mark, type MarkData } from './Mark';
 import s from './Section.module.css';
 
 export function Section({ id, runningHead, eyebrow, title, lead, surface = 'page', first, tools, mark, children }: {
   tools?: readonly string[]; mark?: MarkData; id: string; runningHead?: string; eyebrow?: string; title?: string; lead?: string; surface?: 'page' | 'board' | 'endpaper'; first?: boolean; children: ReactNode;
 }) {
+  const wm = tools ? watermarkPlacement(id) : null;
   return (
-    <section id={id} {...(first ? { 'data-first': '' } : {})} {...(surface === 'endpaper' ? { 'data-surface': 'endpaper' } : {})} className={`grain ${surface === 'board' ? `tex-board ${s.board}` : surface === 'endpaper' ? `tex-paper ${s.endpaper}` : 'tex-paper'} ${s.section} ${first ? 'first' : 'cut'}`}>
-      {tools ? <ToolTape items={tools} /> : null}
+    <section id={id} {...(wm ? { 'data-wm-size': wm.size, 'data-wm-offset': wm.offset } : {})} {...(first ? { 'data-first': '' } : {})} {...(surface === 'endpaper' ? { 'data-surface': 'endpaper' } : {})} className={`grain ${surface === 'board' ? `tex-board ${s.board}` : surface === 'endpaper' ? `tex-paper ${s.endpaper}` : 'tex-paper'} ${s.section} ${wm ? s.hasWm : ''} ${first ? 'first' : 'cut'}`}>
       <div className={s.wrap}>
         <div className={s.head}>
           <div className={s.titles}>
@@ -22,6 +22,7 @@ export function Section({ id, runningHead, eyebrow, title, lead, surface = 'page
         </div>
         {children}
       </div>
+      {tools ? <ToolMark id={id} items={tools} /> : null}
     </section>
   );
 }

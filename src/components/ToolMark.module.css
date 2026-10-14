@@ -1,0 +1,14 @@
+.wm.wm{position:absolute;z-index:0;left:0;right:0;bottom:calc(var(--wm-offset) * var(--wm-k));pointer-events:none;color:var(--fg);opacity:0.1}
+.viewport{overflow:hidden;white-space:nowrap;font-size:calc(var(--wm-size) * var(--wm-k))}
+.track{display:flex;width:max-content;animation:wm 90s linear infinite;will-change:transform}
+.run{flex:none;padding-right:0.5ch}
+@keyframes wm{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.wm[data-start="0"] .track{animation-delay:-0s}
+.wm[data-start="1"] .track{animation-delay:-18s}
+.wm[data-start="2"] .track{animation-delay:-36s}
+.wm[data-start="3"] .track{animation-delay:-54s}
+.wm[data-start="4"] .track{animation-delay:-72s}
+@media (prefers-reduced-motion: reduce),(prefers-reduced-data: reduce),(forced-colors: active){
+  .track{animation:none;width:auto;will-change:auto}
+  .run+.run{display:none}
+}
