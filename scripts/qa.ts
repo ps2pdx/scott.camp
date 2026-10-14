@@ -5,7 +5,7 @@ import { mkdirSync } from 'node:fs';
 const OUT = '.parity';
 const PORT = 4178;
 const BASE = `http://localhost:${PORT}`;
-const TEXTURES_OFF = '.grain::before{display:none}.rail{background-image:none !important;width:2px !important}.chip{border-image:none !important;background-image:none !important}.hole{filter:none !important}';
+const TEXTURES_OFF = '.grain::before{display:none}.rail{background-image:none !important;width:2px !important}.band{background-image:none !important}.chip{border-image:none !important;background-image:none !important}.hole{filter:none !important}';
 
 async function launch(): Promise<Browser> {
   try { return await chromium.launch(); } catch { return chromium.launch({ channel: 'chrome' }); }
@@ -33,6 +33,14 @@ async function main() {
         });
         if (r.tallestCell > 48) problems.push(`${path} ${width} ${mode}: a nav cell wraps (${r.tallestCell}px)`);
         if (r.indexScrolls) problems.push(`${path} ${width} ${mode}: the index scrolls inside its box`);
+        if (width < 1024) {
+          const band = await page.evaluate(() => {
+            const b = document.querySelector('[data-part="band"]') as HTMLElement | null;
+            const nav = document.querySelector('nav')!;
+            return { top: b ? b.getBoundingClientRect().top : -1, height: b ? b.getBoundingClientRect().height : 0, beforeNav: !!b && !!(b.compareDocumentPosition(nav) & Node.DOCUMENT_POSITION_FOLLOWING), inFooter: !!document.querySelector('footer [data-part="band"]') };
+          });
+          if (band.top !== 0 || band.height < 16 || !band.beforeNav || band.inFooter) problems.push(`${path} ${width} ${mode}: the spine band is not the top band above the nav (${JSON.stringify(band)})`);
+        }
         for (const id of ['vantage', 'work', 'contact']) {
           await page.click(`nav a[href="#${id}"]`);
           await page.waitForTimeout(400);

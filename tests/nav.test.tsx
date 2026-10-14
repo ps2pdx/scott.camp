@@ -20,3 +20,12 @@ it('rail is decorative', () => {
   expect(container.firstChild).toHaveAttribute('aria-hidden', 'true');
   expect(container.firstChild).toHaveAttribute('data-part', 'rail');
 });
+it('on phones the spine band sits above the nav and the footer carries none', async () => {
+  const { App } = await import('@/App');
+  const { container } = render(<App />);
+  const band = container.querySelector('[data-part="band"]')!;
+  expect(band).toHaveAttribute('aria-hidden', 'true');
+  expect(band.compareDocumentPosition(container.querySelector('nav')!) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+  expect(container.querySelector('footer [data-part="band"]')).toBeNull();
+  expect(container.querySelectorAll('[data-part="band"]').length).toBe(1);
+});

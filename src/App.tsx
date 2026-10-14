@@ -1,7 +1,7 @@
 import { COPY, SECTIONS } from '@/content/copy';
 import { PunchFilterDefs } from '@/components/Punches';
 import { PunchNav } from '@/components/PunchNav';
-import { SpineRail } from '@/components/SpineRail';
+import { SpineBand, SpineRail } from '@/components/SpineRail';
 import { Section } from '@/components/Section';
 import { Label } from '@/components/Label';
 import { Transcript } from '@/components/Transcript';
@@ -24,6 +24,7 @@ export function App() {
     <>
       <PunchFilterDefs />
       <SpineRail />
+      <SpineBand />
       <PunchNav sections={SECTIONS} />
       <main>
         <section id="hero" className={`grain tex-paper ${s.hero} first`}>

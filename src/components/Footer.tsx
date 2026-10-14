@@ -1,7 +1,6 @@
 import { COPY } from '@/content/copy';
 import { PROVENANCE_LINE } from '@/content/textures';
 import { ThemeToggle } from './ThemeToggle';
-import { SpineBand } from './SpineRail';
 import s from './Footer.module.css';
 export function Footer() {
   return (
@@ -14,7 +13,6 @@ export function Footer() {
         <p className="text t-body">{COPY.footer.tagline}</p>
         <p className="meta-sm muted">{PROVENANCE_LINE}</p>
       </div>
-      <SpineBand />
     </footer>
   );
 }

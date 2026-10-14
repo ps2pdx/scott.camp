@@ -6,6 +6,7 @@
 @media (prefers-reduced-data: reduce),(forced-colors: active){
   .grain::before{display:none}
   .rail{background-image:none !important;width:2px !important}
+  .band{background-image:none !important}
   .chip{border-image:none !important;background-image:none !important}
   .hole{filter:none !important}
 }
