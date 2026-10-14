@@ -28,8 +28,9 @@ it('index has thirteen rows numbered 01 to 13 with five unstruck, KAL Contractin
 });
 it('the hero headline is locked', () => { expect(COPY.hero.headline).toBe("Something Click'd"); expect(COPY.hero.eyebrow).toBe('I design systems agents ship.'); expect(VANTAGE_CASE_STUDY_URL).toMatch(/^https:/); });
 it('hero facts carry real labels, not placeholder brackets', () => {
-  expect(COPY.hero.facts.map((f) => f.when)).toEqual(['Vantage', 'Vantage', 'Work', 'TerpScout']);
-  expect(COPY.hero.facts[3].text).toBe('$10M sold, 2020 to 2022, regulated CPG');
+  expect(COPY.hero.facts.map((f) => f.when)).toEqual(['Nertia', 'Vantage', 'TerpScout', 'Work']);
+  expect(COPY.hero.facts[0].text).toBe('Shipped as a web app and an MCP server');
+  expect(COPY.hero.facts[2].text).toBe('$10M sold, 2020 to 2022, regulated CPG');
 });
 it('the TerpScout running head spans 2016 to 2022', () => { expect(COPY.terpscout.runningHead).toBe('TerpScout [2016 to 2022]'); });
 it('the TerpScout Network row is dated 2017 to 2020 from the resume', () => { expect(COPY.terpscout.rows.find((r) => r.who === 'Network')!.when).toBe('2017 to 2020'); });

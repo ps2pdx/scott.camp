@@ -18,10 +18,10 @@ export const COPY = {
     headline: "Something Click'd",
     lead: 'I built the product marketing function at an early-stage AI/HPC orchestration company: positioning, competitive intelligence, and the sales enablement behind enterprise briefings. Then I built a product of my own, because a marketer who can ship argues from evidence instead of opinion.',
     facts: [
-      { when: 'Vantage', who: '', text: 'Early-stage AI/HPC platform' },
+      { when: 'Nertia', who: '', text: 'Shipped as a web app and an MCP server' },
       { when: 'Vantage', who: '', text: '50+ competitors mapped' },
-      { when: 'Work', who: '', text: '5 live client sites' },
       { when: 'TerpScout', who: '', text: '$10M sold, 2020 to 2022, regulated CPG' },
+      { when: 'Work', who: '', text: '5 live client sites' },
     ] as TranscriptRow[],
   },
   endpapers: {
