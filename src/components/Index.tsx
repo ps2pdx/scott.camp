@@ -1,10 +1,9 @@
 import type { IndexRow } from '@/content/copy';
-import { Surface } from './Surface';
 import { Label } from './Label';
 import s from './Index.module.css';
 export function Index({ rows }: { rows: readonly IndexRow[] }) {
   return (
-    <Surface kind="endpaper" className={s.page}>
+    <div className={s.page} data-part="index">
       <Label>Index</Label>
       <div className={s.scroll} data-part="index-scroll">
         <table className={`transcript ${s.table}`} aria-label="Index of work. Struck rows belong to other sections.">
@@ -17,6 +16,6 @@ export function Index({ rows }: { rows: readonly IndexRow[] }) {
           </tbody>
         </table>
       </div>
-    </Surface>
+    </div>
   );
 }

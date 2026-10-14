@@ -2,7 +2,7 @@ import { COPY, SECTIONS } from '@/content/copy';
 import { PunchFilterDefs } from '@/components/Punches';
 import { PunchNav } from '@/components/PunchNav';
 import { SpineBand, SpineRail, SpineReveal } from '@/components/SpineRail';
-import { Section } from '@/components/Section';
+import { Section, SectionBody } from '@/components/Section';
 import { Label } from '@/components/Label';
 import { Transcript } from '@/components/Transcript';
 import { Button } from '@/components/Button';
@@ -67,14 +67,16 @@ export function App() {
           </Disclosure>
         </Section>
 
-        <Section id="work" surface="board" runningHead={COPY.work.runningHead} eyebrow={COPY.work.eyebrow} title={COPY.work.title}>
+        <Section id="work" surface="endpaper" runningHead={COPY.work.runningHead} eyebrow={COPY.work.eyebrow} title={COPY.work.title}>
           <Index rows={COPY.work.index} />
+        </Section>
+        <SectionBody>
           <Grid columns={3}>{COPY.work.sheets.map((sh, i) => { const v = vol(String(8 + i).padStart(2, '0')); return <SpecSheet key={sh.title} sheet={sh} volume={{ no: v.no, name: v.name, year: v.year }} />; })}</Grid>
           <div className={s.techBlock}>
             <Label>Tech sheets</Label>
             <div className={s.techGrid}>{COPY.work.tech.map((t) => <TechSheet key={t.sheet} data={t} />)}</div>
           </div>
-        </Section>
+        </SectionBody>
 
         <Section id="practice" surface="board" runningHead={COPY.practice.runningHead} eyebrow={COPY.practice.eyebrow} title={COPY.practice.title}>
           <Grid columns={2}>{COPY.practice.sheets.map((sh, i) => { const v = vol(String(13 + i)); return <SpecSheet key={sh.title} sheet={sh} volume={{ no: v.no, name: v.name, year: v.year }} />; })}</Grid>

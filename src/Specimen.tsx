@@ -5,6 +5,7 @@ import { PunchFilterDefs, Punches } from '@/components/Punches';
 import { VolumeFace } from '@/components/VolumeFace';
 import { Transcript } from '@/components/Transcript';
 import { Index } from '@/components/Index';
+import { Surface } from '@/components/Surface';
 import { Button } from '@/components/Button';
 import { SpecSheet } from '@/components/SpecSheet';
 import { TechSheet } from '@/components/TechSheet';
@@ -61,7 +62,7 @@ export const PARTS: { caption: string; render: (mode: Mode) => ReactNode }[] = [
     </div>
   ) },
   { caption: 'Transcript', render: () => <Transcript rows={[{ when: '10/21/16', who: 'Virgil', text: 'The theory is to underline its existence by being specific.' }, { when: '[DATE]', who: 'Scott', text: 'Every row is dated with the real date of the thing.' }]} /> },
-  { caption: 'Index, struck rows', render: () => <Index rows={COPY.work.index.slice(6, 9)} /> },
+  { caption: 'Index, the yellow page edge to edge, struck rows', render: () => <Surface kind="endpaper" className={s.yellow}><Index rows={COPY.work.index.slice(6, 9)} /></Surface> },
   { caption: 'Cloth button, one weave across the box, and states', render: (mode) => (
     <>
       <div className={s.btns}>

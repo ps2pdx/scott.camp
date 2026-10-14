@@ -64,7 +64,7 @@ it('the index names companies, never URLs, and the Work faces carry the name whi
   for (const r of COPY.work.index) expect(r.name, r.no).not.toMatch(/\.(com|shop|cleaning)$/);
   const { App } = await import('@/App');
   const { container } = render(<App />);
-  const work = container.querySelector('#work')!;
+  const work = container.querySelector('#work + [data-part="section-body"]')!;
   const first = work.querySelector('article')!;
   expect(first.textContent).toContain('Pharm to Body');
   expect(first.textContent).toContain('pharmtobody.com');
@@ -79,4 +79,19 @@ it('phones keep the tables: no two-row nav, no stacked index, no portrait tech s
   expect(idx).toContain('.table{font-size:10px}');
   expect(readFileSync('src/components/TechSheet.tsx', 'utf8')).not.toMatch(/NARROW|useNarrow/);
   expect(readFileSync('src/components/Transcript.module.css', 'utf8')).not.toMatch(/grid-template-columns:1fr/);
+});
+it('one tone per data set: the Work index is the yellow page edge to edge, every sheet is neutral', async () => {
+  const { readFileSync } = await import('node:fs');
+  const { App } = await import('@/App');
+  const { container } = render(<App />);
+  const work = container.querySelector('#work')!;
+  expect(work).toHaveAttribute('data-surface', 'endpaper');
+  expect(work.querySelector('table')).not.toBeNull();
+  expect(work.querySelector('article, figure')).toBeNull();
+  expect(container.querySelectorAll('[data-surface="endpaper"]').length).toBe(1);
+  const body = container.querySelector('#work + [data-part="section-body"]')!;
+  expect(body.querySelectorAll('article').length).toBe(COPY.work.sheets.length);
+  expect(body.querySelector('table')).toBeNull();
+  expect(readFileSync('src/components/Section.module.css', 'utf8')).toMatch(/\.endpaper\{background-color:var\(--s-endpaper\);color:#000;--fg:#000;[^}]*--line-strong:#000/);
+  expect(readFileSync('src/components/Index.tsx', 'utf8')).not.toContain('Surface');
 });
