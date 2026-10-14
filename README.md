@@ -38,7 +38,7 @@ Status on 2026-10-14: the code site does not exist yet. The latest run stops at 
 
 ## Resolved facts
 
-- The Euphoria night: Marquee Mondays, District, 2017: a weekly of curated live DJs, about four months. Source: the event banner for night 012 (04 24 17, Dirty Sprite, Purple Scott, Dirty Deeds, District, 220 SW Ankeny St), so the series ran at least twelve weeks. Now the Practice row's date and first sentence. Open: whether Euphoria is the room inside District.
+- The Euphoria night is Marquee Mondays, District, 2017: seventeen weekly nights of curated live DJs, residents Purple Scott, Dirty Deeds and Token, ending 5 June 2017. Sources: the event banners (012 dated 04 24 17; 017 dated 06 05 17, Bad Technique, Everettz, Residents) and the Purple Scott Facebook Page's past events and albums (001 Suma, a 49-photo album; 016 the Memorial Day party, 29 May 2017; 017 on Mon 5 June 2017). District, 220 SW Ankeny St, Portland, est. 2014; 9 PM, no cover; Jägermeister sponsor mark on the banners. Now the Practice row's date and first sentence. Open: whether Euphoria is the room inside District.
 
 ## Design sources
 
