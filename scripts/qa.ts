@@ -5,7 +5,7 @@ import { mkdirSync } from 'node:fs';
 const OUT = '.parity';
 const PORT = 4178;
 const BASE = `http://localhost:${PORT}`;
-const TEXTURES_OFF = '.grain::before{display:none}.rail{background-image:none !important;width:2px !important}.band{background-image:none !important}.chip{border-image:none !important;background-image:none !important}.hole{filter:none !important}';
+const TEXTURES_OFF = '.grain::before{display:none}.rail{background-image:none !important;width:2px !important}.band{background-image:none !important}.chip{background-image:none !important}.hole{filter:none !important}';
 
 async function launch(): Promise<Browser> {
   try { return await chromium.launch(); } catch { return chromium.launch({ channel: 'chrome' }); }

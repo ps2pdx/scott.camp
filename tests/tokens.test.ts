@@ -35,3 +35,10 @@ it('the phone band draws the spine rotated, at its true aspect, as tall as the r
   const css = readFileSync('src/components/SpineRail.module.css', 'utf8');
   expect(css).toMatch(/\.band\{[^}]*height:clamp\(40px,5vw,56px\)[^}]*url\(\/textures\/spine-band\.webp\) repeat-x;background-size:auto 100%/);
 });
+it('the primary chip is one cloth weave across the whole box: no 9-slice, no radius, no shadow', () => {
+  const css = readFileSync('src/components/Button.module.css', 'utf8');
+  const primary = css.match(/\.primary\{[^}]*\}/)![0];
+  expect(primary).not.toMatch(/border-image|border-radius|box-shadow/);
+  expect(primary).toMatch(/url\(\/textures\/cloth\.webp\)/);
+  expect(primary).toMatch(/background-origin:border-box;background-clip:border-box/);
+});
