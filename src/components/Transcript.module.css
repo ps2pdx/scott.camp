@@ -1,0 +1,5 @@
+.list{display:flex;flex-direction:column;gap:var(--s-5);margin:0;padding:0;list-style:none}
+.tight{gap:var(--s-1)}
+.row{display:grid;grid-template-columns:11ch minmax(0,1fr);gap:0 var(--s-5)}
+.when{white-space:pre-line}
+@media (max-width:1023px){.row{grid-template-columns:1fr;gap:var(--s-1)}}

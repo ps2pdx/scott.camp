@@ -1,0 +1,7 @@
+.grid{display:grid;gap:1px;background:var(--line);border:1px solid var(--line)}
+.three{grid-template-columns:repeat(3,minmax(0,1fr))}
+.two{grid-template-columns:repeat(2,minmax(0,1fr))}
+.cell{background:var(--bg);min-width:0}
+.span{grid-column:1 / -1}
+@media (max-width:1023px){.three{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:639px){.three,.two{grid-template-columns:1fr}}
