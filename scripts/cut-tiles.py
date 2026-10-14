@@ -70,17 +70,21 @@ def chip_slice(target):
     alpha = ImageChops.lighter(pm, sh)
     rgb = Image.composite(patch, Image.new('RGB', patch.size, (0, 0, 0)), pm)
     p = rgb.copy(); p.putalpha(alpha)
-    w = int(W * 0.24); p = p.resize((w, w), Image.LANCZOS); half = w // 2; third = w // 3
+    w = int(W * 0.24); p = p.resize((w, w), Image.LANCZOS); half = w // 2
     br, bl, tr, tl = p, ImageOps.mirror(p), ImageOps.flip(p), ImageOps.flip(ImageOps.mirror(p))
     sheet = Image.new('RGBA', (w * 3, w * 3), (0, 0, 0, 0))
     sheet.paste(tl, (0, 0)); sheet.paste(tr, (2 * w, 0)); sheet.paste(bl, (0, 2 * w)); sheet.paste(br, (2 * w, 2 * w))
-    right = p.crop((0, 0, w, third)); bottom = p.crop((0, 0, third, w))
+    # Edge bands are four quarter-length pieces, alternately flipped, so they cover the full slice
+    # and the band's last row mirrors its first: every repeat at any border width meets itself.
+    assert w % 4 == 0, w
+    q = w // 4
+    right = p.crop((0, 0, w, q)); bottom = p.crop((0, 0, q, w))
     left, top = ImageOps.mirror(right), ImageOps.flip(bottom)
-    for i in range(3):
-        sheet.paste(right if i % 2 == 0 else ImageOps.flip(right), (2 * w, w + i * third))
-        sheet.paste(left if i % 2 == 0 else ImageOps.flip(left), (0, w + i * third))
-        sheet.paste(bottom if i % 2 == 0 else ImageOps.mirror(bottom), (w + i * third, 2 * w))
-        sheet.paste(top if i % 2 == 0 else ImageOps.mirror(top), (w + i * third, 0))
+    for i in range(4):
+        sheet.paste(right if i % 2 == 0 else ImageOps.flip(right), (2 * w, w + i * q))
+        sheet.paste(left if i % 2 == 0 else ImageOps.flip(left), (0, w + i * q))
+        sheet.paste(bottom if i % 2 == 0 else ImageOps.mirror(bottom), (w + i * q, 2 * w))
+        sheet.paste(top if i % 2 == 0 else ImageOps.mirror(top), (w + i * q, 0))
     sheet.paste(p.crop((0, 0, half, half)).resize((w, w), Image.LANCZOS), (w, w))
     sheet.save(OUT + 'chip.png')
     print('chip slice', w)
