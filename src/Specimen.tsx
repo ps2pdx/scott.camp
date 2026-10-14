@@ -78,7 +78,8 @@ export const PARTS: { caption: string; render: (mode: Mode) => ReactNode }[] = [
       </div>
     </>
   ) },
-  { caption: 'Evidence figure, stacked, caption beneath', render: () => <div className={s.stack}><Plate e={COPY.practice.evidence[0]} /><Plate e={ts.shown[0]} /></div> },
+  { caption: 'Evidence figure, stacked, caption beneath', render: () => <div className={s.stack}><Plate e={COPY.practice.evidence[0]} /></div> },
+  { caption: 'Identity mark, white tile, both modes', render: () => <div className={s.marks}><Plate e={ts.shown[0]} /></div> },
   { caption: 'Disclosure summary row, video figure with poster inside', render: () => <Disclosure summary={ts.gated.summary}><Spin clip={ts.gated.spin} /></Disclosure> },
   { caption: 'Spec sheet and tech sheet', render: () => (
     <div className={s.pair}>

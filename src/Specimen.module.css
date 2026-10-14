@@ -40,3 +40,4 @@
 .stack{display:flex;flex-direction:column;gap:var(--s-5)}
 @media (max-width:639px){.swatches{grid-template-columns:repeat(3,minmax(0,1fr))}}
 .yellow{padding:var(--s-5) var(--s-4)}
+.marks{display:flex;gap:var(--s-5);flex-wrap:wrap;align-items:flex-start}

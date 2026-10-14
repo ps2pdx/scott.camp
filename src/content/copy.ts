@@ -74,7 +74,7 @@ export const COPY = {
     ] as TranscriptRow[],
     evidence: {
       shown: [
-        { src: '/evidence/terpscout-wordmark.webp', width: 600, height: 90, caption: 'Terpscout wordmark', alt: 'Terpscout, set in red with a trademark sign.', mark: true },
+        { src: '/evidence/terpscout-mark.webp', width: 240, height: 240, caption: 'TerpScout mark', alt: 'TerpScout mark: the letters TS inside a ring of rainbow segments.', mark: true },
       ],
       gated: {
         summary: 'Cannabis product work, 21 and over',

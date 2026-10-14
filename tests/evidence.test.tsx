@@ -38,12 +38,12 @@ const open = async (details: HTMLDetailsElement, how: 'click' | 'key') => {
   else { summary.focus(); fireEvent.keyDown(summary, { key: 'Enter' }); if (!details.open) fireEvent.click(summary); }
   await waitFor(() => expect(details.querySelector('video, img')).not.toBeNull());
 };
-it('TerpScout shows only the wordmark until the disclosure is opened', () => {
+it('TerpScout shows only the TS mark until the disclosure is opened', () => {
   stubMatchMedia(false);
   const { container } = render(<App />);
   const block = container.querySelector('#terpscout')!;
   const ev = COPY.terpscout.evidence;
-  expect(ev.shown.map((e) => e.src)).toEqual(['/evidence/terpscout-wordmark.webp']);
+  expect(ev.shown.map((e) => e.src)).toEqual(['/evidence/terpscout-mark.webp']);
   expect([...block.querySelectorAll('img')].map((i) => i.getAttribute('src'))).toEqual(ev.shown.map((e) => e.src));
   expect([...block.querySelectorAll('figcaption')].map((f) => f.textContent)).toEqual(ev.shown.map((e) => e.caption));
   expect(block.querySelector('video')).toBeNull();
@@ -145,11 +145,13 @@ it('the spin sits in a black figure no wider than 480 px, capped at 52vh, captio
   expect(css).toMatch(/@media \(min-width:640px\)\{\.spin\{max-width:480px\}\}/);
   expect(css).not.toMatch(/70vh/);
 });
-it('the wordmark draws at half size: 300 px on desktop, half the column on phones, left-aligned', () => {
+it('the TS mark sits on a white square tile: 120 px on desktop, 96 px on phones, left-aligned, no radius, no shadow', () => {
   const css = readFileSync('src/components/Evidence.module.css', 'utf8');
-  expect(css).toContain('.mark img{width:min(300px,50%)}');
+  expect(css).toContain('.mark img{width:120px;height:120px;padding:12px;background:#fff;object-fit:contain}');
+  expect(css).toContain('@media (max-width:639px){.mark img{width:96px;height:96px;padding:10px}}');
   expect(css).toContain('.mark{align-items:flex-start}');
-  expect(COPY.terpscout.evidence.shown[0]).toMatchObject({ src: '/evidence/terpscout-wordmark.webp', mark: true });
+  expect(css).not.toMatch(/border-radius|box-shadow/);
+  expect(COPY.terpscout.evidence.shown).toEqual([expect.objectContaining({ src: '/evidence/terpscout-mark.webp', caption: 'TerpScout mark', mark: true })]);
 });
 it('the rosin press reel and the Trap Fuel study sit inside the disclosure only', async () => {
   stubMatchMedia(false);
