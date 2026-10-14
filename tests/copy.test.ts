@@ -50,3 +50,6 @@ it('KAL Contracting is not in the index and Pharm to Body is Vol. 07', () => {
   expect(COPY.work.index.some((r) => r.name === 'KAL Contracting')).toBe(false);
   expect(COPY.work.index.find((r) => r.name === 'Pharm to Body')!.no).toBe('07');
 });
+it('the yellow pages open by continuing the cover, verbatim', () => {
+  expect(COPY.hero.lead).toBe('Around last year, when I was building my portfolio, it pivoted into a design system generator, which is now Nertia: an agentic wormhole out of the corporate web.');
+});
