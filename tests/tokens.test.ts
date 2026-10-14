@@ -31,9 +31,9 @@ it('the desktop rail scales with the viewport and draws the spine at its true as
   expect(readFileSync('src/styles/tokens.css', 'utf8')).toMatch(/min-width:1024px\)\{:root\{[^}]*--rail:clamp\(56px,5vw,96px\)/);
   expect(readFileSync('src/components/SpineRail.module.css', 'utf8')).toContain('repeat-y;background-size:100% auto');
 });
-it('the phone band draws the spine rotated, at its true aspect, as tall as the rail would be wide', () => {
+it('the phone band draws the spine rotated, at its true aspect, twice twice as tall as the rail would be wide', () => {
   const css = readFileSync('src/components/SpineRail.module.css', 'utf8');
-  expect(css).toMatch(/\.band\{[^}]*height:clamp\(40px,5vw,56px\)[^}]*url\(\/textures\/spine-band\.webp\) repeat-x;background-size:auto 100%/);
+  expect(css).toMatch(/\.band\{[^}]*height:clamp\(80px,10vw,112px\)[^}]*url\(\/textures\/spine-band\.webp\) repeat-x;background-size:auto 100%/);
 });
 it('the primary chip is one cloth weave across the whole box: no 9-slice, no radius, no shadow', () => {
   const css = readFileSync('src/components/Button.module.css', 'utf8');

@@ -39,7 +39,7 @@ async function main() {
             const nav = document.querySelector('nav')!;
             return { top: b ? b.getBoundingClientRect().top : -1, height: b ? b.getBoundingClientRect().height : 0, beforeNav: !!b && !!(b.compareDocumentPosition(nav) & Node.DOCUMENT_POSITION_FOLLOWING), inFooter: !!document.querySelector('footer [data-part="band"]') };
           });
-          if (band.top !== 0 || band.height < 16 || !band.beforeNav || band.inFooter) problems.push(`${path} ${width} ${mode}: the spine band is not the top band above the nav (${JSON.stringify(band)})`);
+          if (band.top !== 0 || band.height < 80 || !band.beforeNav || band.inFooter) problems.push(`${path} ${width} ${mode}: the spine band is not the top band above the nav (${JSON.stringify(band)})`);
         }
         for (const id of ['vantage', 'work', 'contact']) {
           await page.click(`nav a[href="#${id}"]`);
