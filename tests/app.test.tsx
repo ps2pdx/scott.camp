@@ -83,3 +83,8 @@ it('the cover holds only the eyebrow, the headline and two outline actions; the 
   expect(COPY.practice.rows[0].text).toContain('Marquee Mondays');
   expect(COPY.practice.rows[0].text).not.toContain('Virgil');
 });
+it('sections run cover, yellow pages, Vantage, Nertia, Work, TerpScout, Practice, Contact', () => {
+  const { container } = render(<App />);
+  expect([...container.querySelectorAll('section')].map((x) => x.id)).toEqual(['hero', 'endpapers', 'vantage', 'nertia', 'work', 'terpscout', 'practice', 'contact']);
+  expect(SECTIONS.map((x) => x.id)).toEqual(['hero', 'vantage', 'nertia', 'work', 'terpscout', 'practice', 'contact']);
+});
