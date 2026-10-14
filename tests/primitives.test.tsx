@@ -16,23 +16,27 @@ it('Label wraps in straight quotes, Bracket in square brackets', () => {
 it('Transcript renders rows with when and who in the left column', () => {
   render(<Transcript rows={[{ when: '2016', who: 'Brand', text: 'A line.' }]} />);
   expect(screen.getByText('A line.')).toBeInTheDocument();
-  expect(screen.getByText(/2016/)).toHaveClass('when');
+  expect(screen.getByText(/2016/)).toHaveAttribute('data-part', 'when');
 });
 it('Section renders id, running head and a rule-less first section', () => {
   const { container } = render(<Section id="hero" runningHead="Portland, Oregon" first><p>x</p></Section>);
-  expect(container.querySelector('section#hero')).toBeInTheDocument();
+  const section = container.querySelector('section');
+  expect(section).toHaveAttribute('id', 'hero');
   expect(screen.getByText('Portland, Oregon')).toBeInTheDocument();
-  expect(container.querySelector('section')).toHaveClass('first');
+  expect(section).toHaveAttribute('data-first');
 });
 it('Grid of four marks the fourth child as the span', () => {
   const { container } = render(<Grid columns={3}><i /><i /><i /><i /></Grid>);
-  expect(container.querySelectorAll('.cell')[3]).toHaveClass('span');
+  const cells = container.querySelectorAll('[data-part="cell"]');
+  expect(cells.length).toBe(4);
+  expect(cells[3]).toHaveAttribute('data-span');
+  expect(container.querySelectorAll('[data-span]').length).toBe(1);
 });
-it('Button is a real link with the chip class and a bracket', () => {
+it('Button is a real link with the primary variant and a bracket', () => {
   render(<Button href="/r.pdf" variant="primary" bracket="PDF">Resume</Button>);
   const a = screen.getByRole('link', { name: 'Resume [PDF]' });
   expect(a).toHaveAttribute('href', '/r.pdf');
-  expect(a).toHaveClass('chip');
+  expect(a).toHaveAttribute('data-variant', 'primary');
 });
 it('ThemeToggle flips data-theme and localStorage', () => {
   localStorage.clear(); document.documentElement.removeAttribute('data-theme');

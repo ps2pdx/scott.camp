@@ -5,7 +5,7 @@ import s from './Transcript.module.css';
 function Row({ when, who, children }: { when: string; who?: string; children: ReactNode }) {
   return (
     <li className={s.row}>
-      <span className={`when muted ${s.when}`}>{when}{who ? `\n${who}` : ''}</span>
+      <span data-part="when" className={`when muted ${s.when}`}>{when}{who ? `\n${who}` : ''}</span>
       <span className={s.text}>{children}</span>
     </li>
   );

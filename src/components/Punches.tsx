@@ -13,5 +13,5 @@ export function PunchFilterDefs() {
   );
 }
 export function Punches({ className }: { className?: string }) {
-  return <div className={`${s.row} ${className ?? ''}`} aria-hidden="true"><span className={`hole ${s.hole}`} /><span className={`hole ${s.hole}`} /><span className={`hole ${s.hole}`} /></div>;
+  return <div className={`${s.row} ${className ?? ''}`} aria-hidden="true"><span data-part="punch" className={`hole ${s.hole}`} /><span data-part="punch" className={`hole ${s.hole}`} /><span data-part="punch" className={`hole ${s.hole}`} /></div>;
 }

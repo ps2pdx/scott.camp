@@ -9,7 +9,7 @@ export function Index({ rows }: { rows: readonly IndexRow[] }) {
       <table className={`transcript ${s.table}`}>
         <tbody>
           {rows.map((r) => (
-            <tr key={r.no} className={r.struck ? `struck ${s.struck}` : ''}>
+            <tr key={r.no} {...(r.struck ? { 'data-struck': '' } : {})} className={r.struck ? `struck ${s.struck}` : ''}>
               {[r.no, r.name, r.description, r.year].map((c, i) => <td key={i}><span>{c}</span></td>)}
             </tr>
           ))}

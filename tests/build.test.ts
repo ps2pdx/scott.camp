@@ -18,6 +18,18 @@ describe('build', () => {
     expect(html).toContain('href="/bell/"');
   });
 
+  it('the theme boot script runs before the stylesheet and the module script', () => {
+    for (const page of ['out/bell/index.html', 'out/specimen/index.html']) {
+      const html = readFileSync(page, 'utf8');
+      const boot = html.indexOf("localStorage.getItem('theme')");
+      const sheet = html.indexOf('rel="stylesheet"');
+      const mod = html.indexOf('type="module"');
+      expect(boot, page).toBeGreaterThan(-1);
+      expect(sheet, page).toBeGreaterThan(boot);
+      expect(mod, page).toBeGreaterThan(boot);
+    }
+  });
+
   it('404 carries the link and no refresh', () => {
     const html = readFileSync('out/404.html', 'utf8');
     expect(html).toContain('href="/bell/"');

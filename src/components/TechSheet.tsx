@@ -10,7 +10,7 @@ export function TechSheet({ data }: { data: TechSheetData }) {
         <rect width="480" height="300" fill="url(#gp)" />
         <g className={s.stroke} stroke="#111" fill="none" strokeWidth="1.2">
           <rect x="40" y="22" width="110" height="256" />
-          {rows.map((r) => <rect key={r.sec} className="box" x="46" y={r.y} width="98" height={h} />)}
+          {rows.map((r) => <rect key={r.sec} data-part="box" className="box" x="46" y={r.y} width="98" height={h} />)}
           <path d={rows.map((r) => `M144 ${r.cy}H200`).join('')} strokeDasharray="2 2" />
         </g>
         <g fontSize="9" fill="#111">{rows.map((r, i) => <text key={r.sec} x="204" y={r.cy + 3}>{`${i + 1}  ${r.sec}`}</text>)}</g>

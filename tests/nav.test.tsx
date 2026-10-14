@@ -12,12 +12,11 @@ it('renders seven links to the seven sections with exactly one current and three
   const links = screen.getAllByRole('link');
   expect(links.map((a) => a.getAttribute('href'))).toEqual(SECTIONS.map((s) => `#${s.id}`));
   expect(container.querySelectorAll('[aria-current]').length).toBe(1);
-  expect(container.querySelectorAll('.hole').length).toBe(3);
-  expect(container.querySelector('[aria-hidden="true"] .hole')).toBeInTheDocument();
-  expect(container.querySelector('nav')).toHaveAttribute('aria-label', 'Sections');
+  expect(container.querySelectorAll('[aria-hidden="true"] [data-part="punch"]').length).toBe(3);
+  expect(screen.getByRole('navigation', { name: 'Sections' })).toBeInTheDocument();
 });
 it('rail is decorative', () => {
   const { container } = render(<SpineRail />);
   expect(container.firstChild).toHaveAttribute('aria-hidden', 'true');
-  expect(container.firstChild).toHaveClass('rail');
+  expect(container.firstChild).toHaveAttribute('data-part', 'rail');
 });

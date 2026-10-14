@@ -3,10 +3,10 @@ export function VolumeFace({ no, name, year, size = 'card' }: { no: string; name
   if (size === 'favicon') return <div className={`${s.recto} ${s.favicon}`}><span className={`display ${s.vol}`}>Vol. {no}</span></div>;
   return (
     <div className={`${s.face} ${size === 'og' ? s.og : ''}`}>
-      <div className={`verso ${s.verso}`} />
+      <div data-part="verso" className={`verso ${s.verso}`} />
       <div className={s.gutter} />
       <div className={s.recto}>
-        <div className={s.top}><span className={`vol display ${s.vol}`}>Vol. {no}</span><span className={`meta-sm ${s.yr}`}>{year}</span></div>
+        <div className={s.top}><span data-part="vol" className={`vol display ${s.vol}`}>Vol. {no}</span><span className={`meta-sm ${s.yr}`}>{year}</span></div>
         <span className={`display ${s.nm}`}>{name}</span>
       </div>
     </div>

@@ -1,11 +1,22 @@
 import { COPY, VANTAGE_CASE_STUDY_URL } from '@/content/copy';
-import { readFileSync } from 'node:fs';
+import { readdirSync, readFileSync } from 'node:fs';
+import { join } from 'node:path';
 
-const file = readFileSync('src/content/copy.ts', 'utf8');
+const walk = (d: string): string[] => readdirSync(d, { withFileTypes: true }).flatMap((e) => (e.isDirectory() ? walk(join(d, e.name)) : [join(d, e.name)]));
+const scanned = [
+  ...walk('src'), ...walk('tests'),
+  ...readdirSync('.').filter((f) => f.endsWith('.html')),
+  ...['bell', 'specimen'].map((d) => `${d}/index.html`),
+  ...readdirSync('public').filter((f) => f.endsWith('.html')).map((f) => `public/${f}`),
+];
 
-it('has no em dash and no en dash used as one', () => {
-  expect(file).not.toContain('\u2014');
-  expect(file).not.toMatch(/\s\u2013\s/);
+it('has no em dash and no en dash in source, tests or pages', () => {
+  expect(scanned.length).toBeGreaterThan(20);
+  for (const f of scanned) {
+    const text = readFileSync(f, 'utf8');
+    expect(text.includes('\u2014'), `${f} em dash`).toBe(false);
+    expect(text.includes('\u2013'), `${f} en dash`).toBe(false);
+  }
 });
 it('never says Series A', () => { expect(JSON.stringify(COPY.vantage)).not.toContain('Series A'); });
 it('no sheet header field is empty', () => {
