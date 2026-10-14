@@ -16,3 +16,7 @@ it('index has thirteen rows numbered 01 to 13 with four unstruck', () => {
   expect(COPY.work.index.filter((r) => !r.struck).map((r) => r.name)).toEqual(['pharmtobody.com', 'purezerophotography.com', 'bend.cleaning', 'fullscopesupply.com']);
 });
 it('the hero headline is locked', () => { expect(COPY.hero.headline).toBe('I design systems agents ship.'); expect(VANTAGE_CASE_STUDY_URL).toMatch(/^https:/); });
+it('hero facts carry real labels, not placeholder brackets', () => {
+  expect(COPY.hero.facts.map((f) => f.when)).toEqual(['Vantage', 'Vantage', 'Work', 'TerpScout']);
+  expect(COPY.hero.facts[3].text).toBe('$10M sold, 2019 to 2021, regulated CPG');
+});

@@ -19,10 +19,10 @@ export const COPY = {
     lead: 'I built the product marketing function at an early-stage AI/HPC orchestration company: positioning, competitive intelligence, and the sales enablement behind enterprise briefings. Then I built a product of my own, because a marketer who can ship argues from evidence instead of opinion.',
     actions: { email: { label: 'Email me', href: 'mailto:ps2pdx@gmail.com' }, resume: { label: 'Resume', bracket: 'PDF', href: '/Scott_Campbell_Resume.pdf' } },
     facts: [
-      { when: '[FACT 01]', who: '', text: 'Early-stage AI/HPC platform' },
-      { when: '[FACT 02]', who: '', text: '50+ competitors mapped' },
-      { when: '[FACT 03]', who: '', text: '4 live client sites' },
-      { when: '[FACT 04]', who: '', text: '$10M sold, 2019 to 2021, regulated CPG' },
+      { when: 'Vantage', who: '', text: 'Early-stage AI/HPC platform' },
+      { when: 'Vantage', who: '', text: '50+ competitors mapped' },
+      { when: 'Work', who: '', text: '4 live client sites' },
+      { when: 'TerpScout', who: '', text: '$10M sold, 2019 to 2021, regulated CPG' },
     ] as TranscriptRow[],
   },
   vantage: {
