@@ -7,8 +7,8 @@ export function PunchNav({ sections }: { sections: readonly { id: string; label:
     <nav className={`grain tex-paper ${s.nav}`} aria-label="Sections">
       <Punches className={s.punches} />
       <ul className={s.cells}>
-        {sections.map((x) => (
-          <li key={x.id}><a href={`#${x.id}`} className={`meta-sm ${s.cell}`} {...(active === x.id ? { 'aria-current': 'location' as const } : {})}>{x.label}</a></li>
+        {sections.map((x, i) => (
+          <li key={x.id}><a href={`#${x.id}`} aria-label={x.label} title={x.label} className={`meta-sm ${s.cell}`} {...(active === x.id ? { 'aria-current': 'location' as const } : {})}>{String(i + 1).padStart(2, '0')}</a></li>
         ))}
       </ul>
     </nav>
