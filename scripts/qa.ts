@@ -89,7 +89,7 @@ async function main() {
       if (fc !== 'none') problems.push(`forced-colors: the fixed spine layer still paints (${fc})`);
       await ctx.close();
     }
-    const GATED = /terpscout-spin|martian-fruit|per-image-pricing/;
+    const GATED = /terpscout-spin|rosin-press|martian-fruit|trap-fuel|per-image-pricing/;
     const engines: [string, Browser | null][] = [['chromium', browser], ['webkit', await webkit.launch().catch(() => null)]];
     for (const [name, b] of engines) {
       if (!b) { console.log(`${name}: not installed, disclosure check skipped`); continue; }
@@ -116,9 +116,9 @@ async function main() {
         await page.keyboard.press('Enter');
         await page.waitForTimeout(200);
         if (!(await page.locator('#terpscout details').evaluate((d) => (d as HTMLDetailsElement).open))) problems.push(`${name} ${width}: Enter on the summary did not open the disclosure`);
-        await page.locator('#terpscout video').scrollIntoViewIfNeeded();
+        await page.locator('#terpscout video').first().scrollIntoViewIfNeeded();
         await page.waitForTimeout(1200);
-        const playing = await page.locator('#terpscout video').evaluate((v) => !(v as HTMLVideoElement).paused);
+        const playing = await page.locator('#terpscout video').first().evaluate((v) => !(v as HTMLVideoElement).paused);
         if (!playing) problems.push(`${name} ${width}: the spin does not play once opened and in view`);
         for (const img of await page.locator('#terpscout details img').all()) await img.scrollIntoViewIfNeeded();
         await page.waitForTimeout(800);
@@ -143,7 +143,7 @@ async function main() {
       await page.locator('#terpscout summary').click();
       await page.waitForTimeout(200);
       const r = await page.locator('#terpscout details').evaluate((d) => ({ open: (d as HTMLDetailsElement).open, video: !!d.querySelector('video'), stills: d.querySelectorAll('img').length }));
-      if (!r.open || r.video || r.stills !== 4) problems.push(`forced-colors, reduced-data: the disclosure does not open to stills only (${JSON.stringify(r)})`);
+      if (!r.open || r.video || r.stills !== 6) problems.push(`forced-colors, reduced-data: the disclosure does not open to stills only (${JSON.stringify(r)})`);
       await ctx.close();
     }
   } finally { await browser.close(); server.kill(); }

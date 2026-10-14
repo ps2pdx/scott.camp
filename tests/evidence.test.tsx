@@ -61,10 +61,11 @@ it('the disclosure opens on click and carries the spin, the print, its detail an
   await open(details, 'click');
   expect(details.open).toBe(true);
   const g = COPY.terpscout.evidence.gated;
-  expect([...details.querySelectorAll('figcaption')].map((f) => f.textContent)).toEqual([g.spin, ...g.stills].map((e) => e.caption));
+  expect([...details.querySelectorAll('figcaption')].map((f) => f.textContent)).toEqual([g.spin, g.reel, ...g.stills].map((e) => e.caption));
   for (const img of details.querySelectorAll('img')) { expect(img.getAttribute('loading')).toBe('lazy'); expect(img.getAttribute('alt')!.length).toBeGreaterThan(10); }
   const v = details.querySelector('video')!;
   expect(v.getAttribute('aria-label')).toBe(g.spin.alt);
+  expect(details.querySelectorAll('video')[1].getAttribute('aria-label')).toBe(g.reel.alt);
   expect(v.getAttribute('preload')).toBe('none');
 });
 it('the disclosure opens from the keyboard: the summary is focusable and Enter toggles it', async () => {
@@ -119,7 +120,7 @@ it('the spin and the print carry their 2022 dates, no bracket left', () => {
   const ev = COPY.terpscout.evidence;
   expect(ev.gated.spin.caption).toBe('Product turntable, TerpScout studio, 2022');
   expect(ev.gated.stills[0].caption).toBe('Strain print, Martian Fruit, for a TerpScout client, 2022');
-  for (const e of [ev.gated.spin, ...ev.gated.stills, ...ev.shown]) expect(e.caption).not.toContain('[YEAR]');
+  for (const e of [ev.gated.spin, ev.gated.reel, ...ev.gated.stills, ...ev.shown]) expect(e.caption).not.toContain('[YEAR]');
 });
 it('evidence stacks full width, one figure above the next, with no pair wrapper', async () => {
   stubMatchMedia(false);
@@ -149,4 +150,21 @@ it('the wordmark draws at half size: 300 px on desktop, half the column on phone
   expect(css).toContain('.mark img{width:min(300px,50%)}');
   expect(css).toContain('.mark{align-items:flex-start}');
   expect(COPY.terpscout.evidence.shown[0]).toMatchObject({ src: '/evidence/terpscout-wordmark.webp', mark: true });
+});
+it('the rosin press reel and the Trap Fuel study sit inside the disclosure only', async () => {
+  stubMatchMedia(false);
+  const { container } = render(<App />);
+  const block = container.querySelector('#terpscout')!;
+  const html = () => block.innerHTML;
+  expect(html()).not.toMatch(/rosin-press|trap-fuel/);
+  const details = block.querySelector<HTMLDetailsElement>('details')!;
+  await open(details, 'click');
+  const g = COPY.terpscout.evidence.gated;
+  const body = details.querySelector('.body')!;
+  expect(body.querySelector(`video[poster="${g.reel.poster}"]`)).not.toBeNull();
+  expect(g.reel.caption).toBe('Rosin press reel, slow motion, 2024');
+  const caps = [...body.querySelectorAll('figcaption')].map((f) => f.textContent);
+  expect(caps.indexOf('Full bud study, Trap Fuel, 2024')).toBe(caps.indexOf('Detail, Martian Fruit print') + 1);
+  expect(caps.indexOf(g.reel.caption)).toBe(caps.indexOf(g.spin.caption) + 1);
+  expect([...block.querySelectorAll('figure')].filter((f) => !details.contains(f)).some((f) => /rosin|trap-fuel/.test(f.innerHTML))).toBe(false);
 });
