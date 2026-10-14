@@ -17,6 +17,7 @@ import { Disclosure } from '@/components/Disclosure';
 import s from './App.module.css';
 
 const vol = (no: string) => COPY.work.index.find((r) => r.no === no)!;
+const practiceSheets = COPY.practice.sheets.filter((sh) => !sh.placeholder);
 
 export function App() {
   const h = COPY.hero;
@@ -69,8 +70,8 @@ export function App() {
         </Section>
 
         <Section id="practice" tools={COPY.practice.tools} surface="board" runningHead={COPY.practice.runningHead} eyebrow={COPY.practice.eyebrow} title={COPY.practice.title}>
-          <Grid columns={2}>{COPY.practice.sheets.map((sh, i) => { const v = vol(String(12 + i)); return <SpecSheet key={sh.title} sheet={sh} volume={{ no: v.no, name: v.name, year: v.year }} />; })}</Grid>
-          <Transcript rows={COPY.practice.rows} className={s.after} />
+          {practiceSheets.length ? <Grid columns={2}>{practiceSheets.map((sh) => { const v = COPY.work.index.find((r) => r.name === sh.title)!; return <SpecSheet key={sh.title} sheet={sh} volume={{ no: v.no, name: v.name, year: v.year }} />; })}</Grid> : null}
+          <Transcript rows={COPY.practice.rows} className={practiceSheets.length ? s.after : undefined} />
           <div className={s.stack}>
             {COPY.practice.evidence.map((e) => <Plate key={e.src} e={e} />)}
           </div>

@@ -88,3 +88,14 @@ it('sections run cover, yellow pages, Vantage, Nertia, Work, TerpScout, Practice
   expect([...container.querySelectorAll('section')].map((x) => x.id)).toEqual(['hero', 'endpapers', 'vantage', 'nertia', 'work', 'terpscout', 'practice', 'contact']);
   expect(SECTIONS.map((x) => x.id)).toEqual(['hero', 'vantage', 'nertia', 'work', 'terpscout', 'practice', 'contact']);
 });
+it('Practice hides the placeholder cards until copy exists, keeps the Marquee Mondays row, its banners and the index rows', () => {
+  const { container } = render(<App />);
+  const p = container.querySelector('#practice')!;
+  expect(p.querySelector('article')).toBeNull();
+  expect(p.textContent).not.toMatch(/PLACEHOLDER|Copy pending/);
+  expect(p.textContent).toContain('Marquee Mondays');
+  expect(p.querySelectorAll('figure img').length).toBe(COPY.practice.evidence.length);
+  const names = [...container.querySelectorAll('#endpapers td:nth-child(2)')].map((t) => t.textContent);
+  expect(names).toContain('Zen Holo');
+  expect(names).toContain('Purple Scott');
+});
