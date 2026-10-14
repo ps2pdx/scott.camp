@@ -5,3 +5,4 @@
 .table td{border:1px solid var(--line);padding:var(--s-2) var(--s-3);vertical-align:top}
 .table del{text-decoration:line-through;text-decoration-thickness:var(--strike);text-decoration-color:var(--line-strong)}
 @media (max-width:1023px){.scroll{overflow-x:auto}}
+@media (max-width:639px){.page{padding:var(--s-3)}.table{font-size:0.75rem}.table td{padding:var(--s-1) var(--s-2)}.table td:nth-child(2),.table td:nth-child(3){overflow-wrap:anywhere}.table td:first-child{white-space:nowrap}}

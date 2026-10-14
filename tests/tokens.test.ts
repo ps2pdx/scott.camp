@@ -3,7 +3,7 @@ const css = readFileSync('src/styles/tokens.css', 'utf8');
 const REQUIRED = ['--s-ink','--s-page','--s-board','--s-endpaper','--s-cloth','--bg','--fg','--fg-muted','--line','--line-strong','--strike','--accent','--accent-fg','--focus','--halo','--grain','--s-1','--s-8','--t-hero','--t-meta-sm','--motion-chip'];
 const darkBlock = css.slice(0, css.indexOf('@media (prefers-color-scheme: light)'));
 const lightBlock = css.slice(css.indexOf(':root[data-theme="light"]{'));
-const MODE_TOKENS = ['--focus','--s-board','--s-endpaper','--bg','--fg','--fg-muted','--line','--line-strong','--halo','--sheet','--tech','--grain'];
+const MODE_TOKENS = ['--focus','--tech-ink','--s-board','--s-endpaper','--bg','--fg','--fg-muted','--line','--line-strong','--halo','--sheet','--tech','--grain'];
 
 it('defines every token named in the spec', () => { for (const t of REQUIRED) expect(css, t).toContain(t + ':'); });
 it('light redefines the same mode set the system query does', () => {
@@ -22,4 +22,8 @@ it('anchor jumps clear the sticky nav at both widths', () => {
   expect(idx).toMatch(/html\{[^}]*scroll-padding-top:var\(--nav-h\)/);
   expect(css).toMatch(/--nav-h:9rem/);
   expect(css).toMatch(/@media \(min-width:1024px\)\{:root\{[^}]*--nav-h:7rem/);
+});
+it('grain tiles are rebased so their mid-grey baseline multiplies to the surface color, not below it', () => {
+  const tex = readFileSync('src/styles/textures.css', 'utf8');
+  expect(tex).toMatch(/\.grain::before\{[^}]*mix-blend-mode:multiply[^}]*filter:brightness\(2\)/);
 });

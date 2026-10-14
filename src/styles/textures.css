@@ -1,5 +1,5 @@
 .grain{position:relative}
-.grain::before{content:"";position:absolute;inset:0;pointer-events:none;background-size:512px 512px;mix-blend-mode:multiply;opacity:var(--grain);background-image:var(--tex)}
+.grain::before{content:"";position:absolute;inset:0;pointer-events:none;background-size:512px 512px;mix-blend-mode:multiply;opacity:var(--grain);background-image:var(--tex);filter:brightness(2)}
 .grain>*{position:relative}
 .tex-paper{--tex:image-set(url(/textures/paper-512.webp) 1x,url(/textures/paper-1024.webp) 2x)}
 .tex-board{--tex:image-set(url(/textures/board-512.webp) 1x,url(/textures/board-1024.webp) 2x)}
