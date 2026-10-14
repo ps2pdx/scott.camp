@@ -54,7 +54,7 @@ it('TerpScout shows only the TS mark until the disclosure is opened', () => {
   expect(summary.textContent).toContain(ev.gated.summary);
   expect(summary.querySelector('[aria-hidden="true"]')!.textContent).toBe('ShowHide');
 });
-it('the disclosure opens on click and carries the spin, the print, its detail and the pricing page', async () => {
+it('the disclosure opens on click and carries the spin, the print and the pricing page', async () => {
   stubMatchMedia(false);
   const { container } = render(<App />);
   const details = container.querySelector<HTMLDetailsElement>('#terpscout details')!;
@@ -153,17 +153,13 @@ it('the TS mark sits on a white square tile: 120 px on desktop, 96 px on phones,
   expect(css).not.toMatch(/border-radius|box-shadow/);
   expect(COPY.terpscout.evidence.shown).toEqual([expect.objectContaining({ src: '/evidence/terpscout-mark.webp', caption: 'TerpScout mark', mark: true })]);
 });
-it('the Trap Fuel study sits inside the disclosure only, and the rosin reel is gone', async () => {
+it('the disclosure holds the spin, the Martian Fruit print and the Per Image Pricing page, nothing else', async () => {
   stubMatchMedia(false);
   const { container } = render(<App />);
-  const block = container.querySelector('#terpscout')!;
-  expect(block.innerHTML).not.toMatch(/rosin-press|trap-fuel/);
-  const details = block.querySelector<HTMLDetailsElement>('details')!;
+  const details = container.querySelector<HTMLDetailsElement>('#terpscout details')!;
   await open(details, 'click');
-  const caps = [...details.querySelectorAll('figcaption')].map((f) => f.textContent);
-  expect(caps.indexOf('Full bud study, Trap Fuel, 2024')).toBe(caps.indexOf('Detail, Martian Fruit print') + 1);
-  expect(block.innerHTML).not.toMatch(/rosin-press/);
-  expect('reel' in COPY.terpscout.evidence.gated).toBe(false);
+  expect([...details.querySelectorAll('figcaption')].map((f) => f.textContent)).toEqual(['Product turntable, TerpScout studio, 2022', 'Strain print, Martian Fruit, for a TerpScout client, 2022', 'Per image pricing, Terp-Scouts cannabis photography, summer 2022']);
+  expect(container.innerHTML).not.toMatch(/rosin-press|trap-fuel|martian-fruit-detail/);
 });
 it('the Nertia block carries the Nertia mark on the same white tile, in the same place as the TS mark', () => {
   stubMatchMedia(false);
