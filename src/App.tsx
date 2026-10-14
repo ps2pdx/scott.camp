@@ -12,12 +12,14 @@ import { TechSheet } from '@/components/TechSheet';
 import { Index } from '@/components/Index';
 import { RunningHead } from '@/components/RunningHead';
 import { Footer } from '@/components/Footer';
+import { EvidenceVideo } from '@/components/EvidenceVideo';
 import s from './App.module.css';
 
 const vol = (no: string) => COPY.work.index.find((r) => r.no === no)!;
 
 export function App() {
   const h = COPY.hero;
+  const ts = COPY.terpscout.evidence;
   return (
     <>
       <PunchFilterDefs />
@@ -53,6 +55,24 @@ export function App() {
 
         <Section id="terpscout" runningHead={COPY.terpscout.runningHead} eyebrow={COPY.terpscout.eyebrow} title={COPY.terpscout.title} lead={COPY.terpscout.lead}>
           <Transcript rows={COPY.terpscout.rows} />
+          <figure className={s.spin}>
+            <div className={s.spinStage}><EvidenceVideo clip={ts.spin} className={s.spinMedia} /></div>
+            <figcaption className="meta-sm">{ts.spin.caption}</figcaption>
+          </figure>
+          {ts.pairs.map((pair) => (
+            <div key={pair[0].src} className={s.evidence}>
+              {pair.map((e) => (
+                <figure key={e.src} className={s.plate}>
+                  <img src={e.src} width={e.width} height={e.height} alt={e.alt} loading="lazy" decoding="async" />
+                  <figcaption className="meta-sm">{e.caption}</figcaption>
+                </figure>
+              ))}
+            </div>
+          ))}
+          <figure className={`${s.plate} ${s.mark}`}>
+            <img src={ts.mark.src} width={ts.mark.width} height={ts.mark.height} alt={ts.mark.alt} loading="lazy" decoding="async" />
+            <figcaption className="meta-sm">{ts.mark.caption}</figcaption>
+          </figure>
         </Section>
 
         <Section id="work" surface="board" runningHead={COPY.work.runningHead} eyebrow={COPY.work.eyebrow} title={COPY.work.title}>

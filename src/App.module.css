@@ -14,3 +14,7 @@
 .plate{margin:0;display:flex;flex-direction:column;gap:var(--s-2)}
 .plate img{display:block;width:100%;height:auto}
 @media (max-width:639px){.evidence{grid-template-columns:1fr}}
+.spin{margin:var(--s-6) 0 0;display:flex;flex-direction:column;gap:var(--s-2)}
+.spinStage{background:#000;display:flex;justify-content:center}
+.spinMedia{display:block;height:min(70vh,1280px);width:auto;max-width:100%;object-fit:contain}
+.mark{margin-top:var(--s-5);max-width:16rem}
