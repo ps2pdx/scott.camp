@@ -1,0 +1,22 @@
+.sp{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}
+@media (max-width:1023px){.sp{grid-template-columns:1fr}}
+.half{padding:var(--s-6) var(--s-5);display:flex;flex-direction:column;gap:var(--s-4);background:var(--bg);color:var(--fg);min-width:0}
+.dark{--s-board:#1c1b19;--s-endpaper:#f2dc46;--bg:#000;--fg:#fff;--fg-muted:rgba(255,255,255,0.62);--line:rgba(255,255,255,0.18);--line-strong:#fff;--halo:rgba(255,255,255,0.10);--sheet:#1c1b19;--tech:#2a2927;--grain:0.12}
+.light{--s-board:#a8a49c;--s-endpaper:#f5e04a;--bg:#fff;--fg:#000;--fg-muted:rgba(0,0,0,0.45);--line:rgba(0,0,0,0.12);--line-strong:#000;--halo:rgba(0,0,0,0.10);--sheet:#fff;--tech:#e9e7e2;--grain:0.18}
+.half h2{border-bottom:1px solid var(--line);padding-bottom:var(--s-2);margin:var(--s-4) 0 0}
+.swatches{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line)}
+.swatches div{height:96px;display:flex;align-items:flex-end;padding:var(--s-2)}
+.faces{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--s-3);align-items:start}
+.tiles{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:var(--s-3)}
+.tile{height:120px;background-size:256px 256px;border:1px solid var(--line)}
+.display{font-size:72px}
+.cells{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));border:1px solid var(--line-strong)}
+.cell{text-decoration:none;display:flex;align-items:center;min-height:44px;padding:0 12px;border-right:1px solid var(--line-strong);color:var(--fg)}
+.cell:last-child{border-right:0}
+.cell[aria-current]{background:var(--fg);color:var(--bg)}
+.btns{display:flex;gap:var(--s-3);flex-wrap:wrap;align-items:center}
+.hover a{transform:translate(0.5px,0.5px) rotate(1deg)}
+.focus a{outline:2px solid var(--focus);outline-offset:2px}
+.disabled a{opacity:0.4;pointer-events:none}
+.pair{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--s-4);align-items:start}
+@media (max-width:1023px){.tiles{grid-template-columns:repeat(2,minmax(0,1fr))}.cells{grid-template-columns:repeat(4,minmax(0,1fr))}.pair{grid-template-columns:1fr}.display{font-size:48px}}
