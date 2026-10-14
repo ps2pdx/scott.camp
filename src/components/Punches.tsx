@@ -1,7 +1,7 @@
 import s from './Punches.module.css';
 export function PunchFilterDefs() {
   return (
-    <svg width="0" height="0" style={{ position: 'absolute' }} aria-hidden="true">
+    <svg width="0" height="0" className={s.defs} aria-hidden="true">
       <defs>
         <pattern id="gp" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M10 0H0V10" fill="none" stroke="#9fb7c9" strokeWidth="0.5" /></pattern>
         <filter id="punch" x="-20%" y="-20%" width="140%" height="140%">

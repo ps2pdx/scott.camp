@@ -1,5 +1,5 @@
 import { COPY, SECTIONS } from '@/content/copy';
-import { TEXTURES, provenance, type Texture } from '@/content/textures';
+import { TEXTURES, provenance } from '@/content/textures';
 import { PunchFilterDefs, Punches } from '@/components/Punches';
 import { VolumeFace } from '@/components/VolumeFace';
 import { Transcript } from '@/components/Transcript';
@@ -9,15 +9,13 @@ import { SpecSheet } from '@/components/SpecSheet';
 import { TechSheet } from '@/components/TechSheet';
 import s from './Specimen.module.css';
 
-const SURFACES = [['Ink', '#000', '#fff'], ['Page', '#fff', '#000'], ['Board', 'var(--s-board)', 'var(--fg)'], ['Endpaper', 'var(--s-endpaper)', '#000'], ['Cloth', '#2bf52b', '#000']] as const;
-
-const tileFile = (t: Texture) => (t.file === 'chip' ? 'chip.png' : t.file === 'cloth' || t.file === 'spine' ? `${t.file}.webp` : `${t.file}-512.webp`);
+const SURFACES = ['Ink', 'Page', 'Board', 'Endpaper', 'Cloth'] as const;
 
 function Half({ mode }: { mode: 'dark' | 'light' }) {
   return (
     <div className={`${s.half} ${s[mode]}`} data-mode={mode}>
       <h2 className="meta">Surfaces, {mode}</h2>
-      <div className={s.swatches}>{SURFACES.map(([n, bg, fg]) => <div key={n} style={{ background: bg, color: fg }} className="meta-sm">{n}</div>)}</div>
+      <div className={s.swatches}>{SURFACES.map((n) => <div key={n} data-surface={n.toLowerCase()} className="meta-sm">{n}</div>)}</div>
       <h2 className="meta">Volume face, OG and favicon</h2>
       <div className={s.faces}>
         <div id={mode === 'dark' ? 'og-face' : undefined}><VolumeFace no={COPY.volumes.hero.no} name={COPY.volumes.hero.name} year={COPY.volumes.hero.year} /></div>
@@ -25,7 +23,7 @@ function Half({ mode }: { mode: 'dark' | 'light' }) {
         <div id={mode === 'dark' ? 'favicon-face' : undefined}><VolumeFace no="0" name="" year="" size="favicon" /></div>
       </div>
       <h2 className="meta">Textures, with provenance</h2>
-      <div className={s.tiles}>{TEXTURES.map((t) => <div key={t.file}><div className={s.tile} style={{ backgroundImage: `url(/textures/${tileFile(t)})` }} /><div className="meta-sm muted">{provenance(t)}</div></div>)}</div>
+      <div className={s.tiles}>{TEXTURES.map((t) => <div key={t.file}><div className={s.tile} data-tile={t.file} /><div className="meta-sm muted">{provenance(t)}</div></div>)}</div>
       <h2 className="meta">Type</h2>
       <div className={`display ${s.display}`}>Display 700</div>
       <div className="display t-title">Title, uppercase, -0.02em</div>

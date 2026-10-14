@@ -20,3 +20,13 @@
 .disabled a{opacity:0.4;pointer-events:none}
 .pair{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--s-4);align-items:start}
 @media (max-width:1023px){.tiles{grid-template-columns:repeat(2,minmax(0,1fr))}.cells{grid-template-columns:repeat(4,minmax(0,1fr))}.pair{grid-template-columns:1fr}.display{font-size:48px}}
+.swatches [data-surface="ink"]{background:#000;color:#fff}
+.swatches [data-surface="page"]{background:#fff;color:#000}
+.swatches [data-surface="board"]{background:var(--s-board);color:var(--fg)}
+.swatches [data-surface="endpaper"]{background:var(--s-endpaper);color:#000}
+.swatches [data-surface="cloth"]{background:#2bf52b;color:#000}
+.tile[data-tile="paper"]{background-image:url(/textures/paper-512.webp)}
+.tile[data-tile="board"]{background-image:url(/textures/board-512.webp)}
+.tile[data-tile="cloth"]{background-image:url(/textures/cloth.webp)}
+.tile[data-tile="spine"]{background-image:url(/textures/spine.webp)}
+.tile[data-tile="chip"]{background-image:url(/textures/chip.png)}
