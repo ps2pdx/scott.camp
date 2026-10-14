@@ -6,7 +6,7 @@ export function Index({ rows }: { rows: readonly IndexRow[] }) {
   return (
     <Surface kind="endpaper" className={s.page}>
       <Label>Index</Label>
-      <div className={s.scroll} data-part="index-scroll" role="region" aria-label="Index, scrolls sideways" tabIndex={0}>
+      <div className={s.scroll} data-part="index-scroll">
         <table className={`transcript ${s.table}`} aria-label="Index of work. Struck rows belong to other sections.">
           <tbody>
             {rows.map((r) => (

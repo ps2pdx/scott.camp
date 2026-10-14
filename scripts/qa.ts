@@ -27,10 +27,14 @@ async function main() {
       if (path === 'bell') {
         const r = await page.evaluate(() => {
           const nav = document.querySelector('nav')!.getBoundingClientRect().height;
-          const cells = [...document.querySelectorAll('nav a')].map((a) => a.getBoundingClientRect().height);
+          const cells = [...document.querySelectorAll('nav a')].map((a) => a.getBoundingClientRect());
           const scroller = document.querySelector('[data-part="index-scroll"]') as HTMLElement;
-          return { nav, tallestCell: Math.max(...cells), indexScrolls: scroller.scrollWidth > scroller.clientWidth };
+          const rows = [...scroller.querySelectorAll('tr')];
+          const stacked = rows.some((tr) => { const tops = [...tr.children].map((td) => Math.round(td.getBoundingClientRect().top)); return tr.children.length !== 4 || new Set(tops).size !== 1 || getComputedStyle(tr.children[0]).display !== 'table-cell'; });
+          return { nav, tallestCell: Math.max(...cells.map((c) => c.height)), navRows: new Set(cells.map((c) => Math.round(c.top))).size, indexScrolls: scroller.scrollWidth > scroller.clientWidth, stacked };
         });
+        if (r.navRows !== 1) problems.push(`${path} ${width} ${mode}: the nav wraps to ${r.navRows} rows`);
+        if (r.stacked) problems.push(`${path} ${width} ${mode}: the index table is stacked or relaid out`);
         if (r.tallestCell > 48) problems.push(`${path} ${width} ${mode}: a nav cell wraps (${r.tallestCell}px)`);
         if (r.indexScrolls) problems.push(`${path} ${width} ${mode}: the index scrolls inside its box`);
         if (width < 1024) {
@@ -53,6 +57,16 @@ async function main() {
         console.log(`${path} ${width} ${mode}: nav ${Math.round(r.nav)}px`);
       }
       await page.screenshot({ path: `${OUT}/${path}-${width}-${mode}.png`, fullPage: true });
+      if (path === 'bell') {
+        await page.locator('#hero').screenshot({ path: `${OUT}/hero-${width}-${mode}.png` });
+        await page.locator('#terpscout').screenshot({ path: `${OUT}/terpscout-${width}-${mode}.png` });
+        if (width === 390) {
+          await page.evaluate(() => window.scrollTo(0, 0));
+          await page.locator('nav').screenshot({ path: `${OUT}/nav-390-${mode}.png` });
+          await page.locator('[data-part="index-scroll"] >> xpath=..').screenshot({ path: `${OUT}/index-390-${mode}.png` });
+          await page.locator('#nertia figure').first().screenshot({ path: `${OUT}/techsheet-390-${mode}.png` });
+        }
+      }
       await ctx.close();
     }
     for (const width of [1280, 390]) {

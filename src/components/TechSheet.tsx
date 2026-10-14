@@ -1,15 +1,12 @@
 import type { TechSheetData } from '@/content/copy';
-import { useNarrow } from '@/lib/narrow';
 import s from './TechSheet.module.css';
 
 type Layout = { w: number; h: number; frame: [number, number, number, number]; head: { x: number; y: number; dy: number; fs: number }; step: { x: number; fs: number; span?: [number, number] }; punches: number[] };
 
 const WIDE: Layout = { w: 480, h: 300, frame: [24, 28, 104, 252], head: { x: 170, y: 42, dy: 13, fs: 10 }, step: { x: 176, fs: 11, span: [130, 276] }, punches: [80, 240, 400] };
-const NARROW: Layout = { w: 360, h: 440, frame: [20, 124, 92, 300], head: { x: 20, y: 40, dy: 15, fs: 11 }, step: { x: 136, fs: 11 }, punches: [60, 180, 300] };
 
-export function TechSheet({ data, narrow }: { data: TechSheetData; narrow?: boolean }) {
-  const auto = useNarrow();
-  const L = (narrow ?? auto) ? NARROW : WIDE;
+export function TechSheet({ data }: { data: TechSheetData }) {
+  const L = WIDE;
   const [fx, fy, fw, fh] = L.frame;
   const n = data.sections.length, inset = 6, gap = 6, bh = (fh - 2 * inset - gap * (n - 1)) / n;
   const rows = data.sections.map((sec, i) => {

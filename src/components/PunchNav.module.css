@@ -9,9 +9,6 @@
 .cell[aria-current]{background:var(--fg);color:var(--bg)}
 .cell:focus-visible{outline:2px solid var(--focus);outline-offset:-2px}
 @media (max-width:1023px){
-  .cells{grid-template-columns:repeat(4,minmax(0,1fr))}
-  .cells li:nth-child(4){border-right:0}
-  .cells li:nth-child(n+5){border-top:1px solid var(--line-strong)}
   .punches{padding:8px 20% 4px}
-  .cell{min-height:40px;padding:0 8px}
+  .cell{min-height:40px;padding:0;justify-content:center}
 }

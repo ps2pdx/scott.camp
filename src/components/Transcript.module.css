@@ -2,4 +2,4 @@
 .tight{gap:var(--s-1)}
 .row{display:grid;grid-template-columns:11ch minmax(0,1fr);gap:0 var(--s-5)}
 .when{white-space:pre-line}
-@media (max-width:1023px){.row{grid-template-columns:1fr;gap:var(--s-1)}}
+@media (max-width:639px){.row{grid-template-columns:10ch minmax(0,1fr);gap:0 var(--s-3)}}

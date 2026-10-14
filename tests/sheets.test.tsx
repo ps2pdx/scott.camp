@@ -16,7 +16,8 @@ it('Index strikes the rows that are not this section and keeps their text', () =
   expect(rows.filter((r) => !r.querySelector('del')).map((r) => r.children[1].textContent)).toEqual(['Pharm to Body', 'Pure Zero Photography', 'Bend Cleaning', 'Full Scope Supply', 'Typeshit']);
   const scroller = table.parentElement!;
   expect(scroller).toHaveAttribute('data-part', 'index-scroll');
-  expect(scroller).toHaveAttribute('tabindex', '0');
+  expect(scroller).not.toHaveAttribute('tabindex');
+  expect(rows.every((r) => r.children.length === 4)).toBe(true);
   expect(container.querySelector('table')).toBe(table);
 });
 it('VolumeFace is a spread: empty verso, recto with number, name, year', () => {
@@ -38,9 +39,9 @@ it('TechSheet draws one box per section and the SRC line', () => {
   expect(container.textContent).toContain('RENDERED FROM SITE STRUCTURE');
   expect(screen.getByRole('img', { name: `Tech sheet: ${data.sheet}` })).toBeInTheDocument();
 });
-it('TechSheet keeps the step labels clear of the header block in both layouts', () => {
-  for (const narrow of [false, true]) {
-    const { container, unmount } = render(<TechSheet data={COPY.work.tech[3]} narrow={narrow} />);
+it('TechSheet keeps one landscape layout at every width, step labels clear of the header', () => {
+  {
+    const { container, unmount } = render(<TechSheet data={COPY.work.tech[3]} />);
     const steps = [...container.querySelectorAll('[data-part="step"]')];
     const header = container.querySelector('[data-part="header"]')!;
     const hy = [...header.querySelectorAll('text')].map((t) => Number(t.getAttribute('y')));
@@ -50,7 +51,7 @@ it('TechSheet keeps the step labels clear of the header block in both layouts', 
     const fs = Number(steps[0].parentElement!.getAttribute('font-size'));
     const longest = Math.max(...steps.map((st) => st.textContent!.length));
     expect(Number(steps[0].getAttribute('x')) + longest * fs * 0.6, 'label fits').toBeLessThanOrEqual(vb[2] - 8);
-    if (narrow) expect(fs * 360 / vb[2], 'readable at 360 px').toBeGreaterThanOrEqual(10.5);
+    expect(vb[2]).toBeGreaterThan(vb[3]);
     unmount();
   }
 });
@@ -67,4 +68,15 @@ it('the index names companies, never URLs, and the Work faces carry the name whi
   const first = work.querySelector('article')!;
   expect(first.textContent).toContain('Pharm to Body');
   expect(first.textContent).toContain('pharmtobody.com');
+});
+it('phones keep the tables: no two-row nav, no stacked index, no portrait tech sheet', async () => {
+  const { readFileSync } = await import('node:fs');
+  const nav = readFileSync('src/components/PunchNav.module.css', 'utf8');
+  expect(nav).not.toMatch(/repeat\(4,/);
+  expect(nav).toContain('grid-template-columns:repeat(7,minmax(0,1fr))');
+  const idx = readFileSync('src/components/Index.module.css', 'utf8');
+  expect(idx).not.toMatch(/overflow-x|overflow-wrap|display:block/);
+  expect(idx).toContain('.table{font-size:10px}');
+  expect(readFileSync('src/components/TechSheet.tsx', 'utf8')).not.toMatch(/NARROW|useNarrow/);
+  expect(readFileSync('src/components/Transcript.module.css', 'utf8')).not.toMatch(/grid-template-columns:1fr/);
 });
