@@ -54,7 +54,7 @@ it('evidence files keep the budgets', () => {
   expect(total).toBeLessThan(16 * 1024 * 1024);
 });
 it('the TerpScout index row spans the studio years', () => {
-  expect(COPY.work.index.find((r) => r.no === '04')).toEqual({ no: '04', name: 'TerpScout, dba ScoutCamp', description: 'OLCC-regulated distribution consultancy, then a cannabis photography studio, $5M a year', year: '2019 to 2022', struck: true });
+  expect(COPY.work.index.find((r) => r.no === '04')).toEqual({ no: '04', name: 'TerpScout, dba ScoutCamp', description: 'OLCC-regulated distribution consultancy, then a cannabis photography studio, $10M', year: '2020 to 2022', struck: true });
 });
 it('the spin and the print carry their 2022 dates, no bracket left', () => {
   const ev = COPY.terpscout.evidence;

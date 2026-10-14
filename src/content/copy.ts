@@ -22,7 +22,7 @@ export const COPY = {
       { when: 'Vantage', who: '', text: 'Early-stage AI/HPC platform' },
       { when: 'Vantage', who: '', text: '50+ competitors mapped' },
       { when: 'Work', who: '', text: '5 live client sites' },
-      { when: 'TerpScout', who: '', text: '$10M sold, 2019 to 2021, regulated CPG' },
+      { when: 'TerpScout', who: '', text: '$10M sold, 2020 to 2022, regulated CPG' },
     ] as TranscriptRow[],
   },
   vantage: {
@@ -69,8 +69,8 @@ export const COPY = {
       { when: '2016', who: 'Brand', text: 'Rogue River Botanicals: full brand and website, kraft paper and wax seal packaging. Then sales for them, on the strength of the brand.' },
       { when: '2017 to 2020', who: 'Network', text: 'Sales at Sweet Life Distribution and LTRMN Distribution. Four years compiling a network of producers and shops, then out on my own.' },
       { when: '2019', who: 'Price', text: 'Distributors took 10%. I cut the middleman out and charged 5%. Ten percent is a lot when the work is gas and the drive.' },
-      { when: '2019 to 2021', who: 'Volume', text: '$5M a year across three wholesale locations and about 30 vendors.' },
-      { when: '2019 to 2021', who: 'Delivery', text: 'I drove every delivery to the shop and every payment to the producer.' },
+      { when: '2020 to 2022', who: 'Volume', text: '$10M across three wholesale locations and about 30 vendors.' },
+      { when: '2020 to 2022', who: 'Delivery', text: 'I drove every delivery to the shop and every payment to the producer.' },
     ] as TranscriptRow[],
     evidence: {
       spin: { src: '/evidence/terpscout-spin.mp4', poster: '/evidence/terpscout-spin-poster.webp', width: 720, height: 1280, caption: 'Product turntable, TerpScout studio, 2022', alt: 'A purple and green cola turns slowly on a turntable against a black ground, every trichome lit.' },
@@ -93,7 +93,7 @@ export const COPY = {
       { no: '01', name: 'Ali Sharifi Rugs', description: 'Site built by hand, photography, later moved to WordPress', year: '2010s', struck: true },
       { no: '02', name: 'KAL Contracting', description: 'Masonry and general contractor, Portland; site now on Webflow', year: '2025', struck: true },
       { no: '03', name: 'Rogue River Botanicals', description: 'Brand, website, kraft and wax seal packaging', year: '2016', struck: true },
-      { no: '04', name: 'TerpScout, dba ScoutCamp', description: 'OLCC-regulated distribution consultancy, then a cannabis photography studio, $5M a year', year: '2019 to 2022', struck: true },
+      { no: '04', name: 'TerpScout, dba ScoutCamp', description: 'OLCC-regulated distribution consultancy, then a cannabis photography studio, $10M', year: '2020 to 2022', struck: true },
       { no: '05', name: 'Vantage Compute', description: 'Founding product marketing, AI/HPC orchestration', year: '2024 to 2026', struck: true },
       { no: '06', name: 'Nertia', description: 'Agent-native site builder, web app and MCP server', year: '2025', struck: true },
       { no: '07', name: 'Plotswitch', description: 'Productized agency brand, the pricing experiment', year: '2026', struck: true },
