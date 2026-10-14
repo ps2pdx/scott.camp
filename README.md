@@ -31,11 +31,14 @@ Status on 2026-10-14: the code site does not exist yet. The latest run stops at 
 
 - Sweet Life and LTRMN years (TerpScout "Network" row).
 - Per-item dates for Vantage (four rows) and Nertia (Default, Distribution, Identity, Plotswitch).
-- The Euphoria night (mid 2015 to about September 2016).
 - Hero fact 04 reads "$10M sold, 2019 to 2021, regulated CPG", the two-year total of the $5M a year in TerpScout. You said "10M ARR"; if ARR is right, change both lines together.
 - The Nertia index year (2025) next to the 01/15/26 origin row: confirm which is right.
 - Creative practice copy for Zen Holo and Purple Scott.
 - The evidence set: the sales log page, two studio frames, four FX30 screen clips. Each lands as its own commit once the files exist.
+
+## Resolved facts
+
+- The Euphoria night: Marquee Mondays, District, 2015: a weekly of curated live DJs, about four months. Now the Practice row's date and first sentence.
 
 ## Design sources
 
