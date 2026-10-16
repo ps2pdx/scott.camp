@@ -98,7 +98,8 @@ export function BookGallery() {
     const n = FRAMES.length;
     const top = thumbs.current[0]?.offsetTop ?? 0;
     const cols = Math.max(1, thumbs.current.filter((b) => b && b.offsetTop === top).length);
-    const step: Record<string, number> = { ArrowRight: 1, ArrowLeft: -1, ArrowDown: cols, ArrowUp: -cols };
+    const rows = cols >= n ? 1 : cols;
+    const step: Record<string, number> = { ArrowRight: 1, ArrowLeft: -1, ArrowDown: rows, ArrowUp: -rows };
     let next = focus;
     if (e.key in step) next = clamp(focus + step[e.key], 0, n - 1);
     else if (e.key === 'Home') next = 0;
@@ -106,53 +107,53 @@ export function BookGallery() {
     else return;
     e.preventDefault();
     pick(next);
-    thumbs.current[next]?.focus();
+    const b = thumbs.current[next];
+    b?.focus({ preventScroll: true });
+    b?.scrollIntoView?.({ block: 'nearest', inline: 'nearest' });
   }
 
   return (
     <div ref={root} className={`${g.cols} ${s.gallery}`} data-part="ds-book">
       <figure className={`${g.figure} ${s.main}`} data-part="ds-book-main">
         <div className={`${frame} ${s.mainFrame}`}>
-          <div
-            className={s.view}
-            data-zoom={zoomable ? '' : undefined}
-            {...(zoomable ? { onPointerEnter: () => setHover(true), onPointerLeave: () => setHover(false), onPointerMove: track } : {})}
-          >
-            <img ref={mainImg} key={f.frame} className={s.mainImg} data-loading={ready === f.frame ? undefined : ''} onLoad={() => setReady(f.frame)} data-ratio={f.ratio} src={cut(f, 1280)} srcSet={`${cut(f, 640)} 640w, ${cut(f, 1280)} 1280w`} sizes={SIZES.figure} width={f.width} height={f.height} alt={alt} loading="lazy" decoding="async" />
-            {ready === f.frame ? null : <img className={s.placeholder} src={cut(f, 192)} data-ratio="1:1" width={192} height={192} alt={alt} aria-hidden="true" loading="lazy" decoding="async" data-part="ds-book-placeholder" />}
-            {zoomable && hover ? <span ref={lens} className={s.lens} data-part="ds-book-lens" aria-hidden="true" /> : null}
+          <div className={s.stage}>
+            <div
+              className={s.view}
+              data-zoom={zoomable ? '' : undefined}
+              {...(zoomable ? { onPointerEnter: () => setHover(true), onPointerLeave: () => setHover(false), onPointerMove: track } : {})}
+            >
+              <img ref={mainImg} key={f.frame} className={s.mainImg} data-loading={ready === f.frame ? undefined : ''} onLoad={() => setReady(f.frame)} data-ratio={f.ratio} src={cut(f, 1280)} srcSet={`${cut(f, 640)} 640w, ${cut(f, 1280)} 1280w`} sizes={SIZES.figure} width={f.width} height={f.height} alt={alt} loading="lazy" decoding="async" />
+              {ready === f.frame ? null : <img className={s.placeholder} src={cut(f, 192)} data-ratio="1:1" width={192} height={192} alt={alt} aria-hidden="true" loading="lazy" decoding="async" data-part="ds-book-placeholder" />}
+              {zoomable && hover ? <span ref={lens} className={s.lens} data-part="ds-book-lens" aria-hidden="true" /> : null}
+            </div>
+            <div className={s.rail} role="group" aria-label={`${book.name} frames`} data-part="ds-contact-sheet" onKeyDown={move}>
+              {FRAMES.map((x, i) => (
+                <button
+                  key={x.frame}
+                  ref={(b) => { thumbs.current[i] = b; }}
+                  type="button"
+                  className={s.thumb}
+                  tabIndex={i === focus ? 0 : -1}
+                  aria-pressed={i === sel}
+                  data-frame={x.frame}
+                  onClick={() => pick(i)}
+                  onPointerEnter={(e) => peek(e, i)}
+                  onFocus={() => setFocus(i)}
+                >
+                  <img src={cut(x, 96)} srcSet={`${cut(x, 96)} 1x, ${cut(x, 192)} 2x`} data-ratio="1:1" width={96} height={96} alt={x.frame} loading="lazy" decoding="async" />
+                </button>
+              ))}
+            </div>
           </div>
         </div>
         <figcaption className="meta" aria-live="polite">{caption(f)}</figcaption>
       </figure>
+      <p className={`meta ${g.figure} ${s.count}`}>{framesLine()}</p>
       {zoomable && hover ? (
         <div className={`${frame} ${s.zoom}`} data-part="ds-book-zoom" aria-hidden="true">
           <div className={s.zoomView}><img className={s.zoomImg} src={cut(f, 1280)} width={f.width} height={f.height} alt="" decoding="async" /></div>
         </div>
       ) : null}
-      <div className={`${g.figure} ${s.sheet}`}>
-        <div className={`${frame} ${s.clumpTile}`}>
-          <div className={s.clump} role="group" aria-label={`${book.name} frames`} data-part="ds-contact-sheet" onKeyDown={move}>
-            {FRAMES.map((x, i) => (
-              <button
-                key={x.frame}
-                ref={(b) => { thumbs.current[i] = b; }}
-                type="button"
-                className={s.thumb}
-                tabIndex={i === focus ? 0 : -1}
-                aria-pressed={i === sel}
-                data-frame={x.frame}
-                onClick={() => pick(i)}
-                onPointerEnter={(e) => peek(e, i)}
-                onFocus={() => setFocus(i)}
-              >
-                <img src={cut(x, 96)} srcSet={`${cut(x, 96)} 1x, ${cut(x, 192)} 2x`} data-ratio="1:1" width={96} height={96} alt={x.frame} loading="lazy" decoding="async" />
-              </button>
-            ))}
-          </div>
-        </div>
-        <p className="meta">{framesLine()}</p>
-      </div>
     </div>
   );
 }
