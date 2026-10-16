@@ -3,6 +3,9 @@
 .table{width:100%;border-collapse:collapse;table-layout:fixed;background:var(--paper)}
 .table td{border:var(--strike) solid var(--line);padding:var(--s-2) var(--s-3);vertical-align:top}
 .table del{text-decoration:line-through;text-decoration-thickness:var(--strike);text-decoration-color:var(--line-strong)}
+.current td{border-color:var(--line-strong)}
+.table a{color:inherit;text-decoration:none}
+.table a:hover,.table a:focus-visible{text-decoration:underline}
 .no{width:var(--u)}
 .name{width:calc(var(--u) * 3)}
 .desc{width:calc(var(--u) * 6)}

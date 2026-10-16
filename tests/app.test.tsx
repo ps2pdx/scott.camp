@@ -119,7 +119,7 @@ it('the cover holds the eyebrow, the name line, three inline Meta links and the 
 it('chapters run Design system, Vantage, Nertia, Work, TerpScout, Practice, Contact; each page holds its own section once', () => {
   for (const id of ['design-system', 'vantage', 'nertia', 'work', 'terpscout', 'practice', 'contact'] as const) {
     const { container, unmount } = renderPage(id);
-    expect([...container.querySelectorAll('main > section')].map((x) => x.id), id).toEqual([id]);
+    expect([...container.querySelectorAll('main > section')].map((x) => x.id), id).toEqual(['contents', id]);
     expect(container.querySelector('#hero, #endpapers'), id).toBeNull();
     unmount();
   }

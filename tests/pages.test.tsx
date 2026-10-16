@@ -31,6 +31,31 @@ describe('page entries', () => {
     expect(readFileSync('bell/index.html', 'utf8')).toContain('<script type="module" src="/src/entries/landing.tsx"></script>');
   });
 
+  it('each chapter page opens on the contents: the eight chapters, all struck but its own, every row a link to its page', () => {
+    for (const x of CHAPTERS) {
+      const { container, unmount } = renderPage(x.id);
+      const main = container.querySelector('main')!;
+      const contents = main.firstElementChild!;
+      expect(contents.id, x.id).toBe('contents');
+      expect(contents.getAttribute('data-surface'), x.id).toBe('endpaper');
+      expect(contents.classList.contains('cut'), x.id).toBe(false);
+      expect(contents.nextElementSibling!.classList.contains('cut'), x.id).toBe(true);
+      const rows = [...contents.querySelectorAll('tbody tr')];
+      expect(rows.length, x.id).toBe(8);
+      expect(rows.map((r) => r.querySelector('a')!.getAttribute('href')), x.id).toEqual(PAGES.map((p) => p.href));
+      expect(rows.map((r) => r.children[1].textContent), x.id).toEqual(PAGES.map((p) => p.label));
+      const open = rows.filter((r) => !r.querySelector('del'));
+      expect(open.length, x.id).toBe(1);
+      expect(open[0].hasAttribute('data-current'), x.id).toBe(true);
+      expect(open[0].querySelector('a')!.getAttribute('href'), x.id).toBe(x.href);
+      expect(open[0].querySelector('a')).toHaveAttribute('aria-current', 'page');
+      unmount();
+    }
+    const { container } = renderPage('hero');
+    expect(container.querySelector('#contents')).toBeNull();
+    expect(container.querySelectorAll('#endpapers tbody del').length).toBe(0);
+  });
+
   it('each chapter page renders its section under the shared chrome', () => {
     for (const x of CHAPTERS) {
       const { container, unmount } = renderPage(x.id);

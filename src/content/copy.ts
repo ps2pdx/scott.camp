@@ -3,7 +3,7 @@ import type { MarkData } from '@/components/Mark';
 
 export const BOOKING_URL = 'https://cal.com/scott-campbell/consulting';
 export type TranscriptRow = { when: string; who: string; text: string };
-export type IndexRow = { no: string; name: string; description: string; year: string; struck: boolean };
+export type IndexRow = { no: string; name: string; description: string; year: string; struck: boolean; href?: string; current?: boolean };
 export type Sheet = { title: string; fields: Record<string, string>; body?: string; href?: string; label?: string; placeholder?: boolean };
 export type TechFigure = 'editor' | 'mcp' | 'runtime' | 'tokens' | 'phone' | 'pipeline';
 export type TechSheetData = { sheet: string; figure: TechFigure; view: string; stack: string; src: string; date: string; sections: string[] };
@@ -297,3 +297,14 @@ const TITLES: Record<Exclude<PageId, 'hero'>, string> = {
   terpscout: COPY.terpscout.title, practice: COPY.practice.title, contact: COPY.contact.title,
 };
 export const chapterTitle = (id: Exclude<PageId, 'hero'>) => TITLES[id];
+const HEADS: Record<Exclude<PageId, 'hero'>, string> = {
+  'design-system': COPY.designSystem.runningHead, vantage: COPY.vantage.runningHead, nertia: COPY.nertia.runningHead, work: COPY.work.runningHead,
+  terpscout: COPY.terpscout.runningHead, practice: COPY.practice.runningHead, contact: COPY.contact.runningHead,
+};
+const years = (head: string) => /\[(.+)\]/.exec(head)?.[1] ?? '';
+export const chapterIndex = (current: PageId): IndexRow[] => PAGES.map((p, i) => ({
+  no: String(i + 1).padStart(2, '0'), name: p.label, href: p.href,
+  description: p.id === 'hero' ? COPY.hero.headline : chapterTitle(p.id),
+  year: p.id === 'hero' ? COPY.volumes.hero.year : years(HEADS[p.id]),
+  struck: p.id !== current, current: p.id === current,
+}));
