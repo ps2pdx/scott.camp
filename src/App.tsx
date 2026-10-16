@@ -39,12 +39,14 @@ export function App() {
       <PunchNav sections={SECTIONS} />
       <main>
         <Section id="endpapers" surface="endpaper">
-          <div className={s.top}>
+          <p data-part="yellow-name" className={`display t-title ${s.name}`}>{COPY.endpapers.name}</p>
+          <div data-part="frontispiece" className={s.front}>
             <Portrait p={COPY.endpapers.portrait} />
-            <p data-part="yellow-name" className="display t-title">{COPY.endpapers.name}</p>
+            <div className={s.frontText}>
+              <p className={`text ${s.lead}`}>{h.lead}</p>
+              <Transcript rows={h.facts} tight className={s.after} />
+            </div>
           </div>
-          <p className={`text ${s.lead}`}>{h.lead}</p>
-          <Transcript rows={h.facts} tight className={`${s.after} ${s.clear}`} />
           <Transcript rows={[COPY.endpapers.virgil]} className={s.after} />
           <div className={s.index}><Index rows={COPY.work.index} /></div>
         </Section>

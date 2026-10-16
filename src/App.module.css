@@ -6,7 +6,7 @@
 .next{margin-top:var(--s-2)}
 .gap{margin-top:var(--s-4)}
 .block{margin-top:var(--s-7)}
-.top{margin-bottom:var(--s-5)}
-.top>[data-part="portrait"]{float:right;margin:0 0 var(--s-5) var(--s-4)}
-.clear{clear:both}
-@media (max-width:639px){.top>[data-part="portrait"]{margin-left:var(--s-3)}}
+.name{margin-bottom:var(--s-5)}
+.front{display:flex;align-items:flex-start;gap:var(--s-5)}
+.frontText{flex:1;min-width:0}
+@media (max-width:639px){.front{flex-direction:column}}

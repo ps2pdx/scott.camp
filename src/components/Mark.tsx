@@ -11,7 +11,7 @@ export type PortraitData = { src: string; srcSet: string; width: number; height:
 export function Portrait({ p }: { p: PortraitData }) {
   return (
     <figure data-part="portrait" className={s.portrait}>
-      <img className={s.portraitTile} src={p.src} srcSet={p.srcSet} sizes="(max-width: 639px) 96px, 120px" width={p.width} height={p.height} alt={p.alt} loading="lazy" decoding="async" />
+      <img className={s.portraitTile} src={p.src} srcSet={p.srcSet} sizes="(max-width: 639px) 240px, 320px" width={p.width} height={p.height} alt={p.alt} loading="lazy" decoding="async" />
       <figcaption className="meta">{p.caption}</figcaption>
     </figure>
   );

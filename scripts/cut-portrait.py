@@ -18,7 +18,7 @@ def cut_2x3(im):
 
 if __name__ == '__main__':
     im = cut_2x3(ImageOps.exif_transpose(Image.open(SRC)).convert('RGB'))
-    for width, name in ((480, 'portrait.webp'), (240, 'portrait-240.webp')):
+    for width, name in ((640, 'portrait-640.webp'), (480, 'portrait.webp'), (240, 'portrait-240.webp')):
         out = im.resize((width, width * 3 // 2), Image.LANCZOS) if im.width > width else im
         out.save(OUT + name, quality=Q, method=6)
         print(name, out.size)

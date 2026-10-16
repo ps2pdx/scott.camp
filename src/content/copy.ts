@@ -32,7 +32,7 @@ export const COPY = {
   },
   endpapers: {
     name: 'Scott Campbell, c/o Nertia.ai',
-    portrait: { src: '/evidence/portrait.webp', srcSet: '/evidence/portrait-240.webp 240w, /evidence/portrait.webp 480w', width: 480, height: 720, alt: 'Scott Campbell', caption: 'SNY00127, 2024' },
+    portrait: { src: '/evidence/portrait.webp', srcSet: '/evidence/portrait-240.webp 240w, /evidence/portrait.webp 480w, /evidence/portrait-640.webp 640w', width: 480, height: 720, alt: 'Scott Campbell', caption: 'SNY00127, 2024' },
     virgil: { when: '2015 to 2016', who: 'Virgil', text: 'I met Virgil once. He dapped me up at 45 East, Euphoria at the time, after playing a cool set.' } as TranscriptRow,
   },
   vantage: {

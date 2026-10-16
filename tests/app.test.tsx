@@ -94,7 +94,12 @@ it('the cover holds the eyebrow, the name line, three inline Meta links and the 
   const name = container.querySelector('#endpapers [data-part="yellow-name"]')!;
   expect(name.textContent).toBe('Scott Campbell, c/o Nertia.ai');
   expect(name.classList.contains('display') && name.classList.contains('t-title')).toBe(true);
-  expect(name.parentElement!.nextElementSibling!.textContent).toBe(COPY.hero.lead);
+  const front = name.nextElementSibling!;
+  expect(front.getAttribute('data-part')).toBe('frontispiece');
+  expect(front.firstElementChild!.getAttribute('data-part')).toBe('portrait');
+  expect(front.lastElementChild!.firstElementChild!.textContent).toBe(COPY.hero.lead);
+  expect(front.lastElementChild!.textContent).toContain(COPY.hero.facts[3].text);
+  expect(front.textContent).not.toContain(COPY.endpapers.virgil.text);
   expect(cover.textContent).toContain('"I design systems agents ship."');
   const v = COPY.endpapers.virgil;
   expect(v).toEqual({ when: '2015 to 2016', who: 'Virgil', text: 'I met Virgil once. He dapped me up at 45 East, Euphoria at the time, after playing a cool set.' });
@@ -195,9 +200,10 @@ it('the yellow pages carry the portrait opposite the name: lazy, alt Scott Campb
   const fig = container.querySelector('#endpapers [data-part="portrait"]')!;
   const img = fig.querySelector('img')!;
   expect(img.getAttribute('src')).toBe('/evidence/portrait.webp');
-  expect(img.getAttribute('srcset')).toBe('/evidence/portrait-240.webp 240w, /evidence/portrait.webp 480w');
+  expect(img.getAttribute('srcset')).toBe('/evidence/portrait-240.webp 240w, /evidence/portrait.webp 480w, /evidence/portrait-640.webp 640w');
   expect(img.getAttribute('alt')).toBe('Scott Campbell');
   expect(img.getAttribute('loading')).toBe('lazy');
   expect(fig.querySelector('figcaption')!.textContent).toBe('SNY00127, 2024');
-  expect(fig.nextElementSibling!.getAttribute('data-part')).toBe('yellow-name');
+  expect(fig.parentElement!.previousElementSibling!.getAttribute('data-part')).toBe('yellow-name');
+  expect(fig.nextElementSibling!.firstElementChild!.textContent).toBe(COPY.hero.lead);
 });
