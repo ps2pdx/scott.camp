@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import { readFileSync, statSync } from 'node:fs';
+import { existsSync, readFileSync, statSync } from 'node:fs';
 import { App } from '@/App';
 import { COPY, SECTIONS } from '@/content/copy';
 import { FRAMES } from '@/components/BookGallery';
@@ -203,16 +203,18 @@ it('the Nertia block carries the Zero-Point evolution: the generator, the v1 fra
   expect([...n.querySelectorAll('[data-part="brand-sample"] a')].every((a) => a.getAttribute('href') === '#nertia')).toBe(true);
   expect(container.querySelectorAll('nav[aria-label="Sections"] a').length).toBe(8);
 });
-it('Contact opens on the portrait above the title: 2:3, lazy, alt Scott Campbell, caption under the frame, then the lead, the rows, the resume and the Cal plates', () => {
+it('Contact opens on the portrait above the title: 1:1, lazy, alt Scott Campbell, caption under the frame, then the lead, the rows, the resume and the Cal plates', () => {
   const { container } = render(<App />);
   const fig = container.querySelector('#contact [data-part="portrait"]')!;
   const img = fig.querySelector('img')!;
   expect(img.getAttribute('src')).toBe('/evidence/portrait.webp');
-  expect(img.getAttribute('srcset')).toBe('/evidence/portrait-240.webp 240w, /evidence/portrait.webp 480w, /evidence/portrait-640.webp 640w');
+  expect(img.getAttribute('srcset')).toBe('/evidence/portrait-320.webp 320w, /evidence/portrait.webp 640w');
+  expect(statSync('public/evidence/portrait.webp').size).toBeLessThan(80 * 1024);
+  for (const old of ['portrait-240.webp', 'portrait-640.webp']) expect(existsSync(`public/evidence/${old}`)).toBe(false);
   expect(img.getAttribute('alt')).toBe('Scott Campbell');
   expect(img.getAttribute('loading')).toBe('lazy');
-  expect(fig.querySelector('figcaption')!.textContent).toBe('Portrait, SNY00127, 2024');
-  expect(img.getAttribute('data-ratio')).toBe('2:3');
+  expect(fig.querySelector('figcaption')!.textContent).toBe('Portrait');
+  expect(img.getAttribute('data-ratio')).toBe('1:1');
   expect(fig.lastElementChild!.tagName).toBe('FIGCAPTION');
   const head = fig.parentElement!.nextElementSibling!;
   expect(head.querySelector('h2')!.textContent).toBe(COPY.contact.title);

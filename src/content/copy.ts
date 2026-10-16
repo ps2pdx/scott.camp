@@ -244,7 +244,7 @@ export const COPY = {
   },
   contact: {
     eyebrow: 'Contact', runningHead: 'Contact', title: "Let's talk",
-    portrait: { src: '/evidence/portrait.webp', srcSet: '/evidence/portrait-240.webp 240w, /evidence/portrait.webp 480w, /evidence/portrait-640.webp 640w', width: 480, height: 720, ratio: '2:3', alt: 'Scott Campbell', caption: 'Portrait, SNY00127, 2024' } as Still,
+    portrait: { src: '/evidence/portrait.webp', srcSet: '/evidence/portrait-320.webp 320w, /evidence/portrait.webp 640w', width: 640, height: 640, ratio: '1:1', alt: 'Scott Campbell', caption: 'Portrait' } as Still,
     lead: "I'm looking for a senior role where design systems, product marketing and agents meet: AI infrastructure, developer platforms, or something equally hard to explain. Portland-based, remote-friendly, happy to travel.",
     rows: [
       { when: 'Email', who: '', text: 'ps2pdx@gmail.com' },

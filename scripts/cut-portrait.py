@@ -1,24 +1,22 @@
-"""Cuts the yellow pages portrait. Pillow only.
-Source: SNY00127-full.jpeg (2048 by 3072, 5.5 MB), kept out of the repo for size, on Scott's Mac at
-~/.claude/projects/-Users-aquapurp-code-nertia/scott-camp-assets/portrait/SNY00127-full.jpeg. Pass another path as the first argument."""
+"""Cuts the Contact portrait. Pillow only, pixels only (run with python3 -I).
+Source: 'Scott Campbell Portrait 1.png' (1684 by 2528, studio headshot on black), kept out of the repo for size, at
+~/.claude/projects/-Users-aquapurp-code-nertia/scott-camp-assets/portrait/. Pass another path as the first argument.
+A 1:1 crop the full width of the frame, its top TOP px down so the head keeps its headroom (a centred square
+would cut through the forehead), at 640 (portrait.webp) and 320 (portrait-320.webp), quality 82."""
 import os, sys
-from PIL import Image, ImageOps
+from PIL import Image
 
-SRC = sys.argv[1] if len(sys.argv) > 1 else os.path.expanduser('~/.claude/projects/-Users-aquapurp-code-nertia/scott-camp-assets/portrait/SNY00127-full.jpeg')
+SRC = sys.argv[1] if len(sys.argv) > 1 else os.path.expanduser('~/.claude/projects/-Users-aquapurp-code-nertia/scott-camp-assets/portrait/Scott Campbell Portrait 1.png')
 OUT = 'public/evidence/'
 Q = 82
-
-def cut_2x3(im):
-    w, h = im.size
-    if w * 3 > h * 2:
-        cw = h * 2 // 3
-        return im.crop(((w - cw) // 2, 0, (w - cw) // 2 + cw, h))
-    ch = w * 3 // 2
-    return im.crop((0, (h - ch) // 2, w, (h - ch) // 2 + ch))
+TOP = 100
 
 if __name__ == '__main__':
-    im = cut_2x3(ImageOps.exif_transpose(Image.open(SRC)).convert('RGB'))
-    for width, name in ((640, 'portrait-640.webp'), (480, 'portrait.webp'), (240, 'portrait-240.webp')):
-        out = im.resize((width, width * 3 // 2), Image.LANCZOS) if im.width > width else im
-        out.save(OUT + name, quality=Q, method=6)
-        print(name, out.size)
+    src = Image.open(SRC).convert('RGBA')
+    im = Image.new('RGB', src.size, (0, 0, 0))
+    im.paste(src, mask=src.getchannel('A'))
+    w, h = im.size
+    sq = im.crop((0, TOP, w, TOP + w))
+    for width, name in ((640, 'portrait.webp'), (320, 'portrait-320.webp')):
+        sq.resize((width, width), Image.LANCZOS).save(OUT + name, quality=Q, method=6)
+        print(name, os.path.getsize(OUT + name))

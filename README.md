@@ -52,7 +52,7 @@ Status on 2026-10-14: the code site `scottcamp` exists. Every push to `main` pub
 ## Design sources
 
 - `design/README.md`: which photograph each texture was cut from; `design/source/` holds those frames, `scripts/cut-tiles.py` reproduces `public/textures/`.
-- `scripts/cut-portrait.py` cuts the Contact portrait (`public/evidence/portrait-640.webp`, `portrait.webp` 480 px and `portrait-240.webp`, 2:3, quality 82; above the Contact title on columns 1 to 4, 240 px on phones) from SNY00127-full.jpeg (2048 by 3072, 2024), kept out of the repo for size; the path is in the script.
+- `scripts/cut-portrait.py` cuts the Contact portrait (`public/evidence/portrait.webp` 640 px and `portrait-320.webp`, 1:1 from the top of the frame so the head keeps its headroom, quality 82; above the Contact title on columns 1 to 4, 240 px on phones) from 'Scott Campbell Portrait 1.png' (1684 by 2528, studio headshot on black, 2026-10-16), kept out of the repo for size; the path is in the script. Caption reads Portrait until Scott confirms the year.
 - Spec: `docs/superpowers/specs/2026-10-13-scott-camp-design-system.md` in `ps2pdx/nertia`, branch `claude/personal-website-design-ec0a29` (PR #1176), alongside the build plan in `docs/superpowers/plans/2026-10-14-scott-camp-site.md`.
 - Canvas prototype: https://claude.ai/artifact/R5WnhPbqkKSfmzCWyAY4na (`project/Main.dc.html`).
 - Originals on Scott's Mac: `~/Desktop/untitle/fullsize/` and `~/Desktop/untitle/fullsize/new/`; Photos album `somethings click'd`.
