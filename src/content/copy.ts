@@ -255,7 +255,7 @@ export const COPY = {
     ] as TranscriptRow[],
     links: { email: 'mailto:ps2pdx@gmail.com', phone: 'tel:+15038064457' },
     resume: { label: 'Download resume', bracket: 'PDF', href: '/Scott_Campbell_Resume.pdf' },
-    consulting: { eyebrow: 'Consulting', headline: '60 minutes.', text: 'One hour on your brand, design system, positioning or agent workflow. $300, paid at booking, no refunds.', label: 'Book a session', href: BOOKING_URL },
+    consulting: { eyebrow: 'Consulting', headline: '60 minutes.', text: 'One hour on your brand, design system, positioning or agent workflow.', label: 'Book a session', href: BOOKING_URL },
   },
   footer: {
     links: [

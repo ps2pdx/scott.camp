@@ -10,7 +10,7 @@ it('contact closes on the consulting sheet: eyebrow, 60 MINUTES., the terms and 
   const sheet = container.querySelector('#contact [data-part="booking"]')!;
   expect(sheet.textContent).toContain('"Consulting"');
   expect(sheet.querySelector('.display')!.textContent).toBe('60 minutes.');
-  expect(sheet.querySelector('.text')!.textContent).toBe('One hour on your brand, design system, positioning or agent workflow. $300, paid at booking, no refunds.');
+  expect(sheet.querySelector('.text')!.textContent).toBe('One hour on your brand, design system, positioning or agent workflow.');
   const links = [...sheet.querySelectorAll('a')];
   expect(links).toHaveLength(1);
   expect(links[0].getAttribute('href')).toBe('https://cal.com/scott-campbell/consulting');

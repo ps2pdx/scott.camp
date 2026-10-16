@@ -97,3 +97,9 @@ it('table rules are the 2 px --strike token in the --line colour; the punch nav 
   expect(readFileSync('src/components/TechSheet.module.css', 'utf8')).toContain('border:var(--strike) solid var(--line)');
   expect(readFileSync('src/components/PunchNav.module.css', 'utf8')).toContain('.cells li{border-right:1px solid var(--line-strong)}');
 });
+it('the cloth deboss is tokens only, at least 86 percent ink, and drops under forced colors and more contrast', () => {
+  const m = css.match(/--emboss-ink:color-mix\(in oklch,#000000 (\d+)%,var\(--s-cloth\)\)/)!;
+  expect(Number(m[1])).toBeGreaterThanOrEqual(86);
+  expect(css).toContain('@media (prefers-contrast: more),(forced-colors: active){:root{--emboss-ink:#000000;--emboss-text:none;--emboss-meta:none}}');
+  for (const f of ['src/components/Cover.module.css', 'src/components/Consulting.module.css']) expect(readFileSync(f, 'utf8')).toContain('text-shadow:var(--emboss-text)');
+});
