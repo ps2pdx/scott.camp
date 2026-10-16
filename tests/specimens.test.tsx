@@ -1,5 +1,16 @@
 import { act, render } from '@testing-library/react';
-import { readFileSync, statSync } from 'node:fs';
+import { readFileSync } from 'node:fs';
+
+vi.mock('three', () => {
+  class V { x = 0; y = 0; z = 0; set(x: number, y: number, z: number) { this.x = x; this.y = y; this.z = z; return this; } copy() { return this; } applyMatrix4() { return this; } project() { return this; } normalize() { return this; } multiplyScalar() { return this; } sub() { return this; } }
+  class Obj { rotation = { x: 0, y: 0 }; position = new V(); matrixWorld = {}; children: unknown[] = []; add(o: unknown) { this.children.push(o); } updateMatrixWorld() {} lookAt() {} updateProjectionMatrix() {} }
+  class Geo { attributes: Record<string, unknown> = {}; setAttribute(k: string, v: unknown) { this.attributes[k] = v; } dispose() {} }
+  class Mat { color = { copy() {} }; opacity = 1; blending = 0; needsUpdate = false; dispose() {} }
+  class Renderer { domElement = document.createElement('canvas'); setClearColor() {} setPixelRatio() {} setSize() {} render() {} dispose() {} }
+  class Color { setStyle() { return this; } set() { return this; } }
+  class Attr { array: Float32Array; needsUpdate = false; constructor(a: Float32Array) { this.array = a; } }
+  return { AdditiveBlending: 2, NormalBlending: 1, BufferAttribute: Attr, BufferGeometry: Geo, Color, Group: Obj, Matrix4: class { copy() { return this; } invert() { return this; } }, PerspectiveCamera: Obj, Points: Obj, PointsMaterial: Mat, Scene: Obj, Vector3: V, WebGLRenderer: Renderer };
+});
 import { SpecimenPlate } from '@/components/SpecimenPlate';
 import DoubleSlit from '@/lib/specimens/DoubleSlit';
 import ButterflyRing from '@/lib/specimens/ButterflyRing';
@@ -22,6 +33,7 @@ const Probe = (p: SpecimenProps) => { seen.push(p); return <i data-part="probe" 
 const load = () => Promise.resolve({ default: Probe });
 const about = SPECIMEN_ABOUT.butterfly;
 const flush = () => act(async () => { await new Promise((r) => setTimeout(r, 0)); });
+const mounted = (c: HTMLElement) => act(() => vi.waitFor(() => { if (!c.querySelector('canvas')) throw new Error('no canvas yet'); }, { timeout: 5000 }));
 
 it('a specimen plate mounts nothing until it is near the viewport, runs only while seen and the tab is visible', async () => {
   seen.length = 0;
@@ -45,7 +57,7 @@ it('a specimen plate mounts nothing until it is near the viewport, runs only whi
   act(() => { document.dispatchEvent(new Event('visibilitychange')); });
   expect(seen.at(-1)!.running).toBe(true);
   const box = container.querySelector('[data-part="about"]')!;
-  expect([...box.querySelectorAll('dd')].map((d) => d.textContent)).toEqual(['Canvas', '2026', 'nertia homepage']);
+  expect([...box.querySelectorAll('dd')].map((d) => d.textContent)).toEqual(['WebGL, three.js', '2026', 'nertia homepage']);
   expect(container.querySelector('[role="img"]')).toHaveAttribute('aria-label', 'Test');
 });
 
@@ -77,23 +89,46 @@ describe('the vendored loops', () => {
     render(<DoubleSlit running still />);
     expect(raf).not.toHaveBeenCalled();
   });
-  it('the butterfly ring cancels its frame when paused', async () => {
-    vi.stubGlobal('fetch', vi.fn(() => Promise.resolve({ arrayBuffer: () => Promise.resolve(new Float32Array([1, 0, 0]).buffer) })));
-    const { rerender } = render(<ButterflyRing running still={false} />);
-    await flush();
+  it('the butterfly ring loops only while running, cancels its frame when paused, and never loops when still', async () => {
+    const { rerender, container, unmount } = render(<ButterflyRing running still={false} />);
+    await mounted(container);
     expect(raf).toHaveBeenCalled();
     rerender(<ButterflyRing running={false} still={false} />);
     expect(caf).toHaveBeenCalled();
+    unmount();
+    raf.mockClear();
+    const still = render(<ButterflyRing running still />);
+    await mounted(still.container);
+    expect(raf).not.toHaveBeenCalled();
+  });
+  it('the wheel zooms only after a click into the plate while the pointer is over it, so the page scroll is never captured', async () => {
+    const { container } = render(<ButterflyRing running={false} still={false} />);
+    await mounted(container);
+    const canvas = container.querySelector('canvas')!;
+    const wheel = () => { const e = new WheelEvent('wheel', { deltaY: 100, cancelable: true }); canvas.dispatchEvent(e); return e.defaultPrevented; };
+    expect(wheel()).toBe(false);
+    canvas.dispatchEvent(new Event('pointerdown'));
+    canvas.dispatchEvent(new Event('pointerup'));
+    expect(wheel()).toBe(true);
+    canvas.dispatchEvent(new Event('pointerleave'));
+    expect(wheel()).toBe(false);
   });
 });
 
-it('the specimens are vendored with their source, use only react, and the Nertia evolution dates them between January and May', () => {
-  for (const [f, src] of [['ButterflyRing', '58bd29ab (4fc06b12^)'], ['DoubleSlit', 'abdaf474 (main)']]) {
+it('the specimens are vendored with their source, the ring on three 0.182.0 with its vertices in a lazy module, and the Nertia evolution dates them between January and May', async () => {
+  for (const [f, src, deps] of [['ButterflyRing', '58bd29ab (4fc06b12^)', ['react', 'three']], ['DoubleSlit', 'abdaf474 (main)', ['react']]] as const) {
     const t = readFileSync(`src/lib/specimens/${f}.tsx`, 'utf8');
     expect(t).toContain(`ps2pdx/nertia at ${src}`);
-    expect([...t.matchAll(/from '([^']+)'/g)].map((m) => m[1]).filter((m) => !m.startsWith('.') && !m.startsWith('@/'))).toEqual(['react']);
-    expect(t).not.toMatch(/window\.addEventListener\('(wheel|mousemove)'/);
+    expect([...t.matchAll(/from '([^']+)'/g)].map((m) => m[1]).filter((m) => !m.startsWith('.') && !m.startsWith('@/'))).toEqual(deps);
+    expect(t).not.toMatch(/window\.addEventListener\(/);
   }
-  expect(statSync('public/specimens/butterfly-ring-vertices.bin').size).toBe(70000);
-  expect(COPY.nertia.evolution.steps.slice(1, 3)).toEqual(['April 2026, the Butterfly Ring: the homepage hero, a particle ring that resolves into a butterfly.', 'May 2026, the double slit: the splash hero, particles from the cursor through two slits.']);
+  const pkg = JSON.parse(readFileSync('package.json', 'utf8'));
+  expect(pkg.dependencies.three).toBe('0.182.0');
+  expect(readFileSync('src/lib/specimens/ButterflyRing.tsx', 'utf8')).toContain("await import('./butterfly-ring-vertices')");
+  const { VERTICES, VERTEX_COUNT, SCALE } = await import('@/lib/specimens/butterfly-ring-vertices');
+  const q = new Int16Array(Uint8Array.from(atob(VERTICES), (c) => c.charCodeAt(0)).buffer);
+  expect(VERTEX_COUNT).toBe(19121);
+  expect(q.length).toBe(VERTEX_COUNT * 3);
+  expect([q[0] * SCALE, q[1] * SCALE, q[2] * SCALE].map((v) => Number(v.toFixed(4)))).toEqual([-0.9474, -0.0883, 0.4153]);
+  expect(COPY.nertia.evolution.steps.slice(2, 4)).toEqual(['April 2026, the Butterfly Ring: the homepage hero, a particle ring that resolves into a butterfly.', 'May 2026, the double slit: the splash hero, particles from the cursor through two slits.']);
 });

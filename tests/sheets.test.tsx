@@ -7,12 +7,12 @@ import { COPY } from '@/content/copy';
 import { renderBook } from './pages';
 
 it('Index strikes the rows that are not this section and keeps their text', () => {
-  const { container } = render(<Index rows={COPY.work.index.map((r, i) => ({ ...r, struck: i < 6 || i > 10 }))} />);
+  const { container } = render(<Index rows={COPY.work.index.map((r, i) => ({ ...r, struck: i < 7 || i > 11 }))} />);
   const table = screen.getByRole('table', { name: /Index/ });
   const rows = screen.getAllByRole('row');
-  expect(rows.length).toBe(13);
+  expect(rows.length).toBe(14);
   const struck = rows.filter((r) => r.querySelector('del'));
-  expect(struck.length).toBe(8);
+  expect(struck.length).toBe(9);
   expect(struck[0].textContent).toContain('Ali Sharifi Rugs');
   expect(rows.filter((r) => !r.querySelector('del')).map((r) => r.children[1].textContent)).toEqual(['Pharm to Body', 'Pure Zero Photography', 'Bend Cleaning', 'Full Scope Supply', 'Typeshit']);
   const scroller = table.parentElement!;
@@ -28,7 +28,7 @@ it('VolumeFace is a spread: empty verso, recto with number, name, year', () => {
   expect(screen.getByText('Pharm to Body')).toBeInTheDocument();
   expect(screen.getByText('2026')).toBeInTheDocument();
 });
-it('thirteen faces number 01 to 13 in index order', () => {
+it('fourteen faces number 01 to 14 in index order', () => {
   const { container } = render(<>{COPY.work.index.map((r) => <VolumeFace key={r.no} no={r.no} name={r.name} year={r.year} />)}</>);
   const nos = [...container.querySelectorAll('[data-part="vol"]')].map((e) => e.textContent);
   expect(nos).toEqual(COPY.work.index.map((r) => `Vol. ${r.no}`));
@@ -232,11 +232,11 @@ it('every piece of work carries exactly one AboutBox: the five Work sites, Zen H
     expect(a.querySelectorAll('[data-part="about"]').length, String(i)).toBe(1);
     const sh = COPY.work.sheets[i];
     const dd = [...a.querySelectorAll('dd')].map((d) => d.textContent);
-    expect(dd).toEqual([sh.fields.Sheet, `${sh.fields.Role}, ${sh.fields.Stack}`, COPY.work.index[6 + i].year, 'Live site']);
+    expect(dd).toEqual([sh.fields.Sheet, `${sh.fields.Role}, ${sh.fields.Stack}`, COPY.work.index[7 + i].year, 'Live site']);
     expect(sh.body!.startsWith(a.querySelector('[data-part="about"] p')!.textContent!)).toBe(true);
     expect(a.querySelector('.hdr')).toBeNull();
   }
-  for (const id of ['vantage', 'nertia', 'terpscout']) expect([...container.querySelectorAll(`#${id} [data-part="about"]`)].filter((b) => !b.closest('[data-part^="specimen-"]')).length, id).toBe(1);
+  for (const id of ['vantage', 'nertia', 'terpscout']) expect([...container.querySelectorAll(`#${id} [data-part="about"]`)].filter((b) => !b.closest('[data-part^="specimen-"], [data-part="battlezone"]')).length, id).toBe(1);
   expect(container.querySelectorAll('#practice [data-part="about"]').length).toBe(2);
   expect(ABOUT.zenHolo.source).toBe('Blender render');
   expect(ABOUT.marquee).toMatchObject({ place: 'District', year: '2017', source: 'Event banner' });

@@ -22,8 +22,8 @@ it('never says Series A', () => { expect(JSON.stringify(COPY.vantage)).not.toCon
 it('no sheet header field is empty', () => {
   for (const s of [...COPY.work.sheets, ...COPY.practice.sheets, ...COPY.nertia.sheets]) for (const [k, v] of Object.entries(s.fields)) expect(v, `${s.title} ${k}`).not.toBe('');
 });
-it('index has thirteen rows numbered 01 to 13, none struck on the front matter, KAL Contracting gone', () => {
-  expect(COPY.work.index.map((r) => r.no)).toEqual(Array.from({ length: 13 }, (_, i) => String(i + 1).padStart(2, '0')));
+it('index has fourteen rows numbered 01 to 14, none struck on the front matter, KAL Contracting gone', () => {
+  expect(COPY.work.index.map((r) => r.no)).toEqual(Array.from({ length: 14 }, (_, i) => String(i + 1).padStart(2, '0')));
   expect(COPY.work.index.filter((r) => r.struck)).toEqual([]);
 });
 it('the hero headline is locked', () => { expect(COPY.hero.headline).toBe("Something Click'd"); expect(COPY.hero.eyebrow).toBe('I design systems agents ship.'); expect(VANTAGE_CASE_STUDY_URL).toMatch(/^https:/); });
@@ -46,9 +46,14 @@ it('ScoutCamp is $10M total, 2020 to 2022, with no per-year rate anywhere', () =
   expect(COPY.terpscout.runningHead).toBe('TerpScout [2016 to 2022]');
 });
 it('the Nertia origin row counts ten months from December 2025', () => { expect(COPY.nertia.rows.find((r) => r.who === 'Origin')!.text).toContain('Ten months on,'); });
-it('KAL Contracting is not in the index and Pharm to Body is Vol. 07', () => {
+it('KAL Contracting is not in the index and Pharm to Body is Vol. 08', () => {
   expect(COPY.work.index.some((r) => r.name === 'KAL Contracting')).toBe(false);
-  expect(COPY.work.index.find((r) => r.name === 'Pharm to Body')!.no).toBe('07');
+  expect(COPY.work.index.find((r) => r.name === 'Pharm to Body')!.no).toBe('08');
+});
+it('Battlezone is row 05, at 2025 in the chronology, just before Nertia', () => {
+  const i = COPY.work.index.findIndex((r) => r.name === 'Battlezone');
+  expect(COPY.work.index[i]).toMatchObject({ no: '05', year: '2025', struck: false });
+  expect(COPY.work.index[i + 1].name).toBe('Nertia');
 });
 it('the yellow pages open by continuing the cover, verbatim', () => {
   expect(COPY.hero.lead).toBe('Around last year, when I was building my portfolio, it pivoted into a design system generator, which is now Nertia: an agentic wormhole out of the corporate web.');

@@ -98,3 +98,14 @@ for src, name, (rw, rh) in [('zen-holo-stone-hummingbird.png', 'zen-holo-humming
     cut = centre(Image.open(ZH / src).convert('RGB'), rw, rh)
     for px, dest in ((1280, EV / f'{name}.webp'), (640, EV / f'{name}-640.webp')):
         print(dest.name, save_under(cut.resize((px, round(px * rh / rw)), Image.LANCZOS), dest, Q, 120 * 1024, 10))
+
+# Battlezone (December 2025, battlezone.app; Scott's screenshots, pixels only): the gameplay and login screens,
+# the window's transparent corners flattened onto white, centred at 3:2, 1280 and 640 wide, under 120 KB.
+BZ = ASSETS / 'battlezone'
+for src in ('gameplay', 'login'):
+    rgba = Image.open(BZ / f'{src}.png').convert('RGBA')
+    flat = Image.new('RGB', rgba.size, (255, 255, 255))
+    flat.paste(rgba, mask=rgba.split()[3])
+    cut = centre(flat, 3, 2)
+    for px, dest in ((1280, EV / f'battlezone-{src}.webp'), (640, EV / f'battlezone-{src}-640.webp')):
+        print(dest.name, save_under(cut.resize((px, round(px * 2 / 3)), Image.LANCZOS), dest, Q, 120 * 1024, 10))

@@ -19,10 +19,10 @@ it('carries the code-site line, the provenance line and the resume', () => {
   expect(screen.getByText('Textures photographed from one copy of ICONS, 13 October 2026.')).toBeInTheDocument();
   expect(screen.getAllByRole('link', { name: /Resume|Download resume/ })[0]).toHaveAttribute('href', '/Scott_Campbell_Resume.pdf');
 });
-it('places ten tech sheets across the chapters and thirteen index rows on the landing', () => {
+it('places ten tech sheets across the chapters and fourteen index rows on the landing', () => {
   const { container } = renderBook();
   expect(container.querySelectorAll('figure svg[role="img"]').length).toBe(10);
-  expect(container.querySelectorAll('#endpapers tr').length).toBe(13);
+  expect(container.querySelectorAll('#endpapers tr').length).toBe(14);
 });
 
 describe('theme boot', () => {
@@ -193,12 +193,24 @@ it('the Nertia block carries the Zero-Point evolution: the generator, the v1 fra
   expect(ev.querySelector(':scope > .meta')!.textContent).toBe('"Zero-Point evolution"');
   const steps = [...ev.querySelectorAll(':scope > p.transcript')].map((p) => p.textContent);
   expect(steps).toEqual(COPY.nertia.evolution.steps);
-  expect(steps.map((x) => x!.split(':')[0])).toEqual(['January 2026', 'April 2026, the Butterfly Ring', 'May 2026, the double slit', 'May 2026', 'May 2026 to today']);
+  expect(steps.map((x) => x!.split(':')[0])).toEqual(['December 2025, Battlezone', 'January 2026', 'April 2026, the Butterfly Ring', 'May 2026, the double slit', 'May 2026', 'May 2026 to today']);
   expect(ev.querySelector('[data-part="brand-generator"] figcaption')!.textContent).toContain('Brand System v3.0, nertia 7a576f35, January 2026');
   const frame = ev.querySelector('[data-part="zero-point-frame"]')!;
   expect(frame.querySelector('figcaption')!.textContent).toContain('falls back to the system stack');
   expect(frame.querySelector('[data-part="zero-point-v1"]')).toBeNull();
   const order = [...n.querySelectorAll('[data-part="brand-generator"], [data-part^="specimen-"], [data-part="zero-point-frame"], table')].map((x) => x.getAttribute('data-part') ?? x.getAttribute('aria-label'));
+  const bz = ev.querySelector('[data-part="battlezone"]')!;
+  expect(bz.previousElementSibling!.textContent).toBe(COPY.nertia.evolution.steps[0]);
+  expect(bz.nextElementSibling!.textContent).toBe(COPY.nertia.evolution.steps[1]);
+  expect([...bz.querySelectorAll('figure')].map((f) => [f.querySelector('img')!.getAttribute('data-ratio'), f.querySelector('img')!.getAttribute('loading'), f.querySelector('figcaption')!.textContent])).toEqual([
+    ['3:2', 'lazy', 'Battlezone gameplay, live site screenshot, 16 October 2026'], ['3:2', 'lazy', 'Battlezone sign in, live site screenshot, 16 October 2026'],
+  ]);
+  expect([...bz.querySelectorAll('[data-part="about"] dt')].map((d) => d.textContent)).toEqual(['Place', 'Type', 'Year', 'Source']);
+  expect([...bz.querySelectorAll('[data-part="about"] dd')].map((d) => d.textContent)).toEqual(['battlezone.app', 'Game, multiplayer', '2025', 'Live site']);
+  const play = bz.querySelector('a')!;
+  expect(play.getAttribute('href')).toBe('https://www.battlezone.app');
+  expect(play.textContent).toBe('Play ↗');
+  for (const f of ['battlezone-gameplay', 'battlezone-login']) for (const s of ['', '-640']) expect(statSync(`public/evidence/${f}${s}.webp`).size).toBeLessThan(120 * 1024);
   expect(order).toEqual(['brand-generator', 'specimen-butterfly', 'specimen-slit', 'zero-point-frame', 'Skin contract tokens by tier', 'MCP tools that act on the design system or publish']);
   expect([...n.querySelector('table[aria-label="Skin contract tokens by tier"]')!.querySelectorAll('tr')].map((r) => r.children[0].textContent)).toEqual(['Surface', 'Text', 'Line', 'Accent', 'Radius', 'Shadow', 'Motion', 'Type']);
   const tools = [...n.querySelector('table[aria-label^="MCP"]')!.querySelectorAll('td:first-child')].map((t) => t.textContent);

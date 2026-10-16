@@ -90,14 +90,23 @@ export const COPY = {
     evolution: {
       title: 'Zero-Point evolution',
       steps: [
-        'January 2026: Brand System v3.0, nine answers in, a brand system out. Where Nertia started.',
+        'December 2025, Battlezone: a faithful revival of the classic vector tank game, multiplayer on Firebase.',
+        'January 2026: Brand System v3.0, nine answers in, a brand system out. The first generator.',
         'April 2026, the Butterfly Ring: the homepage hero, a particle ring that resolves into a butterfly.',
         'May 2026, the double slit: the splash hero, particles from the cursor through two slits.',
         'May 2026: Zero-Point design system v1, an exporter and logger, not a generator. Archived 23 May 2026 when the site builder took over.',
         'May 2026 to today: the builder, on one skin contract.',
       ],
+      battlezone: {
+        figures: [
+          { src: '/evidence/battlezone-gameplay.webp', srcSet: '/evidence/battlezone-gameplay-640.webp 640w, /evidence/battlezone-gameplay.webp 1280w', width: 1280, height: 853, ratio: '3:2', caption: 'Battlezone gameplay, live site screenshot, 16 October 2026', alt: 'Battlezone in a browser at battlezone.app: a green wireframe tank on a vector grid under wireframe mountains, the player chat at the left, the powerups key at the top right and the radar at the bottom right.' },
+          { src: '/evidence/battlezone-login.webp', srcSet: '/evidence/battlezone-login-640.webp 640w, /evidence/battlezone-login.webp 1280w', width: 1280, height: 853, ratio: '3:2', caption: 'Battlezone sign in, live site screenshot, 16 October 2026', alt: 'The Battlezone start screen: the title, the line A faithful revival of a forgotten frontier, a name field and a Start Game button over the green vector grid.' },
+        ] as Still[],
+        description: 'A faithful revival of a forgotten frontier: classic vector tank combat, multiplayer on Firebase.',
+        link: { label: 'Play', href: 'https://www.battlezone.app' },
+      },
       specimens: {
-        butterfly: { label: 'The Butterfly Ring, a particle ring that resolves into a butterfly. Drag to turn it.', description: 'A ring of drifting points that, if you look at it long enough, resolves into a butterfly. The points never stop moving; the shape they form stays consistent.' },
+        butterfly: { label: 'The Butterfly Ring, a particle ring that resolves into a butterfly. Drag to turn it; click into it, then scroll to zoom.', description: 'A ring of drifting points that, if you look at it long enough, resolves into a butterfly. The points never stop moving; the shape they form stays consistent.' },
         slit: { label: 'The double slit: particles fall from the pointer through two slits and pile up below.', description: 'Particles fall from the cursor through two slits and pile up in the two panels below, one side swishy, the other swashy.' },
       },
       frameCaption: 'Zero-Point design system v1, nertia f1a3cf56, 4 May 2026. Read-only: the sidebar, token drawer and export work; Archivo is not loaded, so the display face falls back to the system stack.',
@@ -217,15 +226,16 @@ export const COPY = {
       { no: '02', name: 'Rogue River Botanicals', description: 'Brand, website, kraft and wax seal packaging', year: '2016', struck: false },
       { no: '03', name: 'TerpScout, dba ScoutCamp', description: 'OLCC-regulated distribution consultancy, then a cannabis photography studio, $10M', year: '2020 to 2022', struck: false },
       { no: '04', name: 'Vantage Compute', description: 'Founding product marketing, AI/HPC orchestration', year: '2024 to 2026', struck: false },
-      { no: '05', name: 'Nertia', description: 'Agent-native site builder, web app and MCP server', year: '2025', struck: false },
-      { no: '06', name: 'Plotswitch', description: 'Productized agency brand, the pricing experiment', year: '2026', struck: false },
-      { no: '07', name: 'Pharm to Body', description: 'Family mushroom farm, Shopify, 12-week CSA program', year: '2026', struck: false },
-      { no: '08', name: 'Pure Zero Photography', description: 'Documentary photography, two tiers, published entry pricing', year: '2026', struck: false },
-      { no: '09', name: 'Bend Cleaning', description: 'Cascade Cleaning renamed, booking and review capture', year: '2026', struck: false },
-      { no: '10', name: 'Full Scope Supply', description: 'Commercial general contractor, lead generation', year: '2026', struck: false },
-      { no: '11', name: 'Typeshit', description: 'Developer streetwear, print on demand through Printful', year: '2026', struck: false },
-      { no: '12', name: 'Zen Holo', description: 'Blender animation plus AI music', year: '2026', struck: false },
-      { no: '13', name: 'Purple Scott', description: 'DJ identity', year: '2012', struck: false },
+      { no: '05', name: 'Battlezone', description: 'Classic vector tank game revived, multiplayer on Firebase', year: '2025', struck: false },
+      { no: '06', name: 'Nertia', description: 'Agent-native site builder, web app and MCP server', year: '2025', struck: false },
+      { no: '07', name: 'Plotswitch', description: 'Productized agency brand, the pricing experiment', year: '2026', struck: false },
+      { no: '08', name: 'Pharm to Body', description: 'Family mushroom farm, Shopify, 12-week CSA program', year: '2026', struck: false },
+      { no: '09', name: 'Pure Zero Photography', description: 'Documentary photography, two tiers, published entry pricing', year: '2026', struck: false },
+      { no: '10', name: 'Bend Cleaning', description: 'Cascade Cleaning renamed, booking and review capture', year: '2026', struck: false },
+      { no: '11', name: 'Full Scope Supply', description: 'Commercial general contractor, lead generation', year: '2026', struck: false },
+      { no: '12', name: 'Typeshit', description: 'Developer streetwear, print on demand through Printful', year: '2026', struck: false },
+      { no: '13', name: 'Zen Holo', description: 'Blender animation plus AI music', year: '2026', struck: false },
+      { no: '14', name: 'Purple Scott', description: 'DJ identity', year: '2012', struck: false },
     ] as IndexRow[],
     sheets: [
       { title: 'Pharm to Body', fields: { Sheet: 'pharmtobody.com', Role: 'Design, build', Stack: 'Shopify' }, body: 'A family mushroom farm with no ecommerce history and a subscription product to sell. Shopify build carrying a 12-week CSA program, fresh and dried catalog, grow kits, and a workshop calendar.', href: 'https://pharmtobody.com', label: 'pharmtobody.com' },
@@ -325,7 +335,8 @@ export const ABOUT = {
   vantage: { description: COPY.work.index.find((r) => r.no === '04')!.description, place: new URL(VANTAGE_CASE_STUDY_URL).host, year: yearOf('Vantage Compute'), source: COPY.vantage.caseStudy.label },
   nertia: { description: COPY.work.index.find((r) => r.name === 'Nertia')!.description, place: new URL(COPY.footer.links[1].href).host, type: COPY.nertia.sheets[0].fields.Role, year: yearOf('Nertia'), source: `D${COPY.nertia.tech[0].src.slice(1).toLowerCase()}` },
 };
+export const BATTLEZONE_ABOUT = { description: COPY.nertia.evolution.battlezone.description, place: new URL(COPY.nertia.evolution.battlezone.link.href).host.replace(/^www\./, ''), type: 'Game, multiplayer', year: yearOf('Battlezone'), source: 'Live site' };
 export const SPECIMEN_ABOUT = {
-  butterfly: { description: COPY.nertia.evolution.specimens.butterfly.description, type: 'Canvas', year: '2026', source: 'nertia homepage' },
+  butterfly: { description: COPY.nertia.evolution.specimens.butterfly.description, type: 'WebGL, three.js', year: '2026', source: 'nertia homepage' },
   slit: { description: COPY.nertia.evolution.specimens.slit.description, type: 'Canvas', year: '2026', source: 'nertia homepage' },
 };

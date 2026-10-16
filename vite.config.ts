@@ -17,7 +17,7 @@ export default defineConfig({
         ...Object.fromEntries(PAGE_SLUGS.map((p) => [`bell-${p}`, resolve(__dirname, `bell/${p}/index.html`)])),
         specimen: resolve(__dirname, 'specimen/index.html'),
       },
-      output: { manualChunks: (id) => (id.includes('node_modules') ? 'react' : id.includes('/src/content/') ? 'copy' : /\/src\/(components\/(Shell|PunchNav|Punches|SpineRail|Footer|ThemeToggle)|lib\/theme)\b/.test(id) ? 'chrome' : undefined) },
+      output: { manualChunks: (id) => (id.includes('/node_modules/three/') ? undefined : id.includes('node_modules') ? 'react' : id.includes('/src/content/') ? 'copy' : /\/src\/(components\/(Shell|PunchNav|Punches|SpineRail|Footer|ThemeToggle)|lib\/theme)\b/.test(id) ? 'chrome' : undefined) },
     },
   },
 });
