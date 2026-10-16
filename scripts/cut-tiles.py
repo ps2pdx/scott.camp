@@ -6,6 +6,8 @@ from PIL import Image, ImageOps, ImageChops, ImageFilter, ImageDraw, ImageStat
 SRC = 'design/source/'
 OUT = 'public/textures/'
 Q = int(sys.argv[1]) if len(sys.argv) > 1 else 60
+K_PAPER = float(sys.argv[2]) if len(sys.argv) > 2 else 0.025
+K_BOARD = float(sys.argv[3]) if len(sys.argv) > 3 else 0.025
 
 def load(name):
     return ImageOps.exif_transpose(Image.open(SRC + name)).convert('RGB')
@@ -41,6 +43,79 @@ def grain_tile(im, out):
             b = io.BytesIO(); t.save(b, 'WEBP', **kw)
             best = b if best is None or len(b.getvalue()) < len(best.getvalue()) else best
         open(f'{OUT}{out}-grain-{size}.webp', 'wb').write(best.getvalue())
+
+# Card tiles: the grain composited onto each surface colour, opaque, so the surface is one background-image
+# with no overlay. Each channel is the colour times 1 + k * z, z the high-pass in standard deviations (both ways,
+# so the fibres lighten and darken like card stock under light), never below the colour times 1 - FLOOR: the
+# darkest pixel is no darker than the old grain at full alpha, so the contrast bound in tests/contrast.test.ts holds.
+CARD_FLOOR = 0.12
+CARD_PAPER_BOX, CARD_BOARD_BOX, CARD_SEAM, CARD_RADIUS, CARD_BUDGET = (400, 930, 1936, 2466), (60, 600, 1500, 2040), 96, 12, {512: 32 * 1024, 1024: 56 * 1024}
+CARDS = [
+    ('endpaper-dark', 'paper', '#f2dc46', K_PAPER), ('endpaper-light', 'paper', '#f5e04a', K_PAPER),
+    ('eggshell', 'paper', '#f3f1ea', K_PAPER),
+    ('board-dark', 'board', '#1c1b19', K_BOARD * 0.6), ('board-light', 'board', '#a8a49c', K_BOARD),
+]
+
+def card_grey(name, box, radius):
+    """High-pass at a short radius: the tooth of the sheet, without the light falloff or slow mottling."""
+    g = load(name).crop(box).convert('L').filter(ImageFilter.GaussianBlur(1.2))
+    hp = ImageChops.subtract(g, g.filter(ImageFilter.GaussianBlur(radius)), scale=1.0, offset=128)
+    # Dust and fibre specks past 3 standard deviations would repeat on every tile as a grid of dots: median them out.
+    sd = ImageStat.Stat(hp).stddev[0]
+    specks = hp.point(lambda v: 255 if abs(v - 128) > 3 * sd else 0).filter(ImageFilter.MaxFilter(5))
+    return Image.composite(hp.filter(ImageFilter.MedianFilter(9)), hp, specks)
+
+def card_wrap(g, m):
+    """Wraps the high-pass on itself, the last m px faded into the first on each axis. Not mirrored: at card
+    strength a mirror axis reads as a line of Rorschach glyphs. The fade is variance-preserving (two independent
+    grains at weights w and 1 - w are divided by sqrt(w^2 + (1 - w)^2)), so the seam band is no smoother."""
+    for axis in 'xy':
+        w, h = g.size
+        n = (w if axis == 'x' else h) - m
+        src = g.load(); out = Image.new('L', (n, h) if axis == 'x' else (w, n)); dst = out.load()
+        for y in range(out.height):
+            for x in range(out.width):
+                i = x if axis == 'x' else y
+                a = src[x, y] - 128
+                if i < m:
+                    t = (i + 0.5) / m
+                    b = (src[x + n, y] if axis == 'x' else src[x, y + n]) - 128
+                    a = (a * t + b * (1 - t)) / (t * t + (1 - t) ** 2) ** 0.5
+                dst[x, y] = max(0, min(255, round(128 + a)))
+        g = out
+    return g
+
+def card_level(c, d, dark):
+    """One channel at deviation d. Light colours scale with the colour; on a dark colour that is under one level,
+    so the deviation scales with the headroom to white instead. Either way it stays inside the colour times
+    1 - FLOOR and the colour plus FLOOR of the way to white."""
+    v = c + d * ((255 - c) if dark else c)
+    return max(c * (1 - CARD_FLOOR), min(c + CARD_FLOOR * (255 - c), v))
+
+def card_tile(grey, hexcol, k, out):
+    c = tuple(int(hexcol[i:i + 2], 16) for i in (1, 3, 5))
+    dark = sum(c) / 3 < 128
+    lo = 1
+    for size in (512, 1024):
+        # k is the strength in standard deviations of the tile as drawn, so 1x and 2x read the same.
+        g = grey.resize((size, size), Image.LANCZOS)
+        sd = ImageStat.Stat(g).stddev[0]
+        z = [(v - 128) / sd for v in range(256)]
+        lo = min(lo, min(max(1 - CARD_FLOOR, 1 + k * z[v]) for v, n in enumerate(g.histogram()) if n))
+        # Clipping near white pulls the mean down, so each channel is re-centred on the colour as encoded.
+        shift = [0.0, 0.0, 0.0]
+        for _ in range(4):
+            t = Image.merge('RGB', [g.point([max(0, min(255, round(max(cc * (1 - CARD_FLOOR), card_level(cc, k * zv, dark) + sh)))) for zv in z]) for cc, sh in zip(c, shift)])
+            q = 85
+            while True:
+                b = io.BytesIO(); t.save(b, 'WEBP', quality=q, method=6)
+                if b.tell() < CARD_BUDGET[size] or q <= 30: break
+                q -= 5
+            mean = ImageStat.Stat(Image.open(io.BytesIO(b.getvalue())).convert('RGB')).mean
+            shift = [sh + cc - m for sh, cc, m in zip(shift, c, mean)]
+        open(f'{OUT}card-{out}-{size}.webp', 'wb').write(b.getvalue())
+        print('card', out, size, hexcol, 'k', k, 'q', q, b.tell() // 1024, 'KB', 'mean', [round(m, 1) for m in mean])
+    return lo
 
 def gained(img, gain):
     r, g, b = img.split()
@@ -198,8 +273,14 @@ def chip_slice(target, tile):
 
 if __name__ == '__main__':
     target = cloth_target()
-    grain_tile(gray_tile('IMG_2939.jpeg', (100, 400, 900, 1200), 2.2, 'board'), 'board')
-    grain_tile(gray_tile('IMG_2999.JPG', (200, 1800, 1400, 3000), 1.6, 'paper'), 'paper')
+    board = gray_tile('IMG_2939.jpeg', (100, 400, 900, 1200), 2.2, 'board')
+    paper = gray_tile('IMG_2999.JPG', (200, 1800, 1400, 3000), 1.6, 'paper')
+    grain_tile(board, 'board'); grain_tile(paper, 'paper')
+    # The paper card is cut inside the blank square of IMG_2999, clear of the show-through table below it.
+    cards = {'paper': card_wrap(card_grey('IMG_2999.JPG', CARD_PAPER_BOX, CARD_RADIUS), CARD_SEAM),
+             'board': card_wrap(card_grey('IMG_2939.jpeg', CARD_BOARD_BOX, CARD_RADIUS), CARD_SEAM)}
+    for out, src, col, k in CARDS:
+        print('card', out, 'darkest x', round(card_tile(cards[src], col, k, out), 3))
     tile = cloth_tile(target)
     spine_tile()
     chip_slice(target, tile)

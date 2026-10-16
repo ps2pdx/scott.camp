@@ -17,8 +17,13 @@
 .bleed-btn{text-shadow:0 0 0.3px currentColor}
 .tex-paper{--tex:image-set("/textures/paper-grain-512.webp" 1x,"/textures/paper-grain-1024.webp" 2x)}
 .tex-board{--tex:image-set("/textures/board-grain-512.webp" 1x,"/textures/board-grain-1024.webp" 2x)}
+section.grain,nav.grain{background-image:var(--card-page);background-size:512px 512px}
+section.grain.tex-board{background-image:var(--card-board)}
+section.grain[data-surface="endpaper"]{background-image:var(--card-endpaper)}
+section.grain::before,nav.grain::before{display:none}
 @media (prefers-reduced-data: reduce),(forced-colors: active){
   .grain::before{display:none}
+  section.grain,nav.grain{background-image:none !important}
   .rail{background-image:none !important;width:2px !important}
   .band{background-image:none !important}
   .cut::after{display:none !important}

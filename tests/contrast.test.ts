@@ -46,3 +46,12 @@ for (const mode of ['dark', 'light'] as const) for (const bg of ['--bg', '--s-bo
   it(`focus ring (${mode}) holds 3:1 against ${bg}`, () => { expect(on(mode, '--focus', bg)).toBeGreaterThanOrEqual(3); });
 }
 it('light focus is not volt', () => { expect(light['--focus']).not.toBe(dark['--focus']); });
+
+// The card tiles (scripts/cut-tiles.py) bake the grain into the surface colour, clamped to the colour times
+// 1 - CARD_FLOOR and the colour plus CARD_FLOOR of the way to white, so the grain bound above still holds.
+const FLOOR = Number(readFileSync('scripts/cut-tiles.py', 'utf8').match(/^CARD_FLOOR = ([\d.]+)$/m)![1]);
+it('card floor is no darker than the grain it replaces', () => { expect(FLOOR).toBeLessThanOrEqual(Math.min(GRAIN.dark, GRAIN.light)); });
+it('fg on the dark board card holds 4.5:1 at the brightest fibre', () => {
+  const lifted = parse(dark['--s-board']).map((v) => v + FLOOR * (255 - v)) as RGB;
+  expect(ratio(parse(dark['--fg']), lifted)).toBeGreaterThanOrEqual(4.5);
+});
