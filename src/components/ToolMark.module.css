@@ -1,5 +1,5 @@
-.wm.wm{position:absolute;z-index:0;left:0;right:0;bottom:calc(var(--wm-offset) * var(--wm-k));pointer-events:none;color:var(--fg);opacity:0.1}
-.viewport{overflow:hidden;white-space:nowrap;font-size:calc(var(--wm-size) * var(--wm-k))}
+.wm.wm{position:absolute;z-index:0;left:0;right:0;bottom:calc(var(--wm-offset) * var(--wm-k));pointer-events:none;color:var(--fg);opacity:0.1;transform:rotate(-4deg);transform-origin:0 100%}
+.viewport{overflow:hidden;white-space:nowrap;font-size:calc(var(--wm-size) * var(--wm-k) * 0.9)}
 .track{display:flex;width:max-content;animation:wm 90s linear infinite;will-change:transform}
 .run{flex:none;padding-right:0.5ch}
 @keyframes wm{from{transform:translateX(0)}to{transform:translateX(-50%)}}

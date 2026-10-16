@@ -8,7 +8,7 @@ import { Disclosure } from './Disclosure';
 import f from './ZeroPointFrame.module.css';
 import s from './BrandGenerator.module.css';
 
-export const BRAND_GENERATOR_CAPTION = 'The Zero-Point generator that started Nertia, January 2026: nine answers in, a brand system out, no model in the loop. Deterministic rules, the same answers always give the same system.';
+export const BRAND_GENERATOR_CAPTION = 'Brand System v3.0, nertia 7a576f35, January 2026. No model in the loop: the same answers always give the same system.';
 
 export const DEFAULT_INPUTS: DiscoveryInputs = {
   companyName: 'Halo Smash Burgers',
@@ -70,18 +70,18 @@ export function BrandGenerator() {
     <figure className={f.fig} data-part="brand-generator">
       <div className={`${f.plate} ${s.body}`} data-part="brand-plate">
         <form className={s.form} onSubmit={(e) => e.preventDefault()} aria-label="Brand system intake">
-          <label className={`meta ${s.field}`}>Company<input className={s.input} value={inputs.companyName} onChange={(e) => set('companyName', e.target.value)} /></label>
-          <label className={`meta ${s.field}`}>Industry<select className={s.input} value={inputs.industry} onChange={(e) => set('industry', e.target.value)}>{INDUSTRIES.map((x) => <option key={x}>{x}</option>)}</select></label>
-          <label className={`meta ${s.field}`}>Audience<select className={s.input} value={inputs.targetAudience} onChange={(e) => set('targetAudience', e.target.value)}>{audiences.map((a) => <option key={a.value} value={a.value}>{a.label}</option>)}</select></label>
+          <label className={`meta ${s.field}`}>Company<input className={`transcript ${s.input}`} value={inputs.companyName} onChange={(e) => set('companyName', e.target.value)} /></label>
+          <label className={`meta ${s.field}`}>Industry<select className={`transcript ${s.input}`} value={inputs.industry} onChange={(e) => set('industry', e.target.value)}>{INDUSTRIES.map((x) => <option key={x}>{x}</option>)}</select></label>
+          <label className={`meta ${s.field}`}>Audience<select className={`transcript ${s.input}`} value={inputs.targetAudience} onChange={(e) => set('targetAudience', e.target.value)}>{audiences.map((a) => <option key={a.value} value={a.value}>{a.label}</option>)}</select></label>
           <fieldset className={s.chips}><legend className="meta">Personality, 3 to 5</legend>{PERSONALITIES.map((p) => <button key={p} type="button" className={`meta ${s.chip}`} aria-pressed={inputs.personalityAdjectives.includes(p)} onClick={() => toggle(p)}>{p}</button>)}</fieldset>
-          <label className={`meta ${s.field}`}>Colour mood<select className={s.input} value={inputs.colorMood} onChange={(e) => set('colorMood', e.target.value as DiscoveryInputs['colorMood'])}>{COLOR_MOODS.map((x) => <option key={x}>{x}</option>)}</select></label>
-          <label className={`meta ${s.field}`}>Brightness<select className={s.input} value={inputs.colorBrightness} onChange={(e) => set('colorBrightness', e.target.value as DiscoveryInputs['colorBrightness'])}>{COLOR_BRIGHTNESS.map((x) => <option key={x}>{x}</option>)}</select></label>
-          <label className={`meta ${s.field}`}>Type style<select className={s.input} value={inputs.typographyStyle} onChange={(e) => set('typographyStyle', e.target.value as DiscoveryInputs['typographyStyle'])}>{TYPOGRAPHY_STYLES.map((x) => <option key={x}>{x}</option>)}</select></label>
-          <label className={`meta ${s.field}`}>Density<select className={s.input} value={inputs.densityPreference} onChange={(e) => set('densityPreference', e.target.value as DiscoveryInputs['densityPreference'])}>{DENSITY_PREFERENCES.map((x) => <option key={x}>{x}</option>)}</select></label>
-          <label className={`meta ${s.field}`}>Brand hex, optional<input className={s.input} value={inputs.existingBrandColor ?? ''} maxLength={7} spellCheck={false} placeholder="#" aria-invalid={Boolean(inputs.existingBrandColor) && !HEX.test(inputs.existingBrandColor ?? '')} onChange={(e) => set('existingBrandColor', e.target.value.trim() || undefined)} /></label>
+          <label className={`meta ${s.field}`}>Colour mood<select className={`transcript ${s.input}`} value={inputs.colorMood} onChange={(e) => set('colorMood', e.target.value as DiscoveryInputs['colorMood'])}>{COLOR_MOODS.map((x) => <option key={x}>{x}</option>)}</select></label>
+          <label className={`meta ${s.field}`}>Brightness<select className={`transcript ${s.input}`} value={inputs.colorBrightness} onChange={(e) => set('colorBrightness', e.target.value as DiscoveryInputs['colorBrightness'])}>{COLOR_BRIGHTNESS.map((x) => <option key={x}>{x}</option>)}</select></label>
+          <label className={`meta ${s.field}`}>Type style<select className={`transcript ${s.input}`} value={inputs.typographyStyle} onChange={(e) => set('typographyStyle', e.target.value as DiscoveryInputs['typographyStyle'])}>{TYPOGRAPHY_STYLES.map((x) => <option key={x}>{x}</option>)}</select></label>
+          <label className={`meta ${s.field}`}>Density<select className={`transcript ${s.input}`} value={inputs.densityPreference} onChange={(e) => set('densityPreference', e.target.value as DiscoveryInputs['densityPreference'])}>{DENSITY_PREFERENCES.map((x) => <option key={x}>{x}</option>)}</select></label>
+          <label className={`meta ${s.field}`}>Brand hex, optional<input className={`transcript ${s.input}`} value={inputs.existingBrandColor ?? ''} maxLength={7} spellCheck={false} placeholder="#" aria-invalid={Boolean(inputs.existingBrandColor) && !HEX.test(inputs.existingBrandColor ?? '')} onChange={(e) => set('existingBrandColor', e.target.value.trim() || undefined)} /></label>
           <button type="button" className={`meta ${s.random}`} onClick={() => setInputs(generateRandomInputs())}>Random</button>
         </form>
-        <Disclosure summary="Decision log"><pre className={`meta ${s.summary}`} data-part="brand-summary">{summary}</pre></Disclosure>
+        <Disclosure summary="Decision log"><pre className={`transcript ${s.summary}`} data-part="brand-summary">{summary}</pre></Disclosure>
         <div className={s.samples}><Sample system={system} scheme="light" /><Sample system={system} scheme="dark" /></div>
         <p className={`transcript ${s.voice}`} data-part="brand-voice">{system.voiceAndTone.examples.headlines[0]}. {system.voiceAndTone.examples.cta[0]}.</p>
         <Disclosure summary="Token readout">
