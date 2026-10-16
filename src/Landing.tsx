@@ -27,7 +27,7 @@ export function Landing() {
       <Snippet page="design-system" runningHead={ds.runningHead} title={ds.title} lead={lede(ds.lead, 2)}><Plate e={bookStill()} /></Snippet>
       <Snippet page="vantage" runningHead={v.runningHead} title={v.title} lead={lede(v.lead, 1)}><Mark mark={v.mark} /></Snippet>
       <Snippet page="nertia" runningHead={n.runningHead} title={n.title} lead={lede(n.lead, 2)}><Mark mark={n.mark} /></Snippet>
-      <Snippet page="work" runningHead={w.runningHead} title={w.title}><Grid columns={2}><WorkSheet sheet={w.sheets[0]} no={workNo(0)} /></Grid></Snippet>
+      <Snippet page="work" runningHead={w.runningHead} title={w.title} lead={lede(w.lead, 1)}><Grid columns={2}><WorkSheet sheet={w.sheets[0]} no={workNo(0)} /></Grid></Snippet>
       <Snippet page="terpscout" runningHead={t.runningHead} title={t.title} lead={lede(t.lead, 1)}><Mark mark={t.mark} /></Snippet>
       <Snippet page="practice" surface="board" runningHead={p.runningHead} title={p.title} lead={lede(p.zenHolo.lead, 1)}><Plate e={p.zenHolo.figures[0]} /></Snippet>
       <Snippet page="contact" runningHead={c.runningHead} title={c.title} lead={lede(c.lead, 1)}><div className={snippetClass.portrait}><Portrait p={c.portrait} /></div></Snippet>

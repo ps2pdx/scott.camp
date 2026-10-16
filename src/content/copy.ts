@@ -221,6 +221,7 @@ export const COPY = {
   work: {
     tools: ["Shopify", "Webflow", "Nertia", "Printful", "SEO/GEO", "Naming and rebrand", "Pricing and packaging"] as string[],
     eyebrow: 'Work', runningHead: 'Work', title: 'Five live sites, five different positioning problems',
+    lead: 'Five live client sites I designed and built, four of them on Nertia: Pure Zero, Bend Cleaning, Full Scope Supply and Typeshit, with Pharm to Body on Shopify.',
     index: [
       { no: '01', name: 'Ali Sharifi Rugs', description: 'Site built by hand, photography, later moved to WordPress', year: '2010s', struck: false },
       { no: '02', name: 'Rogue River Botanicals', description: 'Brand, website, kraft and wax seal packaging', year: '2016', struck: false },

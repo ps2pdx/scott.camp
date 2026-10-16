@@ -116,6 +116,7 @@ describe('landing snippets', () => {
     expect(lead('vantage')).toBe(lede(COPY.vantage.lead, 1));
     expect(COPY.vantage.lead.startsWith(lead('vantage')!)).toBe(true);
     expect(lead('terpscout')).toBe('A brand I built became a network I sold through, at half the going rate.');
+    expect(lead('work')).toBe(COPY.work.lead);
     expect(container.querySelector('#snippet-work article')!.textContent).toContain('Pharm to Body');
     expect(container.querySelector('#snippet-design-system img')!.getAttribute('src')).toBe('/evidence/frames/img_2975-1280.webp');
     expect(container.querySelector('#snippet-practice img')!.getAttribute('src')).toBe('/evidence/zen-holo-hummingbird.webp');
