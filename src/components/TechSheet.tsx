@@ -1,6 +1,6 @@
 import { useLayoutEffect, useRef, useState } from 'react';
 import type { TechSheetData } from '@/content/copy';
-import { drawFigure } from './techFigures';
+import { drawFigure, type Pt } from './techFigures';
 import s from './TechSheet.module.css';
 
 const W = 360, PAD = 16, PUNCHES = [1 / 6, 1 / 2, 5 / 6], ASPECT = Math.SQRT2, CHAR = 0.64;
@@ -22,17 +22,32 @@ function useMetrics() {
   return [ref, m] as const;
 }
 
-export function TechSheet({ data }: { data: TechSheetData }) {
-  const [ref, { w: vw, fs }] = useMetrics();
+export function sheetLayout(data: TechSheetData, vw: number, fs: number) {
   const vh = Math.round(vw * ASPECT), line = Math.round(fs * 1.55), cw = fs * CHAR, n = data.sections.length;
-  const hdr = [['SHEET', data.sheet], ['VIEW', data.view], ['STACK', data.stack], ['SRC', data.src], ['DATE', data.date]];
-  const headY = 28 + fs, ruleY = headY + line * (hdr.length - 1) + 10;
+  const headY = 28 + fs, ruleY = headY + line * 4 + 10;
   const rowY = (i: number) => vh - PAD - (n - 1 - i) * line;
   const numX = PAD + 10 + n * 5, lane = (i: number) => numX - 8 - i * 5;
   const box = { x: PAD, y: ruleY + 18, w: vw - 2 * PAD, h: rowY(0) - fs - 18 - n * 5 - (ruleY + 18) };
+  const fig = drawFigure(data.figure, { box, n, fs, cw, inset: numX - PAD, spare: n * 5, lanes: 6 + (n - 1) * 5 + 4 });
+  const { right, top, left } = fig.extent;
   const knee = (i: number) => box.y + box.h + 8 + (n - 1 - i) * 5;
-  const fig = drawFigure(data.figure, { box, n, fs, cw, inset: numX - PAD, spare: n * 5 });
-  const leaders = fig.anchors.map(({ p: [ax, ay], side }, i) => `M${numX - 4} ${rowY(i) - fs * 0.35}H${lane(i)}` + (side === 'left' ? `V${ay}H${ax}` : `V${knee(i)}H${ax}V${ay}`)).join('');
+  const tops = fig.anchors.flatMap((a, i) => (a.side === 'top' ? [i] : []));
+  const leaders: Pt[][] = fig.anchors.map(({ p: [ax, ay], side }, i) => {
+    const s: Pt = [numX - 4, rowY(i) - fs * 0.35];
+    if (side === 'left') return [s, [lane(i), s[1]], [lane(i), ay], [ax, ay]];
+    if (side === 'bottom') return [s, [lane(i), s[1]], [lane(i), knee(i)], [ax, knee(i)], [ax, ay]];
+    if (side === 'right') { const r = right + 6 + (n - 1 - i) * 5; return [s, [lane(i), s[1]], [lane(i), knee(i)], [r, knee(i)], [r, ay], [ax, ay]]; }
+    const k = tops.indexOf(i), x = Math.min(lane(i), left - 6 - k * 5), y = top - 8 - k * 5;
+    return [s, [x, s[1]], [x, y], [ax, y], [ax, ay]];
+  });
+  return { vh, line, n, headY, ruleY, rowY, numX, fig, leaders };
+}
+
+export function TechSheet({ data }: { data: TechSheetData }) {
+  const [ref, { w: vw, fs }] = useMetrics();
+  const hdr = [['SHEET', data.sheet], ['VIEW', data.view], ['STACK', data.stack], ['SRC', data.src], ['DATE', data.date]];
+  const { vh, line, headY, ruleY, rowY, numX, fig, leaders: paths } = sheetLayout(data, vw, fs);
+  const leaders = paths.map((pts) => pts.map(([x, y], k) => `${k ? 'L' : 'M'}${x} ${y}`).join('')).join('');
   return (
     <figure ref={ref} className={`grain tex-paper ${s.fig}`} data-figure={data.figure}>
       <svg role="img" aria-label={`Tech sheet: ${data.sheet}`} viewBox={`0 0 ${vw} ${vh}`} className={`meta ${s.svg}`}>

@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { Index } from '@/components/Index';
 import { VolumeFace } from '@/components/VolumeFace';
-import { TechSheet } from '@/components/TechSheet';
+import { TechSheet, sheetLayout } from '@/components/TechSheet';
 import { SpecSheet } from '@/components/SpecSheet';
 import { COPY } from '@/content/copy';
 import { renderBook } from './pages';
@@ -127,6 +127,22 @@ it('leaders: one dotted leader per list item, ending on its region', () => {
     expect(d.match(/M/g)!.length, t.sheet).toBe(t.sections.length);
     expect(container.querySelector('[data-part="leaders"]')).toHaveAttribute('stroke-dasharray');
     unmount();
+  }
+});
+it('leaders never cross or touch one another, at every slot width from 1440 to 360 px', () => {
+  type P = [number, number];
+  const segs = (pts: P[]) => pts.slice(1).map((q, k) => [pts[k], q] as [P, P]);
+  const hit = ([a, b]: [P, P], [c, d]: [P, P]) => {
+    const [ax0, ax1] = [Math.min(a[0], b[0]), Math.max(a[0], b[0])], [ay0, ay1] = [Math.min(a[1], b[1]), Math.max(a[1], b[1])];
+    const [cx0, cx1] = [Math.min(c[0], d[0]), Math.max(c[0], d[0])], [cy0, cy1] = [Math.min(c[1], d[1]), Math.max(c[1], d[1])];
+    return ax0 <= cx1 + 0.5 && cx0 <= ax1 + 0.5 && ay0 <= cy1 + 0.5 && cy0 <= ay1 + 0.5;
+  };
+  for (const [vw, fs] of [[360, 13], [352, 13], [280, 13], [286, 11], [256, 11]]) for (const t of [...COPY.nertia.tech, ...COPY.work.tech, COPY.practice.zenHolo.tech]) {
+    const { leaders, fig, vh } = sheetLayout(t, vw, fs);
+    for (const l of leaders) for (const [x, y] of l) { expect(x, t.sheet).toBeGreaterThan(0); expect(x, t.sheet).toBeLessThan(vw); expect(y, t.sheet).toBeLessThan(vh); }
+    for (let i = 0; i < leaders.length; i++) for (let j = i + 1; j < leaders.length; j++)
+      for (const a of segs(leaders[i] as P[])) for (const b of segs(leaders[j] as P[])) expect(hit(a, b), `${t.sheet} ${vw}: ${i + 1} meets ${j + 1}`).toBe(false);
+    leaders.forEach((l, i) => expect(l[l.length - 1], t.sheet).toEqual(fig.anchors[i].p));
   }
 });
 it('TechSheet is a portrait sheet: header on top, the figure in the middle, the list below, text at the Meta size in a viewBox that tracks the rendered width', () => {

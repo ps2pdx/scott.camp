@@ -4,9 +4,10 @@ import s from './TechSheet.module.css';
 
 export type Box = { x: number; y: number; w: number; h: number };
 export type Pt = [number, number];
-export type Anchor = { p: Pt; side: 'left' | 'bottom' };
-export type Figure = { draw: ReactNode; anchors: Anchor[] };
-type Ctx = { box: Box; n: number; fs: number; cw: number; inset: number; spare: number };
+export type Anchor = { p: Pt; side: 'left' | 'bottom' | 'right' | 'top' };
+export type Extent = { left: number; right: number; top: number };
+export type Figure = { draw: ReactNode; anchors: Anchor[]; extent: Extent };
+type Ctx = { box: Box; n: number; fs: number; cw: number; inset: number; spare: number; lanes: number };
 
 const region = (key: string, r: Box, nums: number[]) => (
   <rect key={key} data-part="region" data-n={nums.join(' ')} x={r.x} y={r.y} width={r.w} height={r.h} />
@@ -15,7 +16,7 @@ const tag = (key: string, x: number, y: number, label: string, anchor: 'start' |
   <text key={key} data-part="region-n" x={x} y={y} textAnchor={anchor}>{label}</text>
 );
 const below = (r: Box, k: number, of: number): Anchor => ({ p: [r.x + (r.w * (of - k)) / (of + 1), r.y + r.h], side: 'bottom' });
-const left = (r: Box): Anchor => ({ p: [r.x, r.y + r.h / 2], side: 'left' });
+const right = (r: Box, v = 0.5): Anchor => ({ p: [r.x + r.w, r.y + r.h * v], side: 'right' });
 
 function arrow(x1: number, x2: number, y: number) {
   return `M${x1} ${y}H${x2}M${x2 - 5} ${y - 4}L${x2} ${y}L${x2 - 5} ${y + 4}`;
@@ -31,7 +32,7 @@ function flow(c: Ctx, labels: string[][], targets: number[]): Figure {
   const boxes = min.map((m) => { const r = { x, y, w: m + extra, h }; x += m + extra + gap; return r; });
   const per = boxes.map((_, b) => targets.filter((t) => t === b).length);
   const seen = boxes.map(() => 0);
-  const anchors = targets.map((b) => below(boxes[b], seen[b]++, per[b]));
+  const anchors = targets.map((b, i): Anchor => (targets.slice(0, i).some((t) => t < b) ? { p: [boxes[b].x + boxes[b].w / 2, y], side: 'top' } : below(boxes[b], seen[b]++, per[b])));
   const draw = (
     <>
       {boxes.map((r, b) => region(`r${b}`, r, targets.flatMap((t, i) => (t === b ? [i + 1] : []))))}
@@ -39,7 +40,8 @@ function flow(c: Ctx, labels: string[][], targets: number[]): Figure {
       {boxes.map((r, b) => labels[b].map((line, l) => tag(`t${b}${l}`, r.x + r.w / 2, y + h / 2 + fs * 0.35 + (l - (labels[b].length - 1) / 2) * fs * 1.3, line, 'middle')))}
     </>
   );
-  return { draw, anchors };
+  const last = boxes[boxes.length - 1];
+  return { draw, anchors, extent: { left: box.x, right: last.x + last.w, top: y } };
 }
 
 function editor({ box, fs, inset }: Ctx): Figure {
@@ -51,17 +53,18 @@ function editor({ box, fs, inset }: Ctx): Figure {
     <>
       {region('bar', bar, [1])}{region('preview', preview, [2])}{region('dock', dock, [3])}{region('panel', panel, [4])}{region('chat', chat, [5])}
       {tag('n1', bar.x + 6, base(bar), '1')}
-      {tag('n2', preview.x + preview.w * 0.45, preview.y + preview.h * 0.4, '2', 'middle')}
+      {tag('n2', preview.x + preview.w * 0.45, y + h * 0.3 + fs * 0.35, '2', 'middle')}
       {tag('n3', dock.x + dock.w / 2, base(dock), '3', 'middle')}
-      {tag('n4', panel.x + 6, base(panel), '4')}
+      {tag('n4', panel.x + panel.w / 2, y + h * 0.8 + fs * 0.35, '4', 'middle')}
       {tag('n5', chat.x + 6, base(chat), '5')}
     </>
   );
-  return { draw, anchors: [left(bar), below(preview, 2, 3), left(dock), below(panel, 0, 1), below(chat, 0, 1)] };
+  const into = { p: [preview.x + preview.w * 0.88, (bar.y + bar.h + dock.y) / 2] as Pt, side: 'right' as const };
+  return { draw, anchors: [right(bar), into, right(dock, 0.6), right(panel, 0.6), below(chat, 0, 1)], extent: { left: x, right: x + w, top: y } };
 }
 
-function tokens({ box, n, fs, cw, inset }: Ctx): Figure {
-  const gap = 6, x = box.x + inset, w = box.x + box.w - x, bh = (box.h - gap * (n - 1)) / n;
+function tokens({ box, n, fs, cw, lanes }: Ctx): Figure {
+  const gap = 6, x = box.x, w = box.w - lanes, bh = (box.h - gap * (n - 1)) / n;
   const bands = Array.from({ length: n }, (_, i) => ({ x, y: box.y + i * (bh + gap), w, h: bh }));
   const g = Math.min(bh * 0.5, 16);
   const glyphs = bands.map((b, i) => {
@@ -96,31 +99,32 @@ function tokens({ box, n, fs, cw, inset }: Ctx): Figure {
       {bands.map((b, i) => tag(`n${i}`, b.x + b.w - cw - 6, b.y + b.h / 2 + fs * 0.35, String(i + 1)))}
     </>
   );
-  return { draw, anchors: bands.map(left) };
+  return { draw, anchors: bands.map((b) => right(b)), extent: { left: x, right: x + w, top: box.y } };
 }
 
-function phone({ box, n, fs, spare }: Ctx): Figure {
-  const h = box.h + spare, w = (h * 9) / 19.5, x = box.x + (box.w - w) / 2, y = box.y;
+function phone({ box, n, fs, cw, lanes }: Ctx): Figure {
+  const h = box.h, w = (h * 9) / 19.5, y = box.y;
   const inset = 5, top = y + 10, bottom = y + h - 10, gap = 3;
   const weights = Array.from({ length: n }, (_, i) => (i === 0 ? 0.7 : i === 1 ? 1.6 : 1));
   const avail = bottom - top - gap * (n - 1), sum = weights.reduce((a, b) => a + b, 0);
-  const unit = avail / sum, inside = unit * weights[0] >= fs + 6;
+  const unit = avail / sum, inside = unit * weights[0] >= fs + 6, tw = inside ? 0 : 8 + 2 * cw;
+  const x = box.x + tw + (box.w - lanes - w - tw) / 2;
   let cy = top;
   const blocks = weights.map((k) => { const r = { x: x + inset, y: cy, w: w - 2 * inset, h: k * unit }; cy += k * unit + gap; return r; });
   const draw = (
     <>
       <rect data-part="device" x={x} y={y} width={w} height={h} />
       {blocks.map((b, i) => region(`s${i}`, b, [i + 1]))}
-      {blocks.map((b, i) => tag(`n${i}`, inside ? b.x + b.w / 2 : x + w + 8, b.y + b.h / 2 + fs * 0.35, String(i + 1), inside ? 'middle' : 'start'))}
+      {blocks.map((b, i) => tag(`n${i}`, inside ? b.x + b.w / 2 : x - 8, b.y + b.h / 2 + fs * 0.35, String(i + 1), inside ? 'middle' : 'end'))}
     </>
   );
-  return { draw, anchors: blocks.map(left) };
+  return { draw, anchors: blocks.map((b) => ({ p: [x + w, b.y + b.h / 2] as Pt, side: 'right' as const })), extent: { left: x - tw, right: x + w, top: y } };
 }
 
-function column({ box, fs, cw, inset }: Ctx, labels: string[]): Figure {
+function column({ box, fs, cw, lanes }: Ctx, labels: string[]): Figure {
   const k = labels.length, gap = Math.max(10, Math.min(18, box.h * 0.06));
   const h = Math.min(fs * 2.4, (box.h - gap * (k - 1)) / k), w = Math.max(...labels.map((l) => l.length)) * cw + 24;
-  const x = box.x + inset + (box.w - inset - w) / 2, cx = x + w / 2;
+  const x = box.x + (box.w - lanes - w) / 2, cx = x + w / 2;
   let y = box.y + (box.h - k * h - gap * (k - 1)) / 2;
   const boxes = labels.map(() => { const r = { x, y, w, h }; y += h + gap; return r; });
   const down = boxes.slice(1).map((r, b) => { const y1 = boxes[b].y + boxes[b].h, y2 = r.y - 2; return `M${cx} ${y1}V${y2}M${cx - 4} ${y2 - 5}L${cx} ${y2}L${cx + 4} ${y2 - 5}`; }).join('');
@@ -131,7 +135,7 @@ function column({ box, fs, cw, inset }: Ctx, labels: string[]): Figure {
       {boxes.map((r, b) => tag(`t${b}`, cx, r.y + r.h / 2 + fs * 0.35, labels[b], 'middle'))}
     </>
   );
-  return { draw, anchors: boxes.map(left) };
+  return { draw, anchors: boxes.map((r) => right(r)), extent: { left: x, right: x + w, top: boxes[0].y } };
 }
 
 const RUNTIME_TARGETS = [2, 2, 2, 1, 3];
