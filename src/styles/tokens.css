@@ -11,7 +11,7 @@
   --r-caption:var(--s-2);--r-lead:var(--s-3);--r-item:var(--s-5);--r-block:var(--s-6);--r-section:var(--s-8);
   --tile:#ffffff;--tile-pad:12px;--mark-tile:120px;--mark-fill:0.6;
   --t-display:clamp(2.75rem,8vw + 1rem,7rem);--t-title:28px;--t-text:18px;--t-meta:13px;
-  --motion-fast:120ms;--motion-theme:200ms;--motion-chip:160ms;
+  --placeholder-blur:blur(6px);--motion-fast:120ms;--motion-theme:200ms;--motion-chip:160ms;
   color-scheme:dark;
 }
 :root[data-theme="light"],

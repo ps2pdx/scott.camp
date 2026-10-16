@@ -1,6 +1,6 @@
 import { act, fireEvent, render } from '@testing-library/react';
 import { readdirSync, statSync } from 'node:fs';
-import { BookGallery, FRAMES, ZOOM_QUERY } from '@/components/BookGallery';
+import { BookGallery, FRAMES, HOVER_QUERY, ZOOM_QUERY } from '@/components/BookGallery';
 
 function mockMedia(matches: (q: string) => boolean) {
   window.matchMedia = ((q: string) => ({ matches: matches(q), media: q, addEventListener() {}, removeEventListener() {}, addListener() {}, removeListener() {}, onchange: null, dispatchEvent: () => false })) as any;
@@ -84,4 +84,42 @@ it('no zoom on touch or coarse pointers', () => {
   fireEvent.pointerEnter(main(container).parentElement!);
   expect(container.querySelector('[data-part="ds-book-zoom"]')).toBeNull();
   expect(container.querySelector('[data-part="ds-book-lens"]')).toBeNull();
+});
+
+it('hovering a thumbnail with a fine pointer swaps the main src and caption, and leaving the grid keeps it', () => {
+  mockMedia((q) => q === HOVER_QUERY);
+  const { container } = render(<BookGallery />);
+  const target = thumbs(container).find((t) => t.dataset.frame === 'IMG_3027')!;
+  fireEvent.pointerEnter(target);
+  expect(main(container).getAttribute('src')).toBe('/evidence/frames/img_3027-1280.webp');
+  expect(cap(container)).toBe('ICONS, IMG_3027, iPhone, 14 October 2026');
+  expect(target.getAttribute('aria-pressed')).toBe('true');
+  expect(container.querySelector('[data-part="ds-book-placeholder"]')!.getAttribute('src')).toBe('/evidence/frames/img_3027-192.webp');
+  fireEvent.pointerLeave(target);
+  fireEvent.pointerLeave(container.querySelector('[data-part="ds-contact-sheet"]')!);
+  expect(main(container).getAttribute('src')).toBe('/evidence/frames/img_3027-1280.webp');
+  expect(cap(container)).toBe('ICONS, IMG_3027, iPhone, 14 October 2026');
+  fireEvent.load(main(container));
+  expect(container.querySelector('[data-part="ds-book-placeholder"]')).toBeNull();
+});
+
+it('a coarse pointer does not swap on hover, tap still swaps', () => {
+  mockMedia(() => false);
+  const { container } = render(<BookGallery />);
+  const target = thumbs(container).find((t) => t.dataset.frame === 'IMG_3027')!;
+  fireEvent.pointerEnter(target);
+  expect(main(container).getAttribute('src')).toBe('/evidence/frames/img_2975-1280.webp');
+  expect(cap(container)).toContain('IMG_2975');
+  fireEvent.click(target);
+  expect(cap(container)).toContain('IMG_3027');
+});
+
+it('arrow keys swap the main frame directly', () => {
+  const { container } = render(<BookGallery />);
+  const all = thumbs(container);
+  const i = all.findIndex((t) => t.dataset.frame === 'IMG_2975');
+  act(() => all[i].focus());
+  fireEvent.keyDown(all[i], { key: 'ArrowRight' });
+  expect(all[i + 1].getAttribute('aria-pressed')).toBe('true');
+  expect(cap(container)).toContain(FRAMES[i + 1].frame);
 });

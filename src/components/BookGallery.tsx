@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type KeyboardEvent, type PointerEvent } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState, type KeyboardEvent, type PointerEvent } from 'react';
 import { COPY } from '@/content/copy';
 import FRAMES_JSON from '@/content/book-frames.json';
 import { SIZES, frame } from './Evidence';
@@ -9,6 +9,7 @@ export type BookFrame = { frame: string; ratio: '1:1' | '2:3' | '3:2'; width: nu
 export const FRAMES = FRAMES_JSON as BookFrame[];
 export const ZOOM = 2.5;
 export const ZOOM_QUERY = '(min-width: 1024px) and (hover: hover) and (pointer: fine)';
+export const HOVER_QUERY = '(hover: hover) and (pointer: fine)';
 
 const book = COPY.designSystem.book;
 const cut = (f: BookFrame, px: number) => `/evidence/frames/${f.frame.toLowerCase()}-${px}.webp`;
@@ -35,13 +36,44 @@ export function BookGallery() {
   const [sel, setSel] = useState(start);
   const [focus, setFocus] = useState(start);
   const [hover, setHover] = useState(false);
+  const [ready, setReady] = useState<string | null>(FRAMES[start].frame);
   const zoomable = useMedia(ZOOM_QUERY);
+  const hoverable = useMedia(HOVER_QUERY);
   const root = useRef<HTMLDivElement>(null);
+  const mainImg = useRef<HTMLImageElement>(null);
+  const warmed = useRef(new Set<string>());
   const lens = useRef<HTMLSpanElement>(null);
   const thumbs = useRef<(HTMLButtonElement | null)[]>([]);
   const f = FRAMES[sel];
+  const alt = book.alts[f.frame] ?? `${book.fallbackAlt}, ${f.frame}`;
 
   useEffect(() => { if (!zoomable) setHover(false); }, [zoomable]);
+  useLayoutEffect(() => {
+    const img = mainImg.current;
+    if (img?.complete && img.naturalWidth > 0) setReady(f.frame);
+  }, [f.frame]);
+
+  function warm(i: number) {
+    for (const j of [i - 1, i, i + 1]) {
+      const x = FRAMES[j];
+      if (!x || warmed.current.has(x.frame)) continue;
+      warmed.current.add(x.frame);
+      const img = new Image();
+      img.decoding = 'async';
+      img.src = cut(x, 640);
+    }
+  }
+
+  function pick(i: number) {
+    warm(i);
+    setSel(i);
+    setFocus(i);
+  }
+
+  function peek(e: PointerEvent<HTMLButtonElement>, i: number) {
+    if (!hoverable || e.pointerType === 'touch') return;
+    pick(i);
+  }
 
   function track(e: PointerEvent<HTMLDivElement>) {
     const box = e.currentTarget.getBoundingClientRect();
@@ -73,7 +105,7 @@ export function BookGallery() {
     else if (e.key === 'End') next = n - 1;
     else return;
     e.preventDefault();
-    setFocus(next);
+    pick(next);
     thumbs.current[next]?.focus();
   }
 
@@ -86,7 +118,8 @@ export function BookGallery() {
             data-zoom={zoomable ? '' : undefined}
             {...(zoomable ? { onPointerEnter: () => setHover(true), onPointerLeave: () => setHover(false), onPointerMove: track } : {})}
           >
-            <img className={s.mainImg} data-ratio={f.ratio} src={cut(f, 1280)} srcSet={`${cut(f, 640)} 640w, ${cut(f, 1280)} 1280w`} sizes={SIZES.figure} width={f.width} height={f.height} alt={book.alts[f.frame] ?? `${book.fallbackAlt}, ${f.frame}`} loading="lazy" decoding="async" />
+            <img ref={mainImg} key={f.frame} className={s.mainImg} data-loading={ready === f.frame ? undefined : ''} onLoad={() => setReady(f.frame)} data-ratio={f.ratio} src={cut(f, 1280)} srcSet={`${cut(f, 640)} 640w, ${cut(f, 1280)} 1280w`} sizes={SIZES.figure} width={f.width} height={f.height} alt={alt} loading="lazy" decoding="async" />
+            {ready === f.frame ? null : <img className={s.placeholder} src={cut(f, 192)} data-ratio="1:1" width={192} height={192} alt={alt} aria-hidden="true" loading="lazy" decoding="async" data-part="ds-book-placeholder" />}
             {zoomable && hover ? <span ref={lens} className={s.lens} data-part="ds-book-lens" aria-hidden="true" /> : null}
           </div>
         </div>
@@ -109,7 +142,8 @@ export function BookGallery() {
                 tabIndex={i === focus ? 0 : -1}
                 aria-pressed={i === sel}
                 data-frame={x.frame}
-                onClick={() => { setSel(i); setFocus(i); }}
+                onClick={() => pick(i)}
+                onPointerEnter={(e) => peek(e, i)}
                 onFocus={() => setFocus(i)}
               >
                 <img src={cut(x, 96)} srcSet={`${cut(x, 96)} 1x, ${cut(x, 192)} 2x`} data-ratio="1:1" width={96} height={96} alt={x.frame} loading="lazy" decoding="async" />

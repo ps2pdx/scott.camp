@@ -4,6 +4,8 @@
 .view{position:relative;aspect-ratio:1/1;overflow:hidden}
 .view[data-zoom]{cursor:crosshair}
 .mainImg.mainImg{display:block;width:100%;height:100%;max-width:none;object-fit:contain}
+.mainImg[data-loading]{visibility:hidden}
+.placeholder.placeholder{position:absolute;inset:0;display:block;width:100%;height:100%;max-width:none;object-fit:cover;filter:var(--placeholder-blur);pointer-events:none}
 .lens{position:absolute;left:0;top:0;width:calc(var(--zoom-p) / 2.5);height:calc(var(--zoom-p) / 2.5);transform:translate(var(--lens-x,0px),var(--lens-y,0px));border:var(--strike) solid var(--s-ink);background:rgba(255,255,255,0.3);pointer-events:none}
 .zoom{grid-row:1;grid-column:-5 / -1;align-self:start}
 .zoomView{position:relative;width:var(--zoom-p);height:var(--zoom-p);overflow:hidden;background:var(--tile)}
