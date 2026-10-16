@@ -15,8 +15,8 @@
 [data-wm-offset="96"]{--wm-offset:96px}
 .bleed-nav{text-shadow:0 0 0.5px currentColor}
 .bleed-btn{text-shadow:0 0 0.3px currentColor}
-.tex-paper{--tex:image-set(url(/textures/paper-512.webp) 1x,url(/textures/paper-1024.webp) 2x)}
-.tex-board{--tex:image-set(url(/textures/board-512.webp) 1x,url(/textures/board-1024.webp) 2x)}
+.tex-paper{--tex:image-set("/textures/paper-512.webp" 1x,"/textures/paper-1024.webp" 2x)}
+.tex-board{--tex:image-set("/textures/board-512.webp" 1x,"/textures/board-1024.webp" 2x)}
 @media (prefers-reduced-data: reduce),(forced-colors: active){
   .grain::before{display:none}
   .rail{background-image:none !important;width:2px !important}
