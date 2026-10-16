@@ -32,7 +32,7 @@ export const COPY = {
   },
   endpapers: {
     name: 'Scott Campbell, c/o Nertia.ai',
-    portrait: { src: '/evidence/portrait.webp', srcSet: '/evidence/portrait-240.webp 240w, /evidence/portrait.webp 480w, /evidence/portrait-640.webp 640w', width: 480, height: 720, alt: 'Scott Campbell', caption: 'SNY00127, 2024' },
+    portrait: { src: '/evidence/portrait.webp', srcSet: '/evidence/portrait-240.webp 240w, /evidence/portrait.webp 480w, /evidence/portrait-640.webp 640w', width: 480, height: 720, alt: 'Scott Campbell', caption: 'Portrait, SNY00127, 2024' },
     virgil: { when: '2015 to 2016', who: 'Virgil', text: 'I met Virgil once. He dapped me up at 45 East, Euphoria at the time, after playing a cool set.' } as TranscriptRow,
   },
   vantage: {
@@ -54,12 +54,12 @@ export const COPY = {
     lead: 'An agent-native site builder, shipped as a web application and as an MCP server. I designed it, built it, and took it to market.',
     mark: { src: '/evidence/nertia-mark.svg', width: 240, height: 199, name: 'Nertia' },
     rows: [
-      { when: '12/2025', who: 'Origin', text: 'It started as a design system generator: a brand schema, tokens, typography, animation, decision logic. The site builder came later. Ten months on, the design system is the part every site inherits.' },
-      { when: '04/16/26', who: 'Evidence', text: 'Launched as an AI brand generator. Research said the durable need was shipping and maintaining live sites, not generating identity assets. Changed the product rather than the messaging.' },
-      { when: '04/2026', who: 'Identity', text: 'Named the tiers from physics: Zero-Point, Particle, Wave. The voice moved from quantum to motion. Built the brand and the design system the product ships with, so every site it makes inherits the contract.' },
-      { when: '08/2026', who: 'Default', text: "Everything is included by default instead of unbundled into add-ons. Hosting and domains pass through at cost. Export stays open, no contract, domains live in the client's own account. The bet: we monetize the product, not the exit. If someone leaves, the product wasn't good enough. That is the correct signal, and lock-in only hides it." },
-      { when: '08/2026', who: 'Plotswitch', text: 'A productized agency brand running on the platform, built to test the positioning against real buyers with published tiers and a stated competitive frame against Squarespace, Wix, Webflow, and WordPress. Pricing you can read is pricing you can be argued with about, which is the point.' },
-      { when: '08/2026', who: 'Distribution', text: 'The MCP server exposes site creation, layout, copy, SEO, and publishing as tools an agent invokes directly. The product is fully operable by Claude without a UI. That is a channel choice, not a technical flourish: meet the buyer inside the surface they already work in.' },
+      { when: 'December 2025', who: 'Origin', text: 'It started as a design system generator: a brand schema, tokens, typography, animation, decision logic. The site builder came later. Ten months on, the design system is the part every site inherits.' },
+      { when: '16 April 2026', who: 'Evidence', text: 'Launched as an AI brand generator. Research said the durable need was shipping and maintaining live sites, not generating identity assets. Changed the product rather than the messaging.' },
+      { when: 'April 2026', who: 'Identity', text: 'Named the tiers from physics: Zero-Point, Particle, Wave. The voice moved from quantum to motion. Built the brand and the design system the product ships with, so every site it makes inherits the contract.' },
+      { when: 'August 2026', who: 'Default', text: "Everything is included by default instead of unbundled into add-ons. Hosting and domains pass through at cost. Export stays open, no contract, domains live in the client's own account. The bet: we monetize the product, not the exit. If someone leaves, the product wasn't good enough. That is the correct signal, and lock-in only hides it." },
+      { when: 'August 2026', who: 'Plotswitch', text: 'A productized agency brand running on the platform, built to test the positioning against real buyers with published tiers and a stated competitive frame against Squarespace, Wix, Webflow, and WordPress. Pricing you can read is pricing you can be argued with about, which is the point.' },
+      { when: 'August 2026', who: 'Distribution', text: 'The MCP server exposes site creation, layout, copy, SEO, and publishing as tools an agent invokes directly. The product is fully operable by Claude without a UI. That is a channel choice, not a technical flourish: meet the buyer inside the surface they already work in.' },
     ] as TranscriptRow[],
     sheets: [
       { title: 'Editor', fields: { Sheet: 'Editor', Role: 'Design, build', Stack: 'Next.js' }, body: 'Tap to edit on a phone, side panel on a desktop. The preview is the site.' },
@@ -73,16 +73,17 @@ export const COPY = {
       { sheet: 'NERTIA HOSTED RUNTIME', figure: 'runtime', view: 'SITE', stack: '@NERSH/RENDER, WORKER', src: 'DRAWN FROM RUNTIME', date: '2026', sections: ['SITE SURFACE', 'TOKENS, OKLCH', 'SECTIONS', '*.NERTIA.AI ROUTING', 'STATIC EXPORT'] },
       { sheet: 'NERTIA DESIGN SYSTEMS', figure: 'tokens', view: 'SKIN CONTRACT', stack: 'OKLCH TOKENS', src: 'DRAWN FROM CONTRACT', date: '2026', sections: ['ONE ACCENT', 'SURFACE + TEXT + LINE', 'RADIUS, SHADOW, MOTION', 'TYPE SCALE, FLUID', '26 PRESETS'] },
     ] as TechSheetData[],
+    notes: { decisions: 'Product calls, dated, from origin to distribution.', tech: "The product's four surfaces, drawn from structure.", tools: 'Eight MCP tools an agent calls directly.' },
     codeSiteLine: 'This page is a code site published by an agent.',
     source: { label: 'Source on GitHub', href: SOURCE_URL },
     evolution: {
       title: 'Zero-Point evolution',
       steps: [
-        'January 2026: Brand System v3.0, nine answers in, a brand system out. Where Nertia started. Source nertia 7a576f35.',
-        'May 2026: Zero-Point design system v1, an exporter and logger, not a generator. Archived 23 May 2026 when the site builder took over. Source nertia f1a3cf56.',
-        'May 2026 to today: the builder. Every site inherits one skin contract.',
+        'January 2026: Brand System v3.0, nine answers in, a brand system out. Where Nertia started.',
+        'May 2026: Zero-Point design system v1, an exporter and logger, not a generator. Archived 23 May 2026 when the site builder took over.',
+        'May 2026 to today: the builder, on one skin contract.',
       ],
-      frameCaption: 'Zero-Point design system v1, 4 May 2026, running read-only: the sidebar, the token drawer and the CSS and JSON export work. Archivo is not loaded on this page, so the display face falls back to the system stack.',
+      frameCaption: 'Zero-Point design system v1, nertia f1a3cf56, 4 May 2026. Read-only: the sidebar, token drawer and export work; Archivo is not loaded, so the display face falls back to the system stack.',
     },
     contract: {
       lead: 'Every nertia site inherits one skin contract: about twenty CSS variables and a single brand colour, --accent. An agent switches the skin through the MCP tool switch_site_skin, with no UI.',
@@ -135,7 +136,7 @@ export const COPY = {
   },
   designSystem: {
     runningHead: 'Design system [2026]', title: 'ICONS',
-    book: { src: '/evidence/book.webp', srcSet: '/evidence/book-640.webp 640w, /evidence/book.webp 1280w', width: 1280, height: 1280, alt: 'The book, cover edge, cloth and swoosh', caption: 'IMG_2975, iPhone, 10.13.26' },
+    book: { src: '/evidence/book.webp', srcSet: '/evidence/book-640.webp 640w, /evidence/book.webp 1280w', width: 1280, height: 1280, alt: 'The book, cover edge, cloth and swoosh', caption: 'ICONS, IMG_2975, iPhone, 13 October 2026' },
     lead: 'The system comes from one physical object: my copy of the book Zak Group made for Virgil Abloh and Nike (Taschen, 2021). One layer removed: the cloth, paper, board and spine, not the page layouts. A book about icons, so the site is a book too.',
     surfaces: [
       { key: 'cloth', name: 'Volt cloth, the cover', value: '#2bf52b' },
@@ -165,8 +166,8 @@ export const COPY = {
       { when: 'Spine rail', who: '', text: 'A fixed spine layer sits under the page. Every section starts on a 2 px transparent cut, so the spine shows through between them.' },
     ] as TranscriptRow[],
     figures: [
-      { src: '/evidence/specimen-designed.webp', width: 720, height: 1000, caption: 'Designed: the Claude Design canvas export, light half', alt: 'The canvas specimen in light mode: five surface swatches, four texture tiles, the type ramp from Display 700 down to Transcript, and the punch nav cells.' },
-      { src: '/evidence/specimen-built.webp', width: 720, height: 1000, caption: 'Built: the live /specimen page, light mode', alt: 'The live specimen page in light mode on eggshell: surface swatches for dark and light, the volt cloth cover reading Something Click\'d, and the start of the type group.' },
+      { src: '/evidence/specimen-designed.webp', width: 720, height: 1000, caption: 'Designed, Claude Design canvas export, light half', alt: 'The canvas specimen in light mode: five surface swatches, four texture tiles, the type ramp from Display 700 down to Transcript, and the punch nav cells.' },
+      { src: '/evidence/specimen-built.webp', width: 720, height: 1000, caption: 'Built, live /specimen page, light mode', alt: 'The live specimen page in light mode on eggshell: surface swatches for dark and light, the volt cloth cover reading Something Click\'d, and the start of the type group.' },
     ],
     closing: { line: 'Designed on a canvas, exported, implemented by agents from that export, documented live on this page.', label: 'Documentation', href: '/specimen' },
     tiers: [
@@ -204,6 +205,7 @@ export const COPY = {
       { title: 'Full Scope Supply', fields: { Sheet: 'fullscopesupply.com', Role: 'Design, build', Stack: 'Nertia' }, body: 'A commercial general contractor whose pipeline ran entirely on word of mouth. Lead generation built around self-performed trades and single-point accountability, the actual differentiator, not the license number.', href: 'https://fullscopesupply.com', label: 'fullscopesupply.com' },
       { title: 'Typeshit', fields: { Sheet: 'typeshit.shop', Role: 'Design, build', Stack: 'Nertia, Printful' }, body: 'A developer streetwear brand selling print on demand through Printful. Heavyweight cotton for people whose builds pass locally. The site carries the voice and hands the cart to the fulfilment house without the seam showing.', href: 'https://typeshit.shop', label: 'typeshit.shop' },
     ] as Sheet[],
+    techNote: "Each site's phone layout, drawn from structure.",
     tech: [
       { sheet: 'PHARMTOBODY.COM', figure: 'phone', view: 'PHONE, 390', stack: 'SHOPIFY', src: 'DRAWN FROM SITE STRUCTURE', date: '2026', sections: ['NAV, ONE ACTION', 'HERO, CSA SIGNUP', '12-WEEK CSA PROGRAM', 'FRESH / DRIED CATALOG', 'GROW KITS', 'WORKSHOP CALENDAR'] },
       { sheet: 'PUREZEROPHOTOGRAPHY.COM', figure: 'phone', view: 'PHONE, 390', stack: 'NERTIA', src: 'DRAWN FROM SITE STRUCTURE', date: '2026', sections: ['NAV', 'HERO, DOCUMENTARY ONLY', 'TWO TIERS, ENTRY PRICING', 'CLIENT STORIES', 'CONTACT'] },

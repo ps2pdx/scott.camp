@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react';
 import { COPY, SECTIONS } from '@/content/copy';
 import { CalBooking } from '@/components/CalBooking';
 import cal from '@/components/CalBooking.module.css';
@@ -9,7 +10,7 @@ import { Cover } from '@/components/Cover';
 import { Label } from '@/components/Label';
 import { Transcript } from '@/components/Transcript';
 import { Button } from '@/components/Button';
-import { Grid } from '@/components/Grid';
+import { Grid, span, width } from '@/components/Grid';
 import { SpecSheet } from '@/components/SpecSheet';
 import { TechSlider } from '@/components/TechSlider';
 import { Index } from '@/components/Index';
@@ -26,6 +27,16 @@ import s from './App.module.css';
 const vol = (no: string) => COPY.work.index.find((r) => r.no === no)!;
 const practiceSheets = COPY.practice.sheets.filter((sh) => !sh.placeholder);
 
+function Block({ label, note, first, part, children }: { label: string; note?: string; first?: boolean; part?: string; children: ReactNode }) {
+  return (
+    <div className={`${s.sub} ${first ? '' : s.block}`} {...(part ? { 'data-part': part } : {})}>
+      <Label>{label}</Label>
+      {note ? <p className={`transcript muted ${width.text}`}>{note}</p> : null}
+      {children}
+    </div>
+  );
+}
+
 export function App() {
   const h = COPY.hero;
   const ts = COPY.terpscout.evidence;
@@ -40,73 +51,53 @@ export function App() {
       <main>
         <Section id="endpapers" surface="endpaper">
           <p data-part="yellow-name" className={`display t-title ${s.name}`}>{COPY.endpapers.name}</p>
-          <div data-part="frontispiece" className={s.front}>
-            <Portrait p={COPY.endpapers.portrait} />
-            <div className={s.frontText}>
+          <Grid columns={12} part="frontispiece" className={s.front}>
+            <div className={`${span.portrait} ${s.portrait}`}><Portrait p={COPY.endpapers.portrait} /></div>
+            <div className={span.opener}>
               <p className={`text ${s.lead}`}>{h.lead}</p>
-              <Transcript rows={h.facts} tight className={s.after} />
+              <Transcript rows={h.facts} tight className={s.gap} />
             </div>
-          </div>
-          <Transcript rows={[COPY.endpapers.virgil]} className={s.after} />
-          <div className={s.index}><Index rows={COPY.work.index} /></div>
+          </Grid>
+          <Transcript rows={[COPY.endpapers.virgil]} className={s.block} />
+          <div className={s.block}><Index rows={COPY.work.index} /></div>
         </Section>
 
         <Section id="design-system" tools={COPY.designSystem.watermark} runningHead={COPY.designSystem.runningHead} title={COPY.designSystem.title} lead={COPY.designSystem.lead} figure={<Portrait p={COPY.designSystem.book} part="ds-book" wide />}>
-          <Label>Surfaces</Label>
-          <div className={s.gap}><SurfaceRow /></div>
-          <div className={s.block}>
-            <Label>Textures</Label>
-            <p className={`transcript ${s.gap}`}>{COPY.designSystem.texturesLine}</p>
-            <div className={s.gap}><TextureList /></div>
-          </div>
-          <div className={s.block}>
-            <Label>Type</Label>
-            <div className={s.gap}><TypeStack /></div>
-            <p className={`meta ${s.gap}`}>{COPY.designSystem.typeLine}</p>
-          </div>
-          <div className={s.block}>
-            <Label>Signature components</Label>
-            <Transcript rows={COPY.designSystem.signature} className={s.gap} />
-          </div>
-          <div className={s.block}>
-            <Label>Designed, then built</Label>
-            <div className={s.gap}><FigurePair /></div>
-          </div>
-          <p className={`transcript ${s.after}`}>{COPY.designSystem.closing.line} <a href={COPY.designSystem.closing.href}>{COPY.designSystem.closing.label} ↗</a></p>
-          <div className={s.block}>
-            <Label>Token tiers</Label>
-            <div className={s.gap}><DataTable label="This site's tokens by tier" rows={COPY.designSystem.tiers} /></div>
-          </div>
+          <Block label="Surfaces" first><SurfaceRow /></Block>
+          <Block label="Textures" note={COPY.designSystem.texturesLine}><TextureList /></Block>
+          <Block label="Type" note={COPY.designSystem.typeLine}><TypeStack /></Block>
+          <Block label="Signature components"><Transcript rows={COPY.designSystem.signature} /></Block>
+          <Block label="Designed, then built"><FigurePair /></Block>
+          <p className={`transcript ${width.text} ${s.block}`}>{COPY.designSystem.closing.line} <a href={COPY.designSystem.closing.href}>{COPY.designSystem.closing.label} ↗</a></p>
+          <Block label="Token tiers"><DataTable kind="tiers" label="This site's tokens by tier" rows={COPY.designSystem.tiers} /></Block>
         </Section>
 
         <Section id="vantage" tools={COPY.vantage.tools} mark={COPY.vantage.mark} runningHead={COPY.vantage.runningHead} eyebrow={COPY.vantage.eyebrow} title={COPY.vantage.title} lead={COPY.vantage.lead}>
           <Transcript rows={COPY.vantage.rows} />
-          <p className={`transcript ${s.after}`}><a href={COPY.vantage.caseStudy.href}>{COPY.vantage.caseStudy.label} ↗</a></p>
+          <p className={`transcript ${s.block}`}><a href={COPY.vantage.caseStudy.href}>{COPY.vantage.caseStudy.label} ↗</a></p>
         </Section>
 
         <Section id="nertia" tools={COPY.nertia.tools} mark={COPY.nertia.mark} runningHead={COPY.nertia.runningHead} eyebrow={COPY.nertia.eyebrow} title={COPY.nertia.title} lead={COPY.nertia.lead}>
-          <Transcript rows={COPY.nertia.rows} />
-          <TechSlider label="Tech sheets" sheets={COPY.nertia.tech} />
-          <div className={s.block} data-part="zero-point-evolution">
-            <h3 className="display t-title">{COPY.nertia.evolution.title}</h3>
-            <p className={`meta ${s.gap}`}>{COPY.nertia.evolution.steps[0]}</p>
-            <div className={s.gap}><BrandGenerator /></div>
-            <p className={`meta ${s.block}`}>{COPY.nertia.evolution.steps[1]}</p>
-            <div className={s.gap}><ZeroPointFrame caption={COPY.nertia.evolution.frameCaption} /></div>
-            <p className={`meta ${s.block}`}>{COPY.nertia.evolution.steps[2]}</p>
-            <p className={`transcript ${s.gap}`}>{COPY.nertia.contract.lead}</p>
-            <div className={s.gap}><Label>Token tiers</Label></div>
-            <div className={s.gap}><DataTable label="Skin contract tokens by tier" rows={COPY.nertia.contract.tiers} /></div>
-            <div className={s.after}><Label>Tools that act on the system</Label></div>
-            <div className={s.gap}><DataTable label="MCP tools that act on the design system or publish" rows={COPY.nertia.contract.tools} /></div>
-            <p className={`transcript ${s.gap}`}><a href={COPY.nertia.contract.link.href}>{COPY.nertia.contract.link.label} ↗</a></p>
-          </div>
-          <p className={`transcript ${s.after}`}>{COPY.nertia.codeSiteLine} <a href={COPY.nertia.source.href}>{COPY.nertia.source.label} ↗</a></p>
+          <Block label="Decisions" note={COPY.nertia.notes.decisions} first><Transcript rows={COPY.nertia.rows} /></Block>
+          <TechSlider label="Tech sheets" note={COPY.nertia.notes.tech} sheets={COPY.nertia.tech} />
+          <Block label={COPY.nertia.evolution.title} part="zero-point-evolution">
+            <p className={`transcript ${width.text}`}>{COPY.nertia.evolution.steps[0]}</p>
+            <BrandGenerator />
+            <p className={`transcript ${width.text} ${s.step}`}>{COPY.nertia.evolution.steps[1]}</p>
+            <ZeroPointFrame caption={COPY.nertia.evolution.frameCaption} />
+            <p className={`transcript ${width.text} ${s.step}`}>{COPY.nertia.evolution.steps[2]}</p>
+          </Block>
+          <Block label="Skin contract" note={COPY.nertia.contract.lead}><DataTable kind="tiers" label="Skin contract tokens by tier" rows={COPY.nertia.contract.tiers} /></Block>
+          <Block label="Tools that act on the system" note={COPY.nertia.notes.tools}>
+            <DataTable kind="tools" label="MCP tools that act on the design system or publish" rows={COPY.nertia.contract.tools} />
+            <p className="transcript"><a href={COPY.nertia.contract.link.href}>{COPY.nertia.contract.link.label} ↗</a></p>
+          </Block>
+          <p className={`transcript ${width.text} ${s.block}`}>{COPY.nertia.codeSiteLine} <a href={COPY.nertia.source.href}>{COPY.nertia.source.label} ↗</a></p>
         </Section>
 
         <Section id="work" tools={COPY.work.tools} runningHead={COPY.work.runningHead} eyebrow={COPY.work.eyebrow} title={COPY.work.title}>
           <Grid columns={2}>{COPY.work.sheets.map((sh, i) => { const v = vol(String(7 + i).padStart(2, '0')); return <SpecSheet key={sh.title} sheet={sh} volume={{ no: v.no, name: v.name, year: v.year }} />; })}</Grid>
-          <TechSlider label="Tech sheets" sheets={COPY.work.tech} />
+          <TechSlider label="Tech sheets" note={COPY.work.techNote} sheets={COPY.work.tech} />
         </Section>
 
         <Section id="terpscout" tools={COPY.terpscout.tools} mark={COPY.terpscout.mark} runningHead={COPY.terpscout.runningHead} eyebrow={COPY.terpscout.eyebrow} title={COPY.terpscout.title} lead={COPY.terpscout.lead}>
@@ -120,16 +111,16 @@ export function App() {
 
         <Section id="practice" tools={COPY.practice.tools} surface="board" runningHead={COPY.practice.runningHead} eyebrow={COPY.practice.eyebrow} title={COPY.practice.title}>
           {practiceSheets.length ? <Grid columns={2}>{practiceSheets.map((sh) => { const v = COPY.work.index.find((r) => r.name === sh.title)!; return <SpecSheet key={sh.title} sheet={sh} volume={{ no: v.no, name: v.name, year: v.year }} />; })}</Grid> : null}
-          <Transcript rows={COPY.practice.rows} className={practiceSheets.length ? s.after : undefined} />
-          <div className={s.stack}>
+          <Transcript rows={COPY.practice.rows} className={practiceSheets.length ? s.block : undefined} />
+          <div className={`${s.block} ${s.stack}`}>
             {COPY.practice.evidence.map((e) => <Plate key={e.src} e={e} />)}
           </div>
         </Section>
 
         <Section id="contact" runningHead={COPY.contact.runningHead} eyebrow={COPY.contact.eyebrow} title={COPY.contact.title} lead={COPY.contact.lead}>
           <Transcript rows={COPY.contact.rows} render={(r) => <a href={r.when === 'Email' ? COPY.contact.links.email : COPY.contact.links.phone}>{r.text}</a>} />
-          <div className={`${s.btns} ${s.after}`}><Button href={COPY.contact.resume.href} variant="primary" bracket={COPY.contact.resume.bracket} download>{COPY.contact.resume.label}</Button></div>
-          <div className={`${cal.pair} ${s.after}`} data-part="booking">{COPY.contact.booking.map((b) => <CalBooking key={b.slug} {...b} />)}</div>
+          <div className={`${s.btns} ${s.block}`}><Button href={COPY.contact.resume.href} variant="primary" bracket={COPY.contact.resume.bracket} download>{COPY.contact.resume.label}</Button></div>
+          <div className={`${cal.pair} ${s.block}`} data-part="booking">{COPY.contact.booking.map((b) => <CalBooking key={b.slug} {...b} />)}</div>
         </Section>
       </main>
       <Footer />

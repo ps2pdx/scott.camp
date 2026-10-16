@@ -38,7 +38,7 @@ const sheet = (figure: string) => [...COPY.nertia.tech, ...COPY.work.tech].find(
 const drawn = (c: HTMLElement, t: { src: string }) => {
   expect(t.src).toMatch(/^DRAWN FROM /);
   expect(c.querySelector('[data-part="header"]')!.textContent).toContain(`SRC    ${t.src}`);
-  expect(c.querySelector('figcaption')!.textContent).toMatch(/ · Tech sheet · Drawn$/);
+  expect(c.querySelector('figcaption')!.textContent).toMatch(/^[A-Z0-9 .]+, DRAWN FROM [A-Z ]+, 2026$/);
 };
 it('every tech sheet picks its figure by a field, and every SRC line says DRAWN', () => {
   for (const t of [...COPY.nertia.tech, ...COPY.work.tech]) {

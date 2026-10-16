@@ -15,7 +15,7 @@ it('renders the seven sections in order with running heads', () => {
 it('carries the code-site line, the provenance line and the resume', () => {
   render(<App />);
   expect(screen.getByText(/This page is a code site published by an agent/)).toBeInTheDocument();
-  expect(screen.getByText('Textures photographed from one copy of ICONS, 10.13.26.')).toBeInTheDocument();
+  expect(screen.getByText('Textures photographed from one copy of ICONS, 13 October 2026.')).toBeInTheDocument();
   expect(screen.getAllByRole('link', { name: /Resume|Download resume/ })[0]).toHaveAttribute('href', '/Scott_Campbell_Resume.pdf');
 });
 it('places nine tech sheets and thirteen index rows', () => {
@@ -71,7 +71,9 @@ it('every content section carries a tool watermark: its own facts, a unique seed
   const css = readFileSync('src/components/ToolMark.module.css', 'utf8');
   expect(css).toMatch(/pointer-events:none;color:var\(--fg\);opacity:0.1/);
   expect(css).toMatch(/animation:wm 90s linear infinite/);
-  expect(css).not.toMatch(/rotate|background/);
+  expect(css).not.toMatch(/background/);
+  expect(css).toMatch(/transform:rotate\(-4deg\)/);
+  expect(css).toMatch(/var\(--wm-k\) \* 0\.9/);
   const still = css.slice(css.indexOf('@media (prefers-reduced-motion: reduce),(prefers-reduced-data: reduce),(forced-colors: active)'));
   expect(still).toMatch(/\.track\{animation:none/);
   expect(still).toContain('.run+.run{display:none}');
@@ -101,7 +103,7 @@ it('the cover holds the eyebrow, the name line, three inline Meta links and the 
   expect(name.classList.contains('display') && name.classList.contains('t-title')).toBe(true);
   const front = name.nextElementSibling!;
   expect(front.getAttribute('data-part')).toBe('frontispiece');
-  expect(front.firstElementChild!.getAttribute('data-part')).toBe('portrait');
+  expect(front.firstElementChild!.firstElementChild!.getAttribute('data-part')).toBe('portrait');
   expect(front.lastElementChild!.firstElementChild!.textContent).toBe(COPY.hero.lead);
   expect(front.lastElementChild!.textContent).toContain(COPY.hero.facts[3].text);
   expect(front.textContent).not.toContain(COPY.endpapers.virgil.text);
@@ -159,7 +161,7 @@ it('the design system block is the case study of this site: surfaces, textures w
   for (const src of ['IMG_2976', 'IMG_2983', 'IMG_2999', 'IMG_2939', 'IMG_3027']) expect(tex.textContent).toContain(src);
   expect(tex.textContent).toContain('320 px');
   const chip = tex.querySelector('[data-tile="chip"]')!.parentElement!.querySelector('.muted')!.textContent!;
-  expect(chip.startsWith('RETIRED · ')).toBe(true);
+  expect(chip.startsWith('Retired, ')).toBe(true);
   expect(chip.endsWith(', replaced by the cloth weave on buttons, kept on /specimen')).toBe(true);
   expect([...d.querySelectorAll('[data-part="ds-type"] [data-role]')].map((x) => x.getAttribute('data-role'))).toEqual(['Display', 'Title', 'Text', 'Meta', 'Watermark']);
   expect(d.textContent).toContain('Distinct font declarations reduced from 34 to 19.');
@@ -167,7 +169,7 @@ it('the design system block is the case study of this site: surfaces, textures w
   expect(d.textContent).toContain('2 px transparent cut');
   const figs = [...d.querySelectorAll('[data-part="ds-figures"] figure')];
   expect(figs.map((f) => f.querySelector('img')!.getAttribute('src'))).toEqual(['/evidence/specimen-designed.webp', '/evidence/specimen-built.webp']);
-  expect(figs.map((f) => f.querySelector('figcaption')!.textContent!.split(':')[0])).toEqual(['Designed', 'Built']);
+  expect(figs.map((f) => f.querySelector('figcaption')!.textContent!.split(',')[0])).toEqual(['Designed', 'Built']);
   const docs = d.querySelector('a[href="/specimen"]')!;
   expect(docs.textContent).toBe('Documentation ↗');
   expect(docs.parentElement!.textContent).toContain('Designed on a canvas, exported, implemented by agents from that export, documented live on this page.');
@@ -183,21 +185,21 @@ it('the Nertia block carries the Zero-Point evolution: the generator, the v1 fra
   const { container } = render(<App />);
   const n = container.querySelector('#nertia')!;
   const ev = n.querySelector('[data-part="zero-point-evolution"]')!;
-  expect(ev.querySelector('h3')!.textContent).toBe('Zero-Point evolution');
-  const steps = [...ev.querySelectorAll(':scope > p.meta')].map((p) => p.textContent);
+  expect(ev.querySelector(':scope > .meta')!.textContent).toBe('"Zero-Point evolution"');
+  const steps = [...ev.querySelectorAll(':scope > p.transcript')].map((p) => p.textContent);
   expect(steps).toEqual(COPY.nertia.evolution.steps);
   expect(steps.map((x) => x!.split(':')[0])).toEqual(['January 2026', 'May 2026', 'May 2026 to today']);
-  expect(ev.querySelector('[data-part="brand-generator"] figcaption')!.textContent).toContain('The Zero-Point generator that started Nertia, January 2026');
+  expect(ev.querySelector('[data-part="brand-generator"] figcaption')!.textContent).toContain('Brand System v3.0, nertia 7a576f35, January 2026');
   const frame = ev.querySelector('[data-part="zero-point-frame"]')!;
   expect(frame.querySelector('figcaption')!.textContent).toContain('falls back to the system stack');
   expect(frame.querySelector('[data-part="zero-point-v1"]')).toBeNull();
-  const order = [...ev.querySelectorAll('[data-part="brand-generator"], [data-part="zero-point-frame"], table')].map((x) => x.getAttribute('data-part') ?? x.getAttribute('aria-label'));
+  const order = [...n.querySelectorAll('[data-part="brand-generator"], [data-part="zero-point-frame"], table')].map((x) => x.getAttribute('data-part') ?? x.getAttribute('aria-label'));
   expect(order).toEqual(['brand-generator', 'zero-point-frame', 'Skin contract tokens by tier', 'MCP tools that act on the design system or publish']);
-  expect([...ev.querySelector('table[aria-label="Skin contract tokens by tier"]')!.querySelectorAll('tr')].map((r) => r.children[0].textContent)).toEqual(['Surface', 'Text', 'Line', 'Accent', 'Radius', 'Shadow', 'Motion', 'Type']);
-  const tools = [...ev.querySelector('table[aria-label^="MCP"]')!.querySelectorAll('td:first-child')].map((t) => t.textContent);
+  expect([...n.querySelector('table[aria-label="Skin contract tokens by tier"]')!.querySelectorAll('tr')].map((r) => r.children[0].textContent)).toEqual(['Surface', 'Text', 'Line', 'Accent', 'Radius', 'Shadow', 'Motion', 'Type']);
+  const tools = [...n.querySelector('table[aria-label^="MCP"]')!.querySelectorAll('td:first-child')].map((t) => t.textContent);
   expect(tools.length).toBe(8);
   for (const t of ['switch_site_skin', 'update_copy', 'publish_site', 'publish_from_github']) expect(tools).toContain(t);
-  expect(ev.querySelector('a[href="https://github.com/ps2pdx/nertia/blob/main/docs/design-system-contract.md"]')!.textContent).toBe('Contract on GitHub ↗');
+  expect(n.querySelector('a[href="https://github.com/ps2pdx/nertia/blob/main/docs/design-system-contract.md"]')!.textContent).toBe('Contract on GitHub ↗');
   expect([...n.querySelectorAll('[data-part="brand-sample"] a')].every((a) => a.getAttribute('href') === '#nertia')).toBe(true);
   expect(container.querySelectorAll('nav[aria-label="Sections"] a').length).toBe(8);
 });
@@ -209,9 +211,9 @@ it('the yellow pages carry the portrait opposite the name: lazy, alt Scott Campb
   expect(img.getAttribute('srcset')).toBe('/evidence/portrait-240.webp 240w, /evidence/portrait.webp 480w, /evidence/portrait-640.webp 640w');
   expect(img.getAttribute('alt')).toBe('Scott Campbell');
   expect(img.getAttribute('loading')).toBe('lazy');
-  expect(fig.querySelector('figcaption')!.textContent).toBe('SNY00127, 2024');
-  expect(fig.parentElement!.previousElementSibling!.getAttribute('data-part')).toBe('yellow-name');
-  expect(fig.nextElementSibling!.firstElementChild!.textContent).toBe(COPY.hero.lead);
+  expect(fig.querySelector('figcaption')!.textContent).toBe('Portrait, SNY00127, 2024');
+  expect(fig.parentElement!.parentElement!.previousElementSibling!.getAttribute('data-part')).toBe('yellow-name');
+  expect(fig.parentElement!.nextElementSibling!.firstElementChild!.textContent).toBe(COPY.hero.lead);
 });
 it('the Design system section opens on the book photo between the ICONS title and the lead, lazy, on the white tile', () => {
   const { container } = render(<App />);
@@ -221,7 +223,7 @@ it('the Design system section opens on the book photo between the ICONS title an
   expect(img.getAttribute('srcset')).toBe('/evidence/book-640.webp 640w, /evidence/book.webp 1280w');
   expect(img.getAttribute('alt')).toBe('The book, cover edge, cloth and swoosh');
   expect(img.getAttribute('loading')).toBe('lazy');
-  expect(fig.querySelector('figcaption')!.textContent).toBe('IMG_2975, iPhone, 10.13.26');
+  expect(fig.querySelector('figcaption')!.textContent).toBe('ICONS, IMG_2975, iPhone, 13 October 2026');
   expect(fig.previousElementSibling!.textContent).toBe('ICONS');
   expect(fig.nextElementSibling!.textContent).toBe(COPY.designSystem.lead);
 });

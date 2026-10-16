@@ -4,7 +4,7 @@ import { Label } from './Label';
 import { TechSheet } from './TechSheet';
 import s from './TechSlider.module.css';
 
-export function TechSlider({ label, sheets }: { label: string; sheets: TechSheetData[] }) {
+export function TechSlider({ label, note, sheets }: { label: string; note?: string; sheets: TechSheetData[] }) {
   const track = useRef<HTMLDivElement>(null);
   const [ends, setEnds] = useState({ start: true, end: false });
   const sync = useCallback(() => {
@@ -24,7 +24,7 @@ export function TechSlider({ label, sheets }: { label: string; sheets: TechSheet
   return (
     <div className={s.slider} data-part="tech-slider">
       <div className={s.bar}>
-        <Label>{label}</Label>
+        <div className={s.lede}><Label>{label}</Label>{note ? <p className="transcript muted">{note}</p> : null}</div>
         <div className={s.controls}>
           <button type="button" className={`meta ${s.ctl}`} disabled={ends.start} onClick={() => step(-1)}>Prev</button>
           <button type="button" className={`meta ${s.ctl}`} disabled={ends.end} onClick={() => step(1)}>Next</button>

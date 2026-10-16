@@ -126,7 +126,7 @@ it('evidence stacks full width, one figure above the next, with no pair wrapper'
   const { container } = render(<App />);
   for (const id of ['terpscout', 'practice']) {
     const stills = [...container.querySelectorAll(`#${id} figure img`)].map((i) => i.closest('figure')!);
-    for (const f of stills) expect(f.parentElement!.className).toBe('stack');
+    for (const f of stills) expect(f.parentElement!.className).toContain('stack');
   }
   const d = container.querySelector<HTMLDetailsElement>('#terpscout details')!;
   fireEvent.click(d.querySelector('summary')!);
@@ -151,12 +151,12 @@ it('Vantage, Nertia and TerpScout open with their mark on a white tile beside th
     const m = container.querySelector(`#${id} [data-part="mark"]`)!;
     expect(m.getAttribute('src')).toBe(src);
     expect(m.getAttribute('aria-label')).toBe(name);
-    expect(m.previousElementSibling!.textContent).toBe(COPY[id as 'vantage'].runningHead);
+    expect(m.previousElementSibling!.textContent).toContain(COPY[id as 'vantage'].runningHead);
     expect(m.compareDocumentPosition(container.querySelector(`#${id} h2`)!) & Node.DOCUMENT_POSITION_PRECEDING).toBeTruthy();
   }
   expect(container.querySelector('#work [data-part="mark"], #practice [data-part="mark"]')).toBeNull();
   const css = readFileSync('src/components/Mark.module.css', 'utf8');
-  expect(css).toContain('.mark{display:block;flex:none;width:120px;height:120px;padding:12px;background:#fff;object-fit:contain}');
+  expect(css).toContain('.mark{display:block;flex:none;width:120px;height:120px;padding:var(--tile-pad);background:var(--tile);border:var(--strike) solid var(--line-strong);object-fit:contain}');
   expect(css).toContain('.wide{height:48px}');
   expect(css).not.toMatch(/border-radius|box-shadow/);
   expect(readFileSync('public/evidence/vantage-mark.svg', 'utf8')).not.toContain('fill="white"');

@@ -5,8 +5,9 @@ export function Index({ rows }: { rows: readonly IndexRow[] }) {
   return (
     <div className={s.page} data-part="index">
       <Label>Index</Label>
-      <div className={s.scroll} data-part="index-scroll">
+      <div className={`grain ${s.scroll}`} data-part="index-scroll">
         <table className={`meta ${s.table}`} aria-label="Index of work. Struck rows belong to other sections.">
+          <colgroup><col className={s.no} /><col className={s.name} /><col className={s.desc} /><col /></colgroup>
           <tbody>
             {rows.map((r) => (
               <tr key={r.no} {...(r.struck ? { 'data-struck': '' } : {})} className={r.struck ? `struck ${s.struck}` : ''}>

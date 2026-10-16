@@ -1,6 +1,8 @@
 import { COPY } from '@/content/copy';
 import { TEXTURES } from '@/content/textures';
 import { Plate } from './Evidence';
+import { span } from './Grid';
+import g from './Grid.module.css';
 import s from './DesignStudy.module.css';
 
 const ds = COPY.designSystem;
@@ -30,7 +32,7 @@ export function TextureList() {
             <span className={s.tile} data-tile={x.file} />
             <span className={s.caption}>
               <span className="meta">{x.name}</span>
-              <span className="meta muted">{`${'retired' in x ? 'RETIRED · ' : ''}${t.source} · ${t.camera} · ${t.shot} · ${x.cut}${'retired' in x ? `, ${x.retired}` : ''}`}</span>
+              <span className="meta muted">{`${'retired' in x ? 'Retired, ' : ''}${t.source}, ${t.camera}, ${t.shot}, ${x.cut}${'retired' in x ? `, ${x.retired}` : ''}`}</span>
             </span>
           </li>
         );
@@ -53,5 +55,5 @@ export function TypeStack() {
 }
 
 export function FigurePair() {
-  return <div className={s.pair} data-part="ds-figures">{ds.figures.map((e) => <Plate key={e.src} e={e} />)}</div>;
+  return <div className={g.cols} data-part="ds-figures">{ds.figures.map((e) => <div key={e.src} className={span.half}><Plate e={e} layout="under" /></div>)}</div>;
 }

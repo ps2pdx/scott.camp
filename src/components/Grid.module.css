@@ -1,7 +1,20 @@
 .grid{display:grid;gap:1px;background:var(--line);border:1px solid var(--line)}
 .three{grid-template-columns:repeat(3,minmax(0,1fr))}
-.two{grid-template-columns:repeat(2,minmax(0,1fr))}
+.two{grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--col-gap);background:none;border:0}
 .cell{background:var(--bg);min-width:0}
 .span{grid-column:1 / -1}
 @media (max-width:1023px){.three{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (max-width:639px){.three,.two{grid-template-columns:1fr}.filler{display:none}}
+.content{container-type:inline-size}
+.cols{display:grid;grid-template-columns:repeat(var(--cols),minmax(0,1fr));column-gap:var(--col-gap)}
+.cols>*{grid-column:1 / -1;min-width:0}
+.cols>.text{grid-column:1 / span var(--sp-text)}
+.cols>.figure{grid-column:1 / span var(--sp-figure)}
+.cols>.note{grid-column:auto / span var(--sp-note);align-self:end}
+.cols>.half{grid-column:auto / span var(--sp-half)}
+.cols>.portrait{grid-column:1 / span var(--sp-portrait)}
+.cols>.opener{grid-column:auto / span var(--sp-opener)}
+.cols>.margin{grid-column:auto / span var(--sp-margin)}
+.w-text{max-width:min(100%,calc(var(--u) * var(--sp-text) - var(--col-gap)))}
+.w-rows{max-width:min(100%,calc(var(--u) * var(--sp-rows) - var(--col-gap)))}
+@media (max-width:1023px){.cols>.note{align-self:start;margin-top:var(--r-caption)}}

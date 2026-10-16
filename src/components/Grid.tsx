@@ -1,6 +1,12 @@
 import { Children, type ReactNode } from 'react';
 import s from './Grid.module.css';
-export function Grid({ columns, children }: { columns: 2 | 3; children: ReactNode }) {
+
+export const span = { text: s.text, figure: s.figure, note: s.note, half: s.half, portrait: s.portrait, opener: s.opener, margin: s.margin } as const;
+export const width = { text: s['w-text'], rows: s['w-rows'] } as const;
+export const content = s.content;
+
+export function Grid({ columns, children, className, part }: { columns: 2 | 3 | 12; children: ReactNode; className?: string; part?: string }) {
+  if (columns === 12) return <div className={`${s.cols} ${className ?? ''}`} {...(part ? { 'data-part': part } : {})}>{children}</div>;
   const items = Children.toArray(children);
   return (
     <div className={`${s.grid} ${columns === 2 ? s.two : s.three}`}>

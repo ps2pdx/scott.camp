@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
 import type { TranscriptRow } from '@/content/copy';
+import { width } from './Grid';
 import s from './Transcript.module.css';
 
 function Row({ when, who, children }: { when: string; who?: string; children: ReactNode }) {
@@ -13,7 +14,7 @@ function Row({ when, who, children }: { when: string; who?: string; children: Re
 
 export function Transcript({ rows, tight, className, render }: { rows: readonly TranscriptRow[]; tight?: boolean; className?: string; render?: (row: TranscriptRow) => ReactNode }) {
   return (
-    <ul className={`transcript ${s.list} ${tight ? s.tight : ''} ${className ?? ''}`}>
+    <ul className={`transcript ${width.rows} ${s.list} ${tight ? s.tight : ''} ${className ?? ''}`}>
       {rows.map((r, i) => <Row key={i} when={r.when} who={r.who}>{render ? render(r) : r.text}</Row>)}
     </ul>
   );
