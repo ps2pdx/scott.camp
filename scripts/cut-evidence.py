@@ -90,3 +90,11 @@ for src in sorted(FRAMES.iterdir()):
 
 Path('src/content/book-frames.json').write_text(json.dumps(manifest, indent=1) + '\n')
 print(len(manifest), 'frames')
+
+# Zen Holo (Scott's April 2026 article, pixels only): the Stone & Water 001 hummingbird still at 1:1 and the
+# Blender MCP viewport screenshot at 16:9, both centred, 1280 and 640 wide, quality 82 stepping down until under 120 KB.
+ZH = ASSETS / 'zen-holo'
+for src, name, (rw, rh) in [('zen-holo-stone-hummingbird.png', 'zen-holo-hummingbird', (1, 1)), ('blender-mcp-viewport.png', 'blender-mcp-viewport', (16, 9))]:
+    cut = centre(Image.open(ZH / src).convert('RGB'), rw, rh)
+    for px, dest in ((1280, EV / f'{name}.webp'), (640, EV / f'{name}-640.webp')):
+        print(dest.name, save_under(cut.resize((px, round(px * rh / rw)), Image.LANCZOS), dest, Q, 120 * 1024, 10))
