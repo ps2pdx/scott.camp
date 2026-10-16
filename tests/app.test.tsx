@@ -244,3 +244,9 @@ it('the Design system section opens on the ICONS gallery: main IMG_2975, the fra
   expect(gal.textContent).toContain(`${FRAMES.length} frames, iPhone, 13 and 14 October 2026`);
   expect(gal.textContent).not.toMatch(/IMG_2939(?!,)/);
 });
+it('the footer tagline reads Built on Nertia.', () => {
+  const { container } = render(<App />);
+  const footer = container.querySelector('footer')!;
+  expect(footer.textContent).toContain('Built on Nertia.');
+  expect(footer.textContent).not.toContain('Of course it is');
+});

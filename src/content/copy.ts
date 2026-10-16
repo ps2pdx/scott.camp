@@ -264,7 +264,7 @@ export const COPY = {
       { label: 'Plotswitch', href: 'https://plotswitch.com' },
       { label: 'Source on GitHub', href: SOURCE_URL },
     ],
-    tagline: 'Built on Nertia. Of course it is.',
+    tagline: 'Built on Nertia.',
   },
   volumes: { hero: { no: '0', name: "Something Click'd", year: '2026' } },
 } as const;
