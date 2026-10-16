@@ -15,6 +15,7 @@ import { Footer } from '@/components/Footer';
 import { Plate, Spin } from '@/components/Evidence';
 import { DataTable } from '@/components/DataTable';
 import { BrandGenerator } from '@/components/BrandGenerator';
+import { ZeroPointFrame } from '@/components/ZeroPointFrame';
 import { FigurePair, SurfaceRow, TextureList, TypeStack } from '@/components/DesignStudy';
 import { Disclosure } from '@/components/Disclosure';
 import s from './App.module.css';
@@ -52,23 +53,21 @@ export function App() {
             <Label>Tech sheets</Label>
             <div className={s.techGrid}>{COPY.nertia.tech.map((t) => <TechSheet key={t.sheet} data={t} />)}</div>
           </div>
-          <div className={s.block}>
-            <Label>Generator</Label>
-            <p className={`transcript ${s.gap}`}>{COPY.nertia.generator.intro}</p>
+          <div className={s.block} data-part="zero-point-evolution">
+            <h3 className="display t-title">{COPY.nertia.evolution.title}</h3>
+            <p className={`meta ${s.gap}`}>{COPY.nertia.evolution.steps[0]}</p>
             <div className={s.gap}><BrandGenerator /></div>
-          </div>
-          <div className={s.block}>
-            <Label>Token tiers</Label>
+            <p className={`meta ${s.block}`}>{COPY.nertia.evolution.steps[1]}</p>
+            <div className={s.gap}><ZeroPointFrame caption={COPY.nertia.evolution.frameCaption} /></div>
+            <p className={`meta ${s.block}`}>{COPY.nertia.evolution.steps[2]}</p>
             <p className={`transcript ${s.gap}`}>{COPY.nertia.contract.lead}</p>
+            <div className={s.gap}><Label>Token tiers</Label></div>
             <div className={s.gap}><DataTable label="Skin contract tokens by tier" rows={COPY.nertia.contract.tiers} /></div>
-          </div>
-          <div className={s.block}>
-            <Label>Tools that act on the system</Label>
+            <div className={s.after}><Label>Tools that act on the system</Label></div>
             <div className={s.gap}><DataTable label="MCP tools that act on the design system or publish" rows={COPY.nertia.contract.tools} /></div>
             <p className={`transcript ${s.gap}`}><a href={COPY.nertia.contract.link.href}>{COPY.nertia.contract.link.label} ↗</a></p>
           </div>
           <p className={`transcript ${s.after}`}>{COPY.nertia.codeSiteLine} <a href={COPY.nertia.source.href}>{COPY.nertia.source.label} ↗</a></p>
-          <p className={`transcript ${s.next}`}>{COPY.nertia.docs.line} <a href={COPY.nertia.docs.href}>{COPY.nertia.docs.label} ↗</a></p>
         </Section>
 
         <Section id="design-system" tools={COPY.designSystem.watermark} runningHead={COPY.designSystem.runningHead} title={COPY.designSystem.title} lead={COPY.designSystem.lead}>

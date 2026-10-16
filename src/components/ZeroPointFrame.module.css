@@ -1,0 +1,3 @@
+.fig{margin:0;display:flex;flex-direction:column;gap:var(--s-2)}
+.stage{height:640px;border:1px solid var(--line-strong);background:#0c0c0c;overflow:hidden}
+@media (max-width:639px){.stage{height:75vh}}

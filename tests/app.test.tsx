@@ -112,13 +112,12 @@ it('Practice hides the placeholder cards until copy exists, keeps the Marquee Mo
   expect(names).toContain('Zen Holo');
   expect(names).toContain('Purple Scott');
 });
-it('the Nertia block links to the specimen as its documentation, beside the source line', () => {
-  render(<App />);
-  const a = screen.getAllByRole('link', { name: 'Documentation ↗' })[0];
-  expect(a).toHaveAttribute('href', '/specimen');
-  expect(a.parentElement!.textContent).toContain('The design system this page is built with, documented on a page, not in a file.');
-  expect(a.closest('#nertia')).not.toBeNull();
-  expect(a.parentElement!.previousElementSibling!.textContent).toContain('Source on GitHub');
+it('the Nertia block ends on the code-site line; the documentation link lives in the design system section', () => {
+  const { container } = render(<App />);
+  const n = container.querySelector('#nertia')!;
+  expect(n.textContent).not.toContain('documented on a page, not in a file');
+  expect(n.querySelector('a[href="/specimen"]')).toBeNull();
+  expect(n.querySelector(':scope > div > p:last-of-type')!.textContent).toContain('This page is a code site published by an agent.');
 });
 it('the cover carries the name as a title page would, once, beside the eyebrow', () => {
   const { container } = render(<App />);
@@ -158,16 +157,25 @@ it('the design system block is the case study of this site: surfaces, textures w
   expect(container.querySelector('#nertia')!.nextElementSibling).toBe(d);
   expect(d.nextElementSibling!.id).toBe('work');
 });
-it('the Nertia block carries the origin generator, the contract tiers, the MCP tools and the contract link', () => {
+it('the Nertia block carries the Zero-Point evolution: the generator, the v1 frame, then the builder with the contract tiers, the MCP tools and the contract link', () => {
   const { container } = render(<App />);
   const n = container.querySelector('#nertia')!;
-  expect(n.querySelector('[data-part="brand-generator"] figcaption')!.textContent).toContain('The Zero-Point generator that started Nertia, January 2026');
-  expect(n.textContent).toContain(COPY.nertia.generator.intro);
-  expect([...n.querySelector('table[aria-label="Skin contract tokens by tier"]')!.querySelectorAll('tr')].map((r) => r.children[0].textContent)).toEqual(['Surface', 'Text', 'Line', 'Accent', 'Radius', 'Shadow', 'Motion', 'Type']);
-  const tools = [...n.querySelector('table[aria-label^="MCP"]')!.querySelectorAll('td:first-child')].map((t) => t.textContent);
+  const ev = n.querySelector('[data-part="zero-point-evolution"]')!;
+  expect(ev.querySelector('h3')!.textContent).toBe('Zero-Point evolution');
+  const steps = [...ev.querySelectorAll(':scope > p.meta')].map((p) => p.textContent);
+  expect(steps).toEqual(COPY.nertia.evolution.steps);
+  expect(steps.map((x) => x!.split(':')[0])).toEqual(['January 2026', 'May 2026', 'May 2026 to today']);
+  expect(ev.querySelector('[data-part="brand-generator"] figcaption')!.textContent).toContain('The Zero-Point generator that started Nertia, January 2026');
+  const frame = ev.querySelector('[data-part="zero-point-frame"]')!;
+  expect(frame.querySelector('figcaption')!.textContent).toContain('falls back to the system stack');
+  expect(frame.querySelector('[data-part="zero-point-v1"]')).toBeNull();
+  const order = [...ev.querySelectorAll('[data-part="brand-generator"], [data-part="zero-point-frame"], table')].map((x) => x.getAttribute('data-part') ?? x.getAttribute('aria-label'));
+  expect(order).toEqual(['brand-generator', 'zero-point-frame', 'Skin contract tokens by tier', 'MCP tools that act on the design system or publish']);
+  expect([...ev.querySelector('table[aria-label="Skin contract tokens by tier"]')!.querySelectorAll('tr')].map((r) => r.children[0].textContent)).toEqual(['Surface', 'Text', 'Line', 'Accent', 'Radius', 'Shadow', 'Motion', 'Type']);
+  const tools = [...ev.querySelector('table[aria-label^="MCP"]')!.querySelectorAll('td:first-child')].map((t) => t.textContent);
   expect(tools.length).toBe(8);
   for (const t of ['switch_site_skin', 'update_copy', 'publish_site', 'publish_from_github']) expect(tools).toContain(t);
-  expect(n.querySelector('a[href="https://github.com/ps2pdx/nertia/blob/main/docs/design-system-contract.md"]')!.textContent).toBe('Contract on GitHub ↗');
+  expect(ev.querySelector('a[href="https://github.com/ps2pdx/nertia/blob/main/docs/design-system-contract.md"]')!.textContent).toBe('Contract on GitHub ↗');
   expect([...n.querySelectorAll('[data-part="brand-sample"] a')].every((a) => a.getAttribute('href') === '#nertia')).toBe(true);
   expect(container.querySelectorAll('nav[aria-label="Sections"] a').length).toBe(8);
 });

@@ -67,8 +67,15 @@ export const COPY = {
     ] as TechSheetData[],
     codeSiteLine: 'This page is a code site published by an agent.',
     source: { label: 'Source on GitHub', href: SOURCE_URL },
-    docs: { line: 'The design system this page is built with, documented on a page, not in a file.', label: 'Documentation', href: '/specimen' },
-    generator: { intro: 'Where Nertia started: this generator, January 2026. It still runs, unchanged.' },
+    evolution: {
+      title: 'Zero-Point evolution',
+      steps: [
+        'January 2026: Brand System v3.0, nine answers in, a brand system out. Where Nertia started. Source nertia 7a576f35.',
+        'May 2026: Zero-Point design system v1, an exporter and logger, not a generator. Archived 23 May 2026 when the site builder took over. Source nertia f1a3cf56.',
+        'May 2026 to today: the builder. Every site inherits one skin contract.',
+      ],
+      frameCaption: 'Zero-Point design system v1, 4 May 2026, running read-only: the sidebar, the token drawer and the CSS and JSON export work. Archivo is not loaded on this page, so the display face falls back to the system stack.',
+    },
     contract: {
       lead: 'Every nertia site inherits one skin contract: about twenty CSS variables and a single brand colour, --accent. An agent switches the skin through the MCP tool switch_site_skin, with no UI.',
       tiers: [
