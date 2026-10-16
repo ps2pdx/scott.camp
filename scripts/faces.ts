@@ -29,18 +29,76 @@ const BANNERS = [
   { file: 'facebook-1640x624.png', width: 1640, height: 624, pad: 195, display: 128, meta: 19 },
 ];
 
+// `--headline "scott.camp/bell"` swaps the Display line and writes a second set (`-<suffix>.png`, default
+// `url`) with Instagram added and the old headline stamped small in the bottom-right Meta slot (the name
+// line moves bottom-left on Instagram; on Facebook and LinkedIn it stays top-right, clear of the photo). The headline is fitted as large as its box allows: one line on the wide
+// banners, broken after the last slash on the Instagram posts. Facebook keeps the 1250 px centre and the
+// profile photo's 420 by 220 bottom-left corner; a 4:5 post keeps its type inside the 1012 px square the
+// 3:4 grid crop leaves, so the vertical inset there is (1350 - 1012) / 2.
+type Fit = { file: string; width: number; height: number; padX: number; padY: number; meta: number; left: number; maxH: number; stack: boolean };
+const HEADLINE_BANNERS: Fit[] = [
+  { file: 'facebook-1640x624', width: 1640, height: 624, padX: 195, padY: 40, meta: 19, left: 195, maxH: 300, stack: false },
+  { file: 'linkedin-1584x396', width: 1584, height: 396, padX: 56, padY: 40, meta: 16, left: 528, maxH: 200, stack: false },
+  { file: 'instagram-1080x1350', width: 1080, height: 1350, padX: 108, padY: 169, meta: 24, left: 108, maxH: 700, stack: true },
+  { file: 'instagram-1080x1080', width: 1080, height: 1080, padX: 108, padY: 108, meta: 24, left: 108, maxH: 560, stack: true },
+];
+
+function flag(name: string) {
+  const i = process.argv.indexOf(`--${name}`);
+  return i > 0 ? process.argv[i + 1] : undefined;
+}
+
 async function main() {
   const banners = process.argv[2] === 'banners';
+  const headline = flag('headline');
+  const suffix = flag('suffix') ?? 'url';
   const server = spawn('npx', ['vite', '--port', '4177', '--strictPort'], { stdio: 'ignore' });
   await new Promise((r) => setTimeout(r, 2500));
   const browser = await launch();
   try {
-    const page = await browser.newPage({ viewport: { width: 1700, height: 900 }, deviceScaleFactor: 1 });
+    const page = await browser.newPage({ viewport: { width: 1700, height: headline ? 1400 : 900 }, deviceScaleFactor: 1 });
     await page.goto('http://localhost:4177/specimen/', { waitUntil: 'networkidle' });
     const cover = '#og-face > [data-part="cover"]';
     if (banners) {
-      const dir = process.argv[3] ?? `${process.env.HOME}/.claude/projects/-Users-aquapurp-code-nertia/scott-camp-assets/banners`;
+      const dirArg = process.argv[3];
+      const dir = dirArg && !dirArg.startsWith('--') ? dirArg : `${process.env.HOME}/.claude/projects/-Users-aquapurp-code-nertia/scott-camp-assets/banners`;
       mkdirSync(dir, { recursive: true });
+      if (headline) {
+        for (const b of HEADLINE_BANNERS) {
+          const top = b.stack
+            ? `${cover} > div:first-child{display:block} ${cover} [data-part="title-line"]{position:absolute;left:${b.padX}px;right:${Math.round(b.width * 0.42)}px;bottom:${b.padY}px;margin:0;text-align:left}`
+            : '';
+          const css = `${cover}{position:fixed;top:0;left:0;z-index:1000;width:${b.width}px;height:${b.height}px;min-height:0;padding:${b.padY}px ${b.padX}px;border:0} ${cover} > div:last-child{position:absolute;left:${b.left}px;right:${b.padX}px;top:50%;transform:translateY(-50%)} ${cover} .t-display{max-width:none;white-space:pre;line-height:0.95} ${cover} .meta{font-size:${b.meta}px} ${top}`;
+          const tag = await page.addStyleTag({ content: css });
+          await page.evaluate(({ sel, x, y }) => {
+            const stamp = document.createElement('span');
+            stamp.className = 'meta';
+            stamp.dataset.part = 'stamp';
+            stamp.textContent = "Something click'd";
+            Object.assign(stamp.style, { position: 'absolute', right: `${x}px`, bottom: `${y}px`, margin: '0' });
+            document.querySelector(`${sel} > div:first-child`)!.append(stamp);
+          }, { sel: cover, x: b.padX, y: b.padY });
+          const text = b.stack ? headline.replace(/\/(?!.*\/)/, '/\n') : headline;
+          await page.evaluate(({ sel, text, w, h }) => {
+            const el = document.querySelector<HTMLElement>(`${sel} .t-display`)!;
+            el.textContent = text;
+            el.style.width = 'max-content';
+            let size = 100;
+            for (let i = 0; i < 4; i++) {
+              el.style.fontSize = `${size}px`;
+              const r = el.getBoundingClientRect();
+              size = Math.floor(size * Math.min(w / r.width, h / r.height));
+            }
+            el.style.fontSize = `${size}px`;
+          }, { sel: cover, text, w: b.width - b.left - b.padX, h: b.maxH });
+          const path = `${dir}/${b.file}-${suffix}.png`;
+          await shoot(page, cover, b.width, b.height, path);
+          quantize(path);
+          await tag.evaluate((n) => n.remove());
+          await page.evaluate((sel) => document.querySelector(`${sel} [data-part="stamp"]`)!.remove(), cover);
+        }
+        return;
+      }
       for (const b of BANNERS) {
         const css = `${cover}{position:fixed;top:0;left:0;z-index:1000;width:${b.width}px;height:${b.height}px;min-height:0;padding:40px ${b.pad}px;border:0} ${cover} > div:last-child{position:absolute;left:${Math.round(b.width / 3)}px;right:${b.pad}px;top:50%;transform:translateY(-50%)} ${cover} .t-display{font-size:${b.display}px;max-width:none} ${cover} .meta{font-size:${b.meta}px}`;
         const tag = await page.addStyleTag({ content: css });
