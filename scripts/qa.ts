@@ -5,7 +5,10 @@ import { mkdirSync } from 'node:fs';
 const OUT = '.parity';
 const PORT = 4178;
 const BASE = `http://localhost:${PORT}`;
-const TEXTURES_OFF = '.grain::before{display:none}.rail{background-image:none !important;width:2px !important}.band{background-image:none !important}.reveal{display:none !important}.cut{border-top-color:var(--line-strong) !important}.chip{background-image:none !important}.hole{filter:none !important}';
+const TEXTURES_OFF = '.grain::before{display:none}.rail{background-image:none !important;width:2px !important}.band{background-image:none !important}.cut::after{display:none !important}.cut{border-top-color:var(--line-strong) !important}.chip{background-image:none !important}.hole{filter:none !important}';
+const CHAPTERS = ['design-system', 'vantage', 'nertia', 'work', 'terpscout', 'practice', 'contact'];
+const PATHS = ['bell', ...CHAPTERS.map((c) => `bell/${c}`), 'specimen'];
+const file = (path: string) => path.replace('/', '-');
 
 async function launch(): Promise<Browser> {
   try { return await chromium.launch(); } catch { return chromium.launch({ channel: 'chrome' }); }
@@ -18,12 +21,18 @@ async function main() {
   const browser = await launch();
   const problems: string[] = [];
   try {
-    for (const path of ['bell', 'specimen']) for (const width of [1280, 390]) for (const mode of ['dark', 'light'] as const) {
+    for (const path of PATHS) for (const width of [1280, 390]) for (const mode of ['dark', 'light'] as const) {
       const ctx = await browser.newContext({ viewport: { width, height: 900 }, colorScheme: mode });
       const page = await ctx.newPage();
       await page.goto(`${BASE}/${path}/`, { waitUntil: 'networkidle' });
       const sw = await page.evaluate(() => document.documentElement.scrollWidth);
       if (sw > width) problems.push(`${path} ${mode} overflows at ${width}: ${sw}`);
+      if (path.startsWith('bell')) {
+        const nav = await page.evaluate(() => ({ targets: [...document.querySelectorAll('nav a')].map((x) => x.getAttribute('href')).join(','), current: document.querySelector('nav a[aria-current="page"]')?.getAttribute('href') }));
+        const here = path === 'bell' ? '/bell' : `/${path}`;
+        if (nav.targets !== ['/bell', ...CHAPTERS.map((c) => `/bell/${c}`)].join(',')) problems.push(`${path} ${width} ${mode}: nav targets are ${nav.targets}`);
+        if (nav.current !== here) problems.push(`${path} ${width} ${mode}: the current nav cell is ${nav.current}`);
+      }
       if (path === 'bell') {
         const r = await page.evaluate(() => {
           const nav = document.querySelector('nav')!.getBoundingClientRect().height;
@@ -31,11 +40,10 @@ async function main() {
           const scroller = document.querySelector('[data-part="index-scroll"]') as HTMLElement;
           const rows = [...scroller.querySelectorAll('tr')];
           const stacked = rows.some((tr) => { const tops = [...tr.children].map((td) => Math.round(td.getBoundingClientRect().top)); return tr.children.length !== 4 || new Set(tops).size !== 1 || getComputedStyle(tr.children[0]).display !== 'table-cell'; });
-          return { nav, tallestCell: Math.max(...cells.map((c) => c.height)), navRows: new Set(cells.map((c) => Math.round(c.top))).size, indexScrolls: scroller.scrollWidth > scroller.clientWidth, stacked };
+          return { nav, navRows: new Set(cells.map((c) => Math.round(c.top))).size, indexScrolls: scroller.scrollWidth > scroller.clientWidth, stacked };
         });
         if (r.navRows !== 1) problems.push(`${path} ${width} ${mode}: the nav wraps to ${r.navRows} rows`);
         if (r.stacked) problems.push(`${path} ${width} ${mode}: the index table is stacked or relaid out`);
-        if (r.tallestCell > 48) problems.push(`${path} ${width} ${mode}: a nav cell wraps (${r.tallestCell}px)`);
         if (r.indexScrolls) problems.push(`${path} ${width} ${mode}: the index scrolls inside its box`);
         const top = await page.evaluate(() => {
           const cover = document.getElementById('hero')!.getBoundingClientRect();
@@ -63,31 +71,25 @@ async function main() {
         if (width >= 1024 && !stuck.rail) problems.push(`${path} ${width} ${mode}: the rail does not show at the left once past the cover`);
         await page.evaluate(() => window.scrollTo(0, 0));
         const order = await page.evaluate(() => [...document.querySelectorAll('section')].map((x) => x.id).join(','));
-        if (order !== 'hero,endpapers,vantage,nertia,design-system,work,terpscout,practice,contact') problems.push(`${path} ${width} ${mode}: section order is ${order}`);
-        const cellTargets = await page.evaluate(() => [...document.querySelectorAll('nav a')].map((x) => x.getAttribute('href')).join(','));
-        if (cellTargets !== '#hero,#vantage,#nertia,#design-system,#work,#terpscout,#practice,#contact') problems.push(`${path} ${width} ${mode}: nav targets are ${cellTargets}`);
-        for (const id of ['vantage', 'work', 'contact']) {
-          await page.click(`nav a[href="#${id}"]`);
-          await page.waitForTimeout(400);
-          const top = await page.evaluate((i) => document.getElementById(i)!.getBoundingClientRect().top, id);
-          if (top < r.nav - 1) problems.push(`${path} ${width} ${mode}: #${id} lands under the nav (${top} < ${r.nav})`);
-        }
-        const cut = await page.evaluate(() => ({ border: getComputedStyle(document.getElementById('vantage')!).borderTopColor, reveal: getComputedStyle(document.querySelector('[data-part="reveal"]')!).position }));
-        if (cut.border !== 'rgba(0, 0, 0, 0)' || cut.reveal !== 'fixed') problems.push(`${path} ${width} ${mode}: the divider is not a cut over the fixed spine (${JSON.stringify(cut)})`);
+        const want = ['hero', 'endpapers', ...CHAPTERS.map((c) => `snippet-${c}`)].join(',');
+        if (order !== want) problems.push(`${path} ${width} ${mode}: section order is ${order}`);
+        const cut = await page.evaluate(() => { const el = document.getElementById('snippet-vantage')!; return { border: getComputedStyle(el).borderTopColor, strip: getComputedStyle(el, '::after').backgroundImage }; });
+        if (cut.border !== 'rgba(0, 0, 0, 0)' || !cut.strip.includes('spine-band')) problems.push(`${path} ${width} ${mode}: the divider is not a 2 px cut carrying the spine (${JSON.stringify(cut)})`);
         await page.evaluate(() => window.scrollTo(0, 0));
         console.log(`${path} ${width} ${mode}: nav ${Math.round(r.nav)}px`);
       }
       for (let y = 0; y < 30; y++) { await page.mouse.wheel(0, 1200); await page.waitForTimeout(30); }
       await page.waitForTimeout(400);
-      await page.screenshot({ path: `${OUT}/${path}-${width}-${mode}.png`, fullPage: true });
+      await page.screenshot({ path: `${OUT}/${file(path)}-${width}-${mode}.png`, fullPage: true });
+      const parts: Record<string, [string, string][]> = {
+        bell: [['#hero', 'hero'], ['#endpapers', 'endpapers'], ['#endpapers [data-part="index"]', 'index']],
+        'bell/terpscout': [['#terpscout', 'terpscout']],
+        'bell/vantage': [['#vantage ul.transcript', 'transcript']],
+        'bell/work': [['#work article', 'specsheet']],
+        'bell/nertia': [['#nertia svg[role="img"]', 'techsheet']],
+      };
+      for (const [sel, name] of parts[path] ?? []) await page.locator(sel).first().screenshot({ path: `${OUT}/${name}-${width}-${mode}.png` });
       if (path === 'bell') {
-        await page.locator('#hero').screenshot({ path: `${OUT}/hero-${width}-${mode}.png` });
-        await page.locator('#endpapers').screenshot({ path: `${OUT}/endpapers-${width}-${mode}.png` });
-        await page.locator('#terpscout').screenshot({ path: `${OUT}/terpscout-${width}-${mode}.png` });
-        await page.locator('#vantage ul.transcript').screenshot({ path: `${OUT}/transcript-${width}-${mode}.png` });
-        await page.locator('[data-part="index"]').screenshot({ path: `${OUT}/index-${width}-${mode}.png` });
-        await page.locator('#work article').first().screenshot({ path: `${OUT}/specsheet-${width}-${mode}.png` });
-        await page.locator('#nertia svg[role="img"]').first().screenshot({ path: `${OUT}/techsheet-${width}-${mode}.png` });
         await page.evaluate(() => window.scrollTo(0, 0));
         await page.locator('nav').screenshot({ path: `${OUT}/nav-${width}-${mode}.png` });
       }
@@ -100,8 +102,8 @@ async function main() {
       await cdp.send('Emulation.setEmulatedMedia', { features: [{ name: 'prefers-reduced-data', value: 'reduce' }] });
       await page.goto(`${BASE}/bell/`, { waitUntil: 'networkidle' });
       await page.addStyleTag({ content: TEXTURES_OFF });
-      const plain = await page.evaluate(() => ({ border: getComputedStyle(document.getElementById('vantage')!).borderTopColor, reveal: getComputedStyle(document.querySelector('[data-part="reveal"]')!).display }));
-      if (plain.border === 'rgba(0, 0, 0, 0)' || plain.reveal !== 'none') problems.push(`reduced-data ${width}: the divider is not a plain rule (${JSON.stringify(plain)})`);
+      const plain = await page.evaluate(() => { const el = document.getElementById('snippet-vantage')!; return { border: getComputedStyle(el).borderTopColor, strip: getComputedStyle(el, '::after').display }; });
+      if (plain.border === 'rgba(0, 0, 0, 0)' || plain.strip !== 'none') problems.push(`reduced-data ${width}: the divider is not a plain rule (${JSON.stringify(plain)})`);
       await page.screenshot({ path: `${OUT}/bell-${width}-textures-off.png`, fullPage: true });
       await ctx.close();
     }
@@ -109,8 +111,8 @@ async function main() {
       const ctx = await browser.newContext({ viewport: { width: 390, height: 900 }, forcedColors: 'active' });
       const page = await ctx.newPage();
       await page.goto(`${BASE}/bell/`, { waitUntil: 'networkidle' });
-      const fc = await page.evaluate(() => getComputedStyle(document.querySelector('[data-part="reveal"]')!).display);
-      if (fc !== 'none') problems.push(`forced-colors: the fixed spine layer still paints (${fc})`);
+      const fc = await page.evaluate(() => getComputedStyle(document.getElementById('snippet-vantage')!, '::after').display);
+      if (fc !== 'none') problems.push(`forced-colors: the spine strip on the cut still paints (${fc})`);
       await ctx.close();
     }
     const GATED = /terpscout-spin|rosin-press|martian-fruit|per-image-pricing/;
@@ -122,7 +124,7 @@ async function main() {
         const page = await ctx.newPage();
         const hits: string[] = [];
         page.on('request', (r) => { if (GATED.test(r.url())) hits.push(r.url()); });
-        await page.goto(`${BASE}/bell/`, { waitUntil: 'networkidle' });
+        await page.goto(`${BASE}/bell/terpscout/`, { waitUntil: 'networkidle' });
         const block = page.locator('#terpscout');
         const shoot = async (file: string) => {
           await page.evaluate(() => window.scrollTo(0, 0));
@@ -163,7 +165,7 @@ async function main() {
       const page = await ctx.newPage();
       const cdp = await ctx.newCDPSession(page);
       await cdp.send('Emulation.setEmulatedMedia', { features: [{ name: 'prefers-reduced-data', value: 'reduce' }, { name: 'forced-colors', value: 'active' }] });
-      await page.goto(`${BASE}/bell/`, { waitUntil: 'networkidle' });
+      await page.goto(`${BASE}/bell/terpscout/`, { waitUntil: 'networkidle' });
       await page.locator('#terpscout summary').click();
       await page.waitForTimeout(200);
       const r = await page.locator('#terpscout details').evaluate((d) => ({ open: (d as HTMLDetailsElement).open, video: !!d.querySelector('video'), stills: d.querySelectorAll('img').length }));

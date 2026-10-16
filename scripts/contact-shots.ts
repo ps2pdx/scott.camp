@@ -28,6 +28,7 @@ async function main() {
       page.on('request', (r) => { if (r.url().includes('cal.com')) cal.push(r.url()); });
       await page.goto(`${BASE}/bell/`, { waitUntil: 'networkidle' });
       if (mode === 'light') await page.screenshot({ path: `${OUT}/cover-links-${width}.png` });
+      await page.goto(`${BASE}/bell/contact/`, { waitUntil: 'networkidle' });
       await to(page, '#contact [data-part="portrait"]', 130);
       if (mode === 'light') await page.screenshot({ path: `${OUT}/contact-${width}.png` });
       await to(page, '#contact [data-part="booking"]', width === 390 ? 260 : 300);

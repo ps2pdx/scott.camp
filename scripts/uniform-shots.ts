@@ -26,37 +26,47 @@ async function main() {
       });
       let imgBytes = 0;
       page.on('response', async (r) => { if (r.request().resourceType() === 'image') { const b = await r.body().catch(() => null); if (b) imgBytes += b.length; } });
-      await page.goto(`${BASE}/bell/`, { waitUntil: 'networkidle' });
-      const h = await page.evaluate(() => document.documentElement.scrollHeight);
-      for (let y = 0; y < h; y += 600) { await page.evaluate((v) => window.scrollTo(0, v), y); await page.waitForTimeout(60); }
-      await page.waitForTimeout(400);
-      const cls = await page.evaluate(() => (window as any).__cls);
-      console.log(`${tag} ${width} ${mode} cls=${cls.toFixed(4)} imgKB=${Math.round(imgBytes / 1024)}`);
+      let cls = 0;
+      const open = async (slug: string) => {
+        await page.goto(`${BASE}/bell/${slug}/`, { waitUntil: 'networkidle' });
+        const h = await page.evaluate(() => document.documentElement.scrollHeight);
+        for (let y = 0; y < h; y += 600) { await page.evaluate((v) => window.scrollTo(0, v), y); await page.waitForTimeout(60); }
+        await page.waitForTimeout(400);
+        cls += await page.evaluate(() => (window as any).__cls);
+      };
+      const navH = () => page.evaluate(() => document.querySelector('nav')!.getBoundingClientRect().height);
       for (const id of ['vantage', 'nertia', 'terpscout', 'work', 'practice', 'design-system']) {
-        const el = page.locator(`#${id}`);
-        await el.evaluate((n) => n.scrollIntoView({ block: 'start' }));
+        await open(id);
+        await page.locator(`#${id}`).evaluate((n) => n.scrollIntoView({ block: 'start' }));
         await page.waitForTimeout(250);
         await page.screenshot({ path: `${OUT}/${tag}-${id}-${width}-${mode}.png` });
+        if (id === 'terpscout') {
+          const d = page.locator('#terpscout details');
+          await d.locator('summary').click();
+          await page.waitForTimeout(600);
+          const figs = d.locator('figure');
+          const n = await figs.count();
+          for (let i = 0; i < n; i++) {
+            await figs.nth(i).evaluate((f) => f.scrollIntoView({ block: 'start' }));
+            await page.waitForTimeout(400);
+            await page.screenshot({ path: `${OUT}/${tag}-terpscout-evidence-${i + 1}-${width}-${mode}.png` });
+          }
+        }
+        if (id === 'practice') {
+          await page.locator('#practice figure').first().evaluate((f) => f.scrollIntoView({ block: 'start' }));
+          await page.waitForTimeout(300);
+          await page.screenshot({ path: `${OUT}/${tag}-practice-evidence-${width}-${mode}.png` });
+        }
       }
-      const d = page.locator('#terpscout details');
-      await d.locator('summary').click();
-      await page.waitForTimeout(600);
-      const figs = d.locator('figure');
-      const n = await figs.count();
-      for (let i = 0; i < n; i++) {
-        await figs.nth(i).evaluate((f) => f.scrollIntoView({ block: 'start' }));
-        await page.waitForTimeout(400);
-        await page.screenshot({ path: `${OUT}/${tag}-terpscout-evidence-${i + 1}-${width}-${mode}.png` });
-      }
-      for (const [name, sel] of [['contact', '#contact [data-part="portrait"]'], ['ds-contact-sheet', '#design-system [data-part="ds-contact-sheet"]'], ['ds-pair', '[data-part="ds-figures"]']]) {
-        await page.locator(sel).evaluate((n) => window.scrollTo(0, n.getBoundingClientRect().top + scrollY - document.querySelector('nav')!.getBoundingClientRect().height - 120));
+      await open('contact');
+      for (const [name, slug, sel] of [['contact', 'contact', '#contact [data-part="portrait"]'], ['ds-contact-sheet', 'design-system', '#design-system [data-part="ds-contact-sheet"]'], ['ds-pair', 'design-system', '[data-part="ds-figures"]']]) {
+        if (!page.url().endsWith(`/${slug}/`)) await open(slug);
+        const nh = await navH();
+        await page.locator(sel).evaluate((n, v) => window.scrollTo(0, n.getBoundingClientRect().top + scrollY - v - 120), nh);
         await page.waitForTimeout(400);
         await page.screenshot({ path: `${OUT}/${name}-${width}${mode === 'light' ? '' : '-dark'}.png` });
       }
-      const fig = page.locator('#practice figure').first();
-      await fig.evaluate((f) => f.scrollIntoView({ block: 'start' }));
-      await page.waitForTimeout(300);
-      await page.screenshot({ path: `${OUT}/${tag}-practice-evidence-${width}-${mode}.png` });
+      console.log(`${tag} ${width} ${mode} cls=${cls.toFixed(4)} (summed over the pages) imgKB=${Math.round(imgBytes / 1024)}`);
       await ctx.close();
     }
   } finally {

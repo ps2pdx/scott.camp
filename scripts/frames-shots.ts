@@ -24,11 +24,11 @@ async function main() {
     for (const width of [1440, 1024, 390]) for (const mode of ['light', 'dark'] as const) {
       const ctx = await browser.newContext({ viewport: { width, height: 1000 }, colorScheme: mode, deviceScaleFactor: width === 390 ? 2 : 1, hasTouch: width === 390, isMobile: width === 390 });
       const page = await ctx.newPage();
-      await page.goto(`${BASE}/bell/`, { waitUntil: 'networkidle' });
-      await to(page, '#design-system h2', 130);
+      await page.goto(`${BASE}/bell/design-system/`, { waitUntil: 'networkidle' });
+      await to(page, '[data-part="ds-book"]', 130);
       await page.screenshot({ path: `${OUT}/frames-${width}-${mode}.png` });
       if (width === 1440) {
-        const box = (await page.locator('[data-part="ds-book-main"] img').boundingBox())!;
+        const box = (await page.locator('[data-part="ds-book-main"] img').first().boundingBox())!;
         await page.mouse.move(box.x + box.width * 0.35, box.y + box.height * 0.55);
         await page.mouse.move(box.x + box.width * 0.4, box.y + box.height * 0.6, { steps: 4 });
         await page.waitForTimeout(600);
@@ -36,8 +36,8 @@ async function main() {
         await page.mouse.move(5, 5);
         await page.locator('[data-part="ds-contact-sheet"] button[data-frame="IMG_2983"]').click();
         await page.waitForTimeout(600);
-        await to(page, '#design-system h2', 130);
-        const b2 = (await page.locator('[data-part="ds-book-main"] img').boundingBox())!;
+        await to(page, '[data-part="ds-book"]', 130);
+        const b2 = (await page.locator('[data-part="ds-book-main"] img').first().boundingBox())!;
         await page.mouse.move(b2.x + b2.width * 0.5, b2.y + b2.height * 0.3, { steps: 4 });
         await page.waitForTimeout(600);
         await page.screenshot({ path: `${OUT}/frames-${width}-${mode}-hover-portrait.png` });
