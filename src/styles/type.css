@@ -2,7 +2,7 @@
 .t-display{font-size:var(--t-display)}
 .t-title{font-size:var(--t-title)}
 .text{font-family:'Courier New',Courier,monospace;font-weight:700;font-size:var(--t-text);line-height:1.5;margin:0}
-.meta{font-family:'Courier New',Courier,monospace;font-weight:400;font-size:var(--t-meta);letter-spacing:0.04em;text-transform:uppercase;line-height:1.4}
-.transcript{font-family:'Courier New',Courier,monospace;font-weight:400;font-size:var(--t-meta);line-height:1.5}
+.meta{font-family:'Courier New',Courier,monospace;font-weight:400;font-size:var(--t-meta);letter-spacing:0.04em;text-transform:uppercase;line-height:1.4;-webkit-text-stroke:var(--meta-stroke) currentColor}
+.transcript{font-family:'Courier New',Courier,monospace;font-weight:400;font-size:var(--t-meta);line-height:1.5;-webkit-text-stroke:var(--meta-stroke) currentColor}
 .muted{color:var(--fg-muted)}
 .watermark{font-family:'Courier New',Courier,monospace;font-weight:700;text-transform:uppercase;letter-spacing:0.04em;line-height:1}

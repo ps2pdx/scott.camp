@@ -18,7 +18,7 @@ export function Landing() {
   return (
     <Shell current="hero" cover={<Cover id="hero" />}>
       <Section id="endpapers" surface="endpaper">
-        <p data-part="yellow-name" className={`display t-title ${s.name}`}>{COPY.endpapers.name}</p>
+        <p data-part="yellow-name" className={`meta ${s.name}`}>{COPY.endpapers.name}</p>
         <p className={`text ${width.text} ${s.lead}`}>{h.lead}</p>
         <Transcript rows={h.facts} tight className={s.gap} />
         <Transcript rows={[COPY.endpapers.virgil]} className={s.block} />

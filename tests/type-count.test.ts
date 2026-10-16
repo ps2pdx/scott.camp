@@ -24,9 +24,9 @@ function count() {
   return { full: full.size, page: page.size };
 }
 
-it('font declarations stay under the ceiling: page type below 20, everything at most 31 (chapter Display clamp and the 11 px nav label added; the type consolidation lowers both)', () => {
+it('font declarations stay under the ceiling: page type at most 16, everything at most 29 (the chapter cover Display clamp replaces the consulting one; the volume faces keep the book scale, 28 and 20 px)', () => {
   const { full, page } = count();
-  expect(page).toBeLessThan(20);
-  expect(page).toBeLessThanOrEqual(19);
-  expect(full).toBeLessThanOrEqual(31);
+  expect(page).toBeLessThan(17);
+  expect(page).toBeLessThanOrEqual(16);
+  expect(full).toBeLessThanOrEqual(29);
 });

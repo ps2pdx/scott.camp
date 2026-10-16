@@ -76,14 +76,15 @@ it('ink bleed: 0.5 px on nav labels, 0.3 px on the primary button label, a text-
 it('type is three roles at four sizes: no other size, no Courier bold, no letter-spacing besides the two roles', async () => {
   const { globSync } = await import('node:fs');
   expect(css).toContain('--t-display:clamp(');
-  expect(css).toMatch(/--t-title:28px;--t-text:18px;--t-meta:13px;--t-meta-min:11px/);
-  expect(css).toContain('@media (max-width:639px){:root{--t-title:20px;--t-text:14px;--t-meta:var(--t-meta-min)}}');
+  expect(css).toMatch(/--t-title:36px;--t-text:18px;--t-meta:13px;--meta-stroke:0.2px/);
+  expect(css).toContain('@media (max-width:639px){:root{--t-title:24px;--t-text:14px;--t-meta:11px}}');
+  expect(css).toMatch(/@media \(prefers-contrast: more\),\(forced-colors: active\)\{:root\{[^}]*--meta-stroke:0\}/);
   expect(css).toContain('@media (min-width:640px) and (max-width:1023px){:root{--t-text:16px}}');
   expect(css).not.toMatch(/--t-(hero|heading|lead|body|meta-sm)/);
   const files = globSync('src/**/*.css').filter((f) => !f.endsWith('tokens.css') && !f.endsWith('VolumeFace.module.css') && !f.endsWith('ToolMark.module.css') && !f.includes('zero-point-v1'));
   for (const f of files) {
     const t = readFileSync(f, 'utf8');
-    for (const m of t.matchAll(/font-size:([^;}]+)/g)) expect(m[1], f).toMatch(/^var\(--t-(display|title|text|meta|meta-min)\)$/);
+    for (const m of t.matchAll(/font-size:([^;}]+)/g)) expect(m[1], f).toMatch(/^var\(--t-(display|title|text|meta)\)$/);
     for (const m of t.matchAll(/letter-spacing:([^;}]+)/g)) expect(['-0.02em', '0.04em'], f).toContain(m[1]);
     expect(t, f).not.toMatch(/font-weight:(?!400|700)/);
   }
@@ -100,6 +101,13 @@ it('table rules are the 2 px --strike token in the --line colour; the punch nav 
 it('the cloth deboss is tokens only, at least 86 percent ink, and drops under forced colors and more contrast', () => {
   const m = css.match(/--emboss-ink:color-mix\(in oklch,#000000 (\d+)%,var\(--s-cloth\)\)/)!;
   expect(Number(m[1])).toBeGreaterThanOrEqual(86);
-  expect(css).toContain('@media (prefers-contrast: more),(forced-colors: active){:root{--emboss-ink:#000000;--emboss-text:none;--emboss-meta:none}}');
+  expect(css).toContain('@media (prefers-contrast: more),(forced-colors: active){:root{--emboss-ink:#000000;--emboss-text:none;--emboss-meta:none;--meta-stroke:0}}');
   for (const f of ['src/components/Cover.module.css', 'src/components/Consulting.module.css']) expect(readFileSync(f, 'utf8')).toContain('text-shadow:var(--emboss-text)');
+});
+it('Meta and transcript rows carry the hairline stroke token; Text stays Courier New Bold without it; muted ink turns full ink on the board', () => {
+  const type = readFileSync('src/styles/type.css', 'utf8');
+  for (const r of ['meta', 'transcript']) expect(type.match(new RegExp(`\\.${r}\\{[^}]*\\}`))![0]).toContain('-webkit-text-stroke:var(--meta-stroke) currentColor');
+  expect(type.match(/\.text\{[^}]*\}/)![0]).not.toContain('stroke');
+  expect(readFileSync('src/components/Section.module.css', 'utf8')).toContain('.board{background-color:var(--s-board);--paper:var(--s-board);--fg-muted:var(--fg)}');
+  expect(readFileSync('src/components/Consulting.module.css', 'utf8')).not.toContain('--t-display');
 });

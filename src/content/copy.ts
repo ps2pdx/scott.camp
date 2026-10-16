@@ -177,14 +177,14 @@ export const COPY = {
     ],
     type: [
       { role: 'Display', sample: 'Icons', meta: 'Helvetica Neue Bold, uppercase, fluid, the cover headline only', cls: 'display t-display' },
-      { role: 'Title', sample: 'One layer removed', meta: 'Helvetica Neue Bold, uppercase, 28 px, 20 px on phones', cls: 'display t-title' },
+      { role: 'Title', sample: 'One layer removed', meta: 'Helvetica Neue Bold, uppercase, 36 px, 24 px on phones', cls: 'display t-title' },
       { role: 'Text', sample: 'Lead paragraphs and card bodies. One idea per sentence.', meta: 'Courier New Bold, 18 px, 16 px on tablets, 14 px on phones', cls: 'text' },
-      { role: 'Meta', sample: 'Eyebrows, nav, captions, tables, buttons', meta: 'Courier New, uppercase, 13 px, 11 px on phones', cls: 'meta' },
+      { role: 'Meta', sample: 'Eyebrows, nav, captions, tables, buttons', meta: 'Courier New, uppercase, 13 px, 11 px on phones, a 0.2 px hairline stroke', cls: 'meta' },
       { role: 'Watermark', sample: 'Claude Design · Pillow', meta: 'Courier New Bold, 72 to 160 px at 10 percent, behind each section', cls: 'watermark t-title' },
     ],
     typeLine: 'Distinct font declarations reduced from 34 to 19.',
     signature: [
-      { when: 'Punch nav', who: '', text: 'Eight punched cells, 01 to 08, numbers only. Each name lives in the aria-label: a store without price tags.' },
+      { when: 'Punch nav', who: '', text: 'Eight punched cells, 01 to 08, the page label in Meta under each number. On phones the number only, the name in the aria-label: a store without price tags.' },
       { when: 'Spine rail', who: '', text: 'Every section starts on a 2 px cut that carries a strip of the spine band, so the spine shows between them. No fixed layer under the page, so scrolling never repaints it.' },
     ] as TranscriptRow[],
     figures: [

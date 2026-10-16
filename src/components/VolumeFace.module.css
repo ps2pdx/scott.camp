@@ -1,4 +1,4 @@
-.face{aspect-ratio:1.6;display:grid;grid-template-columns:1fr 1px 1fr;background:#000;border-bottom:1px solid var(--line)}
+.face{--t-title:28px;aspect-ratio:1.6;display:grid;grid-template-columns:1fr 1px 1fr;background:#000;border-bottom:1px solid var(--line)}
 .verso{background:#000}
 .gutter{background:rgba(255,255,255,0.18)}
 .recto{background:#f5e04a;color:#000;padding:12px;display:flex;flex-direction:column;justify-content:space-between;min-width:0}
@@ -8,3 +8,4 @@
 .og{width:1200px;height:630px;aspect-ratio:auto;border:0}
 .og .vol{font-size:96px}.og .nm{font-size:72px}.og .yr{font-size:var(--t-title)}.og .recto{padding:48px}
 .favicon{width:32px;height:32px;padding:3px}.favicon .vol{font-size:7px}
+@media (max-width:639px){.face{--t-title:20px}}

@@ -101,7 +101,8 @@ it('the cover holds the eyebrow, the name line, three inline Meta links and the 
   expect(cover.querySelector('p, ul, table')).toBeNull();
   const name = container.querySelector('#endpapers [data-part="yellow-name"]')!;
   expect(name.textContent).toBe('Scott Campbell, c/o Nertia.ai');
-  expect(name.classList.contains('display') && name.classList.contains('t-title')).toBe(true);
+  expect(name.classList.contains('meta')).toBe(true);
+  expect(name.classList.contains('t-title')).toBe(false);
   const lead = name.nextElementSibling!;
   expect(container.querySelector('#endpapers [data-part="frontispiece"], #endpapers [data-part="portrait"]')).toBeNull();
   expect(lead.textContent).toBe(COPY.hero.lead);

@@ -10,7 +10,7 @@
   --sp-text:7;--sp-rows:9;--sp-figure:8;--sp-note:4;--sp-half:6;--sp-portrait:4;--sp-opener:8;--sp-margin:3;
   --r-caption:var(--s-2);--r-lead:var(--s-3);--r-item:var(--s-5);--r-block:var(--s-6);--r-section:var(--s-8);
   --tile:#ffffff;--tile-pad:12px;--mark-tile:120px;--mark-fill:0.6;
-  --t-display:clamp(2.75rem,8vw + 1rem,7rem);--t-display-chapter:clamp(1.625rem,4.5vw + 0.5rem,5rem);--t-title:28px;--t-text:18px;--t-meta:13px;--t-meta-min:11px;
+  --t-display:clamp(2.75rem,8vw + 1rem,7rem);--t-title:36px;--t-text:18px;--t-meta:13px;--meta-stroke:0.2px;
   --placeholder-blur:blur(6px);
   --emboss-ink:color-mix(in oklch,#000000 86%,var(--s-cloth));--emboss-hi:rgba(255,255,255,0.35);--emboss-lo:rgba(0,0,0,0.4);
   --emboss-text:-1px -1px 0 var(--emboss-lo),0.009em 0.009em 0 var(--emboss-hi);--emboss-meta:0.5px 0.5px 0 rgba(255,255,255,0.28);
@@ -33,10 +33,10 @@
   --line:rgba(0,0,0,0.12);--line-strong:#000000;--halo:rgba(0,0,0,0.10);
   --sheet:#ffffff;--tech:#e9e7e2;--tech-ink:#111111;--grain:0.14;--hole:#ffffff;--focus:#005a14;color-scheme:light;
 }
-@media (max-width:639px){:root{--t-title:20px;--t-text:14px;--t-meta:var(--t-meta-min)}}
+@media (max-width:639px){:root{--t-title:24px;--t-text:14px;--t-meta:11px}}
 @media (min-width:640px) and (max-width:1023px){:root{--t-text:16px}}
 @media (max-width:1023px){:root{--cols:8;--sp-rows:8;--sp-note:8;--sp-half:4;--sp-portrait:3;--sp-opener:5;--sp-margin:8;--r-section:var(--s-6)}}
 @media (max-width:639px){:root{--cols:1;--sp-text:1;--sp-rows:1;--sp-figure:1;--sp-note:1;--sp-half:1;--sp-portrait:1;--sp-opener:1;--sp-margin:1;--tile-pad:10px;--mark-tile:96px}}
 @media (min-width:1024px){:root{--gutter:2.5rem;--nav-h:7rem;--rail:clamp(56px,5vw,96px)}}
 @media (prefers-reduced-motion: reduce){:root{--motion-fast:0ms;--motion-theme:0ms;--motion-chip:0ms}}
-@media (prefers-contrast: more),(forced-colors: active){:root{--emboss-ink:#000000;--emboss-text:none;--emboss-meta:none}}
+@media (prefers-contrast: more),(forced-colors: active){:root{--emboss-ink:#000000;--emboss-text:none;--emboss-meta:none;--meta-stroke:0}}

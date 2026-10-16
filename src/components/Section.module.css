@@ -1,6 +1,6 @@
 .section{padding:var(--r-section) 0;background-color:var(--bg);overflow-x:clip;--paper:var(--bg)}
 .section:global(.first){border-top:0}
-.board{background-color:var(--s-board);--paper:var(--s-board)}
+.board{background-color:var(--s-board);--paper:var(--s-board);--fg-muted:var(--fg)}
 .endpaper{background-color:var(--s-endpaper);color:#000;--fg:#000;--fg-muted:rgba(0,0,0,0.75);--line:rgba(0,0,0,0.25);--line-strong:#000;--grain:0.14;--focus:#005a14;--paper:var(--s-endpaper)}
 .wrap{max-width:var(--max);padding:0 var(--gutter);margin:0;position:relative;z-index:1}
 @media (min-width:1024px){.wrap{padding-left:calc(var(--rail) + var(--gutter))}}
