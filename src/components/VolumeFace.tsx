@@ -7,7 +7,7 @@ export function VolumeFace({ no, name, year, size = 'card' }: { no: string; name
       <div className={s.gutter} />
       <div className={s.recto}>
         <div className={s.top}><span data-part="vol" className={`vol display t-title ${s.vol}`}>Vol. {no}</span><span className={`meta ${s.yr}`}>{year}</span></div>
-        <span className={`display t-title ${s.nm}`}>{name}</span>
+        <span data-part="name" className={`display t-title ${s.nm}`}>{name}</span>
       </div>
     </div>
   );
