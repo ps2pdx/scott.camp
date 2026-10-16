@@ -1,12 +1,12 @@
 """Cuts the Contact portrait. Pillow only, pixels only (run with python3 -I).
-Source: 'Scott Campbell Portrait 1.png' (1684 by 2528, studio headshot on black), kept out of the repo for size, at
+Source: portrait-noir.jpeg (1684 by 2528, studio headshot on black, black and white), kept out of the repo for size, at
 ~/.claude/projects/-Users-aquapurp-code-nertia/scott-camp-assets/portrait/. Pass another path as the first argument.
 A 1:1 crop the full width of the frame, its top TOP px down so the head keeps its headroom (a centred square
 would cut through the forehead), at 640 (portrait.webp) and 320 (portrait-320.webp), quality 82."""
 import os, sys
 from PIL import Image
 
-SRC = sys.argv[1] if len(sys.argv) > 1 else os.path.expanduser('~/.claude/projects/-Users-aquapurp-code-nertia/scott-camp-assets/portrait/Scott Campbell Portrait 1.png')
+SRC = sys.argv[1] if len(sys.argv) > 1 else os.path.expanduser('~/.claude/projects/-Users-aquapurp-code-nertia/scott-camp-assets/portrait/portrait-noir.jpeg')
 OUT = 'public/evidence/'
 Q = 82
 TOP = 100
