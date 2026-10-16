@@ -12,7 +12,7 @@ import s from './sections.module.css';
 export function NertiaSection() {
   const n = COPY.nertia;
   return (
-    <Section id="nertia" tools={n.tools} mark={n.mark} runningHead={n.runningHead} eyebrow={n.eyebrow} title={n.title} lead={n.lead}>
+    <Section id="nertia" tools={n.tools} mark={n.mark} runningHead={n.runningHead} eyebrow={n.eyebrow} lead={n.lead}>
       <Block label="Decisions" note={n.notes.decisions} first><Transcript rows={n.rows} /></Block>
       <TechSlider label="Tech sheets" note={n.notes.tech} sheets={n.tech} />
       <Block label={n.evolution.title} part="zero-point-evolution">

@@ -32,10 +32,11 @@ it('every page marks its own cell current, keeps the cell look, and carries the 
     unmount();
   }
 });
-it('cells show 01 to 08 while each link keeps the section title as its name and title', () => {
+it('cells show 01 to 08 with the label under each number, while each link keeps the section title as its name and title', () => {
   render(<PunchNav current="hero" />);
   const links = screen.getAllByRole('link');
-  expect(links.map((a) => a.textContent)).toEqual(['01', '02', '03', '04', '05', '06', '07', '08']);
+  expect(links.map((a) => a.firstElementChild!.textContent)).toEqual(['01', '02', '03', '04', '05', '06', '07', '08']);
+  expect(links.map((a) => a.querySelector('[data-part="nav-label"]')!.textContent)).toEqual(SECTIONS.map((x) => x.label));
   expect(links.map((a) => a.getAttribute('aria-label'))).toEqual(SECTIONS.map((x) => x.label));
   expect(links.map((a) => a.getAttribute('title'))).toEqual(SECTIONS.map((x) => x.label));
   for (const x of SECTIONS) expect(screen.getByRole('link', { name: x.label })).toBeInTheDocument();

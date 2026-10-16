@@ -91,7 +91,7 @@ it('the cover holds the eyebrow, the name line, three inline Meta links and the 
   expect(cover.querySelectorAll('button').length).toBe(0);
   const links = [...cover.querySelectorAll('[data-part="cover-links"] a')];
   expect(cover.querySelectorAll('a').length).toBe(4);
-  expect(links.map((a) => [a.firstChild!.textContent, a.getAttribute('href'), a.getAttribute('target')])).toEqual([['Zero-Point story', '/bell/nertia', null], ['Contact', '/bell/contact', null], ['Resume', '/Scott_Campbell_Resume.pdf', '_blank'], ['Book', 'https://cal.com/scott-campbell/consulting', '_blank']]);
+  expect(links.map((a) => [a.firstChild!.textContent, a.getAttribute('href'), a.getAttribute('target')])).toEqual([['Nertia', '/bell/nertia', null], ['Contact', '/bell/contact', null], ['Resume', '/Scott_Campbell_Resume.pdf', '_blank'], ['Book', 'https://cal.com/scott-campbell/consulting', '_blank']]);
   expect(links.map((a) => a.querySelector('[aria-hidden="true"]')?.textContent ?? null)).toEqual([null, null, ' ↗', ' ↗']);
   const coverCss = readFileSync('src/components/Cover.module.css', 'utf8');
   expect(coverCss).toContain('.links a{color:#000;text-decoration:none;');
@@ -154,7 +154,8 @@ it('the cover carries the name as a title page would, once, beside the eyebrow',
 it('the design system block is the case study of this site: surfaces, textures with provenance, type, signature parts, designed and built, docs, its own tiers', () => {
   const { container } = renderPage('design-system');
   const d = container.querySelector('#design-system')!;
-  expect(d.querySelector('h2')!.textContent).toBe('ICONS');
+  expect(d.querySelector('h2')).toBeNull();
+  expect(container.querySelector('[data-part="cover"] h1')!.textContent).toBe('ICONS');
   expect(d.textContent).toContain('Design system [2026]');
   expect(COPY.designSystem.lead).not.toContain('ICONS');
   expect(COPY.designSystem.lead).toBe('The system comes from one physical object: my copy of the book Zak Group made for Virgil Abloh and Nike (Taschen, 2021). One layer removed: the cloth, paper, board and spine, not the page layouts. A book about icons, so the site is a book too.');
@@ -220,12 +221,12 @@ it('Contact opens on the portrait above the title: 1:1, lazy, alt Scott Campbell
   expect(img.getAttribute('data-ratio')).toBe('1:1');
   expect(fig.lastElementChild!.tagName).toBe('FIGCAPTION');
   const head = fig.parentElement!.nextElementSibling!;
-  expect(head.querySelector('h2')!.textContent).toBe(COPY.contact.title);
-  expect(head.querySelector('h2')!.nextElementSibling!.textContent).toBe(COPY.contact.lead);
+  expect(head.querySelector('h2')).toBeNull();
+  expect(head.querySelector('p.text')!.textContent).toBe(COPY.contact.lead);
   expect(head.querySelector('[data-part="margin"]')!.textContent).toBe(COPY.contact.runningHead);
   const c = container.querySelector('#contact')!;
   const order = [...c.querySelectorAll('h2, [data-part="portrait"], ul.transcript, a[download], [data-part="booking"]')].map((x) => x.tagName === 'H2' ? 'title' : x.getAttribute('data-part') ?? (x.tagName === 'A' ? 'resume' : 'rows'));
-  expect(order).toEqual(['portrait', 'title', 'rows', 'resume', 'booking']);
+  expect(order).toEqual(['portrait', 'rows', 'resume', 'booking']);
   expect(c.querySelector('[data-part="cal-booking"], iframe')).toBeNull();
   expect(c.textContent).not.toContain('Intro, 20 minutes, free');
   expect(readFileSync('src/components/Section.module.css', 'utf8')).toContain('@media (max-width:639px){.portrait{max-width:calc(240px + 2 * var(--tile-pad) + 2 * var(--strike))}}');
@@ -240,7 +241,7 @@ it('the Design system section opens on the ICONS gallery: main IMG_2975, the fra
   expect(img.getAttribute('alt')).toBe('The book, cover edge, cloth and swoosh');
   expect(img.getAttribute('loading')).toBe('lazy');
   expect(main.querySelector('figcaption')!.textContent).toBe('ICONS, IMG_2975, iPhone, 13 October 2026');
-  expect(gal.previousElementSibling!.textContent).toBe('ICONS');
+  expect(gal.previousElementSibling).toBeNull();
   expect(gal.nextElementSibling!.textContent).toBe(COPY.designSystem.lead);
   const sheet = gal.querySelector('[data-part="ds-contact-sheet"]')!;
   expect(sheet.closest('[data-part="ds-book"]')).toBe(gal);

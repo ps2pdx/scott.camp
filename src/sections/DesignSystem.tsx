@@ -10,7 +10,7 @@ import s from './sections.module.css';
 export function DesignSystemSection() {
   const d = COPY.designSystem;
   return (
-    <Section id="design-system" tools={d.watermark} runningHead={d.runningHead} title={d.title} lead={d.lead} figure={<BookFigure />}>
+    <Section id="design-system" tools={d.watermark} runningHead={d.runningHead} lead={d.lead} figure={<BookFigure />}>
       <Block label="Surfaces" first><SurfaceRow /></Block>
       <Block label="Textures" note={d.texturesLine}><TextureList /></Block>
       <Block label="Type" note={d.typeLine}><TypeStack /></Block>

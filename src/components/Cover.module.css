@@ -10,3 +10,6 @@
 .links a{color:#000;text-decoration:none;text-decoration-thickness:var(--strike);text-underline-offset:0.25em}
 .links a:hover,.links a:focus-visible{text-decoration:underline}
 .links a:focus-visible{outline:2px solid #000;outline-offset:2px}
+.chapter{min-height:60vh;min-height:60svh;--t-display:var(--t-display-chapter)}
+.chapter .headline{max-width:none}
+@media (max-width:639px){.chapter{min-height:50vh;min-height:50svh}}

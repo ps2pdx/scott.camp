@@ -27,7 +27,7 @@ export const COPY = {
     eyebrow: 'I design systems agents ship.',
     titleLine: 'Scott Campbell, c/o Nertia.ai, Portland, Oregon',
     links: [
-      { label: 'Zero-Point story', href: pageHref('nertia') },
+      { label: 'Nertia', href: pageHref('nertia') },
       { label: 'Contact', href: pageHref('contact') },
       { label: 'Resume', href: '/Scott_Campbell_Resume.pdf', newTab: true },
       { label: 'Book', href: BOOKING_URL, newTab: true },
@@ -48,7 +48,7 @@ export const COPY = {
   vantage: {
     mark: { src: '/evidence/vantage-mark.svg', width: 175, height: 40, name: 'Vantage Compute', wide: true } as MarkData,
     tools: ["Product positioning", "Competitive intelligence", "Sales enablement", "Technical messaging", "Naming and trademark", "Investor communications", "SEO/GEO", "Figma", "HubSpot", "Zoho", "GA4", "Slurm", "Kubernetes", "NVIDIA GPU architecture", "Docker"] as string[],
-    eyebrow: 'Vantage Compute', runningHead: 'Vantage [2024 to 2026]', title: 'Founding product marketing',
+    eyebrow: 'Vantage', runningHead: 'Vantage [2024 to 2026]', title: 'Founding product marketing',
     lead: 'Early-stage orchestration platform: one chip-agnostic control plane over Slurm and Kubernetes for AI/ML training, inference, simulation, and life sciences workloads, running across public cloud, private cloud, and on-prem. I was the first marketing hire and built the function from nothing, July 2024 to August 2026.',
     rows: [
       { when: '2024', who: 'Positioning', text: 'Translated Slurm orchestration, NVIDIA GPU architecture (H100, A100, L40S), and hybrid cloud into value propositions that survived contact with ML engineers and CTOs. Adopted across enterprise sales, product documentation, and seed-round investor materials.' },
@@ -238,7 +238,7 @@ export const COPY = {
   },
   practice: {
     tools: ["Blender", "Ableton", "Animation", "DJing"] as string[],
-    eyebrow: 'Creative practice', runningHead: 'Practice', title: 'Beyond the day job',
+    eyebrow: 'Practice', runningHead: 'Practice', title: 'Beyond the day job',
     sheets: [
       { title: 'Zen Holo', fields: { Sheet: 'Zen Holo', Role: 'Animation, music', Stack: 'Blender' }, href: ZEN_HOLO_URL, label: 'YouTube' },
       { title: 'Purple Scott', fields: { Sheet: 'Purple Scott', Role: 'DJ', Stack: 'Ableton' }, placeholder: true, href: 'https://purplescott.com', label: 'purplescott.com' },
@@ -290,3 +290,10 @@ export const COPY = {
   },
   volumes: { hero: { no: '0', name: "Something Click'd", year: '2026' } },
 } as const;
+
+export const pageLabel = (id: PageId) => SECTIONS.find((x) => x.id === id)!.label;
+const TITLES: Record<Exclude<PageId, 'hero'>, string> = {
+  'design-system': COPY.designSystem.title, vantage: COPY.vantage.title, nertia: COPY.nertia.title, work: COPY.work.title,
+  terpscout: COPY.terpscout.title, practice: COPY.practice.title, contact: COPY.contact.title,
+};
+export const chapterTitle = (id: Exclude<PageId, 'hero'>) => TITLES[id];

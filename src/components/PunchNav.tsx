@@ -7,7 +7,7 @@ export function PunchNav({ current }: { current: PageId }) {
       <Punches className={s.punches} />
       <ul className={s.cells}>
         {PAGES.map((x, i) => (
-          <li key={x.id}><a href={x.href} aria-label={x.label} title={x.label} className={`meta bleed-nav ${s.cell}`} {...(current === x.id ? { 'aria-current': 'page' as const } : {})}>{String(i + 1).padStart(2, '0')}</a></li>
+          <li key={x.id}><a href={x.href} aria-label={x.label} title={x.label} className={`meta bleed-nav ${s.cell}`} {...(current === x.id ? { 'aria-current': 'page' as const } : {})}><span className={s.no}>{String(i + 1).padStart(2, '0')}</span><span className={s.sub} data-part="nav-label" aria-hidden="true">{x.label}</span></a></li>
         ))}
       </ul>
     </nav>

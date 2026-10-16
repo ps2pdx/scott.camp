@@ -155,7 +155,7 @@ it('Vantage, Nertia and TerpScout open with their mark on a white tile beside th
     expect(img.getAttribute('loading')).toBe('lazy');
     expect(m.classList.contains('wide')).toBe(id === 'vantage');
     expect(m.previousElementSibling!.textContent).toContain(COPY[id as 'vantage'].runningHead);
-    expect(m.compareDocumentPosition(container.querySelector(`#${id} h2`)!) & Node.DOCUMENT_POSITION_PRECEDING).toBeTruthy();
+    expect(m.compareDocumentPosition(container.querySelector(`#${id} p.text`)!) & Node.DOCUMENT_POSITION_PRECEDING).toBeTruthy();
   }
   expect(container.querySelector('#work [data-part="mark"], #practice [data-part="mark"]')).toBeNull();
   const css = readFileSync('src/components/Mark.module.css', 'utf8');

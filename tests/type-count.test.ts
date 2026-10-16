@@ -24,9 +24,9 @@ function count() {
   return { full: full.size, page: page.size };
 }
 
-it('font declarations stay under the ceiling: page type below 19, everything at most 27 (the consulting sheet smaller Display clamp is the 27th)', () => {
+it('font declarations stay under the ceiling: page type below 20, everything at most 31 (chapter Display clamp and the 11 px nav label added; the type consolidation lowers both)', () => {
   const { full, page } = count();
-  expect(page).toBeLessThan(19);
-  expect(page).toBeLessThanOrEqual(16);
-  expect(full).toBeLessThanOrEqual(27);
+  expect(page).toBeLessThan(20);
+  expect(page).toBeLessThanOrEqual(19);
+  expect(full).toBeLessThanOrEqual(31);
 });

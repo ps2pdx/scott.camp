@@ -1,5 +1,5 @@
 import { readFileSync, existsSync } from 'node:fs';
-import { COPY, PAGES, pageHref } from '@/content/copy';
+import { COPY, PAGES, chapterTitle, pageHref } from '@/content/copy';
 import { lede } from '@/components/Snippet';
 import { renderPage } from './pages';
 
@@ -36,7 +36,12 @@ describe('page entries', () => {
       const { container, unmount } = renderPage(x.id);
       const sec = container.querySelector(`main > section#${x.id}`)!;
       expect(sec, x.id).not.toBeNull();
-      expect(sec.querySelector('h2'), x.id).not.toBeNull();
+      expect(sec.querySelector('h2'), x.id).toBeNull();
+      const cover = container.querySelector('[data-part="cover"][data-chapter]')!;
+      expect(cover.querySelector('h1')!.textContent, x.id).toBe(chapterTitle(x.id));
+      expect(cover.querySelector('.meta')!.textContent, x.id).toBe(`"${x.label}"`);
+      expect([...container.querySelectorAll('h1,h2')].filter((h) => h.textContent === chapterTitle(x.id)).length, x.id).toBe(1);
+      expect(cover.compareDocumentPosition(container.querySelector('nav')!) & Node.DOCUMENT_POSITION_FOLLOWING, x.id).toBeTruthy();
       expect(container.querySelector('[data-part="snippet"]'), x.id).toBeNull();
       unmount();
     }

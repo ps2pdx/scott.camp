@@ -8,7 +8,7 @@ export function TerpScoutSection() {
   const t = COPY.terpscout;
   const g = t.evidence.gated;
   return (
-    <Section id="terpscout" tools={t.tools} mark={t.mark} runningHead={t.runningHead} eyebrow={t.eyebrow} title={t.title} lead={t.lead}>
+    <Section id="terpscout" tools={t.tools} mark={t.mark} runningHead={t.runningHead} eyebrow={t.eyebrow} lead={t.lead}>
       <Transcript rows={t.rows} />
       <Disclosure summary={g.summary}>
         <Spin clip={g.spin} />
