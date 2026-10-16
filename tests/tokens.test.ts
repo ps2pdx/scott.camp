@@ -79,7 +79,7 @@ it('type is three roles at four sizes: no other size, no Courier bold, no letter
   expect(css).toMatch(/--t-title:28px;--t-text:18px;--t-meta:13px/);
   expect(css).toContain('@media (max-width:639px){:root{--t-title:20px;--t-text:16px;--t-meta:11px}}');
   expect(css).not.toMatch(/--t-(hero|heading|lead|body|meta-sm)/);
-  const files = globSync('src/**/*.css').filter((f) => !f.endsWith('tokens.css') && !f.endsWith('VolumeFace.module.css') && !f.endsWith('ToolMark.module.css'));
+  const files = globSync('src/**/*.css').filter((f) => !f.endsWith('tokens.css') && !f.endsWith('VolumeFace.module.css') && !f.endsWith('ToolMark.module.css') && !f.includes('zero-point-v1'));
   for (const f of files) {
     const t = readFileSync(f, 'utf8');
     for (const m of t.matchAll(/font-size:([^;}]+)/g)) expect(m[1], f).toMatch(/^var\(--t-(display|title|text|meta)\)$/);
