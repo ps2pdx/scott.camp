@@ -19,7 +19,7 @@ export const COPY = {
     lead: 'Around last year, when I was building my portfolio, it pivoted into a design system generator, which is now Nertia: an agentic wormhole out of the corporate web.',
     facts: [
       { when: 'Nertia', who: '', text: 'Shipped as a web app and an MCP server' },
-      { when: 'Vantage', who: '', text: '50+ competitors mapped, 2 trademarked phrases authored' },
+      { when: 'Vantage', who: '', text: '2 trademarked phrases authored, brand system shipped for enablement, pitch and report' },
       { when: 'TerpScout', who: '', text: '$10M sold, 2020 to 2022, regulated CPG' },
       { when: 'Work', who: '', text: '5 live client sites on Nertia platform' },
     ] as TranscriptRow[],

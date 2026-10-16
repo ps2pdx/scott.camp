@@ -53,3 +53,7 @@ it('KAL Contracting is not in the index and Pharm to Body is Vol. 07', () => {
 it('the yellow pages open by continuing the cover, verbatim', () => {
   expect(COPY.hero.lead).toBe('Around last year, when I was building my portfolio, it pivoted into a design system generator, which is now Nertia: an agentic wormhole out of the corporate web.');
 });
+it('the Vantage and Work facts read as Scott set them on 2026-10-15', () => {
+  expect(COPY.hero.facts.find((f) => f.when === 'Vantage')!.text).toBe('2 trademarked phrases authored, brand system shipped for enablement, pitch and report');
+  expect(COPY.hero.facts.find((f) => f.when === 'Work')!.text).toBe('5 live client sites on Nertia platform');
+});
