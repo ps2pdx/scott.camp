@@ -148,10 +148,11 @@ it('the cover carries the name as a title page would, once, beside the eyebrow',
 it('the design system block is the case study of this site: surfaces, textures with provenance, type, signature parts, designed and built, docs, its own tiers', () => {
   const { container } = render(<App />);
   const d = container.querySelector('#design-system')!;
-  expect(d.querySelector('h2')!.textContent).toBe('A book about icons, so the site is a book');
+  expect(d.querySelector('h2')!.textContent).toBe('ICONS');
   expect(d.textContent).toContain('Design system [2026]');
-  expect(COPY.designSystem.lead).toContain('ICONS');
-  expect(COPY.designSystem.lead).toContain('one layer removed');
+  expect(COPY.designSystem.lead).not.toContain('ICONS');
+  expect(COPY.designSystem.lead).toBe('The system comes from one physical object: my copy of the book Zak Group made for Virgil Abloh and Nike (Taschen, 2021). One layer removed: the cloth, paper, board and spine, not the page layouts. A book about icons, so the site is a book too.');
+  expect(COPY.designSystem.lead).toContain('One layer removed');
   expect([...d.querySelectorAll('[data-swatch]')].map((x) => x.getAttribute('data-swatch'))).toEqual(['cloth', 'endpaper', 'eggshell', 'white', 'dark']);
   expect(d.querySelector('[data-part="ds-surfaces"]')!.textContent).toContain('#f3f1ea');
   const tex = d.querySelector('[data-part="ds-textures"]')!;

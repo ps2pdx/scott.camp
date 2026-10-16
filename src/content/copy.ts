@@ -134,8 +134,8 @@ export const COPY = {
     },
   },
   designSystem: {
-    runningHead: 'Design system [2026]', title: 'A book about icons, so the site is a book',
-    lead: 'The system comes from one physical object: my copy of ICONS, the book Zak Group made for Virgil Abloh and Nike (Taschen, 2021). It is one layer removed: I took the object, its cloth, paper, board and spine, not its page layouts. A book about icons, so the site is a book too.',
+    runningHead: 'Design system [2026]', title: 'ICONS',
+    lead: 'The system comes from one physical object: my copy of the book Zak Group made for Virgil Abloh and Nike (Taschen, 2021). One layer removed: the cloth, paper, board and spine, not the page layouts. A book about icons, so the site is a book too.',
     surfaces: [
       { key: 'cloth', name: 'Volt cloth, the cover', value: '#2bf52b' },
       { key: 'endpaper', name: 'Endpaper, the yellow pages', value: '#f2dc46, #f5e04a light' },
