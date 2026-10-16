@@ -5,7 +5,7 @@
 .cells li{border-right:1px solid var(--line-strong)}
 .cells li:last-child{border-right:0}
 .cell{text-decoration:none;display:flex;flex-direction:column;justify-content:center;min-width:0;min-height:44px;padding:4px 12px;color:var(--fg)}
-.sub{display:block;--t-meta:11px;font-size:var(--t-meta);line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sub{display:block;--t-meta:11px;font-size:var(--t-meta);line-height:1.2;overflow-wrap:normal;hyphens:none}
 .cell:hover{background:var(--line)}
 .cell[aria-current]{background:var(--fg);color:var(--bg)}
 .cell:focus-visible{outline:2px solid var(--focus);outline-offset:-2px}
@@ -13,5 +13,5 @@
   .punches{padding:8px 20% 4px}
   .cell{min-height:44px;padding:0;align-items:center}
 }
-@media (min-width:1024px){.nav{container-type:inline-size}.cells,.punches{--nav-w:calc((min(100cqw, var(--max) - var(--rail)) - 2 * var(--gutter) + var(--col-gap)) * var(--sp-text) / var(--cols) - var(--col-gap))}.cells{max-width:var(--nav-w)}.punches{max-width:calc(var(--nav-w) + 2 * var(--gutter));padding-left:calc(var(--gutter) + var(--nav-w) * 0.25);padding-right:calc(var(--gutter) + var(--nav-w) * 0.25)}}
+@media (min-width:1024px){.nav{container-type:inline-size}.cells,.punches{--nav-w:calc((min(100cqw, var(--max) - var(--rail)) - 2 * var(--gutter) + var(--col-gap)) - var(--col-gap))}.cells{max-width:var(--nav-w)}.punches{max-width:calc(var(--nav-w) + 2 * var(--gutter));padding-left:calc(var(--gutter) + var(--nav-w) * 0.25);padding-right:calc(var(--gutter) + var(--nav-w) * 0.25)}}
 @media (max-width:639px){.sub{display:none}}

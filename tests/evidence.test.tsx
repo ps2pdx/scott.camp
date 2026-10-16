@@ -238,7 +238,8 @@ it('the head carries a color-scheme meta and the og:image dimensions', () => {
   expect(html).toContain('<meta property="og:image:width" content="1200">');
   expect(readFileSync('specimen/index.html', 'utf8')).toContain('<meta name="color-scheme" content="dark light">');
 });
-it('the punch nav spans the text columns, 1 to 7, on desktop', () => {
+it('the punch nav spans all twelve columns on desktop and labels wrap instead of truncating', () => {
   const css = readFileSync('src/components/PunchNav.module.css', 'utf8');
-  expect(css).toContain('* var(--sp-text) / var(--cols) - var(--col-gap))}.cells{max-width:var(--nav-w)}');
+  expect(css).toContain('+ var(--col-gap)) - var(--col-gap))}.cells{max-width:var(--nav-w)}');
+  expect(css).not.toMatch(/ellipsis|sp-text/);
 });
