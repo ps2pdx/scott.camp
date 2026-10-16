@@ -3,3 +3,5 @@
 .svg text{fill:var(--tech-ink);white-space:pre;paint-order:stroke;stroke:var(--tech);stroke-width:4px;stroke-linejoin:round}
 .stroke{stroke:var(--tech-ink)}
 .punch{fill:#fff}
+.paper{fill:var(--tech)}
+.svg [data-part="figure"] text{stroke-width:3px}

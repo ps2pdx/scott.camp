@@ -32,27 +32,111 @@ it('thirteen faces number 01 to 13 in index order', () => {
   const nos = [...container.querySelectorAll('[data-part="vol"]')].map((e) => e.textContent);
   expect(nos).toEqual(COPY.work.index.map((r) => `Vol. ${r.no}`));
 });
-it('TechSheet draws one box per section and the SRC line', () => {
-  const data = COPY.work.tech[0];
-  const { container } = render(<TechSheet data={data} />);
-  expect(container.querySelectorAll('[data-part="box"]').length).toBe(data.sections.length);
-  expect(container.textContent).toContain('RENDERED FROM SITE STRUCTURE');
-  expect(screen.getByRole('img', { name: `Tech sheet: ${data.sheet}` })).toBeInTheDocument();
+const regions = (c: HTMLElement) => [...c.querySelectorAll('[data-part="region"]')];
+const numbered = (c: HTMLElement) => regions(c).flatMap((r) => r.getAttribute('data-n')!.split(' ').map(Number)).sort((x, y) => x - y);
+const sheet = (figure: string) => [...COPY.nertia.tech, ...COPY.work.tech].find((t) => t.figure === figure)!;
+const drawn = (c: HTMLElement, t: { src: string }) => {
+  expect(t.src).toMatch(/^DRAWN FROM /);
+  expect(c.querySelector('[data-part="header"]')!.textContent).toContain(`SRC    ${t.src}`);
+};
+it('every tech sheet picks its figure by a field, and every SRC line says DRAWN', () => {
+  for (const t of [...COPY.nertia.tech, ...COPY.work.tech]) {
+    expect(['editor', 'mcp', 'runtime', 'tokens', 'phone'], t.sheet).toContain(t.figure);
+    expect(t.src, t.sheet).toMatch(/^DRAWN FROM /);
+    if (t.view.startsWith('PHONE')) expect(t.figure, t.sheet).toBe('phone');
+  }
+  expect(COPY.nertia.tech.map((t) => t.figure)).toEqual(['editor', 'mcp', 'runtime', 'tokens']);
 });
-it('TechSheet keeps one landscape layout, its text at the Meta size in a viewBox that tracks the rendered width', () => {
-  const { container } = render(<TechSheet data={COPY.work.tech[3]} />);
-  const steps = [...container.querySelectorAll('[data-part="step"]')];
-  const header = container.querySelector('[data-part="header"]')!;
-  const headerBottom = Math.max(...[...header.querySelectorAll('text')].map((t) => Number(t.getAttribute('y'))));
-  for (const st of steps) expect(Number(st.getAttribute('y')), st.textContent!).toBeGreaterThan(headerBottom + 8);
-  const vb = container.querySelector('svg')!.getAttribute('viewBox')!.split(' ').map(Number);
-  expect(vb[2]).toBeGreaterThan(vb[3]);
-  expect(container.querySelector('[font-size]')).toBeNull();
-  expect(container.querySelector('svg')!.classList.contains('meta')).toBe(true);
-  const fs = 13 * 0.64;
-  const longest = Math.max(...steps.map((st) => st.textContent!.length));
-  expect(Number(steps[0].getAttribute('x')) + longest * fs, 'label fits').toBeLessThanOrEqual(vb[2] - 8);
-  for (const t of header.querySelectorAll('text')) expect(Number(t.getAttribute('x')) + t.textContent!.length * fs, t.textContent!).toBeLessThanOrEqual(vb[2] - 4);
+it('editor figure: top bar, preview, insert dock, element panel and chat island, numbered 1 to 5', () => {
+  const t = sheet('editor');
+  const { container } = render(<TechSheet data={t} />);
+  expect(regions(container).length).toBe(5);
+  expect(numbered(container)).toEqual([1, 2, 3, 4, 5]);
+  expect([...container.querySelectorAll('[data-part="region-n"]')].map((e) => e.textContent)).toEqual(['1', '2', '3', '4', '5']);
+  const box = (n: string) => { const r = container.querySelector(`[data-part="region"][data-n="${n}"]`)!; return ['x', 'y', 'width', 'height'].map((k) => Number(r.getAttribute(k))); };
+  const [bx, by, bw] = box('1'), [px, , pw] = box('2'), [dx, , dw] = box('3'), [ex] = box('4'), [cx, cy, cw2] = box('5');
+  expect(by).toBeLessThan(box('2')[1]);
+  expect(bw).toBeGreaterThan(pw);
+  expect(dx).toBeGreaterThanOrEqual(px);
+  expect(dx + dw).toBeLessThan(px + pw / 4);
+  expect(ex).toBeGreaterThan(px + pw / 2);
+  expect(cx + cw2).toBeLessThanOrEqual(px + pw);
+  expect(cy).toBeGreaterThan(box('2')[1] + box('2')[3] / 2);
+  expect(bx).toBe(px);
+  drawn(container, t);
+});
+it('MCP figure: Claude, MCP server, Site in a row, every tool on the middle box', () => {
+  const t = sheet('mcp');
+  const { container } = render(<TechSheet data={t} />);
+  const r = regions(container);
+  expect(r.length).toBe(3);
+  expect(r.map((e) => e.getAttribute('data-n'))).toEqual(['', t.sections.map((_, i) => i + 1).join(' '), '']);
+  expect([...container.querySelectorAll('[data-part="region-n"]')].map((e) => e.textContent)).toEqual(['Claude', 'MCP server', 'Site']);
+  drawn(container, t);
+});
+it('runtime figure: Request, Worker, Render, Static export, each item on its box', () => {
+  const t = sheet('runtime');
+  const { container } = render(<TechSheet data={t} />);
+  expect(regions(container).map((e) => e.getAttribute('data-n'))).toEqual(['', '4', '1 2 3', '5']);
+  expect([...container.querySelectorAll('[data-part="region-n"]')].map((e) => e.textContent).join(' ')).toBe('Request Worker Render Static export');
+  drawn(container, t);
+});
+it('design systems figure: five stacked bands, numbered, with 26 beside the presets', () => {
+  const t = sheet('tokens');
+  const { container } = render(<TechSheet data={t} />);
+  const r = regions(container);
+  expect(numbered(container)).toEqual([1, 2, 3, 4, 5]);
+  const ys = r.map((e) => Number(e.getAttribute('y')));
+  expect([...ys].sort((a, b) => a - b)).toEqual(ys);
+  expect([...container.querySelectorAll('[data-part="region-n"]')].map((e) => e.textContent)).toEqual(['26', '1', '2', '3', '4', '5']);
+  drawn(container, t);
+});
+it('phone figure: one block per section in order, the nav shortest and the hero tallest, numbered', () => {
+  for (const t of COPY.work.tech) {
+    const { container, unmount } = render(<TechSheet data={t} />);
+    const r = regions(container);
+    expect(r.length, t.sheet).toBe(t.sections.length);
+    expect(numbered(container)).toEqual(t.sections.map((_, i) => i + 1));
+    const hs = r.map((e) => Number(e.getAttribute('height')));
+    expect(Math.min(...hs)).toBe(hs[0]);
+    expect(Math.max(...hs)).toBe(hs[1]);
+    const ys = r.map((e) => Number(e.getAttribute('y')));
+    expect([...ys].sort((a, b) => a - b)).toEqual(ys);
+    const device = container.querySelector('[data-part="device"]')!;
+    expect(Number(device.getAttribute('height')) / Number(device.getAttribute('width'))).toBeCloseTo(19.5 / 9, 2);
+    drawn(container, t);
+    unmount();
+  }
+});
+it('leaders: one dotted leader per list item, ending on its region', () => {
+  for (const t of [...COPY.nertia.tech, ...COPY.work.tech]) {
+    const { container, unmount } = render(<TechSheet data={t} />);
+    const d = container.querySelector('[data-part="leaders"]')!.getAttribute('d')!;
+    expect(d.match(/M/g)!.length, t.sheet).toBe(t.sections.length);
+    expect(container.querySelector('[data-part="leaders"]')).toHaveAttribute('stroke-dasharray');
+    unmount();
+  }
+});
+it('TechSheet is a portrait sheet: header on top, the figure in the middle, the list below, text at the Meta size in a viewBox that tracks the rendered width', () => {
+  for (const t of [...COPY.nertia.tech, ...COPY.work.tech]) {
+    const { container, unmount } = render(<TechSheet data={t} />);
+    const steps = [...container.querySelectorAll('[data-part="step"]')];
+    const header = container.querySelector('[data-part="header"]')!;
+    const headerBottom = Math.max(...[...header.querySelectorAll('text')].map((e) => Number(e.getAttribute('y'))));
+    const figTop = Math.min(...regions(container).map((e) => Number(e.getAttribute('y'))));
+    const figBottom = Math.max(...regions(container).map((e) => Number(e.getAttribute('y')) + Number(e.getAttribute('height'))));
+    expect(figTop, t.sheet).toBeGreaterThan(headerBottom + 8);
+    for (const st of steps) expect(Number(st.getAttribute('y')) - 13, st.textContent!).toBeGreaterThan(figBottom + 8);
+    const vb = container.querySelector('svg')!.getAttribute('viewBox')!.split(' ').map(Number);
+    expect(vb[3] / vb[2]).toBeCloseTo(Math.SQRT2, 1);
+    expect(container.querySelector('[font-size]')).toBeNull();
+    expect(container.querySelector('svg')!.classList.contains('meta')).toBe(true);
+    const fs = 13 * 0.64;
+    for (const st of steps) expect(Number(st.getAttribute('x')) + st.textContent!.length * fs, st.textContent!).toBeLessThanOrEqual(vb[2] - 8);
+    for (const e of header.querySelectorAll('text')) expect(Number(e.getAttribute('x')) + e.textContent!.length * fs, e.textContent!).toBeLessThanOrEqual(vb[2] - 4);
+    expect(screen.getByRole('img', { name: `Tech sheet: ${t.sheet}` })).toBeInTheDocument();
+    unmount();
+  }
 });
 it('SpecSheet omits empty fields and renders the quoted title', () => {
   render(<SpecSheet sheet={{ title: 'Pure Zero', fields: { Sheet: 'purezerophotography.com', Role: 'Design, build', Stack: 'Nertia' }, href: 'https://purezerophotography.com', label: 'purezerophotography.com' }} volume={{ no: '09', year: '2026' }} />);
@@ -95,9 +179,24 @@ it('one tone per data set: the yellow pages after the cover carry the lead, the 
   expect(work.querySelectorAll('article').length).toBe(COPY.work.sheets.length);
   expect(work.querySelectorAll('svg[role="img"]').length).toBe(5);
 });
-it('Work carries five tech sheets, Typeshit last, read from the live site, in one row of 480 px sheets that wraps', () => {
+it('Work carries five tech sheets, Typeshit last, read from the live site, in a scroll-snap slider with Prev and Next', async () => {
   expect(COPY.work.tech.length).toBe(5);
-  expect(COPY.work.tech[4]).toEqual({ sheet: 'TYPESHIT.SHOP', view: 'PHONE, 390', stack: 'NERTIA, PRINTFUL', src: 'RENDERED FROM SITE STRUCTURE', date: '2026', sections: ['HEADER, BRAND', 'NAV, ABOUT, HELP, CART', 'SHOP, PRODUCT GRID', 'ADD TO CART', 'FOOTER, LINK GROUP', 'COPYRIGHT'] });
+  expect(COPY.work.tech[4]).toEqual({ sheet: 'TYPESHIT.SHOP', figure: 'phone', view: 'PHONE, 390', stack: 'NERTIA, PRINTFUL', src: 'DRAWN FROM SITE STRUCTURE', date: '2026', sections: ['HEADER, BRAND', 'NAV, ABOUT, HELP, CART', 'SHOP, PRODUCT GRID', 'ADD TO CART', 'FOOTER, LINK GROUP', 'COPYRIGHT'] });
   const { readFileSync } = require('node:fs');
-  expect(readFileSync('src/App.module.css', 'utf8')).toContain('.techGrid{display:flex;flex-wrap:wrap;gap:var(--s-5)}');
+  const css = readFileSync('src/components/TechSlider.module.css', 'utf8');
+  expect(css).toContain('scroll-snap-type:x mandatory');
+  expect(css).toContain('scroll-snap-align:start');
+  expect(css).toContain('scrollbar-width:none');
+  expect(css).toMatch(/prefers-reduced-motion: reduce\)\{\.track\{scroll-behavior:auto\}/);
+  const { App } = await import('@/App');
+  const { container } = render(<App />);
+  const sliders = [...container.querySelectorAll('[data-part="tech-slider"]')];
+  expect(sliders.length).toBe(2);
+  for (const sl of sliders) {
+    expect([...sl.querySelectorAll('button')].map((b) => b.textContent)).toEqual(['Prev', 'Next']);
+    const track = sl.querySelector('[data-part="tech-track"]')!;
+    expect(track).toHaveAttribute('tabindex', '0');
+    expect(track).toHaveAttribute('role', 'region');
+  }
+  expect(sliders[1].querySelectorAll('svg[role="img"]').length).toBe(5);
 });

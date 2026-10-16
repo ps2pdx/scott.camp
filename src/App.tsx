@@ -11,7 +11,7 @@ import { Transcript } from '@/components/Transcript';
 import { Button } from '@/components/Button';
 import { Grid } from '@/components/Grid';
 import { SpecSheet } from '@/components/SpecSheet';
-import { TechSheet } from '@/components/TechSheet';
+import { TechSlider } from '@/components/TechSlider';
 import { Index } from '@/components/Index';
 import { Footer } from '@/components/Footer';
 import { Plate, Spin } from '@/components/Evidence';
@@ -80,10 +80,7 @@ export function App() {
 
         <Section id="nertia" tools={COPY.nertia.tools} mark={COPY.nertia.mark} runningHead={COPY.nertia.runningHead} eyebrow={COPY.nertia.eyebrow} title={COPY.nertia.title} lead={COPY.nertia.lead}>
           <Transcript rows={COPY.nertia.rows} />
-          <div className={s.techBlock}>
-            <Label>Tech sheets</Label>
-            <div className={s.techGrid}>{COPY.nertia.tech.map((t) => <TechSheet key={t.sheet} data={t} />)}</div>
-          </div>
+          <TechSlider label="Tech sheets" sheets={COPY.nertia.tech} />
           <div className={s.block} data-part="zero-point-evolution">
             <h3 className="display t-title">{COPY.nertia.evolution.title}</h3>
             <p className={`meta ${s.gap}`}>{COPY.nertia.evolution.steps[0]}</p>
@@ -103,10 +100,7 @@ export function App() {
 
         <Section id="work" tools={COPY.work.tools} runningHead={COPY.work.runningHead} eyebrow={COPY.work.eyebrow} title={COPY.work.title}>
           <Grid columns={2}>{COPY.work.sheets.map((sh, i) => { const v = vol(String(7 + i).padStart(2, '0')); return <SpecSheet key={sh.title} sheet={sh} volume={{ no: v.no, name: v.name, year: v.year }} />; })}</Grid>
-          <div className={s.techBlock}>
-            <Label>Tech sheets</Label>
-            <div className={s.techGrid}>{COPY.work.tech.map((t) => <TechSheet key={t.sheet} data={t} />)}</div>
-          </div>
+          <TechSlider label="Tech sheets" sheets={COPY.work.tech} />
         </Section>
 
         <Section id="terpscout" tools={COPY.terpscout.tools} mark={COPY.terpscout.mark} runningHead={COPY.terpscout.runningHead} eyebrow={COPY.terpscout.eyebrow} title={COPY.terpscout.title} lead={COPY.terpscout.lead}>

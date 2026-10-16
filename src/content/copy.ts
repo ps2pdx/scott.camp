@@ -1,7 +1,8 @@
 export type TranscriptRow = { when: string; who: string; text: string };
 export type IndexRow = { no: string; name: string; description: string; year: string; struck: boolean };
 export type Sheet = { title: string; fields: Record<string, string>; body?: string; href?: string; label?: string; placeholder?: boolean };
-export type TechSheetData = { sheet: string; view: string; stack: string; src: string; date: string; sections: string[] };
+export type TechFigure = 'editor' | 'mcp' | 'runtime' | 'tokens' | 'phone';
+export type TechSheetData = { sheet: string; figure: TechFigure; view: string; stack: string; src: string; date: string; sections: string[] };
 
 export const VANTAGE_CASE_STUDY_URL = 'https://vantagecompute.nertia.ai';
 export const SOURCE_URL = 'https://github.com/ps2pdx/scott.camp';
@@ -66,10 +67,10 @@ export const COPY = {
       { title: 'Design systems', fields: { Sheet: 'Design systems', Role: 'Design, build', Stack: 'oklch' }, body: 'About twenty variables and a single accent. Any skin on any layout is a coherent site, by contract, not by review.' },
     ] as Sheet[],
     tech: [
-      { sheet: 'NERTIA EDITOR', view: 'DESKTOP, 1280', stack: 'NEXT.JS, SHADCN', src: 'RENDERED FROM APP STRUCTURE', date: '2026', sections: ['TOP BAR', 'SITE PREVIEW, LIVE', 'INSERT DOCK', 'ELEMENT PANEL', 'CHAT ISLAND'] },
-      { sheet: 'NERTIA MCP SERVER', view: 'TOOLS', stack: 'MCP, CLAUDE CONNECTOR', src: 'RENDERED FROM TOOL LIST', date: '2026', sections: ['CREATE_SITE', 'SET_SECTION_LAYOUT', 'UPDATE_COPY', 'UPDATE_SEO', 'PUBLISH_SITE', 'PUBLISH_FROM_GITHUB'] },
-      { sheet: 'NERTIA HOSTED RUNTIME', view: 'SITE', stack: '@NERSH/RENDER, WORKER', src: 'RENDERED FROM RUNTIME', date: '2026', sections: ['SITE SURFACE', 'TOKENS, OKLCH', 'SECTIONS', '*.NERTIA.AI ROUTING', 'STATIC EXPORT'] },
-      { sheet: 'NERTIA DESIGN SYSTEMS', view: 'SKIN CONTRACT', stack: 'OKLCH TOKENS', src: 'RENDERED FROM CONTRACT', date: '2026', sections: ['ONE ACCENT', 'SURFACE + TEXT + LINE', 'RADIUS, SHADOW, MOTION', 'TYPE SCALE, FLUID', '26 PRESETS'] },
+      { sheet: 'NERTIA EDITOR', figure: 'editor', view: 'DESKTOP, 1280', stack: 'NEXT.JS, SHADCN', src: 'DRAWN FROM APP STRUCTURE', date: '2026', sections: ['TOP BAR', 'SITE PREVIEW, LIVE', 'INSERT DOCK', 'ELEMENT PANEL', 'CHAT ISLAND'] },
+      { sheet: 'NERTIA MCP SERVER', figure: 'mcp', view: 'TOOLS', stack: 'MCP, CLAUDE CONNECTOR', src: 'DRAWN FROM TOOL LIST', date: '2026', sections: ['CREATE_SITE', 'SET_SECTION_LAYOUT', 'UPDATE_COPY', 'UPDATE_SEO', 'PUBLISH_SITE', 'PUBLISH_FROM_GITHUB'] },
+      { sheet: 'NERTIA HOSTED RUNTIME', figure: 'runtime', view: 'SITE', stack: '@NERSH/RENDER, WORKER', src: 'DRAWN FROM RUNTIME', date: '2026', sections: ['SITE SURFACE', 'TOKENS, OKLCH', 'SECTIONS', '*.NERTIA.AI ROUTING', 'STATIC EXPORT'] },
+      { sheet: 'NERTIA DESIGN SYSTEMS', figure: 'tokens', view: 'SKIN CONTRACT', stack: 'OKLCH TOKENS', src: 'DRAWN FROM CONTRACT', date: '2026', sections: ['ONE ACCENT', 'SURFACE + TEXT + LINE', 'RADIUS, SHADOW, MOTION', 'TYPE SCALE, FLUID', '26 PRESETS'] },
     ] as TechSheetData[],
     codeSiteLine: 'This page is a code site published by an agent.',
     source: { label: 'Source on GitHub', href: SOURCE_URL },
@@ -202,11 +203,11 @@ export const COPY = {
       { title: 'Typeshit', fields: { Sheet: 'typeshit.shop', Role: 'Design, build', Stack: 'Nertia, Printful' }, body: 'A developer streetwear brand selling print on demand through Printful. Heavyweight cotton for people whose builds pass locally. The site carries the voice and hands the cart to the fulfilment house without the seam showing.', href: 'https://typeshit.shop', label: 'typeshit.shop' },
     ] as Sheet[],
     tech: [
-      { sheet: 'PHARMTOBODY.COM', view: 'PHONE, 390', stack: 'SHOPIFY', src: 'RENDERED FROM SITE STRUCTURE', date: '2026', sections: ['NAV, ONE ACTION', 'HERO, CSA SIGNUP', '12-WEEK CSA PROGRAM', 'FRESH / DRIED CATALOG', 'GROW KITS', 'WORKSHOP CALENDAR'] },
-      { sheet: 'PUREZEROPHOTOGRAPHY.COM', view: 'PHONE, 390', stack: 'NERTIA', src: 'RENDERED FROM SITE STRUCTURE', date: '2026', sections: ['NAV', 'HERO, DOCUMENTARY ONLY', 'TWO TIERS, ENTRY PRICING', 'CLIENT STORIES', 'CONTACT'] },
-      { sheet: 'BEND.CLEANING', view: 'PHONE, 390', stack: 'NERTIA', src: 'RENDERED FROM SITE STRUCTURE', date: '2026', sections: ['NAV', 'HERO, THE RENAME NOTICE', 'SERVICES', 'BOOKING', 'REVIEW CAPTURE', 'CONTACT'] },
-      { sheet: 'FULLSCOPESUPPLY.COM', view: 'PHONE, 390', stack: 'NERTIA', src: 'RENDERED FROM SITE STRUCTURE', date: '2026', sections: ['NAV', 'HERO', 'SELF-PERFORMED TRADES', 'SINGLE-POINT ACCOUNTABILITY', 'PROJECTS', 'LEAD FORM'] },
-      { sheet: 'TYPESHIT.SHOP', view: 'PHONE, 390', stack: 'NERTIA, PRINTFUL', src: 'RENDERED FROM SITE STRUCTURE', date: '2026', sections: ['HEADER, BRAND', 'NAV, ABOUT, HELP, CART', 'SHOP, PRODUCT GRID', 'ADD TO CART', 'FOOTER, LINK GROUP', 'COPYRIGHT'] },
+      { sheet: 'PHARMTOBODY.COM', figure: 'phone', view: 'PHONE, 390', stack: 'SHOPIFY', src: 'DRAWN FROM SITE STRUCTURE', date: '2026', sections: ['NAV, ONE ACTION', 'HERO, CSA SIGNUP', '12-WEEK CSA PROGRAM', 'FRESH / DRIED CATALOG', 'GROW KITS', 'WORKSHOP CALENDAR'] },
+      { sheet: 'PUREZEROPHOTOGRAPHY.COM', figure: 'phone', view: 'PHONE, 390', stack: 'NERTIA', src: 'DRAWN FROM SITE STRUCTURE', date: '2026', sections: ['NAV', 'HERO, DOCUMENTARY ONLY', 'TWO TIERS, ENTRY PRICING', 'CLIENT STORIES', 'CONTACT'] },
+      { sheet: 'BEND.CLEANING', figure: 'phone', view: 'PHONE, 390', stack: 'NERTIA', src: 'DRAWN FROM SITE STRUCTURE', date: '2026', sections: ['NAV', 'HERO, THE RENAME NOTICE', 'SERVICES', 'BOOKING', 'REVIEW CAPTURE', 'CONTACT'] },
+      { sheet: 'FULLSCOPESUPPLY.COM', figure: 'phone', view: 'PHONE, 390', stack: 'NERTIA', src: 'DRAWN FROM SITE STRUCTURE', date: '2026', sections: ['NAV', 'HERO', 'SELF-PERFORMED TRADES', 'SINGLE-POINT ACCOUNTABILITY', 'PROJECTS', 'LEAD FORM'] },
+      { sheet: 'TYPESHIT.SHOP', figure: 'phone', view: 'PHONE, 390', stack: 'NERTIA, PRINTFUL', src: 'DRAWN FROM SITE STRUCTURE', date: '2026', sections: ['HEADER, BRAND', 'NAV, ABOUT, HELP, CART', 'SHOP, PRODUCT GRID', 'ADD TO CART', 'FOOTER, LINK GROUP', 'COPYRIGHT'] },
     ] as TechSheetData[],
   },
   practice: {
