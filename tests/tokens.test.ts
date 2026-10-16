@@ -92,3 +92,8 @@ it('type is three roles at four sizes: no other size, no Courier bold, no letter
   expect(type).toMatch(/\.text\{font-family:'Courier New',Courier,monospace;font-weight:700;font-size:var\(--t-text\)/);
   expect(type).not.toMatch(/meta-sm|t-hero|t-lead|t-body|t-heading/);
 });
+it('table rules are the 2 px --strike token in the --line colour; the punch nav keeps its 1 px rules', () => {
+  for (const f of ['src/components/Index.module.css', 'src/components/DataTable.module.css']) expect(readFileSync(f, 'utf8')).toContain('.table td{border:var(--strike) solid var(--line);');
+  expect(readFileSync('src/components/TechSheet.module.css', 'utf8')).toContain('border:var(--strike) solid var(--line)');
+  expect(readFileSync('src/components/PunchNav.module.css', 'utf8')).toContain('.cells li{border-right:1px solid var(--line-strong)}');
+});

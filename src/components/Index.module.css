@@ -1,6 +1,6 @@
 .page{display:flex;flex-direction:column;gap:var(--s-4)}
 .scroll{max-width:100%}
 .table{width:100%;border-collapse:collapse}
-.table td{border:1px solid var(--line);padding:var(--s-2) var(--s-3);vertical-align:top}
+.table td{border:var(--strike) solid var(--line);padding:var(--s-2) var(--s-3);vertical-align:top}
 .table del{text-decoration:line-through;text-decoration-thickness:var(--strike);text-decoration-color:var(--line-strong)}
 @media (max-width:639px){.table td{padding:3px 4px}}
