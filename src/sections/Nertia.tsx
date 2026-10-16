@@ -34,7 +34,7 @@ export function NertiaSection() {
         <p className={`transcript ${width.text} ${s.step}`}>{n.evolution.steps[2]}</p>
         <SpecimenPlate part="specimen-butterfly" load={butterfly} label={n.evolution.specimens.butterfly.label} about={SPECIMEN_ABOUT.butterfly} />
         <p className={`transcript ${width.text} ${s.step}`}>{n.evolution.steps[3]}</p>
-        <SpecimenPlate part="specimen-slit" load={slit} label={n.evolution.specimens.slit.label} about={SPECIMEN_ABOUT.slit} />
+        <SpecimenPlate part="specimen-slit" inverse load={slit} label={n.evolution.specimens.slit.label} about={SPECIMEN_ABOUT.slit} />
         <p className={`transcript ${width.text} ${s.step}`}>{n.evolution.steps[4]}</p>
         <ZeroPointFrame caption={n.evolution.frameCaption} />
         <p className={`transcript ${width.text} ${s.step}`}>{n.evolution.steps[5]}</p>

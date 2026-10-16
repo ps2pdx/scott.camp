@@ -9,7 +9,7 @@ export type SpecimenLoader = () => Promise<{ default: ComponentType<SpecimenProp
 const cache = new Map<SpecimenLoader, ComponentType<SpecimenProps>>();
 const lazyOf = (load: SpecimenLoader) => { if (!cache.has(load)) cache.set(load, lazy(load)); return cache.get(load)!; };
 
-export function SpecimenPlate({ load, label, about, part }: { load: SpecimenLoader; label: string; about: About; part: string }) {
+export function SpecimenPlate({ load, label, about, part, inverse }: { load: SpecimenLoader; label: string; about: About; part: string; inverse?: boolean }) {
   const ref = useRef<HTMLDivElement>(null);
   const [near, setNear] = useState(false);
   const [seen, setSeen] = useState(false);
@@ -30,7 +30,7 @@ export function SpecimenPlate({ load, label, about, part }: { load: SpecimenLoad
   return (
     <div className={`${s.wrap} ${width.figure}`} data-part={part}>
       <div className={s.plate}>
-        <div ref={ref} className={s.stage} role="img" aria-label={label} data-running={running ? '' : undefined} data-still={still ? '' : undefined}>
+        <div ref={ref} className={s.stage} role="img" aria-label={label} data-surface={inverse ? 'inverse' : undefined} data-running={running ? '' : undefined} data-still={still ? '' : undefined}>
           {near ? <Suspense fallback={null}><Specimen running={running} still={still} /></Suspense> : null}
         </div>
       </div>
