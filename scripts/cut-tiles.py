@@ -1,4 +1,5 @@
 """Cuts the texture tiles and the chip slice from design/source. Pillow only."""
+import io
 import sys
 from PIL import Image, ImageOps, ImageChops, ImageFilter, ImageDraw, ImageStat
 
@@ -25,8 +26,21 @@ def mirror_tile(im, size):
 
 def gray_tile(name, box, amp, out):
     im = flatten(load(name).crop(box), amp)
+    mirror_tile(im, 512).save(f'{OUT}{out}-512.webp', quality=Q)
+    return im
+
+def grain_tile(im, out):
+    # multiply by m equals black at alpha 1 - m; m is the tile rebased by brightness(2), so alpha is 255 - 2v
     for size in (512, 1024):
-        mirror_tile(im, size).save(f'{OUT}{out}-{size}.webp', quality=Q)
+        b = io.BytesIO(); mirror_tile(im, size).save(b, 'WEBP', quality=Q)
+        g = Image.open(b).convert('L')
+        t = Image.new('RGBA', g.size, (0, 0, 0, 0))
+        t.putalpha(g.point(lambda v: max(0, 255 - 2 * v)))
+        best = None
+        for kw in (dict(lossless=True, quality=100, method=6), dict(quality=Q, alpha_quality=20, method=6)):
+            b = io.BytesIO(); t.save(b, 'WEBP', **kw)
+            best = b if best is None or len(b.getvalue()) < len(best.getvalue()) else best
+        open(f'{OUT}{out}-grain-{size}.webp', 'wb').write(best.getvalue())
 
 def gained(img, gain):
     r, g, b = img.split()
@@ -184,8 +198,8 @@ def chip_slice(target, tile):
 
 if __name__ == '__main__':
     target = cloth_target()
-    gray_tile('IMG_2939.jpeg', (100, 400, 900, 1200), 2.2, 'board')
-    gray_tile('IMG_2999.JPG', (200, 1800, 1400, 3000), 1.6, 'paper')
+    grain_tile(gray_tile('IMG_2939.jpeg', (100, 400, 900, 1200), 2.2, 'board'), 'board')
+    grain_tile(gray_tile('IMG_2999.JPG', (200, 1800, 1400, 3000), 1.6, 'paper'), 'paper')
     tile = cloth_tile(target)
     spine_tile()
     chip_slice(target, tile)

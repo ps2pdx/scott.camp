@@ -1,5 +1,5 @@
 .grain{position:relative}
-.grain::before{content:"";position:absolute;inset:0;pointer-events:none;background-size:512px 512px;mix-blend-mode:multiply;opacity:var(--grain);background-image:var(--tex);filter:brightness(2)}
+.grain::before{content:"";position:absolute;inset:0;pointer-events:none;background-size:512px 512px;opacity:var(--grain);background-image:var(--tex)}
 .grain>*{position:relative}
 .cut{position:relative;border-top:2px solid transparent;background-clip:padding-box}
 .cut::after{content:"";position:absolute;left:0;right:0;top:-2px;height:2px;pointer-events:none;background:#1c1b19 url(/textures/spine-band.webp) repeat-x 0 50%;background-size:auto clamp(80px,10vw,112px)}
@@ -15,8 +15,8 @@
 [data-wm-offset="96"]{--wm-offset:96px}
 .bleed-nav{text-shadow:0 0 0.5px currentColor}
 .bleed-btn{text-shadow:0 0 0.3px currentColor}
-.tex-paper{--tex:image-set("/textures/paper-512.webp" 1x,"/textures/paper-1024.webp" 2x)}
-.tex-board{--tex:image-set("/textures/board-512.webp" 1x,"/textures/board-1024.webp" 2x)}
+.tex-paper{--tex:image-set("/textures/paper-grain-512.webp" 1x,"/textures/paper-grain-1024.webp" 2x)}
+.tex-board{--tex:image-set("/textures/board-grain-512.webp" 1x,"/textures/board-grain-1024.webp" 2x)}
 @media (prefers-reduced-data: reduce),(forced-colors: active){
   .grain::before{display:none}
   .rail{background-image:none !important;width:2px !important}

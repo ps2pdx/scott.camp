@@ -23,9 +23,13 @@ it('anchor jumps clear the sticky nav at both widths', () => {
   expect(css).toMatch(/--nav-h:9rem/);
   expect(css).toMatch(/@media \(min-width:1024px\)\{:root\{[^}]*--nav-h:7rem/);
 });
-it('grain tiles are rebased so their mid-grey baseline multiplies to the surface color, not below it', () => {
+it('grain is baked: black tiles whose alpha is the multiply of the rebased grey, so no blend mode or filter costs a render pass', () => {
   const tex = readFileSync('src/styles/textures.css', 'utf8');
-  expect(tex).toMatch(/\.grain::before\{[^}]*mix-blend-mode:multiply[^}]*filter:brightness\(2\)/);
+  const grain = tex.match(/\.grain::before\{[^}]*\}/)![0];
+  expect(grain).not.toMatch(/mix-blend-mode|filter/);
+  expect(grain).toContain('opacity:var(--grain)');
+  for (const t of ['paper', 'board']) expect(tex).toContain(`"/textures/${t}-grain-512.webp" 1x,"/textures/${t}-grain-1024.webp" 2x`);
+  expect(readFileSync('scripts/cut-tiles.py', 'utf8')).toContain('255 - 2 * v');
 });
 it('the desktop rail scales with the viewport and draws the spine at its true aspect', () => {
   expect(readFileSync('src/styles/tokens.css', 'utf8')).toMatch(/min-width:1024px\)\{:root\{[^}]*--rail:clamp\(56px,5vw,96px\)/);
