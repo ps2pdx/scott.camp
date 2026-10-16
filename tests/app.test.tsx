@@ -88,7 +88,12 @@ it('the cover holds the eyebrow, the name line, three inline Meta links and the 
   expect(cover.querySelectorAll('button').length).toBe(0);
   const links = [...cover.querySelectorAll('[data-part="cover-links"] a')];
   expect(cover.querySelectorAll('a').length).toBe(3);
-  expect(links.map((a) => [a.textContent, a.getAttribute('href'), a.getAttribute('target')])).toEqual([['Zero-Point story', '#nertia', null], ['Contact', '#contact', null], ['Resume', '/Scott_Campbell_Resume.pdf', '_blank']]);
+  expect(links.map((a) => [a.firstChild!.textContent, a.getAttribute('href'), a.getAttribute('target')])).toEqual([['Zero-Point story', '#nertia', null], ['Contact', '#contact', null], ['Resume', '/Scott_Campbell_Resume.pdf', '_blank']]);
+  expect(links.map((a) => a.querySelector('[aria-hidden="true"]')!.textContent)).toEqual([' ↓', ' ↓', ' ↗']);
+  const coverCss = readFileSync('src/components/Cover.module.css', 'utf8');
+  expect(coverCss).toContain('.links a{color:#000;text-decoration:none;');
+  expect(coverCss).toContain('.links a:hover,.links a:focus-visible{text-decoration:underline}');
+  expect(readFileSync('src/components/PunchNav.module.css', 'utf8')).toContain('.cell{text-decoration:none;');
   expect(cover.querySelector('[data-part="cover-links"]')!.classList.contains('meta')).toBe(true);
   expect(cover.querySelector('p, ul, table')).toBeNull();
   const name = container.querySelector('#endpapers [data-part="yellow-name"]')!;

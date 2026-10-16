@@ -8,7 +8,7 @@ export function Cover({ id, compact }: { id?: string; compact?: boolean }) {
   return (
     <Tag {...(id ? { id } : {})} data-part="cover" className={`chip ${s.cover} ${compact ? s.compact : ''}`}>
       <div className={s.top}><Label>{h.eyebrow}</Label><span data-part="title-line" className={`meta ${s.name}`}>{h.titleLine}</span>
-        {compact ? null : <div data-part="cover-links" className={`meta ${s.links}`}>{h.links.map((l) => <a key={l.href} href={l.href} {...('newTab' in l ? { target: '_blank', rel: 'noopener' } : {})}>{l.label}</a>)}</div>}
+        {compact ? null : <div data-part="cover-links" className={`meta ${s.links}`}>{h.links.map((l) => <a key={l.href} href={l.href} {...('newTab' in l ? { target: '_blank', rel: 'noopener' } : {})}>{l.label}<span aria-hidden="true">{'newTab' in l ? ' ↗' : ' ↓'}</span></a>)}</div>}
       </div>
       <div className={s.foot}>
         {compact ? <div className={`display t-display bleed-btn ${s.headline}`}>{h.headline}</div> : <h1 className={`display t-display bleed-btn ${s.headline}`}>{h.headline}</h1>}
