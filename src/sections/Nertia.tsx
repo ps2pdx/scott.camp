@@ -1,4 +1,5 @@
-import { COPY } from '@/content/copy';
+import { ABOUT, COPY } from '@/content/copy';
+import { AboutBox } from '@/components/AboutBox';
 import { Section } from '@/components/Section';
 import { Transcript } from '@/components/Transcript';
 import { width } from '@/components/Grid';
@@ -15,6 +16,7 @@ export function NertiaSection() {
     <Section id="nertia" tools={n.tools} mark={n.mark} runningHead={n.runningHead} eyebrow={n.eyebrow} lead={n.lead}>
       <Block label="Decisions" note={n.notes.decisions} first><Transcript rows={n.rows} /></Block>
       <TechSlider label="Tech sheets" note={n.notes.tech} sheets={n.tech} />
+      <AboutBox about={ABOUT.nertia} className={`${width.figure} ${s.block}`} />
       <Block label={n.evolution.title} part="zero-point-evolution">
         <p className={`transcript ${width.text}`}>{n.evolution.steps[0]}</p>
         <BrandGenerator />

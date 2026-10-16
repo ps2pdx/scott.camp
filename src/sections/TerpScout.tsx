@@ -1,4 +1,7 @@
-import { COPY } from '@/content/copy';
+import { ABOUT, COPY } from '@/content/copy';
+import { AboutBox } from '@/components/AboutBox';
+import { width } from '@/components/Grid';
+import s from './sections.module.css';
 import { Section } from '@/components/Section';
 import { Transcript } from '@/components/Transcript';
 import { Disclosure } from '@/components/Disclosure';
@@ -10,6 +13,7 @@ export function TerpScoutSection() {
   return (
     <Section id="terpscout" tools={t.tools} mark={t.mark} runningHead={t.runningHead} eyebrow={t.eyebrow} lead={t.lead}>
       <Transcript rows={t.rows} />
+      <AboutBox about={ABOUT.terpscout} className={`${width.figure} ${s.block}`} />
       <Disclosure summary={g.summary}>
         <Spin clip={g.spin} />
         <Spin clip={g.reel} />

@@ -210,3 +210,35 @@ it('Work carries five tech sheets, Typeshit last, read from the live site, in a 
   }
   expect(sliders[1].querySelectorAll('svg[role="img"]').length).toBe(5);
 });
+it('AboutBox is the book formula: ABOUT over the description, then Place, Type, Year, Source rows, empty rows left out', async () => {
+  const { AboutBox } = await import('@/components/AboutBox');
+  const { container } = render(<AboutBox about={{ description: 'One sentence.', place: 'pharmtobody.com', type: 'Design, build, Shopify', year: '2026' }} />);
+  const box = container.querySelector('[data-part="about"]')!;
+  expect(box.firstElementChild!.firstElementChild!.textContent).toBe('About');
+  expect(box.querySelector('p.text')!.textContent).toBe('One sentence.');
+  expect([...box.querySelectorAll('dt')].map((d) => d.textContent)).toEqual(['Place', 'Type', 'Year']);
+  expect([...box.querySelectorAll('dd')].map((d) => d.textContent)).toEqual(['pharmtobody.com', 'Design, build, Shopify', '2026']);
+  const css = (await import('node:fs')).readFileSync('src/components/AboutBox.module.css', 'utf8');
+  expect(css).toContain('grid-template-columns:minmax(0,2fr) minmax(0,1fr)');
+  expect(css).toContain('border:var(--strike) solid var(--line-strong)');
+});
+it('every piece of work carries exactly one AboutBox: the five Work sites, Zen Holo, Marquee Mondays, TerpScout, Vantage and Nertia', async () => {
+  const { ABOUT } = await import('@/content/copy');
+  const { container } = renderBook();
+  const work = container.querySelector('#work')!;
+  const cards = [...work.querySelectorAll('article')];
+  expect(cards.length).toBe(5);
+  for (const [i, a] of cards.entries()) {
+    expect(a.querySelectorAll('[data-part="about"]').length, String(i)).toBe(1);
+    const sh = COPY.work.sheets[i];
+    const dd = [...a.querySelectorAll('dd')].map((d) => d.textContent);
+    expect(dd).toEqual([sh.fields.Sheet, `${sh.fields.Role}, ${sh.fields.Stack}`, COPY.work.index[6 + i].year, 'Live site']);
+    expect(sh.body!.startsWith(a.querySelector('[data-part="about"] p')!.textContent!)).toBe(true);
+    expect(a.querySelector('.hdr')).toBeNull();
+  }
+  for (const id of ['vantage', 'nertia', 'terpscout']) expect(container.querySelectorAll(`#${id} [data-part="about"]`).length, id).toBe(1);
+  expect(container.querySelectorAll('#practice [data-part="about"]').length).toBe(2);
+  expect(ABOUT.zenHolo.source).toBe('Blender render');
+  expect(ABOUT.marquee).toMatchObject({ place: 'District', year: '2017', source: 'Event banner' });
+  for (const a of Object.values(ABOUT)) for (const v of Object.values(a)) expect(v).toBeTruthy();
+});

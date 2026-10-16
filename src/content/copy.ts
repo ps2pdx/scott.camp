@@ -1,5 +1,6 @@
 import type { Still } from '@/components/Evidence';
 import type { MarkData } from '@/components/Mark';
+import { lede } from '@/lib/lede';
 
 export const BOOKING_URL = 'https://cal.com/scott-campbell/consulting';
 export type TranscriptRow = { when: string; who: string; text: string };
@@ -308,3 +309,13 @@ export const chapterIndex = (current: PageId): IndexRow[] => PAGES.map((p, i) =>
   year: p.id === 'hero' ? COPY.volumes.hero.year : years(HEADS[p.id]),
   struck: p.id !== current, current: p.id === current,
 }));
+
+const srcOf = (caption: string) => caption.split(', ')[1];
+const yearOf = (name: string) => COPY.work.index.find((r) => r.name === name)!.year;
+export const ABOUT = {
+  zenHolo: { description: COPY.work.index.find((r) => r.name === 'Zen Holo')!.description, place: COPY.practice.zenHolo.link.label, type: [COPY.practice.sheets[0].fields.Role, COPY.practice.sheets[0].fields.Stack].join(', '), year: yearOf('Zen Holo'), source: srcOf(COPY.practice.zenHolo.figures[0].caption) },
+  marquee: { description: lede(COPY.practice.rows[0].text, 2), place: COPY.practice.evidence[1].caption.split(', ')[2], type: COPY.practice.sheets[1].fields.Role, year: COPY.practice.rows[0].when, source: COPY.practice.evidence[0].caption.split(', ')[0] },
+  terpscout: { description: COPY.work.index.find((r) => r.no === '03')!.description, type: COPY.terpscout.tools[1], year: yearOf('TerpScout, dba ScoutCamp'), source: srcOf(COPY.terpscout.evidence.gated.spin.caption) },
+  vantage: { description: COPY.work.index.find((r) => r.no === '04')!.description, place: new URL(VANTAGE_CASE_STUDY_URL).host, year: yearOf('Vantage Compute'), source: COPY.vantage.caseStudy.label },
+  nertia: { description: COPY.work.index.find((r) => r.name === 'Nertia')!.description, place: new URL(COPY.footer.links[1].href).host, type: COPY.nertia.sheets[0].fields.Role, year: yearOf('Nertia'), source: `D${COPY.nertia.tech[0].src.slice(1).toLowerCase()}` },
+};

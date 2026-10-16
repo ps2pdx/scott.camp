@@ -3,7 +3,7 @@ import { PAGES, pageHref, type PageId } from '@/content/copy';
 import { Section } from './Section';
 import s from './Snippet.module.css';
 
-export const lede = (text: string, sentences: number) => text.split(/(?<=\.)\s+(?=[A-Z])/).slice(0, sentences).join(' ');
+export { lede } from '@/lib/lede';
 export const snippetClass = { portrait: s.portrait } as const;
 
 export function Snippet({ page, runningHead, title, lead, surface, children }: {
