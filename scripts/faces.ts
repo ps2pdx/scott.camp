@@ -1,5 +1,5 @@
 import { chromium, type Browser, type Page } from 'playwright';
-import { spawn } from 'node:child_process';
+import { spawn, spawnSync } from 'node:child_process';
 
 // Prefers Playwright's bundled Chromium; falls back to the installed Chrome so no download is needed.
 async function launch(): Promise<Browser> {
@@ -21,9 +21,11 @@ async function main() {
   try {
     const page = await browser.newPage({ viewport: { width: 1400, height: 900 }, deviceScaleFactor: 1 });
     await page.goto('http://localhost:4177/specimen/', { waitUntil: 'networkidle' });
-    await page.addStyleTag({ content: '#og-face > div{position:fixed;top:0;left:0;z-index:1000;width:1200px;height:630px;aspect-ratio:auto;border:0} #og-face .vol{font-size:96px} #og-face [class*=nm]{font-size:72px} #og-face [class*=yr]{font-size:28px} #og-face [class*=recto]{padding:48px}' });
-    await shoot(page, '#og-face > div', 1200, 630, 'public/og.png');
+    await page.addStyleTag({ content: '#og-face > [data-part="cover"]{position:fixed;top:0;left:0;z-index:1000;width:1200px;height:630px;min-height:0;padding:64px 72px;border:0}' });
+    await shoot(page, '#og-face > [data-part="cover"]', 1200, 630, 'public/og.png');
     await shoot(page, '#favicon-face > div', 32, 32, 'public/favicon.png');
+    // The cloth grain is noise, so a full-colour PNG runs past 300 KB; 128 colours keep it under.
+    spawnSync('python3', ['-c', "from PIL import Image; Image.open('public/og.png').convert('RGB').quantize(128, dither=Image.Dither.FLOYDSTEINBERG).save('public/og.png', optimize=True)"], { stdio: 'inherit' });
   } finally {
     await browser.close();
     server.kill();

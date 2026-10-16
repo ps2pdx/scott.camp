@@ -10,7 +10,7 @@ Vite multi-page React app. `/` is a small redirect sheet to `/bell`; `404.html` 
     npm run dev          # http://localhost:5173/bell/
     npm test             # vitest, includes a full build
     npm run build        # writes out/
-    npm run faces        # re-renders public/og.png and public/favicon.png
+    npm run faces        # re-renders public/og.png (the compact cover, 1200 by 630, 128 colours) and public/favicon.png
     npx tsx scripts/qa.ts   # screenshots into .parity/ (gitignored) at 1280 and 390, dark, light, textures off, plus the TerpScout block closed and open; checks the disclosure in Chromium and WebKit
 
 The Playwright scripts use the bundled Chromium and fall back to the installed Chrome.
