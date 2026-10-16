@@ -1,4 +1,6 @@
 import { COPY, SECTIONS } from '@/content/copy';
+import { CalBooking } from '@/components/CalBooking';
+import cal from '@/components/CalBooking.module.css';
 import { PunchFilterDefs } from '@/components/Punches';
 import { PunchNav } from '@/components/PunchNav';
 import { SpineBand, SpineEnd, SpineRail, SpineReveal } from '@/components/SpineRail';
@@ -127,6 +129,7 @@ export function App() {
         <Section id="contact" runningHead={COPY.contact.runningHead} eyebrow={COPY.contact.eyebrow} title={COPY.contact.title} lead={COPY.contact.lead}>
           <Transcript rows={COPY.contact.rows} render={(r) => <a href={r.when === 'Email' ? COPY.contact.links.email : COPY.contact.links.phone}>{r.text}</a>} />
           <div className={`${s.btns} ${s.after}`}><Button href={COPY.contact.resume.href} variant="primary" bracket={COPY.contact.resume.bracket} download>{COPY.contact.resume.label}</Button></div>
+          <div className={`${cal.pair} ${s.after}`} data-part="booking">{COPY.contact.booking.map((b) => <CalBooking key={b.slug} {...b} />)}</div>
         </Section>
       </main>
       <Footer />
