@@ -51,7 +51,7 @@ export function App() {
           <div className={s.index}><Index rows={COPY.work.index} /></div>
         </Section>
 
-        <Section id="design-system" tools={COPY.designSystem.watermark} runningHead={COPY.designSystem.runningHead} title={COPY.designSystem.title} lead={COPY.designSystem.lead}>
+        <Section id="design-system" tools={COPY.designSystem.watermark} runningHead={COPY.designSystem.runningHead} title={COPY.designSystem.title} lead={COPY.designSystem.lead} figure={<Portrait p={COPY.designSystem.book} part="ds-book" wide />}>
           <Label>Surfaces</Label>
           <div className={s.gap}><SurfaceRow /></div>
           <div className={s.block}>

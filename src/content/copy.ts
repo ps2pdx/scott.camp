@@ -135,6 +135,7 @@ export const COPY = {
   },
   designSystem: {
     runningHead: 'Design system [2026]', title: 'ICONS',
+    book: { src: '/evidence/book.webp', srcSet: '/evidence/book-640.webp 640w, /evidence/book.webp 1280w', width: 1280, height: 1280, alt: 'The book, cover edge, cloth and swoosh', caption: 'IMG_2975, iPhone, 10.13.26' },
     lead: 'The system comes from one physical object: my copy of the book Zak Group made for Virgil Abloh and Nike (Taschen, 2021). One layer removed: the cloth, paper, board and spine, not the page layouts. A book about icons, so the site is a book too.',
     surfaces: [
       { key: 'cloth', name: 'Volt cloth, the cover', value: '#2bf52b' },

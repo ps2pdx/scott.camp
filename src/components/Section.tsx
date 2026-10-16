@@ -5,7 +5,8 @@ import { ToolMark, watermarkPlacement } from './ToolMark';
 import { Mark, type MarkData } from './Mark';
 import s from './Section.module.css';
 
-export function Section({ id, runningHead, eyebrow, title, lead, surface = 'page', first, tools, mark, children }: {
+export function Section({ id, runningHead, eyebrow, title, lead, figure, surface = 'page', first, tools, mark, children }: {
+  figure?: ReactNode;
   tools?: readonly string[]; mark?: MarkData; id: string; runningHead?: string; eyebrow?: string; title?: string; lead?: string; surface?: 'page' | 'board' | 'endpaper'; first?: boolean; children: ReactNode;
 }) {
   const wm = tools ? watermarkPlacement(id) : null;
@@ -16,6 +17,7 @@ export function Section({ id, runningHead, eyebrow, title, lead, surface = 'page
           <div className={s.titles}>
             {eyebrow ? <Label>{eyebrow}</Label> : null}
             {title ? <h2 className="display t-title">{title}</h2> : null}
+            {figure}
             {lead ? <p className="text muted">{lead}</p> : null}
           </div>
           {runningHead || mark ? <div className={s.side}>{runningHead ? <RunningHead>{runningHead}</RunningHead> : null}{mark ? <Mark mark={mark} /> : null}</div> : null}

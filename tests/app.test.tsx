@@ -213,3 +213,15 @@ it('the yellow pages carry the portrait opposite the name: lazy, alt Scott Campb
   expect(fig.parentElement!.previousElementSibling!.getAttribute('data-part')).toBe('yellow-name');
   expect(fig.nextElementSibling!.firstElementChild!.textContent).toBe(COPY.hero.lead);
 });
+it('the Design system section opens on the book photo between the ICONS title and the lead, lazy, on the white tile', () => {
+  const { container } = render(<App />);
+  const fig = container.querySelector('#design-system [data-part="ds-book"]')!;
+  const img = fig.querySelector('img')!;
+  expect(img.getAttribute('src')).toBe('/evidence/book.webp');
+  expect(img.getAttribute('srcset')).toBe('/evidence/book-640.webp 640w, /evidence/book.webp 1280w');
+  expect(img.getAttribute('alt')).toBe('The book, cover edge, cloth and swoosh');
+  expect(img.getAttribute('loading')).toBe('lazy');
+  expect(fig.querySelector('figcaption')!.textContent).toBe('IMG_2975, iPhone, 10.13.26');
+  expect(fig.previousElementSibling!.textContent).toBe('ICONS');
+  expect(fig.nextElementSibling!.textContent).toBe(COPY.designSystem.lead);
+});
