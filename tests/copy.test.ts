@@ -55,5 +55,5 @@ it('the yellow pages open by continuing the cover, verbatim', () => {
 });
 it('the Vantage and Work facts read as Scott set them on 2026-10-15', () => {
   expect(COPY.hero.facts.find((f) => f.when === 'Vantage')!.text).toBe('2 trademarked phrases authored, brand system shipped for enablement, pitch and report');
-  expect(COPY.hero.facts.find((f) => f.when === 'Work')!.text).toBe('5 live client sites on Nertia platform');
+  expect(COPY.hero.facts.find((f) => f.when === 'Work')!.text).toBe('5 live client sites, 4 on the Nertia platform');
 });

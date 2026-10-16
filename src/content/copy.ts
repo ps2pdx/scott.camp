@@ -21,7 +21,7 @@ export const COPY = {
       { when: 'Nertia', who: '', text: 'Shipped as a web app and an MCP server' },
       { when: 'Vantage', who: '', text: '2 trademarked phrases authored, brand system shipped for enablement, pitch and report' },
       { when: 'TerpScout', who: '', text: '$10M sold, 2020 to 2022, regulated CPG' },
-      { when: 'Work', who: '', text: '5 live client sites on Nertia platform' },
+      { when: 'Work', who: '', text: '5 live client sites, 4 on the Nertia platform' },
     ] as TranscriptRow[],
   },
   endpapers: {
