@@ -40,10 +40,19 @@ export function BookGallery() {
   const warmed = useRef(new Set<string>());
   const lens = useRef<HTMLSpanElement>(null);
   const thumbs = useRef<(HTMLButtonElement | null)[]>([]);
+  const rail = useRef<HTMLDivElement>(null);
   const f = FRAMES[sel];
   const alt = frameAlt(f);
 
   useEffect(() => { if (!zoomable) setHover(false); }, [zoomable]);
+  useLayoutEffect(() => {
+    const el = rail.current, b = thumbs.current[start];
+    if (!el || !b) return;
+    const r = el.getBoundingClientRect(), t = b.getBoundingClientRect();
+    if (el.scrollWidth > el.clientWidth) el.scrollLeft += t.left - r.left;
+    if (t.top < r.top) el.scrollTop += t.top - r.top;
+    else if (t.bottom > r.bottom) el.scrollTop += t.bottom - r.bottom;
+  }, [start]);
   useLayoutEffect(() => {
     const img = mainImg.current;
     if (img?.complete && img.naturalWidth > 0) setReady(f.frame);
@@ -122,7 +131,7 @@ export function BookGallery() {
               {ready === f.frame ? null : <img className={s.placeholder} src={cut(f, 192)} data-ratio="1:1" width={192} height={192} alt={alt} aria-hidden="true" loading="lazy" decoding="async" data-part="ds-book-placeholder" />}
               {zoomable && hover ? <span ref={lens} className={s.lens} data-part="ds-book-lens" aria-hidden="true" /> : null}
             </div>
-            <div className={s.rail} role="group" aria-label={`${book.name} frames`} data-part="ds-contact-sheet" onKeyDown={move}>
+            <div ref={rail} className={s.rail} role="group" aria-label={`${book.name} frames`} data-part="ds-contact-sheet" onKeyDown={move}>
               {FRAMES.map((x, i) => (
                 <button
                   key={x.frame}

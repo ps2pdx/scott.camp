@@ -123,3 +123,28 @@ it('arrow keys swap the main frame directly', () => {
   expect(all[i + 1].getAttribute('aria-pressed')).toBe('true');
   expect(cap(container)).toContain(FRAMES[i + 1].frame);
 });
+
+it('on mount the rail scrolls itself to IMG_2975, never the page', () => {
+  const rect = (top: number, h: number) => ({ top, bottom: top + h, left: 0, right: 128, width: 128, height: h, x: 0, y: top, toJSON() {} }) as DOMRect;
+  const orig = Element.prototype.getBoundingClientRect;
+  const into = vi.fn(), origInto = Element.prototype.scrollIntoView;
+  const scrollTo = vi.spyOn(window, 'scrollTo').mockImplementation(() => {});
+  Element.prototype.scrollIntoView = into;
+  Element.prototype.getBoundingClientRect = function (this: Element) {
+    if (this.getAttribute('data-part') === 'ds-contact-sheet') return rect(100, 400);
+    const f = (this as HTMLElement).dataset?.frame;
+    return f ? rect(100 + Math.floor(FRAMES.findIndex((x) => x.frame === f) / 2) * 66, 64) : orig.call(this);
+  };
+  try {
+    const { container } = render(<BookGallery />);
+    const rail = container.querySelector<HTMLDivElement>('[data-part="ds-contact-sheet"]')!;
+    const i = FRAMES.findIndex((x) => x.frame === 'IMG_2975');
+    expect(rail.scrollTop).toBe(100 + Math.floor(i / 2) * 66 + 64 - 500);
+    expect(into).not.toHaveBeenCalled();
+    expect(scrollTo).not.toHaveBeenCalled();
+  } finally {
+    Element.prototype.getBoundingClientRect = orig;
+    Element.prototype.scrollIntoView = origInto;
+    scrollTo.mockRestore();
+  }
+});
