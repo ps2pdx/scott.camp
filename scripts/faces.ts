@@ -45,13 +45,14 @@ const HEADLINE_BANNERS: Fit[] = [
 
 // `npm run faces -- promo [dir]`: the ICONS book cover parody. Words above and below a whimsical nertia
 // mark on the volt cloth, NERTIA small at the foot, all centred. The mark keeps the nertia body (stretched,
-// tilted -8 degrees) and lets its top-right lobe run on as a tapering wave tail with a flicked ink drop.
+// tilted -8 degrees) drawn thin with pointed lobes, its top-right lobe running on as a wave tail that tapers
+// to a point, with one sharp flicked drop. `--only <file prefix>` renders a single format.
 // It stamps with the same emboss as the type, and a cloth-patterned copy screens through the ink.
 // box is the safe area the lockup is fitted into; foot is the NERTIA baseline. Facebook keeps the 1250 px
 // centre and the 420 by 220 bottom-left photo clear; LinkedIn uses the right two thirds; the 4:5 post stays
 // inside the 1012 px square of the grid crop.
-const NERTIA_STROKE = 'M379.5 59.2C335.7 254.6 304.8 213.8 180 124.8C94.3 70.1 -24.4 276.4 4.4 136.9C53.7 -102.3 125.1 35.2 212 80.3C252.7 98.9 333.8 12.9 368.1 7.5C412 0.5 450 30 500 50C560 74 640 60 760 -30C650 70 570 100 500 92C440 84 410 64 398 50C389 39 380 40 379.5 59.2Z';
-const NERTIA_DROPS = [{ cx: 792, cy: -62, rx: 11, ry: 8 }, { cx: 818, cy: -84, rx: 5, ry: 4 }];
+const NERTIA_STROKE = 'M0 172C4 124 22 76 58 40C110 68 156 110 206 110C256 110 298 60 360 50C430 40 470 64 520 70C600 80 690 48 790 -40C700 50 606 90 518 90C470 90 420 86 386 88C380 122 370 164 356 200C306 176 252 142 198 140C142 138 70 152 0 172Z';
+const NERTIA_DROP = 'M828 -76Q840 -88 856 -98Q848 -82 828 -76Z';
 // In the row the tail flicks up over the cap height, so /BELL tucks in under it.
 const ROW_GAP = [0.2, -0.3];
 type Promo = { file: string; width: number; height: number; row: boolean; box: [number, number, number, number]; foot: number; nertia: number };
@@ -65,8 +66,9 @@ const PROMOS: Promo[] = [
 async function promo(page: Page, dir: string) {
   // tsx keeps function names with an `__name` helper the page does not have.
   await page.addScriptTag({ content: 'window.__name = (f) => f' });
-  for (const p of PROMOS) {
-    await page.evaluate(({ p, stroke, drops, ROW_GAP }) => {
+  const only = flag('only');
+  for (const p of PROMOS.filter((x) => !only || x.file.startsWith(only))) {
+    await page.evaluate(({ p, stroke, drop, ROW_GAP }) => {
       document.getElementById('promo')?.remove();
       const root = document.createElement('div');
       root.id = 'promo';
@@ -88,7 +90,7 @@ async function promo(page: Page, dir: string) {
       svg.setAttribute('width', String(p.width));
       svg.setAttribute('height', String(p.height));
       Object.assign(svg.style, { position: 'absolute', left: '0', top: '0' });
-      svg.innerHTML = `<defs><g id="pm"><g transform="rotate(-8 400 80)"><path d="${stroke}"/>${drops.map((d) => `<ellipse cx="${d.cx}" cy="${d.cy}" rx="${d.rx}" ry="${d.ry}" transform="rotate(-30 ${d.cx} ${d.cy})"/>`).join('')}</g></g></defs>
+      svg.innerHTML = `<defs><g id="pm"><g transform="rotate(-8 400 80)"><path d="${stroke}"/><path d="${drop}"/></g></g></defs>
         <g id="pplace"><use href="#pm" data-k="hi" fill="var(--emboss-hi)"/><use href="#pm" data-k="lo" fill="var(--emboss-lo)"/><use href="#pm" fill="var(--emboss-ink)"/></g>`;
       root.append(svg);
       const weave = document.createElement('div');
@@ -146,7 +148,7 @@ async function promo(page: Page, dir: string) {
       }
       foot.style.letterSpacing = '0.06em';
       putWord(foot, p.nertia, footX, p.foot - cap * p.nertia);
-    }, { p, stroke: NERTIA_STROKE, drops: NERTIA_DROPS, ROW_GAP });
+    }, { p, stroke: NERTIA_STROKE, drop: NERTIA_DROP, ROW_GAP });
     const path = `${dir}/${p.file}`;
     await page.screenshot({ path, clip: { x: 0, y: 0, width: p.width, height: p.height } });
     quantize(path);
