@@ -20,6 +20,7 @@ import { BrandGenerator } from '@/components/BrandGenerator';
 import { ZeroPointFrame } from '@/components/ZeroPointFrame';
 import { FigurePair, SurfaceRow, TextureList, TypeStack } from '@/components/DesignStudy';
 import { Disclosure } from '@/components/Disclosure';
+import { Portrait } from '@/components/Mark';
 import s from './App.module.css';
 
 const vol = (no: string) => COPY.work.index.find((r) => r.no === no)!;
@@ -38,9 +39,12 @@ export function App() {
       <PunchNav sections={SECTIONS} />
       <main>
         <Section id="endpapers" surface="endpaper">
-          <p data-part="yellow-name" className={`display t-title ${s.name}`}>{COPY.endpapers.name}</p>
+          <div className={s.top}>
+            <Portrait p={COPY.endpapers.portrait} />
+            <p data-part="yellow-name" className="display t-title">{COPY.endpapers.name}</p>
+          </div>
           <p className={`text ${s.lead}`}>{h.lead}</p>
-          <Transcript rows={h.facts} tight className={s.after} />
+          <Transcript rows={h.facts} tight className={`${s.after} ${s.clear}`} />
           <Transcript rows={[COPY.endpapers.virgil]} className={s.after} />
           <div className={s.index}><Index rows={COPY.work.index} /></div>
         </Section>

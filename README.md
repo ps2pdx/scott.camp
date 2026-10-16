@@ -52,6 +52,7 @@ Status on 2026-10-14: the code site `scottcamp` exists. Every push to `main` pub
 ## Design sources
 
 - `design/README.md`: which photograph each texture was cut from; `design/source/` holds those frames, `scripts/cut-tiles.py` reproduces `public/textures/`.
+- `scripts/cut-portrait.py` cuts the yellow pages portrait (`public/evidence/portrait.webp` 480 px and `portrait-240.webp`, 2:3, quality 82) from SNY00127-full.jpeg (2048 by 3072, 2024), kept out of the repo for size; the path is in the script.
 - Spec: `docs/superpowers/specs/2026-10-13-scott-camp-design-system.md` in `ps2pdx/nertia`, branch `claude/personal-website-design-ec0a29` (PR #1176), alongside the build plan in `docs/superpowers/plans/2026-10-14-scott-camp-site.md`.
 - Canvas prototype: https://claude.ai/artifact/R5WnhPbqkKSfmzCWyAY4na (`project/Main.dc.html`).
 - Originals on Scott's Mac: `~/Desktop/untitle/fullsize/` and `~/Desktop/untitle/fullsize/new/`; Photos album `somethings click'd`.

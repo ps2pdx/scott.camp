@@ -6,4 +6,7 @@
 .next{margin-top:var(--s-2)}
 .gap{margin-top:var(--s-4)}
 .block{margin-top:var(--s-7)}
-.name{margin-bottom:var(--s-5)}
+.top{margin-bottom:var(--s-5)}
+.top>[data-part="portrait"]{float:right;margin:0 0 var(--s-5) var(--s-4)}
+.clear{clear:both}
+@media (max-width:639px){.top>[data-part="portrait"]{margin-left:var(--s-3)}}

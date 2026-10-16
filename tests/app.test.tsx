@@ -94,7 +94,7 @@ it('the cover holds the eyebrow, the name line, three inline Meta links and the 
   const name = container.querySelector('#endpapers [data-part="yellow-name"]')!;
   expect(name.textContent).toBe('Scott Campbell, c/o Nertia.ai');
   expect(name.classList.contains('display') && name.classList.contains('t-title')).toBe(true);
-  expect(name.nextElementSibling!.textContent).toBe(COPY.hero.lead);
+  expect(name.parentElement!.nextElementSibling!.textContent).toBe(COPY.hero.lead);
   expect(cover.textContent).toContain('"I design systems agents ship."');
   const v = COPY.endpapers.virgil;
   expect(v).toEqual({ when: '2015 to 2016', who: 'Virgil', text: 'I met Virgil once. He dapped me up at 45 East, Euphoria at the time, after playing a cool set.' });
@@ -189,4 +189,15 @@ it('the Nertia block carries the Zero-Point evolution: the generator, the v1 fra
   expect(ev.querySelector('a[href="https://github.com/ps2pdx/nertia/blob/main/docs/design-system-contract.md"]')!.textContent).toBe('Contract on GitHub ↗');
   expect([...n.querySelectorAll('[data-part="brand-sample"] a')].every((a) => a.getAttribute('href') === '#nertia')).toBe(true);
   expect(container.querySelectorAll('nav[aria-label="Sections"] a').length).toBe(8);
+});
+it('the yellow pages carry the portrait opposite the name: lazy, alt Scott Campbell, caption SNY00127, 2024', () => {
+  const { container } = render(<App />);
+  const fig = container.querySelector('#endpapers [data-part="portrait"]')!;
+  const img = fig.querySelector('img')!;
+  expect(img.getAttribute('src')).toBe('/evidence/portrait.webp');
+  expect(img.getAttribute('srcset')).toBe('/evidence/portrait-240.webp 240w, /evidence/portrait.webp 480w');
+  expect(img.getAttribute('alt')).toBe('Scott Campbell');
+  expect(img.getAttribute('loading')).toBe('lazy');
+  expect(fig.querySelector('figcaption')!.textContent).toBe('SNY00127, 2024');
+  expect(fig.nextElementSibling!.getAttribute('data-part')).toBe('yellow-name');
 });

@@ -1,3 +1,6 @@
 .mark{display:block;flex:none;width:120px;height:120px;padding:12px;background:#fff;object-fit:contain}
 .wide{height:48px}
 @media (max-width:639px){.mark{width:96px;height:96px;padding:10px}.wide{height:38px}}
+.portrait{margin:0;flex:none;display:flex;flex-direction:column;gap:var(--s-2)}
+.portraitTile{display:block;box-sizing:content-box;width:120px;height:auto;padding:12px;background:#fff;border:var(--strike) solid var(--line-strong)}
+@media (max-width:639px){.portraitTile{width:96px;padding:10px}}

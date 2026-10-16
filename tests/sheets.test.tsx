@@ -173,7 +173,8 @@ it('one tone per data set: the yellow pages after the cover carry the lead, the 
   expect(y.querySelector('table')).not.toBeNull();
   expect(y.textContent).toContain(COPY.hero.lead);
   for (const f of COPY.hero.facts) expect(y.textContent).toContain(f.text);
-  expect(y.querySelector('article, figure')).toBeNull();
+  expect(y.querySelector('article')).toBeNull();
+  expect([...y.querySelectorAll('figure')].map((f) => f.getAttribute('data-part'))).toEqual(['portrait']);
   expect(container.querySelectorAll('[data-surface="endpaper"]').length).toBe(1);
   const work = container.querySelector('#work')!;
   expect(work.querySelector('table')).toBeNull();
