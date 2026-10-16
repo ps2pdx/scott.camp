@@ -47,7 +47,7 @@ export function TechSheet({ data }: { data: TechSheetData }) {
         <g data-part="header">{hdr.map(([key, v], i) => <text key={key} x={PAD} y={headY + i * line}>{`${key.padEnd(6)} ${v}`}</text>)}</g>
         {PUNCHES.map((cx) => <circle key={cx} className={`${s.stroke} ${s.punch}`} cx={cx * vw} cy="12" r="4" strokeWidth="0.6" />)}
       </svg>
-      <figcaption className="meta muted">{data.sheet} · Tech sheet · Rendered</figcaption>
+      <figcaption className="meta muted">{data.sheet} · Tech sheet · Drawn</figcaption>
     </figure>
   );
 }
