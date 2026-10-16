@@ -305,6 +305,8 @@ export const COPY = {
       { label: 'Source on GitHub', href: SOURCE_URL },
     ],
     tagline: 'Built on Nertia.',
+    mark: { label: 'Nertia', href: 'https://www.nertia.ai' },
+    copyright: '© 2026 Scott Campbell',
   },
   volumes: { hero: { no: '0', name: "Something Click'd", year: '2026' } },
 } as const;

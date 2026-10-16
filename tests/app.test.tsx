@@ -267,3 +267,15 @@ it('the footer tagline reads Built on Nertia.', () => {
   expect(footer.textContent).toContain('Built on Nertia.');
   expect(footer.textContent).not.toContain('Of course it is');
 });
+it('the footer renders on the inverse surface with the Nertia mark beside Built on Nertia. and the copyright line', () => {
+  const { container } = renderPage('work');
+  const footer = container.querySelector('footer')!;
+  expect(footer.getAttribute('data-surface')).toBe('inverse');
+  const mark = footer.querySelector('[data-part="built-on"] a')!;
+  expect(mark.getAttribute('href')).toBe('https://www.nertia.ai');
+  expect(mark.getAttribute('aria-label')).toBe('Nertia');
+  expect(mark.querySelector('svg path')!.getAttribute('fill')).toBe('currentColor');
+  expect(mark.nextElementSibling!.textContent).toBe('Built on Nertia.');
+  expect(footer.querySelector('[data-part="copyright"]')!.textContent).toBe('© 2026 Scott Campbell');
+  expect(footer.querySelector('[data-part="copyright"]')!.className).toContain('meta');
+});

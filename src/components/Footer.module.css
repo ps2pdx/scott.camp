@@ -1,4 +1,4 @@
-.foot{padding:var(--r-block) 0 0;background-color:var(--bg)}
+.foot{padding:var(--r-block) 0 0;background-color:var(--bg);color:var(--fg)}
 .wrap{max-width:var(--max);padding:0 var(--gutter) var(--s-7);display:flex;flex-direction:column;gap:var(--r-lead);container-type:inline-size}
 @media (min-width:1024px){.wrap{padding-left:calc(var(--rail) + var(--gutter))}}
 .links{list-style:none;margin:0;padding:0;display:flex;column-gap:var(--s-5);flex-wrap:wrap}
@@ -7,3 +7,7 @@
 .row{display:flex;flex-wrap:wrap;column-gap:var(--s-5)}
 .row a{display:inline-flex;align-items:center;min-height:44px;text-decoration:none;text-decoration-thickness:var(--strike);text-underline-offset:0.25em}
 .row a:hover,.row a:focus-visible{text-decoration:underline}
+.built{display:flex;align-items:center;gap:var(--s-3)}
+.mark{display:inline-flex;align-items:center;min-height:44px}
+.mark svg{height:32px;width:auto}
+@media (max-width:639px){.mark svg{height:24px}}

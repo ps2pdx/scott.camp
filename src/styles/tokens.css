@@ -35,10 +35,10 @@
   --line:rgba(0,0,0,0.12);--line-strong:#000000;--halo:rgba(0,0,0,0.10);
   --sheet:#ffffff;--tech:#e9e7e2;--tech-ink:#111111;--grain:0.14;--hole:#ffffff;--focus:#005a14;--particle:var(--fg);--particle-wall:var(--s-board);color-scheme:light;
 }
-[data-surface="inverse"]{--bg:var(--s-page);--fg:var(--s-ink);--fg-muted:rgba(0,0,0,0.75);--particle:var(--volt-edge);--particle-wall:var(--s-ink);color-scheme:light}
-@media (prefers-color-scheme: light){:root:not([data-theme]) [data-surface="inverse"]{--bg:var(--s-ink);--fg:var(--s-white);--fg-muted:rgba(255,255,255,0.62);--particle:var(--volt);--particle-wall:var(--s-page);color-scheme:dark}}
-:root[data-theme="light"] [data-surface="inverse"]{--bg:var(--s-ink);--fg:var(--s-white);--fg-muted:rgba(255,255,255,0.62);--particle:var(--volt);--particle-wall:var(--s-page);color-scheme:dark}
-:root[data-theme="dark"] [data-surface="inverse"]{--bg:var(--s-page);--fg:var(--s-ink);--fg-muted:rgba(0,0,0,0.75);--particle:var(--volt-edge);--particle-wall:var(--s-ink);color-scheme:light}
+[data-surface="inverse"]{--bg:var(--s-page);--fg:var(--s-ink);--fg-muted:rgba(0,0,0,0.75);--line:rgba(0,0,0,0.12);--line-strong:var(--s-ink);--halo:rgba(0,0,0,0.10);--focus:#005a14;--particle:var(--volt-edge);--particle-wall:var(--s-ink);color-scheme:light}
+@media (prefers-color-scheme: light){:root:not([data-theme]) [data-surface="inverse"]{--bg:var(--s-ink);--fg:var(--s-white);--fg-muted:rgba(255,255,255,0.62);--line:rgba(255,255,255,0.18);--line-strong:var(--s-white);--halo:rgba(255,255,255,0.10);--focus:var(--volt);--particle:var(--volt);--particle-wall:var(--s-page);color-scheme:dark}}
+:root[data-theme="light"] [data-surface="inverse"]{--bg:var(--s-ink);--fg:var(--s-white);--fg-muted:rgba(255,255,255,0.62);--line:rgba(255,255,255,0.18);--line-strong:var(--s-white);--halo:rgba(255,255,255,0.10);--focus:var(--volt);--particle:var(--volt);--particle-wall:var(--s-page);color-scheme:dark}
+:root[data-theme="dark"] [data-surface="inverse"]{--bg:var(--s-page);--fg:var(--s-ink);--fg-muted:rgba(0,0,0,0.75);--line:rgba(0,0,0,0.12);--line-strong:var(--s-ink);--halo:rgba(0,0,0,0.10);--focus:#005a14;--particle:var(--volt-edge);--particle-wall:var(--s-ink);color-scheme:light}
 @media (max-width:639px){:root{--t-title:24px;--t-text:14px;--t-meta:11px}}
 @media (min-width:640px) and (max-width:1023px){:root{--t-text:16px}}
 @media (max-width:1023px){:root{--cols:8;--sp-rows:8;--sp-note:8;--sp-half:4;--sp-portrait:3;--sp-opener:5;--sp-margin:8;--r-section:var(--s-6)}}
