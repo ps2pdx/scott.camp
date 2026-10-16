@@ -19,3 +19,4 @@
 .w-figure{max-width:min(100%,calc(var(--u) * var(--sp-figure) - var(--col-gap)))}
 .w-rows{max-width:min(100%,calc(var(--u) * var(--sp-rows) - var(--col-gap)))}
 @media (max-width:1023px){.cols>.note{align-self:start;margin-top:var(--r-caption)}}
+.two>.filler{background:none}

@@ -1,8 +1,8 @@
 import { fireEvent, render, waitFor } from '@testing-library/react';
 import { readFileSync, readdirSync, statSync } from 'node:fs';
 import { EvidenceVideo } from '@/components/EvidenceVideo';
-import { App } from '@/App';
 import { COPY } from '@/content/copy';
+import { renderBook } from './pages';
 
 const clip = COPY.terpscout.evidence.gated.spin;
 const stubMatchMedia = (matches: boolean) => {
@@ -40,7 +40,7 @@ const open = async (details: HTMLDetailsElement, how: 'click' | 'key') => {
 };
 it('TerpScout shows only its mark at the top until the disclosure is opened', () => {
   stubMatchMedia(false);
-  const { container } = render(<App />);
+  const { container } = renderBook();
   const block = container.querySelector('#terpscout')!;
   const ev = COPY.terpscout.evidence;
   expect([...block.querySelectorAll('img')].map((i) => i.getAttribute('src'))).toEqual(['/evidence/terpscout-mark-72.webp']);
@@ -55,7 +55,7 @@ it('TerpScout shows only its mark at the top until the disclosure is opened', ()
 });
 it('the disclosure opens on click and carries the spin, the print and the pricing page', async () => {
   stubMatchMedia(false);
-  const { container } = render(<App />);
+  const { container } = renderBook();
   const details = container.querySelector<HTMLDetailsElement>('#terpscout details')!;
   await open(details, 'click');
   expect(details.open).toBe(true);
@@ -69,7 +69,7 @@ it('the disclosure opens on click and carries the spin, the print and the pricin
 });
 it('the disclosure opens from the keyboard: the summary is focusable and Enter toggles it', async () => {
   stubMatchMedia(false);
-  const { container } = render(<App />);
+  const { container } = renderBook();
   const details = container.querySelector<HTMLDetailsElement>('#terpscout details')!;
   const summary = details.querySelector('summary')!;
   summary.focus();
@@ -83,7 +83,7 @@ it('the video does not play while the disclosure is closed, and pauses when it c
   const pause = vi.spyOn(HTMLMediaElement.prototype, 'pause').mockImplementation(() => {});
   let fire: ((e: { isIntersecting: boolean }[]) => void) | null = null;
   (globalThis as any).IntersectionObserver = class { constructor(cb: any) { fire = cb; } observe() {} unobserve() {} disconnect() {} };
-  const { container } = render(<App />);
+  const { container } = renderBook();
   expect(play).not.toHaveBeenCalled();
   const details = container.querySelector<HTMLDetailsElement>('#terpscout details')!;
   await open(details, 'click');
@@ -123,7 +123,7 @@ it('the spin and the print carry their 2022 dates, no bracket left', () => {
 });
 it('evidence stacks full width, one figure above the next, with no pair wrapper', async () => {
   stubMatchMedia(false);
-  const { container } = render(<App />);
+  const { container } = renderBook();
   for (const id of ['terpscout', 'practice']) {
     const stills = [...container.querySelectorAll(`#${id} figure img`)].map((i) => i.closest('figure')!);
     for (const f of stills) expect(f.parentElement!.className).toContain('stack');
@@ -133,7 +133,7 @@ it('evidence stacks full width, one figure above the next, with no pair wrapper'
   await waitFor(() => expect(d.querySelector('img')).not.toBeNull());
   for (const f of d.querySelectorAll('figure')) expect(f.parentElement!.className).toBe('body');
   expect(container.querySelector('.evidence')).toBeNull();
-  const css = readFileSync('src/App.module.css', 'utf8');
+  const css = readFileSync('src/sections/sections.module.css', 'utf8');
   expect(css).toMatch(/\.stack\{[^}]*flex-direction:column/);
   expect(css).not.toMatch(/repeat\(2,minmax\(0,1fr\)\);gap:var\(--s-4\);align-items:start/);
 });
@@ -146,7 +146,7 @@ it('the spin sits in a black figure no wider than 480 px, capped at 52vh, captio
 });
 it('Vantage, Nertia and TerpScout open with their mark on a white tile beside the running head; Work and Practice carry none', () => {
   stubMatchMedia(false);
-  const { container } = render(<App />);
+  const { container } = renderBook();
   for (const [id, name, src] of [['vantage', 'Vantage Compute', '/evidence/vantage-mark.svg'], ['nertia', 'Nertia', '/evidence/nertia-mark.svg'], ['terpscout', 'TerpScout', '/evidence/terpscout-mark-72.webp']]) {
     const m = container.querySelector(`#${id} [data-part="mark"]`)!;
     const img = m.querySelector('img')!;
@@ -172,7 +172,7 @@ it('Vantage, Nertia and TerpScout open with their mark on a white tile beside th
 });
 it('the disclosure holds the spin, the rosin reel at full frame, the Martian Fruit print and the Per Image Pricing page, nothing else', async () => {
   stubMatchMedia(false);
-  const { container } = render(<App />);
+  const { container } = renderBook();
   const details = container.querySelector<HTMLDetailsElement>('#terpscout details')!;
   await open(details, 'click');
   expect([...details.querySelectorAll('figcaption')].map((f) => f.textContent)).toEqual(['Product turntable, TerpScout studio, 2022', 'Rosin press reel, slow motion, 2024', 'Strain print, Martian Fruit, for a TerpScout client, 2022', 'Per image pricing, Terp-Scouts cannabis photography, summer 2022']);
@@ -182,7 +182,7 @@ it('the disclosure holds the spin, the rosin reel at full frame, the Martian Fru
 
 it('every image on the page carries width, height, alt, loading and decoding; rasters carry a 1x and 2x srcset at an allowed ratio', async () => {
   stubMatchMedia(false);
-  const { container } = render(<App />);
+  const { container } = renderBook();
   const d = container.querySelector<HTMLDetailsElement>('#terpscout details')!;
   fireEvent.click(d.querySelector('summary')!);
   await waitFor(() => expect(d.querySelector('img, video')).not.toBeNull());
@@ -220,7 +220,7 @@ it('no evidence still outside the age gate is over 300 KB, and the series banner
 });
 it('figures stack: one column, the caption under its frame, Designed then Built, no margin captions', () => {
   stubMatchMedia(false);
-  const { container } = render(<App />);
+  const { container } = renderBook();
   for (const fig of container.querySelectorAll('figure')) {
     const cap = fig.querySelector(':scope > figcaption');
     if (!cap) continue;

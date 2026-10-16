@@ -1,0 +1,7 @@
+.body{display:flex;flex-direction:column;gap:var(--r-lead)}
+.body>p{margin:0}
+.portrait{max-width:min(100%,calc(var(--u) * var(--sp-portrait) - var(--col-gap)))}
+@media (max-width:639px){.portrait{max-width:calc(240px + 2 * var(--tile-pad) + 2 * var(--strike))}}
+.continue{display:inline-flex;align-items:center;min-height:44px;color:var(--fg);text-decoration:none;text-decoration-thickness:var(--strike);text-underline-offset:0.25em}
+.continue:hover,.continue:focus-visible{text-decoration:underline}
+.continue:focus-visible{outline:var(--strike) solid var(--focus);outline-offset:2px}

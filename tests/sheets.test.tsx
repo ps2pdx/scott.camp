@@ -4,6 +4,7 @@ import { VolumeFace } from '@/components/VolumeFace';
 import { TechSheet } from '@/components/TechSheet';
 import { SpecSheet } from '@/components/SpecSheet';
 import { COPY } from '@/content/copy';
+import { renderBook } from './pages';
 
 it('Index strikes the rows that are not this section and keeps their text', () => {
   const { container } = render(<Index rows={COPY.work.index.map((r, i) => ({ ...r, struck: i < 6 || i > 10 }))} />);
@@ -34,15 +35,15 @@ it('thirteen faces number 01 to 13 in index order', () => {
 });
 const regions = (c: HTMLElement) => [...c.querySelectorAll('[data-part="region"]')];
 const numbered = (c: HTMLElement) => regions(c).flatMap((r) => r.getAttribute('data-n')!.split(' ').map(Number)).sort((x, y) => x - y);
-const sheet = (figure: string) => [...COPY.nertia.tech, ...COPY.work.tech].find((t) => t.figure === figure)!;
+const sheet = (figure: string) => [...COPY.nertia.tech, ...COPY.work.tech, COPY.practice.zenHolo.tech].find((t) => t.figure === figure)!;
 const drawn = (c: HTMLElement, t: { src: string }) => {
   expect(t.src).toMatch(/^DRAWN FROM /);
   expect(c.querySelector('[data-part="header"]')!.textContent).toContain(`SRC    ${t.src}`);
   expect(c.querySelector('figcaption')!.textContent).toMatch(/^[A-Z0-9 .]+, DRAWN FROM [A-Z ]+, 2026$/);
 };
 it('every tech sheet picks its figure by a field, and every SRC line says DRAWN', () => {
-  for (const t of [...COPY.nertia.tech, ...COPY.work.tech]) {
-    expect(['editor', 'mcp', 'runtime', 'tokens', 'phone'], t.sheet).toContain(t.figure);
+  for (const t of [...COPY.nertia.tech, ...COPY.work.tech, COPY.practice.zenHolo.tech]) {
+    expect(['editor', 'mcp', 'runtime', 'tokens', 'phone', 'pipeline'], t.sheet).toContain(t.figure);
     expect(t.src, t.sheet).toMatch(/^DRAWN FROM /);
     if (t.view.startsWith('PHONE')) expect(t.figure, t.sheet).toBe('phone');
   }
@@ -109,8 +110,18 @@ it('phone figure: one block per section in order, the nav shortest and the hero 
     unmount();
   }
 });
+it('pipeline figure: Claude Code, Blender MCP, Blender, FFmpeg, YouTube stacked top to bottom, one item per box', () => {
+  const t = COPY.practice.zenHolo.tech;
+  const { container } = render(<TechSheet data={t} />);
+  const r = regions(container);
+  expect(r.map((e) => e.getAttribute('data-n'))).toEqual(['1', '2', '3', '4', '5']);
+  const ys = r.map((e) => Number(e.getAttribute('y')));
+  expect([...ys].sort((a, b) => a - b)).toEqual(ys);
+  expect([...container.querySelectorAll('[data-part="region-n"]')].map((e) => e.textContent)).toEqual(['Claude Code', 'Blender MCP', 'Blender', 'FFmpeg', 'YouTube']);
+  drawn(container, t);
+});
 it('leaders: one dotted leader per list item, ending on its region', () => {
-  for (const t of [...COPY.nertia.tech, ...COPY.work.tech]) {
+  for (const t of [...COPY.nertia.tech, ...COPY.work.tech, COPY.practice.zenHolo.tech]) {
     const { container, unmount } = render(<TechSheet data={t} />);
     const d = container.querySelector('[data-part="leaders"]')!.getAttribute('d')!;
     expect(d.match(/M/g)!.length, t.sheet).toBe(t.sections.length);
@@ -119,7 +130,7 @@ it('leaders: one dotted leader per list item, ending on its region', () => {
   }
 });
 it('TechSheet is a portrait sheet: header on top, the figure in the middle, the list below, text at the Meta size in a viewBox that tracks the rendered width', () => {
-  for (const t of [...COPY.nertia.tech, ...COPY.work.tech]) {
+  for (const t of [...COPY.nertia.tech, ...COPY.work.tech, COPY.practice.zenHolo.tech]) {
     const { container, unmount } = render(<TechSheet data={t} />);
     const steps = [...container.querySelectorAll('[data-part="step"]')];
     const header = container.querySelector('[data-part="header"]')!;
@@ -146,8 +157,7 @@ it('SpecSheet omits empty fields and renders the quoted title', () => {
 });
 it('the index names companies, never URLs, and the Work faces carry the name while the Sheet field keeps the domain', async () => {
   for (const r of COPY.work.index) expect(r.name, r.no).not.toMatch(/\.(com|shop|cleaning)$/);
-  const { App } = await import('@/App');
-  const { container } = render(<App />);
+  const { container } = renderBook();
   const work = container.querySelector('#work')!;
   const first = work.querySelector('article')!;
   expect(first.textContent).toContain('Pharm to Body');
@@ -165,8 +175,7 @@ it('phones keep the tables: no two-row nav, no stacked index, no portrait tech s
   expect(readFileSync('src/components/Transcript.module.css', 'utf8')).not.toMatch(/grid-template-columns:1fr/);
 });
 it('one tone per data set: the yellow pages after the cover carry the lead, the facts, the Virgil row and the index; Work is neutral', async () => {
-  const { App } = await import('@/App');
-  const { container } = render(<App />);
+  const { container } = renderBook();
   const y = container.querySelector('#endpapers')!;
   expect(y).toHaveAttribute('data-surface', 'endpaper');
   expect(container.querySelector('#hero')!.nextElementSibling!.contains(y) || container.querySelectorAll('main > section')[0] === y).toBe(true);
@@ -190,8 +199,7 @@ it('Work carries five tech sheets, Typeshit last, read from the live site, in a 
   expect(css).toContain('scroll-snap-align:start');
   expect(css).toContain('scrollbar-width:none');
   expect(css).toMatch(/prefers-reduced-motion: reduce\)\{\.track\{scroll-behavior:auto\}/);
-  const { App } = await import('@/App');
-  const { container } = render(<App />);
+  const { container } = renderBook();
   const sliders = [...container.querySelectorAll('[data-part="tech-slider"]')];
   expect(sliders.length).toBe(2);
   for (const sl of sliders) {

@@ -1,32 +1,32 @@
-import { render, screen } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import { existsSync, readFileSync, statSync } from 'node:fs';
-import { App } from '@/App';
 import { COPY, SECTIONS } from '@/content/copy';
+import { renderBook, renderPage } from './pages';
 import { FRAMES } from '@/components/BookGallery';
 
 beforeAll(() => { (globalThis as any).IntersectionObserver = class { observe() {} unobserve() {} disconnect() {} }; });
 
-it('renders the seven sections in order with running heads', () => {
-  const { container } = render(<App />);
-  expect([...container.querySelectorAll('section')].map((s) => s.id)).toEqual(['hero', 'endpapers', ...SECTIONS.slice(1).map((s) => s.id)]);
+it('the landing renders the cover, the yellow pages and one snippet per chapter in order', () => {
+  const { container } = renderPage('hero');
+  expect([...container.querySelectorAll('section')].map((s) => s.id)).toEqual(['hero', 'endpapers', ...SECTIONS.slice(1).map((s) => `snippet-${s.id}`)]);
   expect(screen.getByText('Scott Campbell, c/o Nertia.ai, Portland, Oregon')).toBeInTheDocument();
   expect(screen.getByText('"I design systems agents ship."')).toBeInTheDocument();
   expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent("Something Click'd");
 });
 it('carries the code-site line, the provenance line and the resume', () => {
-  render(<App />);
+  renderBook();
   expect(screen.getByText(/This page is a code site published by an agent/)).toBeInTheDocument();
   expect(screen.getByText('Textures photographed from one copy of ICONS, 13 October 2026.')).toBeInTheDocument();
   expect(screen.getAllByRole('link', { name: /Resume|Download resume/ })[0]).toHaveAttribute('href', '/Scott_Campbell_Resume.pdf');
 });
-it('places nine tech sheets and thirteen index rows', () => {
-  const { container } = render(<App />);
-  expect(container.querySelectorAll('figure svg[role="img"]').length).toBe(9);
+it('places ten tech sheets across the chapters and thirteen index rows on the landing', () => {
+  const { container } = renderBook();
+  expect(container.querySelectorAll('figure svg[role="img"]').length).toBe(10);
   expect(container.querySelectorAll('#endpapers tr').length).toBe(13);
 });
 
 describe('theme boot', () => {
-  const boot = readFileSync('bell/index.html', 'utf8').match(/<script>([\s\S]*?)<\/script>/)![1];
+  const boot = [...readFileSync('bell/index.html', 'utf8').matchAll(/<script>([\s\S]*?)<\/script>/g)].map((m) => m[1]).find((x) => x.includes('localStorage'))!;
   const run = () => new Function(boot)();
   afterEach(() => { document.documentElement.removeAttribute('data-theme'); localStorage.clear(); });
   it('a stored override wins before paint', () => {
@@ -45,11 +45,11 @@ describe('theme boot', () => {
   });
 });
 it('Practice carries the Marquee Mondays evidence pair with captions and alt text', () => {
-  render(<App />);
+  renderPage('practice');
   for (const c of ['Event banner, Marquee Mondays 017, District, 5 June 2017', 'Series banner, Marquee Mondays, District, 2017']) expect(screen.getByText(c).closest('figure')!.querySelector('img')!.getAttribute('alt')).toMatch(/Marquee Mondays/);
 });
 it('every content section carries a tool watermark: its own facts, a unique seeded placement, motion hidden, a static list for screen readers', async () => {
-  const { container } = render(<App />);
+  const { container } = renderBook();
   const { readFileSync } = await import('node:fs');
   const seen = new Set<string>();
   for (const id of ['vantage', 'nertia', 'design-system', 'work', 'terpscout', 'practice'] as const) {
@@ -84,15 +84,15 @@ it('every content section carries a tool watermark: its own facts, a unique seed
 });
 
 it('the cover holds the eyebrow, the name line, three inline Meta links and the headline, no buttons; the yellow pages open on the name; the Virgil row sits on the yellow pages, once', () => {
-  const { container } = render(<App />);
+  const { container } = renderPage('hero');
   const cover = container.querySelector('#hero')!;
   expect(cover.querySelector('h1')!.textContent).toBe("Something Click'd");
   expect(cover.querySelector('h1')!.classList.contains('bleed-btn')).toBe(true);
   expect(cover.querySelectorAll('button').length).toBe(0);
   const links = [...cover.querySelectorAll('[data-part="cover-links"] a')];
   expect(cover.querySelectorAll('a').length).toBe(4);
-  expect(links.map((a) => [a.firstChild!.textContent, a.getAttribute('href'), a.getAttribute('target')])).toEqual([['Zero-Point story', '#nertia', null], ['Contact', '#contact', null], ['Resume', '/Scott_Campbell_Resume.pdf', '_blank'], ['Book', 'https://cal.com/scott-campbell/consulting', '_blank']]);
-  expect(links.map((a) => a.querySelector('[aria-hidden="true"]')!.textContent)).toEqual([' ↓', ' ↓', ' ↗', ' ↗']);
+  expect(links.map((a) => [a.firstChild!.textContent, a.getAttribute('href'), a.getAttribute('target')])).toEqual([['Zero-Point story', '/bell/nertia', null], ['Contact', '/bell/contact', null], ['Resume', '/Scott_Campbell_Resume.pdf', '_blank'], ['Book', 'https://cal.com/scott-campbell/consulting', '_blank']]);
+  expect(links.map((a) => a.querySelector('[aria-hidden="true"]')?.textContent ?? null)).toEqual([null, null, ' ↗', ' ↗']);
   const coverCss = readFileSync('src/components/Cover.module.css', 'utf8');
   expect(coverCss).toContain('.links a{color:#000;text-decoration:none;');
   expect(coverCss).toContain('.links a:hover,.links a:focus-visible{text-decoration:underline}');
@@ -116,31 +116,35 @@ it('the cover holds the eyebrow, the name line, three inline Meta links and the 
   expect(COPY.practice.rows[0].text).toContain('Marquee Mondays');
   expect(COPY.practice.rows[0].text).not.toContain('Virgil');
 });
-it('sections run cover, yellow pages, Design system, Vantage, Nertia, Work, TerpScout, Practice, Contact', () => {
-  const { container } = render(<App />);
-  expect([...container.querySelectorAll('section')].map((x) => x.id)).toEqual(['hero', 'endpapers', 'design-system', 'vantage', 'nertia', 'work', 'terpscout', 'practice', 'contact']);
+it('chapters run Design system, Vantage, Nertia, Work, TerpScout, Practice, Contact; each page holds its own section once', () => {
+  for (const id of ['design-system', 'vantage', 'nertia', 'work', 'terpscout', 'practice', 'contact'] as const) {
+    const { container, unmount } = renderPage(id);
+    expect([...container.querySelectorAll('main > section')].map((x) => x.id), id).toEqual([id]);
+    expect(container.querySelector('#hero, #endpapers'), id).toBeNull();
+    unmount();
+  }
   expect(SECTIONS.map((x) => x.id)).toEqual(['hero', 'design-system', 'vantage', 'nertia', 'work', 'terpscout', 'practice', 'contact']);
 });
-it('Practice hides the placeholder cards until copy exists, keeps the Marquee Mondays row, its banners and the index rows', () => {
-  const { container } = render(<App />);
+it('Practice shows the Zen Holo card, hides Purple Scott until its copy exists, keeps the Marquee Mondays row, its banners and the index rows', () => {
+  const { container } = renderBook();
   const p = container.querySelector('#practice')!;
-  expect(p.querySelector('article')).toBeNull();
+  expect([...p.querySelectorAll('article h3')].map((h) => h.textContent)).toEqual(['"Zen Holo"']);
   expect(p.textContent).not.toMatch(/PLACEHOLDER|Copy pending/);
   expect(p.textContent).toContain('Marquee Mondays');
-  expect(p.querySelectorAll('figure img').length).toBe(COPY.practice.evidence.length);
+  expect(p.querySelectorAll('figure img').length).toBe(COPY.practice.evidence.length + COPY.practice.zenHolo.figures.length);
   const names = [...container.querySelectorAll('#endpapers td:nth-child(2)')].map((t) => t.textContent);
   expect(names).toContain('Zen Holo');
   expect(names).toContain('Purple Scott');
 });
 it('the Nertia block ends on the code-site line; the documentation link lives in the design system section', () => {
-  const { container } = render(<App />);
+  const { container } = renderPage('nertia');
   const n = container.querySelector('#nertia')!;
   expect(n.textContent).not.toContain('documented on a page, not in a file');
   expect(n.querySelector('a[href="/specimen"]')).toBeNull();
   expect(n.querySelector(':scope > div > p:last-of-type')!.textContent).toContain('This page is a code site published by an agent.');
 });
 it('the cover carries the name as a title page would, once, beside the eyebrow', () => {
-  const { container } = render(<App />);
+  const { container } = renderPage('hero');
   const line = container.querySelector('#hero [data-part="title-line"]')!;
   expect(line.textContent).toBe('Scott Campbell, c/o Nertia.ai, Portland, Oregon');
   expect(line.classList.contains('meta')).toBe(true);
@@ -148,7 +152,7 @@ it('the cover carries the name as a title page would, once, beside the eyebrow',
   expect(container.textContent!.split('Portland, Oregon').length).toBe(2);
 });
 it('the design system block is the case study of this site: surfaces, textures with provenance, type, signature parts, designed and built, docs, its own tiers', () => {
-  const { container } = render(<App />);
+  const { container } = renderPage('design-system');
   const d = container.querySelector('#design-system')!;
   expect(d.querySelector('h2')!.textContent).toBe('ICONS');
   expect(d.textContent).toContain('Design system [2026]');
@@ -178,11 +182,10 @@ it('the design system block is the case study of this site: surfaces, textures w
   expect(d.querySelector('[data-part="brand-generator"]')).toBeNull();
   expect(d.textContent).not.toContain('--card-border');
   expect(d.querySelector('a[href*="design-system-contract"]')).toBeNull();
-  expect(container.querySelector('#endpapers')!.nextElementSibling).toBe(d);
-  expect(d.nextElementSibling!.id).toBe('vantage');
+  expect(d.parentElement!.tagName).toBe('MAIN');
 });
 it('the Nertia block carries the Zero-Point evolution: the generator, the v1 frame, then the builder with the contract tiers, the MCP tools and the contract link', () => {
-  const { container } = render(<App />);
+  const { container } = renderPage('nertia');
   const n = container.querySelector('#nertia')!;
   const ev = n.querySelector('[data-part="zero-point-evolution"]')!;
   expect(ev.querySelector(':scope > .meta')!.textContent).toBe('"Zero-Point evolution"');
@@ -201,10 +204,10 @@ it('the Nertia block carries the Zero-Point evolution: the generator, the v1 fra
   for (const t of ['switch_site_skin', 'update_copy', 'publish_site', 'publish_from_github']) expect(tools).toContain(t);
   expect(n.querySelector('a[href="https://github.com/ps2pdx/nertia/blob/main/docs/design-system-contract.md"]')!.textContent).toBe('Contract on GitHub ↗');
   expect([...n.querySelectorAll('[data-part="brand-sample"] a')].every((a) => a.getAttribute('href') === '#nertia')).toBe(true);
-  expect(container.querySelectorAll('nav[aria-label="Sections"] a').length).toBe(8);
+  expect(container.querySelectorAll('nav[aria-label="Pages"] a').length).toBe(8);
 });
 it('Contact opens on the portrait above the title: 1:1, lazy, alt Scott Campbell, caption under the frame, then the lead, the rows, the resume and the consulting sheet', () => {
-  const { container } = render(<App />);
+  const { container } = renderPage('contact');
   const fig = container.querySelector('#contact [data-part="portrait"]')!;
   const img = fig.querySelector('img')!;
   expect(img.getAttribute('src')).toBe('/evidence/portrait.webp');
@@ -228,7 +231,7 @@ it('Contact opens on the portrait above the title: 1:1, lazy, alt Scott Campbell
   expect(readFileSync('src/components/Section.module.css', 'utf8')).toContain('@media (max-width:639px){.portrait{max-width:calc(240px + 2 * var(--tile-pad) + 2 * var(--strike))}}');
 });
 it('the Design system section opens on the ICONS gallery: main IMG_2975, the frame clump under it, then the lead', () => {
-  const { container } = render(<App />);
+  const { container } = renderPage('design-system');
   const gal = container.querySelector('#design-system [data-part="ds-book"]')!;
   const main = gal.querySelector('[data-part="ds-book-main"]')!;
   const img = main.querySelector('img')!;
@@ -245,7 +248,7 @@ it('the Design system section opens on the ICONS gallery: main IMG_2975, the fra
   expect(gal.textContent).not.toMatch(/IMG_2939(?!,)/);
 });
 it('the footer tagline reads Built on Nertia.', () => {
-  const { container } = render(<App />);
+  const { container } = renderPage('hero');
   const footer = container.querySelector('footer')!;
   expect(footer.textContent).toContain('Built on Nertia.');
   expect(footer.textContent).not.toContain('Of course it is');

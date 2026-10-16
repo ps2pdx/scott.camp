@@ -16,6 +16,10 @@ export const SECTIONS = [
   { id: 'work', label: 'Work' }, { id: 'terpscout', label: 'TerpScout' }, { id: 'practice', label: 'Practice' }, { id: 'contact', label: 'Contact' },
 ] as const;
 
+export type PageId = (typeof SECTIONS)[number]['id'];
+export const BASE = '/bell';
+export const pageHref = (id: PageId) => (id === 'hero' ? BASE : `${BASE}/${id}`);
+export const PAGES = SECTIONS.map((x) => ({ ...x, href: pageHref(x.id) }));
 export const ZEN_HOLO_URL = 'https://www.youtube.com/channel/UC9rkFGejFF3rypgemxebUKg';
 
 export const COPY = {
@@ -23,8 +27,8 @@ export const COPY = {
     eyebrow: 'I design systems agents ship.',
     titleLine: 'Scott Campbell, c/o Nertia.ai, Portland, Oregon',
     links: [
-      { label: 'Zero-Point story', href: '#nertia' },
-      { label: 'Contact', href: '#contact' },
+      { label: 'Zero-Point story', href: pageHref('nertia') },
+      { label: 'Contact', href: pageHref('contact') },
       { label: 'Resume', href: '/Scott_Campbell_Resume.pdf', newTab: true },
       { label: 'Book', href: BOOKING_URL, newTab: true },
     ],
@@ -236,7 +240,7 @@ export const COPY = {
     tools: ["Blender", "Ableton", "Animation", "DJing"] as string[],
     eyebrow: 'Creative practice', runningHead: 'Practice', title: 'Beyond the day job',
     sheets: [
-      { title: 'Zen Holo', fields: { Sheet: 'Zen Holo', Role: 'Animation, music', Stack: 'Blender' }, placeholder: true },
+      { title: 'Zen Holo', fields: { Sheet: 'Zen Holo', Role: 'Animation, music', Stack: 'Blender' }, href: ZEN_HOLO_URL, label: 'YouTube' },
       { title: 'Purple Scott', fields: { Sheet: 'Purple Scott', Role: 'DJ', Stack: 'Ableton' }, placeholder: true, href: 'https://purplescott.com', label: 'purplescott.com' },
     ] as Sheet[],
     zenHolo: {

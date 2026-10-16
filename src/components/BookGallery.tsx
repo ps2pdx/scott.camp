@@ -1,20 +1,16 @@
 import { useEffect, useLayoutEffect, useRef, useState, type KeyboardEvent, type PointerEvent } from 'react';
 import { COPY } from '@/content/copy';
-import FRAMES_JSON from '@/content/book-frames.json';
+import { FRAMES, caption, cut, frameAlt, framesLine, startIndex, type BookFrame } from '@/content/book';
 import { SIZES, frame } from './Evidence';
 import g from './Grid.module.css';
 import s from './BookGallery.module.css';
 
-export type BookFrame = { frame: string; ratio: '1:1' | '2:3' | '3:2'; width: number; height: number; date: string };
-export const FRAMES = FRAMES_JSON as BookFrame[];
+export { FRAMES, caption, framesLine, type BookFrame } from '@/content/book';
 export const ZOOM = 2.5;
 export const ZOOM_QUERY = '(min-width: 1024px) and (hover: hover) and (pointer: fine)';
 export const HOVER_QUERY = '(hover: hover) and (pointer: fine)';
 
 const book = COPY.designSystem.book;
-const cut = (f: BookFrame, px: number) => `/evidence/frames/${f.frame.toLowerCase()}-${px}.webp`;
-export const caption = (f: BookFrame) => `${book.name}, ${f.frame}, ${book.camera}, ${f.date}`;
-export const framesLine = () => `${FRAMES.length} frames, ${book.framesMeta}`;
 
 function useMedia(query: string) {
   const [match, setMatch] = useState(false);
@@ -32,7 +28,7 @@ function useMedia(query: string) {
 const clamp = (v: number, lo: number, hi: number) => Math.max(lo, Math.min(hi, v));
 
 export function BookGallery() {
-  const start = Math.max(0, FRAMES.findIndex((f) => f.frame === book.initial));
+  const start = startIndex();
   const [sel, setSel] = useState(start);
   const [focus, setFocus] = useState(start);
   const [hover, setHover] = useState(false);
@@ -45,7 +41,7 @@ export function BookGallery() {
   const lens = useRef<HTMLSpanElement>(null);
   const thumbs = useRef<(HTMLButtonElement | null)[]>([]);
   const f = FRAMES[sel];
-  const alt = book.alts[f.frame] ?? `${book.fallbackAlt}, ${f.frame}`;
+  const alt = frameAlt(f);
 
   useEffect(() => { if (!zoomable) setHover(false); }, [zoomable]);
   useLayoutEffect(() => {

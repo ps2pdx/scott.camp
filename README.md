@@ -1,8 +1,10 @@
 # scott.camp
 
-Scott Campbell's site, at scott.camp/bell. One page: the cover, the yellow pages, then Design system, Vantage, Nertia, Work, TerpScout, Creative practice and Contact (eight nav cells), plus a specimen of the design system at /specimen. A nertia code site: built here, published to nertia by the workflow on every push to `main`, never edited in the editor.
+Scott Campbell's site, at scott.camp/bell. Eight pages behind eight nav cells: the landing at /bell (the cover, the yellow pages, then one snippet per chapter) and seven chapters, /bell/design-system, /bell/vantage, /bell/nertia, /bell/work, /bell/terpscout, /bell/practice and /bell/contact, plus a specimen of the design system at /specimen. A nertia code site: built here, published to nertia by the workflow on every push to `main`, never edited in the editor.
 
 Vite multi-page React app. `/` is a small redirect sheet to `/bell`; `404.html` links there too. All copy lives in `src/content/copy.ts`; tokens, type and textures are plain CSS in `src/styles/`.
+
+Pages (2026-10-16, Scott: "this portfolio probably needs to be split into pages"): one HTML entry per page (`bell/index.html`, `bell/<slug>/index.html`), each with its own title ("<Page>. Scott Campbell"), description, canonical without a trailing slash and og tags on og.png?v=2, and its own module in `src/entries/`. Every page renders the shared chrome from `src/components/Shell.tsx` (spine rail, punch nav, footer with the theme toggle); a chapter page is its section from `src/sections/`, moved as it was. The punch nav cells link to the pages (01 is the landing, named Cover) with `aria-current="page"` on the active one. The landing keeps the cover and the yellow pages, then a `Snippet` per chapter: eyebrow and Title, the section's lead cut to its first sentence or two, one visual, and a plain "Continue" link (underlined on hover only, like the cover links; in-page jumps keep ↓, leaving the site keeps ↗). Old anchors still resolve: a head script on `/bell` sends `#design-system`, `#vantage`, `#nertia`, `#work`, `#terpscout`, `#practice` and `#contact` to their pages with `location.replace`. The host resolves `/bell/vantage` to `bell/vantage/index.html`; `vite preview` does not (it falls back to the root redirect sheet without a trailing slash), so preview with `/bell/vantage/`. Chunks: `react`, `copy` and `chrome` are shared; the ICONS gallery ships only with the design system page, the generator, the sliders and the lazy v1 frame only with Nertia (sliders also on Work), the tech sheet only where one is drawn. `npx tsx scripts/pages-shots.ts` shoots `.parity/pages-*` (landing, practice, vantage at 1440 and 390, light) and logs the old-anchor hop.
 
 ## Run
 
@@ -30,7 +32,7 @@ Status on 2026-10-14: the code site `scottcamp` exists. Every push to `main` pub
 ## Open facts (rendered as brackets until confirmed)
 
 - Per-item dates for Vantage (four rows) and Nertia (Default, Distribution, Identity, Plotswitch).
-- Creative practice copy for Zen Holo and Purple Scott.
+- Creative practice copy for Purple Scott.
 - The evidence set: the sales log page, two studio frames, four FX30 screen clips. Each lands as its own commit once the files exist.
 
 ## Resolved facts
@@ -70,7 +72,8 @@ Status on 2026-10-14: the code site `scottcamp` exists. Every push to `main` pub
 
 - Design system block (2026-10-14, superseded 2026-10-15: now in the Nertia section): tiers and the lead from `docs/design-system-contract.md` in ps2pdx/nertia; tool lines from the MCP tool list in `src/lib/mcp/jsonRpcEngine.ts`. The generator figure is the Zero-Point generator, the original Brand System generator (January 2026), vendored read-only into `src/lib/brand-generator/`: `src/types/brand-system.ts`, `src/lib/decision-rules/{index,industry-rules,personality-rules,audience-rules}.ts`, `src/utils/tokens-to-css.ts` and `src/utils/random-inputs.ts` from main, and the demo builder (`INDUSTRY_ACCENTS`, `BACKGROUND_PALETTES`, `getBorderRadius`, `generateCTAs`, `generateDemoBrandSystem`) lifted from `src/app/api/generate-tokens/route.ts` at ec9a0a6b, the parent of 5ad7ca3e. No dependency. The demo builder never read the optional brand hex, so that field changes nothing; the industries outside its eight accent tables fall back to the B2B SaaS palette, as they did.
 
-- The Zen Holo and Purple Scott spec sheet cards are hidden (2026-10-14) while their copy is pending; their Index rows stay. The cards return as soon as Scott supplies the copy: drop `placeholder: true` from their entries in `src/content/copy.ts`.
+- The Purple Scott spec sheet card is hidden (2026-10-14) while its copy is pending; its Index row stays. It returns as soon as Scott supplies the copy: drop `placeholder: true` from its entry in `src/content/copy.ts`.
+- Zen Holo (2026-10-16): the card is live (Vol. 12, YouTube ↗) and the Practice page carries the case, from Scott's April 2026 article only: the lead, four transcript rows (one blend many cameras; beat-quantized wing flaps; the two-machine render; the FFmpeg tail), a tech sheet with the new `pipeline` figure (Claude Code, Blender MCP, Blender, FFmpeg, YouTube, stacked with arrows down, one list item per box), and two framed figures cut by `scripts/cut-evidence.py`: the Stone & Water 001 hummingbird at 1:1 and the Blender MCP viewport at 16:9, each 1280 and 640 webp. The article's notification-sound paragraph and closing pitch are left out.
 
 - KAL Contracting is out of the Index (Scott, 2026-10-14); the rows run 01 to 13 with no gap and the volume faces follow (Pharm to Body is Vol. 07, Zen Holo and Purple Scott are 12 and 13).
 

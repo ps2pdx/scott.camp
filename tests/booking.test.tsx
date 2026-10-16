@@ -1,12 +1,12 @@
 import { render } from '@testing-library/react';
 import { existsSync, readFileSync, readdirSync } from 'node:fs';
-import { App } from '@/App';
 import { BOOKING_URL, COPY } from '@/content/copy';
+import { renderBook } from './pages';
 
 beforeAll(() => { (globalThis as any).IntersectionObserver = class { observe() {} unobserve() {} disconnect() {} }; });
 
 it('contact closes on the consulting sheet: eyebrow, 60 MINUTES., the terms and one cloth button to Cal in a new tab', () => {
-  const { container } = render(<App />);
+  const { container } = renderBook();
   const sheet = container.querySelector('#contact [data-part="booking"]')!;
   expect(sheet.textContent).toContain('"Consulting"');
   expect(sheet.querySelector('.display')!.textContent).toBe('60 minutes.');
@@ -22,7 +22,7 @@ it('contact closes on the consulting sheet: eyebrow, 60 MINUTES., the terms and 
 });
 
 it('the cover carries Book after Resume, to the same Cal URL', () => {
-  const { container } = render(<App />);
+  const { container } = renderBook();
   const links = [...container.querySelectorAll('#hero [data-part="cover-links"] a')];
   expect(links.at(-2)!.firstChild!.textContent).toBe('Resume');
   expect(links.at(-1)!.firstChild!.textContent).toBe('Book');
@@ -31,7 +31,7 @@ it('the cover carries Book after Resume, to the same Cal URL', () => {
 });
 
 it('the Cal embed is gone: no iframe, no component, no dependency, nothing loads from Cal until the click', () => {
-  const { container } = render(<App />);
+  const { container } = renderBook();
   expect(container.querySelector('iframe, [data-part="cal-booking"]')).toBeNull();
   expect(existsSync('src/components/CalBooking.tsx')).toBe(false);
   expect(existsSync('src/components/CalInline.tsx')).toBe(false);

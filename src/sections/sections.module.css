@@ -7,3 +7,5 @@
 .step{margin-top:var(--r-item)}
 .stack{display:flex;flex-direction:column;gap:var(--r-item)}
 .name{margin:0 0 var(--r-block)}
+.sheet{width:min(100%,calc(var(--u) * 4 - var(--col-gap)))}
+@media (max-width:639px){.sheet{width:calc(100% - var(--s-6))}}
