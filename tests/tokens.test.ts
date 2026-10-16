@@ -77,7 +77,8 @@ it('type is three roles at four sizes: no other size, no Courier bold, no letter
   const { globSync } = await import('node:fs');
   expect(css).toContain('--t-display:clamp(');
   expect(css).toMatch(/--t-title:28px;--t-text:18px;--t-meta:13px/);
-  expect(css).toContain('@media (max-width:639px){:root{--t-title:20px;--t-text:16px;--t-meta:11px}}');
+  expect(css).toContain('@media (max-width:639px){:root{--t-title:20px;--t-text:14px;--t-meta:11px}}');
+  expect(css).toContain('@media (min-width:640px) and (max-width:1023px){:root{--t-text:16px}}');
   expect(css).not.toMatch(/--t-(hero|heading|lead|body|meta-sm)/);
   const files = globSync('src/**/*.css').filter((f) => !f.endsWith('tokens.css') && !f.endsWith('VolumeFace.module.css') && !f.endsWith('ToolMark.module.css') && !f.includes('zero-point-v1'));
   for (const f of files) {
@@ -88,5 +89,6 @@ it('type is three roles at four sizes: no other size, no Courier bold, no letter
   }
   const type = readFileSync('src/styles/type.css', 'utf8');
   expect(type).toMatch(/\.meta\{font-family:'Courier New'[^}]*font-weight:400/);
+  expect(type).toMatch(/\.text\{font-family:'Courier New',Courier,monospace;font-weight:700;font-size:var\(--t-text\)/);
   expect(type).not.toMatch(/meta-sm|t-hero|t-lead|t-body|t-heading/);
 });

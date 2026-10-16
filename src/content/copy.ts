@@ -7,7 +7,7 @@ export const VANTAGE_CASE_STUDY_URL = 'https://vantagecompute.nertia.ai';
 export const SOURCE_URL = 'https://github.com/ps2pdx/scott.camp';
 
 export const SECTIONS = [
-  { id: 'hero', label: 'Cover' }, { id: 'vantage', label: 'Vantage' }, { id: 'nertia', label: 'Nertia' }, { id: 'design-system', label: 'Design system' },
+  { id: 'hero', label: 'Cover' }, { id: 'design-system', label: 'Design system' }, { id: 'vantage', label: 'Vantage' }, { id: 'nertia', label: 'Nertia' },
   { id: 'work', label: 'Work' }, { id: 'terpscout', label: 'TerpScout' }, { id: 'practice', label: 'Practice' }, { id: 'contact', label: 'Contact' },
 ] as const;
 
@@ -141,12 +141,12 @@ export const COPY = {
       { file: 'spine', name: 'Spine', cut: 'turned 0.56 degrees upright, recut at 320 px wide, 320 by 1459, 64 px seam' },
       { file: 'paper', name: 'Paper, the page and endpaper grain', cut: 'a blank page, high-pass, mirrored, 512 and 1024 px' },
       { file: 'board', name: 'Board', cut: 'the uncovered board, high-pass, mirrored, 512 and 1024 px' },
-      { file: 'chip', name: 'Chip, the button corner', cut: 'bottom-right corner, straightened 3 degrees, 228 px' },
+      { file: 'chip', name: 'Chip, the button corner', cut: 'bottom-right corner, straightened 3 degrees, 228 px', retired: 'replaced by the cloth weave on buttons, kept on /specimen' },
     ],
     type: [
       { role: 'Display', sample: 'Icons', meta: 'Helvetica Neue Bold, uppercase, fluid, the cover headline only', cls: 'display t-display' },
       { role: 'Title', sample: 'One layer removed', meta: 'Helvetica Neue Bold, uppercase, 28 px, 20 px on phones', cls: 'display t-title' },
-      { role: 'Text', sample: 'Lead paragraphs and card bodies. One idea per sentence.', meta: 'Helvetica Neue, 18 px, 16 px on phones', cls: 'text' },
+      { role: 'Text', sample: 'Lead paragraphs and card bodies. One idea per sentence.', meta: 'Courier New Bold, 18 px, 16 px on tablets, 14 px on phones', cls: 'text' },
       { role: 'Meta', sample: 'Eyebrows, nav, captions, tables, buttons', meta: 'Courier New, uppercase, 13 px, 11 px on phones', cls: 'meta' },
       { role: 'Watermark', sample: 'Claude Design · Pillow', meta: 'Courier New Bold, 72 to 160 px at 10 percent, behind each section', cls: 'watermark t-title' },
     ],

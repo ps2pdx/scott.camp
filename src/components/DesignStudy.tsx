@@ -30,7 +30,7 @@ export function TextureList() {
             <span className={s.tile} data-tile={x.file} />
             <span className={s.caption}>
               <span className="meta">{x.name}</span>
-              <span className="meta muted">{`${t.source} · ${t.camera} · ${t.shot} · ${x.cut}`}</span>
+              <span className="meta muted">{`${'retired' in x ? 'RETIRED · ' : ''}${t.source} · ${t.camera} · ${t.shot} · ${x.cut}${'retired' in x ? `, ${x.retired}` : ''}`}</span>
             </span>
           </li>
         );

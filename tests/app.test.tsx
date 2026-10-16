@@ -76,7 +76,7 @@ it('every content section carries a tool watermark: its own facts, a unique seed
   expect(still).toMatch(/\.track\{animation:none/);
   expect(still).toContain('.run+.run{display:none}');
   const type = readFileSync('src/styles/type.css', 'utf8');
-  expect(type.match(/font-weight:700/g)!.length).toBe(2);
+  expect(type.match(/font-weight:700/g)!.length).toBe(3);
   expect(type).toMatch(/\.watermark\{font-family:'Courier New'[^}]*font-weight:700/);
 });
 
@@ -96,10 +96,10 @@ it('the cover holds only the eyebrow, the name line and the headline, no actions
   expect(COPY.practice.rows[0].text).toContain('Marquee Mondays');
   expect(COPY.practice.rows[0].text).not.toContain('Virgil');
 });
-it('sections run cover, yellow pages, Vantage, Nertia, Design system, Work, TerpScout, Practice, Contact', () => {
+it('sections run cover, yellow pages, Design system, Vantage, Nertia, Work, TerpScout, Practice, Contact', () => {
   const { container } = render(<App />);
-  expect([...container.querySelectorAll('section')].map((x) => x.id)).toEqual(['hero', 'endpapers', 'vantage', 'nertia', 'design-system', 'work', 'terpscout', 'practice', 'contact']);
-  expect(SECTIONS.map((x) => x.id)).toEqual(['hero', 'vantage', 'nertia', 'design-system', 'work', 'terpscout', 'practice', 'contact']);
+  expect([...container.querySelectorAll('section')].map((x) => x.id)).toEqual(['hero', 'endpapers', 'design-system', 'vantage', 'nertia', 'work', 'terpscout', 'practice', 'contact']);
+  expect(SECTIONS.map((x) => x.id)).toEqual(['hero', 'design-system', 'vantage', 'nertia', 'work', 'terpscout', 'practice', 'contact']);
 });
 it('Practice hides the placeholder cards until copy exists, keeps the Marquee Mondays row, its banners and the index rows', () => {
   const { container } = render(<App />);
@@ -139,6 +139,9 @@ it('the design system block is the case study of this site: surfaces, textures w
   const tex = d.querySelector('[data-part="ds-textures"]')!;
   for (const src of ['IMG_2976', 'IMG_2983', 'IMG_2999', 'IMG_2939', 'IMG_3027']) expect(tex.textContent).toContain(src);
   expect(tex.textContent).toContain('320 px');
+  const chip = tex.querySelector('[data-tile="chip"]')!.parentElement!.querySelector('.muted')!.textContent!;
+  expect(chip.startsWith('RETIRED · ')).toBe(true);
+  expect(chip.endsWith(', replaced by the cloth weave on buttons, kept on /specimen')).toBe(true);
   expect([...d.querySelectorAll('[data-part="ds-type"] [data-role]')].map((x) => x.getAttribute('data-role'))).toEqual(['Display', 'Title', 'Text', 'Meta', 'Watermark']);
   expect(d.textContent).toContain('Distinct font declarations reduced from 34 to 19.');
   expect(d.textContent).toContain('a store without price tags');
@@ -154,8 +157,8 @@ it('the design system block is the case study of this site: surfaces, textures w
   expect(d.querySelector('[data-part="brand-generator"]')).toBeNull();
   expect(d.textContent).not.toContain('--card-border');
   expect(d.querySelector('a[href*="design-system-contract"]')).toBeNull();
-  expect(container.querySelector('#nertia')!.nextElementSibling).toBe(d);
-  expect(d.nextElementSibling!.id).toBe('work');
+  expect(container.querySelector('#endpapers')!.nextElementSibling).toBe(d);
+  expect(d.nextElementSibling!.id).toBe('vantage');
 });
 it('the Nertia block carries the Zero-Point evolution: the generator, the v1 frame, then the builder with the contract tiers, the MCP tools and the contract link', () => {
   const { container } = render(<App />);

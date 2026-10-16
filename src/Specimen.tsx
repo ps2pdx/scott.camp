@@ -47,7 +47,7 @@ export const PARTS: Part[] = [
 
   { group: 'Type', name: 'Display', tokens: '.display .t-display --t-display, fluid', render: () => <div className="display t-display">Something Click'd</div> },
   { group: 'Type', name: 'Title', tokens: '.display .t-title --t-title, 28 px, 20 px on phones', render: () => <div className="display t-title">Five live sites</div> },
-  { group: 'Type', name: 'Text', tokens: '.text --t-text, 18 px, 16 px on phones', render: () => <p className="text">Lead paragraphs and card bodies. One idea per sentence.</p> },
+  { group: 'Type', name: 'Text', tokens: '.text --t-text, Courier New Bold, 18 px, 16 px on tablets, 14 px on phones', render: () => <p className="text">Lead paragraphs and card bodies. One idea per sentence.</p> },
   { group: 'Type', name: 'Meta', tokens: '.meta --t-meta, 13 px, 11 px on phones, uppercase', render: () => <div className="meta">Eyebrows, nav, captions, tables, buttons</div> },
   { group: 'Type', name: 'Transcript', tokens: '.transcript --t-meta, sentence case', render: () => <div className="transcript">10/13/26 11:05:00 PM. Every row is dated with the real date of the thing.</div> },
   { group: 'Type', name: 'Meta, watermark: Courier New Bold, 72 to 160 px, 10 percent', tokens: '.watermark, data-size 72 96 128 160, half on phones, opacity 0.1, 90 s loop', render: () => <div className={s.wmDemo} data-wm-size="96" data-wm-offset="24"><ToolMark id="vantage" items={COPY.nertia.tools} /></div> },

@@ -42,34 +42,6 @@ export function App() {
           <div className={s.index}><Index rows={COPY.work.index} /></div>
         </Section>
 
-        <Section id="vantage" tools={COPY.vantage.tools} mark={COPY.vantage.mark} runningHead={COPY.vantage.runningHead} eyebrow={COPY.vantage.eyebrow} title={COPY.vantage.title} lead={COPY.vantage.lead}>
-          <Transcript rows={COPY.vantage.rows} />
-          <p className={`transcript ${s.after}`}><a href={COPY.vantage.caseStudy.href}>{COPY.vantage.caseStudy.label} ↗</a></p>
-        </Section>
-
-        <Section id="nertia" tools={COPY.nertia.tools} mark={COPY.nertia.mark} runningHead={COPY.nertia.runningHead} eyebrow={COPY.nertia.eyebrow} title={COPY.nertia.title} lead={COPY.nertia.lead}>
-          <Transcript rows={COPY.nertia.rows} />
-          <div className={s.techBlock}>
-            <Label>Tech sheets</Label>
-            <div className={s.techGrid}>{COPY.nertia.tech.map((t) => <TechSheet key={t.sheet} data={t} />)}</div>
-          </div>
-          <div className={s.block} data-part="zero-point-evolution">
-            <h3 className="display t-title">{COPY.nertia.evolution.title}</h3>
-            <p className={`meta ${s.gap}`}>{COPY.nertia.evolution.steps[0]}</p>
-            <div className={s.gap}><BrandGenerator /></div>
-            <p className={`meta ${s.block}`}>{COPY.nertia.evolution.steps[1]}</p>
-            <div className={s.gap}><ZeroPointFrame caption={COPY.nertia.evolution.frameCaption} /></div>
-            <p className={`meta ${s.block}`}>{COPY.nertia.evolution.steps[2]}</p>
-            <p className={`transcript ${s.gap}`}>{COPY.nertia.contract.lead}</p>
-            <div className={s.gap}><Label>Token tiers</Label></div>
-            <div className={s.gap}><DataTable label="Skin contract tokens by tier" rows={COPY.nertia.contract.tiers} /></div>
-            <div className={s.after}><Label>Tools that act on the system</Label></div>
-            <div className={s.gap}><DataTable label="MCP tools that act on the design system or publish" rows={COPY.nertia.contract.tools} /></div>
-            <p className={`transcript ${s.gap}`}><a href={COPY.nertia.contract.link.href}>{COPY.nertia.contract.link.label} ↗</a></p>
-          </div>
-          <p className={`transcript ${s.after}`}>{COPY.nertia.codeSiteLine} <a href={COPY.nertia.source.href}>{COPY.nertia.source.label} ↗</a></p>
-        </Section>
-
         <Section id="design-system" tools={COPY.designSystem.watermark} runningHead={COPY.designSystem.runningHead} title={COPY.designSystem.title} lead={COPY.designSystem.lead}>
           <Label>Surfaces</Label>
           <div className={s.gap}><SurfaceRow /></div>
@@ -96,6 +68,34 @@ export function App() {
             <Label>Token tiers</Label>
             <div className={s.gap}><DataTable label="This site's tokens by tier" rows={COPY.designSystem.tiers} /></div>
           </div>
+        </Section>
+
+        <Section id="vantage" tools={COPY.vantage.tools} mark={COPY.vantage.mark} runningHead={COPY.vantage.runningHead} eyebrow={COPY.vantage.eyebrow} title={COPY.vantage.title} lead={COPY.vantage.lead}>
+          <Transcript rows={COPY.vantage.rows} />
+          <p className={`transcript ${s.after}`}><a href={COPY.vantage.caseStudy.href}>{COPY.vantage.caseStudy.label} ↗</a></p>
+        </Section>
+
+        <Section id="nertia" tools={COPY.nertia.tools} mark={COPY.nertia.mark} runningHead={COPY.nertia.runningHead} eyebrow={COPY.nertia.eyebrow} title={COPY.nertia.title} lead={COPY.nertia.lead}>
+          <Transcript rows={COPY.nertia.rows} />
+          <div className={s.techBlock}>
+            <Label>Tech sheets</Label>
+            <div className={s.techGrid}>{COPY.nertia.tech.map((t) => <TechSheet key={t.sheet} data={t} />)}</div>
+          </div>
+          <div className={s.block} data-part="zero-point-evolution">
+            <h3 className="display t-title">{COPY.nertia.evolution.title}</h3>
+            <p className={`meta ${s.gap}`}>{COPY.nertia.evolution.steps[0]}</p>
+            <div className={s.gap}><BrandGenerator /></div>
+            <p className={`meta ${s.block}`}>{COPY.nertia.evolution.steps[1]}</p>
+            <div className={s.gap}><ZeroPointFrame caption={COPY.nertia.evolution.frameCaption} /></div>
+            <p className={`meta ${s.block}`}>{COPY.nertia.evolution.steps[2]}</p>
+            <p className={`transcript ${s.gap}`}>{COPY.nertia.contract.lead}</p>
+            <div className={s.gap}><Label>Token tiers</Label></div>
+            <div className={s.gap}><DataTable label="Skin contract tokens by tier" rows={COPY.nertia.contract.tiers} /></div>
+            <div className={s.after}><Label>Tools that act on the system</Label></div>
+            <div className={s.gap}><DataTable label="MCP tools that act on the design system or publish" rows={COPY.nertia.contract.tools} /></div>
+            <p className={`transcript ${s.gap}`}><a href={COPY.nertia.contract.link.href}>{COPY.nertia.contract.link.label} ↗</a></p>
+          </div>
+          <p className={`transcript ${s.after}`}>{COPY.nertia.codeSiteLine} <a href={COPY.nertia.source.href}>{COPY.nertia.source.label} ↗</a></p>
         </Section>
 
         <Section id="work" tools={COPY.work.tools} runningHead={COPY.work.runningHead} eyebrow={COPY.work.eyebrow} title={COPY.work.title}>

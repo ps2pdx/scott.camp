@@ -26,6 +26,7 @@
   --line:rgba(0,0,0,0.12);--line-strong:#000000;--halo:rgba(0,0,0,0.10);
   --sheet:#ffffff;--tech:#e9e7e2;--tech-ink:#111111;--grain:0.14;--hole:#ffffff;--focus:#005a14;color-scheme:light;
 }
-@media (max-width:639px){:root{--t-title:20px;--t-text:16px;--t-meta:11px}}
+@media (max-width:639px){:root{--t-title:20px;--t-text:14px;--t-meta:11px}}
+@media (min-width:640px) and (max-width:1023px){:root{--t-text:16px}}
 @media (min-width:1024px){:root{--gutter:2.5rem;--nav-h:7rem;--rail:clamp(56px,5vw,96px)}}
 @media (prefers-reduced-motion: reduce){:root{--motion-fast:0ms;--motion-theme:0ms;--motion-chip:0ms}}
