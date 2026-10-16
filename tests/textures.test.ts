@@ -11,6 +11,6 @@ it('tile budget holds', () => {
   expect(size('chip.png')).toBeLessThan(80 * 1024);
 });
 it('every tile has provenance', () => {
-  for (const t of TEXTURES) expect(provenance(t)).toMatch(/^[A-Z]+ · IMG_\d{4} · IPHONE · 10\.1[34]\.26$/);
+  for (const t of TEXTURES) expect(provenance(t)).toMatch(/^[A-Z]+, IMG_\d{4}, IPHONE, 1[34] OCTOBER 2026$/);
   expect(new Set(TEXTURES.map((t) => t.file)).size).toBe(5);
 });

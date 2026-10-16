@@ -1,4 +1,4 @@
-.fig{margin:0;display:flex;flex-direction:column;gap:var(--s-2)}
+.fig{margin:0;display:flex;flex-direction:column;gap:var(--r-caption)}
 .svg{display:block;width:100%;height:auto;background:var(--tech);border:var(--strike) solid var(--line)}
 .svg text{fill:var(--tech-ink);white-space:pre;paint-order:stroke;stroke:var(--tech);stroke-width:4px;stroke-linejoin:round}
 .stroke{stroke:var(--tech-ink)}

@@ -1,5 +1,4 @@
-.fig{margin:0;display:flex;flex-direction:column;gap:var(--s-2)}
-.stage{height:640px;border:1px solid var(--line-strong);background:#0c0c0c;overflow:hidden}
+.fig{margin:0;display:flex;flex-direction:column;gap:var(--r-caption)}
+.plate{display:block;border:var(--strike) solid var(--line-strong);background:var(--sheet);padding:var(--tile-pad)}
+.stage{height:640px;background:#0c0c0c;overflow:hidden}
 @media (max-width:639px){.stage{height:75vh}}
-.plate{border:1px solid var(--line-strong);background:var(--sheet);padding:var(--s-4)}
-@media (max-width:639px){.plate{padding:var(--s-3)}}

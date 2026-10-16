@@ -15,7 +15,7 @@ export function ZeroPointFrame({ caption }: { caption: string }) {
   }, [on]);
   return (
     <figure ref={ref} className={s.fig} data-part="zero-point-frame">
-      <div className={s.stage}>{on ? <Suspense fallback={null}><ZeroPointV1 /></Suspense> : null}</div>
+      <div className={s.plate}><div className={s.stage}>{on ? <Suspense fallback={null}><ZeroPointV1 /></Suspense> : null}</div></div>
       <figcaption className="meta">{caption}</figcaption>
     </figure>
   );
