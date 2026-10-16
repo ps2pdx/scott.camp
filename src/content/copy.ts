@@ -5,7 +5,7 @@ export const BOOKING_URL = 'https://cal.com/scott-campbell/consulting';
 export type TranscriptRow = { when: string; who: string; text: string };
 export type IndexRow = { no: string; name: string; description: string; year: string; struck: boolean };
 export type Sheet = { title: string; fields: Record<string, string>; body?: string; href?: string; label?: string; placeholder?: boolean };
-export type TechFigure = 'editor' | 'mcp' | 'runtime' | 'tokens' | 'phone';
+export type TechFigure = 'editor' | 'mcp' | 'runtime' | 'tokens' | 'phone' | 'pipeline';
 export type TechSheetData = { sheet: string; figure: TechFigure; view: string; stack: string; src: string; date: string; sections: string[] };
 
 export const VANTAGE_CASE_STUDY_URL = 'https://vantagecompute.nertia.ai';
@@ -15,6 +15,8 @@ export const SECTIONS = [
   { id: 'hero', label: 'Cover' }, { id: 'design-system', label: 'Design system' }, { id: 'vantage', label: 'Vantage' }, { id: 'nertia', label: 'Nertia' },
   { id: 'work', label: 'Work' }, { id: 'terpscout', label: 'TerpScout' }, { id: 'practice', label: 'Practice' }, { id: 'contact', label: 'Contact' },
 ] as const;
+
+export const ZEN_HOLO_URL = 'https://www.youtube.com/channel/UC9rkFGejFF3rypgemxebUKg';
 
 export const COPY = {
   hero: {
@@ -237,6 +239,22 @@ export const COPY = {
       { title: 'Zen Holo', fields: { Sheet: 'Zen Holo', Role: 'Animation, music', Stack: 'Blender' }, placeholder: true },
       { title: 'Purple Scott', fields: { Sheet: 'Purple Scott', Role: 'DJ', Stack: 'Ableton' }, placeholder: true, href: 'https://purplescott.com', label: 'purplescott.com' },
     ] as Sheet[],
+    zenHolo: {
+      label: 'Zen Holo',
+      lead: 'Long-form 3D ambient loops on YouTube, built in a weekend with Claude Code driving Blender through MCP. First drop: Stone & Water 001, April 2026.',
+      rows: [
+        { when: 'April 2026', who: 'One blend', text: 'One blend, many cameras. Every episode in a series is the same scene from a different perspective, so the series is one source file and each episode adds a camera inside it. Episode 2: add Camera 2, point it at the rock, re-render.' },
+        { when: 'April 2026', who: 'Wing flaps', text: "Beat-quantized wing flaps. The hummingbird's wing-swap schedule locks to the music's BPM, detected with librosa: flickers on beat subdivisions, double-pose shutter smears on bar boundaries. It reads as holographic glitch, not a mechanical frame swap." },
+        { when: 'April 2026', who: 'Two machines', text: 'Two-machine render. The Mac Studio iterates, the laptop renders, driven over SSH. rsync pushes the updated .blend and a detached screen session survives closing Terminal, so six-hour renders stay off the workstation.' },
+        { when: 'April 2026', who: 'FFmpeg tail', text: 'An FFmpeg tail stitches the base loop into a 3-hour tiled output with audio, pulls a hero frame for the thumbnail and writes the YouTube description.' },
+      ] as TranscriptRow[],
+      tech: { sheet: 'ZEN HOLO PIPELINE', figure: 'pipeline', view: 'RENDER PIPELINE', stack: 'CLAUDE CODE, BLENDER MCP', src: 'DRAWN FROM PIPELINE', date: '2026', sections: ['CLAUDE CODE, FROM A PROMPT', 'BLENDER MCP, PYTHON API', 'BLENDER, ONE BLEND', 'FFMPEG, 3-HOUR TILE', 'YOUTUBE, STONE & WATER 001'] } as TechSheetData,
+      figures: [
+        { src: '/evidence/zen-holo-hummingbird.webp', srcSet: '/evidence/zen-holo-hummingbird-640.webp 640w, /evidence/zen-holo-hummingbird.webp 1280w', width: 1280, height: 1280, ratio: '1:1', caption: 'Stone & Water 001, Blender render, April 2026', alt: 'A pale blue holographic hummingbird hovers between two dark stones in still grey water, one flat and glossy behind it, one rough and wet in the foreground.' },
+        { src: '/evidence/blender-mcp-viewport.webp', srcSet: '/evidence/blender-mcp-viewport-640.webp 640w, /evidence/blender-mcp-viewport.webp 1280w', width: 1280, height: 720, ratio: '16:9', caption: 'Blender MCP viewport, screenshot, April 2026', alt: 'The Blender viewport mid-session: the holographic hummingbird above a dark stone in calm water at dusk, camera frustum lines overhead, the transform panel and the BlenderMCP tab at the right.' },
+      ] as Still[],
+      link: { label: 'YouTube', href: ZEN_HOLO_URL },
+    },
     rows: [
       { when: '2017', who: 'Scott', text: 'Marquee Mondays, District, 2017: seventeen weekly nights of curated live DJs, residents Purple Scott, Dirty Deeds and Token, ending 5 June 2017.' },
     ] as TranscriptRow[],

@@ -117,6 +117,23 @@ function phone({ box, n, fs, spare }: Ctx): Figure {
   return { draw, anchors: blocks.map(left) };
 }
 
+function column({ box, fs, cw, inset }: Ctx, labels: string[]): Figure {
+  const k = labels.length, gap = Math.max(10, Math.min(18, box.h * 0.06));
+  const h = Math.min(fs * 2.4, (box.h - gap * (k - 1)) / k), w = Math.max(...labels.map((l) => l.length)) * cw + 24;
+  const x = box.x + inset + (box.w - inset - w) / 2, cx = x + w / 2;
+  let y = box.y + (box.h - k * h - gap * (k - 1)) / 2;
+  const boxes = labels.map(() => { const r = { x, y, w, h }; y += h + gap; return r; });
+  const down = boxes.slice(1).map((r, b) => { const y1 = boxes[b].y + boxes[b].h, y2 = r.y - 2; return `M${cx} ${y1}V${y2}M${cx - 4} ${y2 - 5}L${cx} ${y2}L${cx + 4} ${y2 - 5}`; }).join('');
+  const draw = (
+    <>
+      {boxes.map((r, b) => region(`c${b}`, r, [b + 1]))}
+      <path d={down} />
+      {boxes.map((r, b) => tag(`t${b}`, cx, r.y + r.h / 2 + fs * 0.35, labels[b], 'middle'))}
+    </>
+  );
+  return { draw, anchors: boxes.map(left) };
+}
+
 const RUNTIME_TARGETS = [2, 2, 2, 1, 3];
 
 export function drawFigure(kind: TechFigure, c: Ctx): Figure {
@@ -126,5 +143,6 @@ export function drawFigure(kind: TechFigure, c: Ctx): Figure {
     case 'runtime': return flow(c, [['Request'], ['Worker'], ['Render'], ['Static', 'export']], RUNTIME_TARGETS.slice(0, c.n));
     case 'tokens': return tokens(c);
     case 'phone': return phone(c);
+    case 'pipeline': return column(c, ['Claude Code', 'Blender MCP', 'Blender', 'FFmpeg', 'YouTube'].slice(0, c.n));
   }
 }
