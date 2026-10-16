@@ -24,9 +24,9 @@ function count() {
   return { full: full.size, page: page.size };
 }
 
-it('font declarations stay under the ceiling: page type below 19, everything at most 26', () => {
+it('font declarations stay under the ceiling: page type below 19, everything at most 27 (the consulting sheet's smaller Display clamp is the 27th)', () => {
   const { full, page } = count();
   expect(page).toBeLessThan(19);
   expect(page).toBeLessThanOrEqual(16);
-  expect(full).toBeLessThanOrEqual(26);
+  expect(full).toBeLessThanOrEqual(27);
 });

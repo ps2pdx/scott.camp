@@ -90,9 +90,9 @@ it('the cover holds the eyebrow, the name line, three inline Meta links and the 
   expect(cover.querySelector('h1')!.classList.contains('bleed-btn')).toBe(true);
   expect(cover.querySelectorAll('button').length).toBe(0);
   const links = [...cover.querySelectorAll('[data-part="cover-links"] a')];
-  expect(cover.querySelectorAll('a').length).toBe(3);
-  expect(links.map((a) => [a.firstChild!.textContent, a.getAttribute('href'), a.getAttribute('target')])).toEqual([['Zero-Point story', '#nertia', null], ['Contact', '#contact', null], ['Resume', '/Scott_Campbell_Resume.pdf', '_blank']]);
-  expect(links.map((a) => a.querySelector('[aria-hidden="true"]')!.textContent)).toEqual([' ↓', ' ↓', ' ↗']);
+  expect(cover.querySelectorAll('a').length).toBe(4);
+  expect(links.map((a) => [a.firstChild!.textContent, a.getAttribute('href'), a.getAttribute('target')])).toEqual([['Zero-Point story', '#nertia', null], ['Contact', '#contact', null], ['Resume', '/Scott_Campbell_Resume.pdf', '_blank'], ['Book', 'https://cal.com/scott-campbell/consulting', '_blank']]);
+  expect(links.map((a) => a.querySelector('[aria-hidden="true"]')!.textContent)).toEqual([' ↓', ' ↓', ' ↗', ' ↗']);
   const coverCss = readFileSync('src/components/Cover.module.css', 'utf8');
   expect(coverCss).toContain('.links a{color:#000;text-decoration:none;');
   expect(coverCss).toContain('.links a:hover,.links a:focus-visible{text-decoration:underline}');
@@ -203,7 +203,7 @@ it('the Nertia block carries the Zero-Point evolution: the generator, the v1 fra
   expect([...n.querySelectorAll('[data-part="brand-sample"] a')].every((a) => a.getAttribute('href') === '#nertia')).toBe(true);
   expect(container.querySelectorAll('nav[aria-label="Sections"] a').length).toBe(8);
 });
-it('Contact opens on the portrait above the title: 1:1, lazy, alt Scott Campbell, caption under the frame, then the lead, the rows, the resume and the Cal plates', () => {
+it('Contact opens on the portrait above the title: 1:1, lazy, alt Scott Campbell, caption under the frame, then the lead, the rows, the resume and the consulting sheet', () => {
   const { container } = render(<App />);
   const fig = container.querySelector('#contact [data-part="portrait"]')!;
   const img = fig.querySelector('img')!;
@@ -223,9 +223,7 @@ it('Contact opens on the portrait above the title: 1:1, lazy, alt Scott Campbell
   const c = container.querySelector('#contact')!;
   const order = [...c.querySelectorAll('h2, [data-part="portrait"], ul.transcript, a[download], [data-part="booking"]')].map((x) => x.tagName === 'H2' ? 'title' : x.getAttribute('data-part') ?? (x.tagName === 'A' ? 'resume' : 'rows'));
   expect(order).toEqual(['portrait', 'title', 'rows', 'resume', 'booking']);
-  const plates = [...c.querySelectorAll('[data-part="booking"] [data-part="cal-booking"]')];
-  expect(plates.map((p) => p.getAttribute('data-slug'))).toEqual(['consulting']);
-  expect(plates[0].querySelector('figcaption')!.textContent).toBe('Consulting, $300 retainer');
+  expect(c.querySelector('[data-part="cal-booking"], iframe')).toBeNull();
   expect(c.textContent).not.toContain('Intro, 20 minutes, free');
   expect(readFileSync('src/components/Section.module.css', 'utf8')).toContain('@media (max-width:639px){.portrait{max-width:calc(240px + 2 * var(--tile-pad) + 2 * var(--strike))}}');
 });

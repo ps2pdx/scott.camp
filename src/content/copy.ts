@@ -1,5 +1,7 @@
 import type { Still } from '@/components/Evidence';
 import type { MarkData } from '@/components/Mark';
+
+export const BOOKING_URL = 'https://cal.com/scott-campbell/consulting';
 export type TranscriptRow = { when: string; who: string; text: string };
 export type IndexRow = { no: string; name: string; description: string; year: string; struck: boolean };
 export type Sheet = { title: string; fields: Record<string, string>; body?: string; href?: string; label?: string; placeholder?: boolean };
@@ -22,6 +24,7 @@ export const COPY = {
       { label: 'Zero-Point story', href: '#nertia' },
       { label: 'Contact', href: '#contact' },
       { label: 'Resume', href: '/Scott_Campbell_Resume.pdf', newTab: true },
+      { label: 'Book', href: BOOKING_URL, newTab: true },
     ],
     headline: "Something Click'd",
     lead: 'Around last year, when I was building my portfolio, it pivoted into a design system generator, which is now Nertia: an agentic wormhole out of the corporate web.',
@@ -252,9 +255,7 @@ export const COPY = {
     ] as TranscriptRow[],
     links: { email: 'mailto:ps2pdx@gmail.com', phone: 'tel:+15038064457' },
     resume: { label: 'Download resume', bracket: 'PDF', href: '/Scott_Campbell_Resume.pdf' },
-    booking: [
-      { slug: 'consulting', calLink: 'scott-campbell/consulting', caption: 'Consulting, $300 retainer' },
-    ],
+    consulting: { eyebrow: 'Consulting', headline: '60 minutes.', text: 'One hour on your brand, design system, positioning or agent workflow. $300, paid at booking, no refunds.', label: 'Book a session', href: BOOKING_URL },
   },
   footer: {
     links: [

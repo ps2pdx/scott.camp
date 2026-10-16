@@ -7,3 +7,4 @@
 .secondary:hover{background:var(--fg);color:var(--bg)}
 @media (max-width:479px){.btn{padding:0 32px}.primary{padding:0 40px}}
 .btn[aria-disabled="true"]{opacity:0.4;pointer-events:none}
+.arrow{white-space:pre}
