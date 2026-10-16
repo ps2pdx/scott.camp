@@ -2,6 +2,7 @@ import { render, screen } from '@testing-library/react';
 import { readFileSync, statSync } from 'node:fs';
 import { App } from '@/App';
 import { COPY, SECTIONS } from '@/content/copy';
+import { FRAMES } from '@/components/BookGallery';
 
 beforeAll(() => { (globalThis as any).IntersectionObserver = class { observe() {} unobserve() {} disconnect() {} }; });
 
@@ -226,26 +227,20 @@ it('Contact opens on the portrait above the title: 2:3, lazy, alt Scott Campbell
   expect(c.textContent).not.toContain('Intro, 20 minutes, free');
   expect(readFileSync('src/components/Section.module.css', 'utf8')).toContain('@media (max-width:639px){.portrait{max-width:calc(240px + 2 * var(--tile-pad) + 2 * var(--strike))}}');
 });
-it('the Design system section opens on the book photo, the contact sheet under it, between the ICONS title and the lead, lazy, on the white tile', () => {
+it('the Design system section opens on the ICONS gallery: main IMG_2975, the frame clump under it, then the lead', () => {
   const { container } = render(<App />);
-  const fig = container.querySelector('#design-system [data-part="ds-book"]')!;
-  const img = fig.querySelector('img')!;
-  expect(img.getAttribute('src')).toBe('/evidence/book.webp');
-  expect(img.getAttribute('srcset')).toBe('/evidence/book-640.webp 640w, /evidence/book.webp 1280w');
+  const gal = container.querySelector('#design-system [data-part="ds-book"]')!;
+  const main = gal.querySelector('[data-part="ds-book-main"]')!;
+  const img = main.querySelector('img')!;
+  expect(img.getAttribute('src')).toBe('/evidence/frames/img_2975-1280.webp');
+  expect(img.getAttribute('srcset')).toBe('/evidence/frames/img_2975-640.webp 640w, /evidence/frames/img_2975-1280.webp 1280w');
   expect(img.getAttribute('alt')).toBe('The book, cover edge, cloth and swoosh');
   expect(img.getAttribute('loading')).toBe('lazy');
-  expect(fig.querySelector('figcaption')!.textContent).toBe('ICONS, IMG_2975, iPhone, 13 October 2026');
-  expect(fig.previousElementSibling!.textContent).toBe('ICONS');
-  const sheet = fig.nextElementSibling!;
-  expect(sheet.getAttribute('data-part')).toBe('ds-contact-sheet');
-  expect(sheet.nextElementSibling!.textContent).toBe(COPY.designSystem.lead);
-  expect([...sheet.querySelectorAll('li > .meta')].map((x) => x.textContent)).toEqual(['IMG_2939', 'IMG_2976', 'IMG_2981', 'IMG_2983', 'IMG_2999', 'IMG_3027']);
-  for (const t of sheet.querySelectorAll('img')) {
-    const cut = t.getAttribute('src')!.replace('-320.webp', '');
-    expect(t.getAttribute('srcset')).toBe(`${cut}-320.webp 1x, ${cut}-640.webp 2x`);
-    expect(t.getAttribute('data-ratio')).toBe('1:1');
-    expect(t.getAttribute('loading')).toBe('lazy');
-    for (const px of [320, 640]) expect(statSync(`public${cut}-${px}.webp`).size).toBeLessThan(40 * 1024);
-  }
-  expect(readFileSync('src/components/DesignStudy.module.css', 'utf8')).toMatch(/\.sheet\{[^}]*grid-template-columns:repeat\(3,minmax\(0,1fr\)\)/);
+  expect(main.querySelector('figcaption')!.textContent).toBe('ICONS, IMG_2975, iPhone, 13 October 2026');
+  expect(gal.previousElementSibling!.textContent).toBe('ICONS');
+  expect(gal.nextElementSibling!.textContent).toBe(COPY.designSystem.lead);
+  const sheet = gal.querySelector('[data-part="ds-contact-sheet"]')!;
+  expect(sheet.closest('[data-part="ds-book"]')).toBe(gal);
+  expect(gal.textContent).toContain(`${FRAMES.length} frames, iPhone, 13 and 14 October 2026`);
+  expect(gal.textContent).not.toMatch(/IMG_2939(?!,)/);
 });

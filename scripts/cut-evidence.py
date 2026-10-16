@@ -39,16 +39,54 @@ mark = Image.open(ASSETS / 'terpscout/terpscout-watermark.png').convert('RGBA')
 for px in (72, 144):
     mark.resize((px, px), Image.LANCZOS).save(EV / f'terpscout-mark-{px}.webp', 'WEBP', lossless=True, method=6)
 
-# The ICONS contact sheet: square centred crops of the other book frames, 320 (1x) and 640 (2x), each under 40 KB.
+# The ICONS frames: every book frame Scott shot (13 and 14 October 2026), read from ASSETS/book-frames, pixels only.
+# Thumbnails: square centre crops at 96 (1x) and 192 (2x), quality 70, each under 6 KB.
+# Main cuts: the frame's native aspect snapped to 1:1 or 2:3 (iPhone 3:4 is cropped to 2:3), 1280 and 640 wide,
+# quality 82 stepping down until under 120 KB. Writes public/evidence/frames/ and src/content/book-frames.json.
+# IMG_2975.JPG is dropped: IMG_2975.jpeg is Scott's square edit of the same exposure (same timestamp).
+import json
 from PIL import ImageOps
-for frame in ['IMG_2939', 'IMG_2976', 'IMG_2981', 'IMG_2983', 'IMG_2999', 'IMG_3027']:
-    src = next(Path('design/source').glob(f'{frame}.*'))
-    sq = centre(ImageOps.exif_transpose(Image.open(src)).convert('RGB'), 1, 1)
-    for px in (320, 640):
-        out, q = sq.resize((px, px), Image.LANCZOS), Q
-        while True:
-            dest = EV / f'book-{frame.lower()}-{px}.webp'
-            out.save(dest, 'WEBP', quality=q, method=6)
-            if dest.stat().st_size < 40 * 1024 or q <= 20:
-                break
-            q -= 4
+
+FRAMES = ASSETS / 'book-frames'
+DROP = {'IMG_2975.JPG'}
+OUTF = EV / 'frames'
+OUTF.mkdir(exist_ok=True)
+MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+
+
+def save_under(im, dest, q, cap, floor):
+    while True:
+        im.save(dest, 'WEBP', quality=q, method=6)
+        if dest.stat().st_size < cap or q <= floor:
+            return dest.stat().st_size
+        q -= 4
+
+
+def shot_date(im):
+    ex = im.getexif()
+    raw = ex.get_ifd(0x8769).get(36867) or ex.get(306)
+    y, m, d = raw.split(' ')[0].split(':')
+    return f'{int(d)} {MONTHS[int(m) - 1]} {y}'
+
+
+manifest = []
+for src in sorted(FRAMES.iterdir()):
+    if src.name in DROP or src.suffix.lower() not in ('.jpg', '.jpeg'):
+        continue
+    frame = src.stem
+    raw = Image.open(src)
+    date = shot_date(raw)
+    im = ImageOps.exif_transpose(raw).convert('RGB')
+    w, h = im.size
+    ratio = '1:1' if w == h else ('2:3' if h > w else '3:2')
+    rw, rh = (int(x) for x in ratio.split(':'))
+    sq = centre(im, 1, 1)
+    for px in (96, 192):
+        save_under(sq.resize((px, px), Image.LANCZOS), OUTF / f'{frame.lower()}-{px}.webp', 70, 6 * 1024, 10)
+    main = centre(im, rw, rh)
+    for px in (1280, 640):
+        save_under(main.resize((px, round(px * rh / rw)), Image.LANCZOS), OUTF / f'{frame.lower()}-{px}.webp', Q, 120 * 1024, 10)
+    manifest.append({'frame': frame, 'ratio': ratio, 'width': 1280, 'height': round(1280 * rh / rw), 'date': date})
+
+Path('src/content/book-frames.json').write_text(json.dumps(manifest, indent=1) + '\n')
+print(len(manifest), 'frames')

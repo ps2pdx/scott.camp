@@ -137,15 +137,19 @@ export const COPY = {
   },
   designSystem: {
     runningHead: 'Design system [2026]', title: 'ICONS',
-    book: { src: '/evidence/book.webp', srcSet: '/evidence/book-640.webp 640w, /evidence/book.webp 1280w', width: 1280, height: 1280, ratio: '1:1', alt: 'The book, cover edge, cloth and swoosh', caption: 'ICONS, IMG_2975, iPhone, 13 October 2026' } as Still,
-    contactSheet: [
-      { frame: 'IMG_2939', alt: 'Grey board meeting the white page edge, a dark seam between them' },
-      { frame: 'IMG_2976', alt: 'The volt green cloth, the weave filling the frame' },
-      { frame: 'IMG_2981', alt: 'The spine in softer light: yellow and white signatures sewn with black thread beside grey board' },
-      { frame: 'IMG_2983', alt: 'The spine in sharp focus: yellow and white signatures, black stitching and a red mark' },
-      { frame: 'IMG_2999', alt: 'A blank white page with the green cloth edge along the bottom' },
-      { frame: 'IMG_3027', alt: 'The green cloth chip at the corner of a grey board' },
-    ],
+    book: {
+      name: 'ICONS', camera: 'iPhone', initial: 'IMG_2975', framesMeta: 'iPhone, 13 and 14 October 2026',
+      alts: {
+        IMG_2975: 'The book, cover edge, cloth and swoosh',
+        IMG_2939: 'Grey board meeting the white page edge, a dark seam between them',
+        IMG_2976: 'The volt green cloth, the weave filling the frame',
+        IMG_2981: 'The spine in softer light: yellow and white signatures sewn with black thread beside grey board',
+        IMG_2983: 'The spine in sharp focus: yellow and white signatures, black stitching and a red mark',
+        IMG_2999: 'A blank white page with the green cloth edge along the bottom',
+        IMG_3027: 'The green cloth chip at the corner of a grey board',
+      } as Record<string, string>,
+      fallbackAlt: 'The book ICONS on my desk',
+    },
     lead: 'The system comes from one physical object: my copy of the book Zak Group made for Virgil Abloh and Nike (Taschen, 2021). One layer removed: the cloth, paper, board and spine, not the page layouts. A book about icons, so the site is a book too.',
     surfaces: [
       { key: 'cloth', name: 'Volt cloth, the cover', value: '#2bf52b' },
