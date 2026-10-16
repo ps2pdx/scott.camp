@@ -43,7 +43,7 @@
 .cutBlock{background:var(--bg);color:var(--fg);padding:var(--s-4) var(--s-3)}
 .yellow{padding:var(--s-5) var(--s-4)}
 .sheet{max-width:520px}
-.sheet480{max-width:480px}
+.techSlot{max-width:360px}
 @media (max-width:639px){.pair{grid-template-columns:1fr}}
 .bar[data-s="1"]{width:var(--s-1)}
 .bar[data-s="2"]{width:var(--s-2)}

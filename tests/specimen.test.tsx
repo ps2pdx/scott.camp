@@ -29,3 +29,13 @@ it('is living documentation laid out as one catalogue: groups in order, one part
   expect(container.querySelectorAll('[data-part="band"]').length).toBe(1);
   expect(container.querySelectorAll('[data-part="cut-demo"] .cut').length).toBe(1);
 });
+it('shows the current portrait tech sheet, the Nertia editor figure at the slider slot width', async () => {
+  const { COPY } = await import('@/content/copy');
+  const { container } = render(<Specimen />);
+  const part = container.querySelector('[data-part-name^="Tech sheet"]')!;
+  const fig = part.querySelector('figure')!;
+  expect(fig.getAttribute('data-figure')).toBe(COPY.nertia.tech[0].figure);
+  expect(part.querySelector('svg')!.getAttribute('aria-label')).toBe(`Tech sheet: ${COPY.nertia.tech[0].sheet}`);
+  const [, w, h] = part.querySelector('svg')!.getAttribute('viewBox')!.split(' ').map(Number);
+  expect(h).toBeGreaterThan(w);
+});

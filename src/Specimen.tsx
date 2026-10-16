@@ -99,7 +99,7 @@ export const PARTS: Part[] = [
   { group: 'Tables', name: 'Index rows, the yellow page, with the struck device', tokens: '.meta --s-endpaper --strike', render: () => <Surface kind="endpaper" className={s.yellow}><Index rows={COPY.work.index.slice(6, 9).map((r, i) => ({ ...r, struck: i === 0 }))} /></Surface> },
   { group: 'Tables', name: 'Transcript row', tokens: '.transcript --t-meta', render: () => <Transcript rows={[{ when: '10/21/16', who: 'Virgil', text: 'The theory is to underline its existence by being specific.' }]} /> },
   { group: 'Tables', name: 'Spec sheet', tokens: '.meta fields, .t-title, .text, --sheet', render: () => <div className={s.sheet}><SpecSheet sheet={COPY.work.sheets[1]} volume={COPY.work.index.find((r) => r.name === 'Pure Zero Photography')!} /></div> },
-  { group: 'Tables', name: 'Tech sheet', tokens: '.meta in a viewBox that tracks its width, --tech --tech-ink', render: () => <div className={s.sheet480}><TechSheet data={COPY.work.tech[4]} /></div> },
+  { group: 'Tables', name: 'Tech sheet, portrait, figure editor', tokens: '1 to 1.414, punches, five header fields, figure (editor mcp runtime tokens phone pipeline), numbered list, square leaders; .meta in a viewBox that tracks its width, --tech --tech-ink, 360 px slot', render: () => <div className={s.techSlot}><TechSheet data={COPY.nertia.tech[0]} /></div> },
 ];
 
 const GROUPS = [...new Set(PARTS.map((p) => p.group))];
