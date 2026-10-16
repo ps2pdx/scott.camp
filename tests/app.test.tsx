@@ -220,6 +220,10 @@ it('Contact opens on the portrait above the title: 2:3, lazy, alt Scott Campbell
   const c = container.querySelector('#contact')!;
   const order = [...c.querySelectorAll('h2, [data-part="portrait"], ul.transcript, a[download], [data-part="booking"]')].map((x) => x.tagName === 'H2' ? 'title' : x.getAttribute('data-part') ?? (x.tagName === 'A' ? 'resume' : 'rows'));
   expect(order).toEqual(['portrait', 'title', 'rows', 'resume', 'booking']);
+  const plates = [...c.querySelectorAll('[data-part="booking"] [data-part="cal-booking"]')];
+  expect(plates.map((p) => p.getAttribute('data-slug'))).toEqual(['consulting']);
+  expect(plates[0].querySelector('figcaption')!.textContent).toBe('Consulting, $300 retainer');
+  expect(c.textContent).not.toContain('Intro, 20 minutes, free');
   expect(readFileSync('src/components/Section.module.css', 'utf8')).toContain('@media (max-width:639px){.portrait{max-width:calc(240px + 2 * var(--tile-pad) + 2 * var(--strike))}}');
 });
 it('the Design system section opens on the book photo, the contact sheet under it, between the ICONS title and the lead, lazy, on the white tile', () => {

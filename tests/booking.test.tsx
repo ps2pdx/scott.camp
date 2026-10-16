@@ -14,9 +14,8 @@ beforeEach(() => {
   (globalThis as any).IntersectionObserver = class { constructor(cb: (e: { isIntersecting: boolean }[]) => void) { fire = () => cb([{ isIntersecting: true }]); } observe() {} unobserve() {} disconnect() {} };
 });
 
-it('contact offers two Cal.com bookings: the free intro and the consulting retainer', () => {
+it('contact offers one Cal.com booking, the consulting retainer; the free intro plate is gone', () => {
   expect(COPY.contact.booking).toEqual([
-    { slug: 'observation', calLink: 'scott-campbell/observation', caption: 'Intro, 20 minutes, free' },
     { slug: 'consulting', calLink: 'scott-campbell/consulting', caption: 'Consulting, $300 retainer' },
   ]);
   expect(COPY.contact.links.email).toBe('mailto:ps2pdx@gmail.com');

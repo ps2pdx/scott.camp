@@ -249,7 +249,6 @@ export const COPY = {
     links: { email: 'mailto:ps2pdx@gmail.com', phone: 'tel:+15038064457' },
     resume: { label: 'Download resume', bracket: 'PDF', href: '/Scott_Campbell_Resume.pdf' },
     booking: [
-      { slug: 'observation', calLink: 'scott-campbell/observation', caption: 'Intro, 20 minutes, free' },
       { slug: 'consulting', calLink: 'scott-campbell/consulting', caption: 'Consulting, $300 retainer' },
     ],
   },
