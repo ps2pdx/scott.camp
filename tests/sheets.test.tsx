@@ -236,7 +236,7 @@ it('every piece of work carries exactly one AboutBox: the five Work sites, Zen H
     expect(sh.body!.startsWith(a.querySelector('[data-part="about"] p')!.textContent!)).toBe(true);
     expect(a.querySelector('.hdr')).toBeNull();
   }
-  for (const id of ['vantage', 'nertia', 'terpscout']) expect(container.querySelectorAll(`#${id} [data-part="about"]`).length, id).toBe(1);
+  for (const id of ['vantage', 'nertia', 'terpscout']) expect([...container.querySelectorAll(`#${id} [data-part="about"]`)].filter((b) => !b.closest('[data-part^="specimen-"]')).length, id).toBe(1);
   expect(container.querySelectorAll('#practice [data-part="about"]').length).toBe(2);
   expect(ABOUT.zenHolo.source).toBe('Blender render');
   expect(ABOUT.marquee).toMatchObject({ place: 'District', year: '2017', source: 'Event banner' });

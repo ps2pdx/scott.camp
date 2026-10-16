@@ -1,0 +1,4 @@
+.wrap{display:flex;flex-direction:column;gap:var(--r-caption)}
+.plate{border:var(--strike) solid var(--line-strong);background:var(--tile);padding:var(--tile-pad)}
+.stage{position:relative;height:420px;overflow:hidden;background:var(--bg)}
+@media (max-width:639px){.stage{height:320px}}

@@ -1,4 +1,8 @@
-import { ABOUT, COPY } from '@/content/copy';
+import { ABOUT, COPY, SPECIMEN_ABOUT } from '@/content/copy';
+import { SpecimenPlate } from '@/components/SpecimenPlate';
+
+const butterfly = () => import('@/lib/specimens/ButterflyRing');
+const slit = () => import('@/lib/specimens/DoubleSlit');
 import { AboutBox } from '@/components/AboutBox';
 import { Section } from '@/components/Section';
 import { Transcript } from '@/components/Transcript';
@@ -21,8 +25,12 @@ export function NertiaSection() {
         <p className={`transcript ${width.text}`}>{n.evolution.steps[0]}</p>
         <BrandGenerator />
         <p className={`transcript ${width.text} ${s.step}`}>{n.evolution.steps[1]}</p>
-        <ZeroPointFrame caption={n.evolution.frameCaption} />
+        <SpecimenPlate part="specimen-butterfly" load={butterfly} label={n.evolution.specimens.butterfly.label} about={SPECIMEN_ABOUT.butterfly} />
         <p className={`transcript ${width.text} ${s.step}`}>{n.evolution.steps[2]}</p>
+        <SpecimenPlate part="specimen-slit" load={slit} label={n.evolution.specimens.slit.label} about={SPECIMEN_ABOUT.slit} />
+        <p className={`transcript ${width.text} ${s.step}`}>{n.evolution.steps[3]}</p>
+        <ZeroPointFrame caption={n.evolution.frameCaption} />
+        <p className={`transcript ${width.text} ${s.step}`}>{n.evolution.steps[4]}</p>
       </Block>
       <Block label="Skin contract" note={n.contract.lead}><DataTable kind="tiers" label="Skin contract tokens by tier" rows={n.contract.tiers} /></Block>
       <Block label="Tools that act on the system" note={n.notes.tools}>

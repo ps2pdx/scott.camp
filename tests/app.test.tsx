@@ -193,13 +193,13 @@ it('the Nertia block carries the Zero-Point evolution: the generator, the v1 fra
   expect(ev.querySelector(':scope > .meta')!.textContent).toBe('"Zero-Point evolution"');
   const steps = [...ev.querySelectorAll(':scope > p.transcript')].map((p) => p.textContent);
   expect(steps).toEqual(COPY.nertia.evolution.steps);
-  expect(steps.map((x) => x!.split(':')[0])).toEqual(['January 2026', 'May 2026', 'May 2026 to today']);
+  expect(steps.map((x) => x!.split(':')[0])).toEqual(['January 2026', 'April 2026, the Butterfly Ring', 'May 2026, the double slit', 'May 2026', 'May 2026 to today']);
   expect(ev.querySelector('[data-part="brand-generator"] figcaption')!.textContent).toContain('Brand System v3.0, nertia 7a576f35, January 2026');
   const frame = ev.querySelector('[data-part="zero-point-frame"]')!;
   expect(frame.querySelector('figcaption')!.textContent).toContain('falls back to the system stack');
   expect(frame.querySelector('[data-part="zero-point-v1"]')).toBeNull();
-  const order = [...n.querySelectorAll('[data-part="brand-generator"], [data-part="zero-point-frame"], table')].map((x) => x.getAttribute('data-part') ?? x.getAttribute('aria-label'));
-  expect(order).toEqual(['brand-generator', 'zero-point-frame', 'Skin contract tokens by tier', 'MCP tools that act on the design system or publish']);
+  const order = [...n.querySelectorAll('[data-part="brand-generator"], [data-part^="specimen-"], [data-part="zero-point-frame"], table')].map((x) => x.getAttribute('data-part') ?? x.getAttribute('aria-label'));
+  expect(order).toEqual(['brand-generator', 'specimen-butterfly', 'specimen-slit', 'zero-point-frame', 'Skin contract tokens by tier', 'MCP tools that act on the design system or publish']);
   expect([...n.querySelector('table[aria-label="Skin contract tokens by tier"]')!.querySelectorAll('tr')].map((r) => r.children[0].textContent)).toEqual(['Surface', 'Text', 'Line', 'Accent', 'Radius', 'Shadow', 'Motion', 'Type']);
   const tools = [...n.querySelector('table[aria-label^="MCP"]')!.querySelectorAll('td:first-child')].map((t) => t.textContent);
   expect(tools.length).toBe(8);
