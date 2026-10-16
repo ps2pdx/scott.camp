@@ -14,7 +14,7 @@ export const SECTIONS = [
 export const COPY = {
   hero: {
     eyebrow: 'I design systems agents ship.',
-    titleLine: 'Scott Campbell, Portland, Oregon',
+    titleLine: 'Scott Campbell, c/o Nertia.ai, Portland, Oregon',
     links: [
       { label: 'Zero-Point story', href: '#nertia' },
       { label: 'Contact', href: '#contact' },
@@ -30,7 +30,7 @@ export const COPY = {
     ] as TranscriptRow[],
   },
   endpapers: {
-    name: 'Scott Campbell',
+    name: 'Scott Campbell, c/o Nertia.ai',
     virgil: { when: '2015 to 2016', who: 'Virgil', text: 'I met Virgil once. He dapped me up at 45 East, Euphoria at the time, after playing a cool set.' } as TranscriptRow,
   },
   vantage: {

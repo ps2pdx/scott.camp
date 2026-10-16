@@ -8,7 +8,7 @@ beforeAll(() => { (globalThis as any).IntersectionObserver = class { observe() {
 it('renders the seven sections in order with running heads', () => {
   const { container } = render(<App />);
   expect([...container.querySelectorAll('section')].map((s) => s.id)).toEqual(['hero', 'endpapers', ...SECTIONS.slice(1).map((s) => s.id)]);
-  expect(screen.getByText('Scott Campbell, Portland, Oregon')).toBeInTheDocument();
+  expect(screen.getByText('Scott Campbell, c/o Nertia.ai, Portland, Oregon')).toBeInTheDocument();
   expect(screen.getByText('"I design systems agents ship."')).toBeInTheDocument();
   expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent("Something Click'd");
 });
@@ -92,7 +92,7 @@ it('the cover holds the eyebrow, the name line, three inline Meta links and the 
   expect(cover.querySelector('[data-part="cover-links"]')!.classList.contains('meta')).toBe(true);
   expect(cover.querySelector('p, ul, table')).toBeNull();
   const name = container.querySelector('#endpapers [data-part="yellow-name"]')!;
-  expect(name.textContent).toBe('Scott Campbell');
+  expect(name.textContent).toBe('Scott Campbell, c/o Nertia.ai');
   expect(name.classList.contains('display') && name.classList.contains('t-title')).toBe(true);
   expect(name.nextElementSibling!.textContent).toBe(COPY.hero.lead);
   expect(cover.textContent).toContain('"I design systems agents ship."');
@@ -130,7 +130,7 @@ it('the Nertia block ends on the code-site line; the documentation link lives in
 it('the cover carries the name as a title page would, once, beside the eyebrow', () => {
   const { container } = render(<App />);
   const line = container.querySelector('#hero [data-part="title-line"]')!;
-  expect(line.textContent).toBe('Scott Campbell, Portland, Oregon');
+  expect(line.textContent).toBe('Scott Campbell, c/o Nertia.ai, Portland, Oregon');
   expect(line.classList.contains('meta')).toBe(true);
   expect(line.previousElementSibling!.textContent).toBe('"I design systems agents ship."');
   expect(container.textContent!.split('Portland, Oregon').length).toBe(2);
