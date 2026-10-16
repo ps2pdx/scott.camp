@@ -36,6 +36,7 @@ export function App() {
       <PunchNav sections={SECTIONS} />
       <main>
         <Section id="endpapers" surface="endpaper">
+          <p data-part="yellow-name" className={`display t-title ${s.name}`}>{COPY.endpapers.name}</p>
           <p className={`text ${s.lead}`}>{h.lead}</p>
           <Transcript rows={h.facts} tight className={s.after} />
           <Transcript rows={[COPY.endpapers.virgil]} className={s.after} />

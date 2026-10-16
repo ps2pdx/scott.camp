@@ -15,6 +15,11 @@ export const COPY = {
   hero: {
     eyebrow: 'I design systems agents ship.',
     titleLine: 'Scott Campbell, Portland, Oregon',
+    links: [
+      { label: 'Zero-Point story', href: '#nertia' },
+      { label: 'Contact', href: '#contact' },
+      { label: 'Resume', href: '/Scott_Campbell_Resume.pdf', newTab: true },
+    ],
     headline: "Something Click'd",
     lead: 'Around last year, when I was building my portfolio, it pivoted into a design system generator, which is now Nertia: an agentic wormhole out of the corporate web.',
     facts: [
@@ -25,6 +30,7 @@ export const COPY = {
     ] as TranscriptRow[],
   },
   endpapers: {
+    name: 'Scott Campbell',
     virgil: { when: '2015 to 2016', who: 'Virgil', text: 'I met Virgil once. He dapped me up at 45 East, Euphoria at the time, after playing a cool set.' } as TranscriptRow,
   },
   vantage: {

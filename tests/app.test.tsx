@@ -80,13 +80,21 @@ it('every content section carries a tool watermark: its own facts, a unique seed
   expect(type).toMatch(/\.watermark\{font-family:'Courier New'[^}]*font-weight:700/);
 });
 
-it('the cover holds only the eyebrow, the name line and the headline, no actions; the Virgil row sits on the yellow pages, once', () => {
+it('the cover holds the eyebrow, the name line, three inline Meta links and the headline, no buttons; the yellow pages open on the name; the Virgil row sits on the yellow pages, once', () => {
   const { container } = render(<App />);
   const cover = container.querySelector('#hero')!;
   expect(cover.querySelector('h1')!.textContent).toBe("Something Click'd");
   expect(cover.querySelector('h1')!.classList.contains('bleed-btn')).toBe(true);
-  expect(cover.querySelectorAll('a, button').length).toBe(0);
+  expect(cover.querySelectorAll('button').length).toBe(0);
+  const links = [...cover.querySelectorAll('[data-part="cover-links"] a')];
+  expect(cover.querySelectorAll('a').length).toBe(3);
+  expect(links.map((a) => [a.textContent, a.getAttribute('href'), a.getAttribute('target')])).toEqual([['Zero-Point story', '#nertia', null], ['Contact', '#contact', null], ['Resume', '/Scott_Campbell_Resume.pdf', '_blank']]);
+  expect(cover.querySelector('[data-part="cover-links"]')!.classList.contains('meta')).toBe(true);
   expect(cover.querySelector('p, ul, table')).toBeNull();
+  const name = container.querySelector('#endpapers [data-part="yellow-name"]')!;
+  expect(name.textContent).toBe('Scott Campbell');
+  expect(name.classList.contains('display') && name.classList.contains('t-title')).toBe(true);
+  expect(name.nextElementSibling!.textContent).toBe(COPY.hero.lead);
   expect(cover.textContent).toContain('"I design systems agents ship."');
   const v = COPY.endpapers.virgil;
   expect(v).toEqual({ when: '2015 to 2016', who: 'Virgil', text: 'I met Virgil once. He dapped me up at 45 East, Euphoria at the time, after playing a cool set.' });

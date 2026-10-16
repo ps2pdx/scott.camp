@@ -4,3 +4,6 @@
 .compact{min-height:0;z-index:auto;padding:var(--s-5) var(--s-4)}
 .top{display:flex;justify-content:space-between;align-items:flex-start;gap:var(--s-2) var(--s-4);flex-wrap:wrap}
 .name{margin-left:auto;text-align:right}
+.links{flex-basis:100%;display:flex;flex-wrap:wrap;gap:var(--s-1) var(--s-4)}
+.links a{color:#000;text-decoration:underline;text-decoration-thickness:var(--strike);text-underline-offset:0.25em}
+.links a:focus-visible{outline:2px solid #000;outline-offset:2px}
