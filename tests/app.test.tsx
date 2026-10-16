@@ -19,10 +19,10 @@ it('carries the code-site line, the provenance line and the resume', () => {
   expect(screen.getByText('Textures photographed from one copy of ICONS, 13 October 2026.')).toBeInTheDocument();
   expect(screen.getAllByRole('link', { name: /Resume|Download resume/ })[0]).toHaveAttribute('href', '/Scott_Campbell_Resume.pdf');
 });
-it('places ten tech sheets across the chapters and fourteen index rows on the landing', () => {
+it('places ten tech sheets across the chapters and fifteen index rows on the landing', () => {
   const { container } = renderBook();
   expect(container.querySelectorAll('figure svg[role="img"]').length).toBe(10);
-  expect(container.querySelectorAll('#endpapers tr').length).toBe(14);
+  expect(container.querySelectorAll('#endpapers tr').length).toBe(15);
 });
 
 describe('theme boot', () => {

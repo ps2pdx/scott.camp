@@ -7,12 +7,12 @@ import { COPY } from '@/content/copy';
 import { renderBook } from './pages';
 
 it('Index strikes the rows that are not this section and keeps their text', () => {
-  const { container } = render(<Index rows={COPY.work.index.map((r, i) => ({ ...r, struck: i < 7 || i > 11 }))} />);
+  const { container } = render(<Index rows={COPY.work.index.map((r, i) => ({ ...r, struck: i < 8 || i > 12 }))} />);
   const table = screen.getByRole('table', { name: /Index/ });
   const rows = screen.getAllByRole('row');
-  expect(rows.length).toBe(14);
+  expect(rows.length).toBe(15);
   const struck = rows.filter((r) => r.querySelector('del'));
-  expect(struck.length).toBe(9);
+  expect(struck.length).toBe(10);
   expect(struck[0].textContent).toContain('Ali Sharifi Rugs');
   expect(rows.filter((r) => !r.querySelector('del')).map((r) => r.children[1].textContent)).toEqual(['Pharm to Body', 'Pure Zero Photography', 'Bend Cleaning', 'Full Scope Supply', 'Typeshit']);
   const scroller = table.parentElement!;
@@ -241,17 +241,17 @@ it('AboutBox is the book formula: ABOUT over the description, then Place, Type, 
   expect(css).toContain('grid-template-columns:minmax(0,2fr) minmax(0,1fr)');
   expect(css).toContain('border:var(--strike) solid var(--line-strong)');
 });
-it('every piece of work carries exactly one AboutBox: the five Work sites, Zen Holo, Marquee Mondays, TerpScout, Vantage and Nertia', async () => {
+it('every piece of work carries exactly one AboutBox: the five Work sites and Lillard, Zen Holo, Marquee Mondays, TerpScout, Vantage and Nertia', async () => {
   const { ABOUT } = await import('@/content/copy');
   const { container } = renderBook();
   const work = container.querySelector('#work')!;
   const cards = [...work.querySelectorAll('article')];
-  expect(cards.length).toBe(5);
-  for (const [i, a] of cards.entries()) {
-    expect(a.querySelectorAll('[data-part="about"]').length, String(i)).toBe(1);
+  expect(cards.length).toBe(6);
+  for (const a of cards) expect(a.querySelectorAll('[data-part="about"]').length).toBe(1);
+  for (const [i, a] of cards.slice(0, 5).entries()) {
     const sh = COPY.work.sheets[i];
     const dd = [...a.querySelectorAll('dd')].map((d) => d.textContent);
-    expect(dd).toEqual([sh.fields.Sheet, `${sh.fields.Role}, ${sh.fields.Stack}`, COPY.work.index[7 + i].year, 'Live site']);
+    expect(dd).toEqual([sh.fields.Sheet, `${sh.fields.Role}, ${sh.fields.Stack}`, COPY.work.index[8 + i].year, 'Live site']);
     expect(sh.body!.startsWith(a.querySelector('[data-part="about"] p')!.textContent!)).toBe(true);
     expect(a.querySelector('.hdr')).toBeNull();
   }
@@ -260,4 +260,18 @@ it('every piece of work carries exactly one AboutBox: the five Work sites, Zen H
   expect(ABOUT.zenHolo.source).toBe('Blender render');
   expect(ABOUT.marquee).toMatchObject({ place: 'District', year: '2017', source: 'Event banner' });
   for (const a of Object.values(ABOUT)) for (const v of Object.values(a)) expect(v).toBeTruthy();
+});
+it('Work stacks six sheets, The Lillard Foundation last as Vol. 05 marked In progress, with its own About box and no lillard.nertia.ai link', () => {
+  const { container } = renderBook();
+  const work = container.querySelector('#work')!;
+  const sheets = [...work.querySelectorAll('[data-part="work-sheets"] article')];
+  expect(sheets.length).toBe(6);
+  const lillard = sheets[5];
+  expect(lillard.querySelector('h3')!.textContent).toBe('"The Lillard Foundation" [In progress]');
+  expect(lillard.textContent).toContain('Vol. 05');
+  const facts = Object.fromEntries([...lillard.querySelectorAll('[data-part="about"] dl > div')].map((d) => [d.children[0].textContent, d.children[1].textContent]));
+  expect(facts).toEqual({ Place: 'lillard.vercel.app', Type: 'Brand styleguide, design system', Year: '2025', Source: 'Live styleguide' });
+  expect(lillard.querySelector('a')!.getAttribute('href')).toBe('https://lillard.vercel.app');
+  expect(container.querySelector('a[href*="lillard.nertia.ai"]')).toBeNull();
+  expect(sheets.slice(0, 5).every((a) => !a.querySelector('h3')!.textContent!.includes('['))).toBe(true);
 });

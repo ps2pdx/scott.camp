@@ -1,8 +1,9 @@
 import { COPY, type Sheet } from '@/content/copy';
 import { SpecSheet } from './SpecSheet';
+import type { About } from './AboutBox';
 
-export const workNo = (i: number) => String(8 + i).padStart(2, '0');
-export function WorkSheet({ sheet, no }: { sheet: Sheet; no: string }) {
+export const workNo = (i: number) => COPY.work.index.find((r) => r.name.startsWith(COPY.work.sheets[i].title))!.no;
+export function WorkSheet({ sheet, no, about }: { sheet: Sheet; no: string; about?: About }) {
   const v = COPY.work.index.find((r) => r.no === no)!;
-  return <SpecSheet sheet={sheet} volume={{ no: v.no, name: v.name, year: v.year }} />;
+  return <SpecSheet sheet={sheet} volume={{ no: v.no, name: v.name, year: v.year }} about={about} />;
 }

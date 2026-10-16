@@ -1,4 +1,4 @@
-import { COPY, VANTAGE_CASE_STUDY_URL } from '@/content/copy';
+import { ABOUT, COPY, VANTAGE_CASE_STUDY_URL } from '@/content/copy';
 import { readdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 
@@ -22,8 +22,8 @@ it('never says Series A', () => { expect(JSON.stringify(COPY.vantage)).not.toCon
 it('no sheet header field is empty', () => {
   for (const s of [...COPY.work.sheets, ...COPY.practice.sheets, ...COPY.nertia.sheets]) for (const [k, v] of Object.entries(s.fields)) expect(v, `${s.title} ${k}`).not.toBe('');
 });
-it('index has fourteen rows numbered 01 to 14, none struck on the front matter, KAL Contracting gone', () => {
-  expect(COPY.work.index.map((r) => r.no)).toEqual(Array.from({ length: 14 }, (_, i) => String(i + 1).padStart(2, '0')));
+it('index has fifteen rows numbered 01 to 15, none struck on the front matter, KAL Contracting gone', () => {
+  expect(COPY.work.index.map((r) => r.no)).toEqual(Array.from({ length: 15 }, (_, i) => String(i + 1).padStart(2, '0')));
   expect(COPY.work.index.filter((r) => r.struck)).toEqual([]);
 });
 it('the hero headline is locked', () => { expect(COPY.hero.headline).toBe("Something Click'd"); expect(COPY.hero.eyebrow).toBe('I design systems agents ship.'); expect(VANTAGE_CASE_STUDY_URL).toMatch(/^https:/); });
@@ -46,13 +46,13 @@ it('ScoutCamp is $10M total, 2020 to 2022, with no per-year rate anywhere', () =
   expect(COPY.terpscout.runningHead).toBe('TerpScout [2016 to 2022]');
 });
 it('the Nertia origin row counts ten months from December 2025', () => { expect(COPY.nertia.rows.find((r) => r.who === 'Origin')!.text).toContain('Ten months on,'); });
-it('KAL Contracting is not in the index and Pharm to Body is Vol. 08', () => {
+it('KAL Contracting is not in the index and Pharm to Body is Vol. 09', () => {
   expect(COPY.work.index.some((r) => r.name === 'KAL Contracting')).toBe(false);
-  expect(COPY.work.index.find((r) => r.name === 'Pharm to Body')!.no).toBe('08');
+  expect(COPY.work.index.find((r) => r.name === 'Pharm to Body')!.no).toBe('09');
 });
-it('Battlezone is row 05, at 2025 in the chronology, just before Nertia', () => {
+it('Battlezone is row 06, at 2025 in the chronology, just before Nertia', () => {
   const i = COPY.work.index.findIndex((r) => r.name === 'Battlezone');
-  expect(COPY.work.index[i]).toMatchObject({ no: '05', year: '2025', struck: false });
+  expect(COPY.work.index[i]).toMatchObject({ no: '06', year: '2025', struck: false });
   expect(COPY.work.index[i + 1].name).toBe('Nertia');
 });
 it('the yellow pages open by continuing the cover, verbatim', () => {
@@ -61,4 +61,14 @@ it('the yellow pages open by continuing the cover, verbatim', () => {
 it('the Vantage and Work facts read as Scott set them on 2026-10-15', () => {
   expect(COPY.hero.facts.find((f) => f.when === 'Vantage')!.text).toBe('2 trademarked phrases authored, brand system shipped for enablement, pitch and report');
   expect(COPY.hero.facts.find((f) => f.when === 'Work')!.text).toBe('5 live client sites, 4 on the Nertia platform');
+});
+it('The Lillard Foundation is row 05 (November 2025, before Battlezone), in progress, linked to lillard.vercel.app, never lillard.nertia.ai', () => {
+  const i = COPY.work.index.findIndex((r) => r.name === 'The Lillard Foundation');
+  expect(COPY.work.index[i]).toMatchObject({ no: '05', year: '2025', struck: false, description: 'Brand styleguide and design system, in progress' });
+  expect(COPY.work.index[i + 1].name).toBe('Battlezone');
+  const sheet = COPY.work.sheets.at(-1)!;
+  expect(sheet).toMatchObject({ title: 'The Lillard Foundation', status: 'In progress', href: 'https://lillard.vercel.app', label: 'lillard.vercel.app' });
+  expect(ABOUT.lillard).toMatchObject({ place: 'lillard.vercel.app', type: 'Brand styleguide, design system', year: '2025', source: 'Live styleguide' });
+  expect(JSON.stringify(COPY)).not.toContain('lillard.nertia.ai');
+  expect(COPY.work.lead).toMatch(/^Five live client sites/);
 });

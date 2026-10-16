@@ -5,7 +5,7 @@ import { lede } from '@/lib/lede';
 export const BOOKING_URL = 'https://cal.com/scott-campbell/consulting';
 export type TranscriptRow = { when: string; who: string; text: string };
 export type IndexRow = { no: string; name: string; description: string; year: string; struck: boolean; href?: string; current?: boolean };
-export type Sheet = { title: string; fields: Record<string, string>; body?: string; href?: string; label?: string; placeholder?: boolean };
+export type Sheet = { title: string; fields: Record<string, string>; body?: string; href?: string; label?: string; placeholder?: boolean; status?: string };
 export type TechFigure = 'editor' | 'mcp' | 'runtime' | 'tokens' | 'phone' | 'pipeline';
 export type TechSheetData = { sheet: string; figure: TechFigure; view: string; stack: string; src: string; date: string; sections: string[] };
 
@@ -227,16 +227,17 @@ export const COPY = {
       { no: '02', name: 'Rogue River Botanicals', description: 'Brand, website, kraft and wax seal packaging', year: '2016', struck: false },
       { no: '03', name: 'TerpScout, dba ScoutCamp', description: 'OLCC-regulated distribution consultancy, then a cannabis photography studio, $10M', year: '2020 to 2022', struck: false },
       { no: '04', name: 'Vantage Compute', description: 'Founding product marketing, AI/HPC orchestration', year: '2024 to 2026', struck: false },
-      { no: '05', name: 'Battlezone', description: 'Classic vector tank game revived, multiplayer on Firebase', year: '2025', struck: false },
-      { no: '06', name: 'Nertia', description: 'Agent-native site builder, web app and MCP server', year: '2025', struck: false },
-      { no: '07', name: 'Plotswitch', description: 'Productized agency brand, the pricing experiment', year: '2026', struck: false },
-      { no: '08', name: 'Pharm to Body', description: 'Family mushroom farm, Shopify, 12-week CSA program', year: '2026', struck: false },
-      { no: '09', name: 'Pure Zero Photography', description: 'Documentary photography, two tiers, published entry pricing', year: '2026', struck: false },
-      { no: '10', name: 'Bend Cleaning', description: 'Cascade Cleaning renamed, booking and review capture', year: '2026', struck: false },
-      { no: '11', name: 'Full Scope Supply', description: 'Commercial general contractor, lead generation', year: '2026', struck: false },
-      { no: '12', name: 'Typeshit', description: 'Developer streetwear, print on demand through Printful', year: '2026', struck: false },
-      { no: '13', name: 'Zen Holo', description: 'Blender animation plus AI music', year: '2026', struck: false },
-      { no: '14', name: 'Purple Scott', description: 'DJ identity', year: '2012', struck: false },
+      { no: '05', name: 'The Lillard Foundation', description: 'Brand styleguide and design system, in progress', year: '2025', struck: false },
+      { no: '06', name: 'Battlezone', description: 'Classic vector tank game revived, multiplayer on Firebase', year: '2025', struck: false },
+      { no: '07', name: 'Nertia', description: 'Agent-native site builder, web app and MCP server', year: '2025', struck: false },
+      { no: '08', name: 'Plotswitch', description: 'Productized agency brand, the pricing experiment', year: '2026', struck: false },
+      { no: '09', name: 'Pharm to Body', description: 'Family mushroom farm, Shopify, 12-week CSA program', year: '2026', struck: false },
+      { no: '10', name: 'Pure Zero Photography', description: 'Documentary photography, two tiers, published entry pricing', year: '2026', struck: false },
+      { no: '11', name: 'Bend Cleaning', description: 'Cascade Cleaning renamed, booking and review capture', year: '2026', struck: false },
+      { no: '12', name: 'Full Scope Supply', description: 'Commercial general contractor, lead generation', year: '2026', struck: false },
+      { no: '13', name: 'Typeshit', description: 'Developer streetwear, print on demand through Printful', year: '2026', struck: false },
+      { no: '14', name: 'Zen Holo', description: 'Blender animation plus AI music', year: '2026', struck: false },
+      { no: '15', name: 'Purple Scott', description: 'DJ identity', year: '2012', struck: false },
     ] as IndexRow[],
     sheets: [
       { title: 'Pharm to Body', fields: { Sheet: 'pharmtobody.com', Role: 'Design, build', Stack: 'Shopify' }, body: 'A family mushroom farm with no ecommerce history and a subscription product to sell. Shopify build carrying a 12-week CSA program, fresh and dried catalog, grow kits, and a workshop calendar.', href: 'https://pharmtobody.com', label: 'pharmtobody.com' },
@@ -244,6 +245,7 @@ export const COPY = {
       { title: 'Bend Cleaning', fields: { Sheet: 'bend.cleaning', Role: 'Design, build', Stack: 'Nertia' }, body: 'Renaming an established business without losing the referral base it was built on. Cascade Cleaning became Bend Cleaning, with the rename announced on the site rather than quietly absorbed, plus booking and review capture.', href: 'https://bend.cleaning', label: 'bend.cleaning' },
       { title: 'Full Scope Supply', fields: { Sheet: 'fullscopesupply.com', Role: 'Design, build', Stack: 'Nertia' }, body: 'A commercial general contractor whose pipeline ran entirely on word of mouth. Lead generation built around self-performed trades and single-point accountability, the actual differentiator, not the license number.', href: 'https://fullscopesupply.com', label: 'fullscopesupply.com' },
       { title: 'Typeshit', fields: { Sheet: 'typeshit.shop', Role: 'Design, build', Stack: 'Nertia, Printful' }, body: 'A developer streetwear brand selling print on demand through Printful. Heavyweight cotton for people whose builds pass locally. The site carries the voice and hands the cart to the fulfilment house without the seam showing.', href: 'https://typeshit.shop', label: 'typeshit.shop' },
+      { title: 'The Lillard Foundation', status: 'In progress', fields: { Sheet: 'lillard.vercel.app', Role: 'Design, build', Stack: 'Figma, React, TypeScript' }, body: 'A nonprofit that empowers youth through sports, education and community engagement programs. A brand styleguide and design system: typography, colour and component specifications for digital and print, designed in Figma and built as a React and TypeScript styleguide app. Work in progress, November to December 2025.', href: 'https://lillard.vercel.app', label: 'lillard.vercel.app' },
     ] as Sheet[],
     techNote: "Each site's phone layout, drawn from structure.",
     tech: [
@@ -337,6 +339,7 @@ export const ABOUT = {
   terpscout: { description: COPY.work.index.find((r) => r.no === '03')!.description, type: COPY.terpscout.tools[1], year: yearOf('TerpScout, dba ScoutCamp'), source: srcOf(COPY.terpscout.evidence.gated.spin.caption) },
   vantage: { description: COPY.work.index.find((r) => r.no === '04')!.description, place: new URL(VANTAGE_CASE_STUDY_URL).host, year: yearOf('Vantage Compute'), source: COPY.vantage.caseStudy.label },
   nertia: { description: COPY.work.index.find((r) => r.name === 'Nertia')!.description, place: new URL(COPY.footer.links[1].href).host, type: COPY.nertia.sheets[0].fields.Role, year: yearOf('Nertia'), source: `D${COPY.nertia.tech[0].src.slice(1).toLowerCase()}` },
+  lillard: { description: lede(COPY.work.sheets.find((x) => x.title === 'The Lillard Foundation')!.body!, 2), place: 'lillard.vercel.app', type: 'Brand styleguide, design system', year: yearOf('The Lillard Foundation'), source: 'Live styleguide' },
 };
 export const BATTLEZONE_ABOUT = { description: COPY.nertia.evolution.battlezone.description, place: new URL(COPY.nertia.evolution.battlezone.link.href).host.replace(/^www\./, ''), type: 'Game, multiplayer', year: yearOf('Battlezone'), source: 'Live site' };
 export const SPECIMEN_ABOUT = {

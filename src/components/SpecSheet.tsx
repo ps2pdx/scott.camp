@@ -21,7 +21,7 @@ export function SpecSheet({ sheet, volume, about }: { sheet: Sheet; volume: { no
     <article className={`grain tex-paper ${s.sheet}`}>
       <VolumeFace no={volume.no} name={volume.name} year={volume.year} />
       <div className={s.in}>
-        <h3 className="display t-title">{`"${sheet.title}"`}{sheet.placeholder ? <> <Bracket className="meta">PLACEHOLDER</Bracket></> : null}</h3>
+        <h3 className="display t-title">{`"${sheet.title}"`}{sheet.placeholder ? <> <Bracket className="meta">PLACEHOLDER</Bracket></> : sheet.status ? <> <Bracket className="meta">{sheet.status}</Bracket></> : null}</h3>
         <AboutBox about={about ?? sheetAbout(sheet, volume.year)} />
       </div>
       <div className={`meta ${s.ft}`}>{sheet.href ? <a href={sheet.href}>{sheet.label ?? sheet.href} ↗</a> : <span className="muted">Copy pending</span>}</div>
