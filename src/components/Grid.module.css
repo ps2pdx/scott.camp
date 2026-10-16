@@ -16,5 +16,6 @@
 .cols>.opener{grid-column:auto / span var(--sp-opener)}
 .cols>.margin{grid-column:auto / span var(--sp-margin)}
 .w-text{max-width:min(100%,calc(var(--u) * var(--sp-text) - var(--col-gap)))}
+.w-figure{max-width:min(100%,calc(var(--u) * var(--sp-figure) - var(--col-gap)))}
 .w-rows{max-width:min(100%,calc(var(--u) * var(--sp-rows) - var(--col-gap)))}
 @media (max-width:1023px){.cols>.note{align-self:start;margin-top:var(--r-caption)}}

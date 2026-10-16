@@ -11,3 +11,5 @@
 @media (min-width:1024px){.head>.titles{grid-row:1}.head>.side{grid-row:1;grid-column:-4 / -1}}
 @media (max-width:1023px){.head{row-gap:var(--r-lead)}.side{order:-1;flex-direction:row;justify-content:space-between;align-items:flex-start;width:100%}}
 .hasWm{padding-bottom:calc((var(--wm-offset) + var(--wm-size)) * var(--wm-k) * 0.9 + var(--r-block))}
+.portrait{max-width:min(100%,calc(var(--u) * var(--sp-portrait) - var(--col-gap)));margin-bottom:var(--r-lead)}
+@media (max-width:639px){.portrait{max-width:calc(240px + 2 * var(--tile-pad) + 2 * var(--strike))}}

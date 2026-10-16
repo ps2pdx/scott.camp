@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import { readFileSync } from 'node:fs';
+import { readFileSync, statSync } from 'node:fs';
 import { App } from '@/App';
 import { COPY, SECTIONS } from '@/content/copy';
 
@@ -101,12 +101,11 @@ it('the cover holds the eyebrow, the name line, three inline Meta links and the 
   const name = container.querySelector('#endpapers [data-part="yellow-name"]')!;
   expect(name.textContent).toBe('Scott Campbell, c/o Nertia.ai');
   expect(name.classList.contains('display') && name.classList.contains('t-title')).toBe(true);
-  const front = name.nextElementSibling!;
-  expect(front.getAttribute('data-part')).toBe('frontispiece');
-  expect(front.firstElementChild!.firstElementChild!.getAttribute('data-part')).toBe('portrait');
-  expect(front.lastElementChild!.firstElementChild!.textContent).toBe(COPY.hero.lead);
-  expect(front.lastElementChild!.textContent).toContain(COPY.hero.facts[3].text);
-  expect(front.textContent).not.toContain(COPY.endpapers.virgil.text);
+  const lead = name.nextElementSibling!;
+  expect(container.querySelector('#endpapers [data-part="frontispiece"], #endpapers [data-part="portrait"]')).toBeNull();
+  expect(lead.textContent).toBe(COPY.hero.lead);
+  expect(lead.nextElementSibling!.textContent).toContain(COPY.hero.facts[3].text);
+  expect(lead.nextElementSibling!.textContent).not.toContain(COPY.endpapers.virgil.text);
   expect(cover.textContent).toContain('"I design systems agents ship."');
   const v = COPY.endpapers.virgil;
   expect(v).toEqual({ when: '2015 to 2016', who: 'Virgil', text: 'I met Virgil once. He dapped me up at 45 East, Euphoria at the time, after playing a cool set.' });
@@ -203,19 +202,27 @@ it('the Nertia block carries the Zero-Point evolution: the generator, the v1 fra
   expect([...n.querySelectorAll('[data-part="brand-sample"] a')].every((a) => a.getAttribute('href') === '#nertia')).toBe(true);
   expect(container.querySelectorAll('nav[aria-label="Sections"] a').length).toBe(8);
 });
-it('the yellow pages carry the portrait opposite the name: lazy, alt Scott Campbell, caption SNY00127, 2024', () => {
+it('Contact opens on the portrait above the title: 2:3, lazy, alt Scott Campbell, caption under the frame, then the lead, the rows, the resume and the Cal plates', () => {
   const { container } = render(<App />);
-  const fig = container.querySelector('#endpapers [data-part="portrait"]')!;
+  const fig = container.querySelector('#contact [data-part="portrait"]')!;
   const img = fig.querySelector('img')!;
   expect(img.getAttribute('src')).toBe('/evidence/portrait.webp');
   expect(img.getAttribute('srcset')).toBe('/evidence/portrait-240.webp 240w, /evidence/portrait.webp 480w, /evidence/portrait-640.webp 640w');
   expect(img.getAttribute('alt')).toBe('Scott Campbell');
   expect(img.getAttribute('loading')).toBe('lazy');
   expect(fig.querySelector('figcaption')!.textContent).toBe('Portrait, SNY00127, 2024');
-  expect(fig.parentElement!.parentElement!.previousElementSibling!.getAttribute('data-part')).toBe('yellow-name');
-  expect(fig.parentElement!.nextElementSibling!.firstElementChild!.textContent).toBe(COPY.hero.lead);
+  expect(img.getAttribute('data-ratio')).toBe('2:3');
+  expect(fig.lastElementChild!.tagName).toBe('FIGCAPTION');
+  const head = fig.parentElement!.nextElementSibling!;
+  expect(head.querySelector('h2')!.textContent).toBe(COPY.contact.title);
+  expect(head.querySelector('h2')!.nextElementSibling!.textContent).toBe(COPY.contact.lead);
+  expect(head.querySelector('[data-part="margin"]')!.textContent).toBe(COPY.contact.runningHead);
+  const c = container.querySelector('#contact')!;
+  const order = [...c.querySelectorAll('h2, [data-part="portrait"], ul.transcript, a[download], [data-part="booking"]')].map((x) => x.tagName === 'H2' ? 'title' : x.getAttribute('data-part') ?? (x.tagName === 'A' ? 'resume' : 'rows'));
+  expect(order).toEqual(['portrait', 'title', 'rows', 'resume', 'booking']);
+  expect(readFileSync('src/components/Section.module.css', 'utf8')).toContain('@media (max-width:639px){.portrait{max-width:calc(240px + 2 * var(--tile-pad) + 2 * var(--strike))}}');
 });
-it('the Design system section opens on the book photo between the ICONS title and the lead, lazy, on the white tile', () => {
+it('the Design system section opens on the book photo, the contact sheet under it, between the ICONS title and the lead, lazy, on the white tile', () => {
   const { container } = render(<App />);
   const fig = container.querySelector('#design-system [data-part="ds-book"]')!;
   const img = fig.querySelector('img')!;
@@ -225,5 +232,16 @@ it('the Design system section opens on the book photo between the ICONS title an
   expect(img.getAttribute('loading')).toBe('lazy');
   expect(fig.querySelector('figcaption')!.textContent).toBe('ICONS, IMG_2975, iPhone, 13 October 2026');
   expect(fig.previousElementSibling!.textContent).toBe('ICONS');
-  expect(fig.nextElementSibling!.textContent).toBe(COPY.designSystem.lead);
+  const sheet = fig.nextElementSibling!;
+  expect(sheet.getAttribute('data-part')).toBe('ds-contact-sheet');
+  expect(sheet.nextElementSibling!.textContent).toBe(COPY.designSystem.lead);
+  expect([...sheet.querySelectorAll('li > .meta')].map((x) => x.textContent)).toEqual(['IMG_2939', 'IMG_2976', 'IMG_2981', 'IMG_2983', 'IMG_2999', 'IMG_3027']);
+  for (const t of sheet.querySelectorAll('img')) {
+    const cut = t.getAttribute('src')!.replace('-320.webp', '');
+    expect(t.getAttribute('srcset')).toBe(`${cut}-320.webp 1x, ${cut}-640.webp 2x`);
+    expect(t.getAttribute('data-ratio')).toBe('1:1');
+    expect(t.getAttribute('loading')).toBe('lazy');
+    for (const px of [320, 640]) expect(statSync(`public${cut}-${px}.webp`).size).toBeLessThan(40 * 1024);
+  }
+  expect(readFileSync('src/components/DesignStudy.module.css', 'utf8')).toMatch(/\.sheet\{[^}]*grid-template-columns:repeat\(3,minmax\(0,1fr\)\)/);
 });

@@ -1,7 +1,15 @@
 .frame{display:block;width:fit-content;max-width:100%;padding:var(--tile-pad);background:var(--tile);border:var(--strike) solid var(--line-strong)}
 .frame img,.frame video{display:block;max-width:100%;height:auto}
+.shot{object-fit:cover;object-position:center}
+.shot[data-ratio="3:2"]{aspect-ratio:3/2}
+.shot[data-ratio="2:3"]{aspect-ratio:2/3}
+.shot[data-ratio="1:1"]{aspect-ratio:1/1}
+.shot[data-ratio="16:9"]{aspect-ratio:16/9}
+.shot[data-focus="top"]{object-position:top}
+.shot[data-focus="bottom"]{object-position:bottom}
+.shot[data-focus="left"]{object-position:left}
+.shot[data-focus="right"]{object-position:right}
 .plate{background:var(--sheet);width:auto}
-.fig{margin:0;row-gap:var(--r-caption)}
 .under{margin:0;display:flex;flex-direction:column;gap:var(--r-caption);min-width:0}
 .fill{width:100%}
 .fill img{width:100%}

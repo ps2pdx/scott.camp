@@ -1,4 +1,4 @@
-.mark{display:block;flex:none;width:120px;height:120px;padding:var(--tile-pad);background:var(--tile);border:var(--strike) solid var(--line-strong);object-fit:contain}
-.wide{height:48px}
-@media (max-width:639px){.mark{width:96px;height:96px}.wide{height:38px}}
-.portraitTile{display:block;width:100%;height:auto}
+.tile{display:grid;place-items:center;flex:none;width:var(--mark-tile);height:var(--mark-tile);padding:var(--tile-pad);background:var(--tile);border:var(--strike) solid var(--line-strong)}
+.wide{width:calc(var(--mark-tile) * 2)}
+.mark{display:block;width:calc(var(--mark-tile) * var(--mark-fill));height:auto;max-height:100%;object-fit:contain}
+.wide .mark{width:calc(var(--mark-tile) * 2 * var(--mark-fill))}

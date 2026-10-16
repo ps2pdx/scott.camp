@@ -7,5 +7,3 @@
 .step{margin-top:var(--r-item)}
 .stack{display:flex;flex-direction:column;gap:var(--r-item)}
 .name{margin:0 0 var(--r-block)}
-.front{row-gap:var(--r-item)}
-@media (max-width:639px){.portrait{max-width:calc(240px + 2 * var(--tile-pad) + 2 * var(--strike))}}

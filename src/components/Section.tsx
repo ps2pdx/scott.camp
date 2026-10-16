@@ -7,16 +7,17 @@ import { content, span } from './Grid';
 import g from './Grid.module.css';
 import s from './Section.module.css';
 
-export function Section({ id, runningHead, eyebrow, title, lead, figure, surface = 'page', first, tools, mark, children }: {
-  figure?: ReactNode;
+export function Section({ id, runningHead, eyebrow, title, lead, figure, portrait, surface = 'page', first, tools, mark, children }: {
+  figure?: ReactNode; portrait?: ReactNode;
   tools?: readonly string[]; mark?: MarkData; id: string; runningHead?: string; eyebrow?: string; title?: string; lead?: string; surface?: 'page' | 'board' | 'endpaper'; first?: boolean; children: ReactNode;
 }) {
   const wm = tools ? watermarkPlacement(id) : null;
   const brow = eyebrow && eyebrow !== runningHead ? eyebrow : null;
-  const hasHead = Boolean(title || lead || figure || brow || runningHead || mark);
+  const hasHead = Boolean(title || lead || figure || portrait || brow || runningHead || mark);
   return (
     <section id={id} {...(wm ? { 'data-wm-size': wm.size, 'data-wm-offset': wm.offset } : {})} {...(first ? { 'data-first': '' } : {})} {...(surface === 'endpaper' ? { 'data-surface': 'endpaper' } : {})} className={`grain ${surface === 'board' ? `tex-board ${s.board}` : surface === 'endpaper' ? `tex-paper ${s.endpaper}` : 'tex-paper'} ${s.section} ${wm ? s.hasWm : ''} ${first ? 'first' : 'cut'}`}>
       <div className={`${content} ${s.wrap}`}>
+        {portrait ? <div className={s.portrait}>{portrait}</div> : null}
         {hasHead ? (
           <div className={`${g.cols} ${s.head}`}>
             <div className={`${g.cols} ${s.titles}`}>

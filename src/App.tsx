@@ -10,7 +10,7 @@ import { Cover } from '@/components/Cover';
 import { Label } from '@/components/Label';
 import { Transcript } from '@/components/Transcript';
 import { Button } from '@/components/Button';
-import { Grid, span, width } from '@/components/Grid';
+import { Grid, width } from '@/components/Grid';
 import { SpecSheet } from '@/components/SpecSheet';
 import { TechSlider } from '@/components/TechSlider';
 import { Index } from '@/components/Index';
@@ -19,7 +19,7 @@ import { Plate, Spin } from '@/components/Evidence';
 import { DataTable } from '@/components/DataTable';
 import { BrandGenerator } from '@/components/BrandGenerator';
 import { ZeroPointFrame } from '@/components/ZeroPointFrame';
-import { FigurePair, SurfaceRow, TextureList, TypeStack } from '@/components/DesignStudy';
+import { BookFigure, FigurePair, SurfaceRow, TextureList, TypeStack } from '@/components/DesignStudy';
 import { Disclosure } from '@/components/Disclosure';
 import { Portrait } from '@/components/Mark';
 import s from './App.module.css';
@@ -51,18 +51,13 @@ export function App() {
       <main>
         <Section id="endpapers" surface="endpaper">
           <p data-part="yellow-name" className={`display t-title ${s.name}`}>{COPY.endpapers.name}</p>
-          <Grid columns={12} part="frontispiece" className={s.front}>
-            <div className={`${span.portrait} ${s.portrait}`}><Portrait p={COPY.endpapers.portrait} /></div>
-            <div className={span.opener}>
-              <p className={`text ${s.lead}`}>{h.lead}</p>
-              <Transcript rows={h.facts} tight className={s.gap} />
-            </div>
-          </Grid>
+          <p className={`text ${width.text} ${s.lead}`}>{h.lead}</p>
+          <Transcript rows={h.facts} tight className={s.gap} />
           <Transcript rows={[COPY.endpapers.virgil]} className={s.block} />
           <div className={s.block}><Index rows={COPY.work.index} /></div>
         </Section>
 
-        <Section id="design-system" tools={COPY.designSystem.watermark} runningHead={COPY.designSystem.runningHead} title={COPY.designSystem.title} lead={COPY.designSystem.lead} figure={<Portrait p={COPY.designSystem.book} part="ds-book" wide />}>
+        <Section id="design-system" tools={COPY.designSystem.watermark} runningHead={COPY.designSystem.runningHead} title={COPY.designSystem.title} lead={COPY.designSystem.lead} figure={<BookFigure />}>
           <Block label="Surfaces" first><SurfaceRow /></Block>
           <Block label="Textures" note={COPY.designSystem.texturesLine}><TextureList /></Block>
           <Block label="Type" note={COPY.designSystem.typeLine}><TypeStack /></Block>
@@ -117,7 +112,7 @@ export function App() {
           </div>
         </Section>
 
-        <Section id="contact" runningHead={COPY.contact.runningHead} eyebrow={COPY.contact.eyebrow} title={COPY.contact.title} lead={COPY.contact.lead}>
+        <Section id="contact" runningHead={COPY.contact.runningHead} eyebrow={COPY.contact.eyebrow} title={COPY.contact.title} lead={COPY.contact.lead} portrait={<Portrait p={COPY.contact.portrait} />}>
           <Transcript rows={COPY.contact.rows} render={(r) => <a href={r.when === 'Email' ? COPY.contact.links.email : COPY.contact.links.phone}>{r.text}</a>} />
           <div className={`${s.btns} ${s.block}`}><Button href={COPY.contact.resume.href} variant="primary" bracket={COPY.contact.resume.bracket} download>{COPY.contact.resume.label}</Button></div>
           <div className={`${cal.pair} ${s.block}`} data-part="booking">{COPY.contact.booking.map((b) => <CalBooking key={b.slug} {...b} />)}</div>

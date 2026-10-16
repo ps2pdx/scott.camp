@@ -43,7 +43,7 @@ it('TerpScout shows only its mark at the top until the disclosure is opened', ()
   const { container } = render(<App />);
   const block = container.querySelector('#terpscout')!;
   const ev = COPY.terpscout.evidence;
-  expect([...block.querySelectorAll('img')].map((i) => i.getAttribute('src'))).toEqual(['/evidence/terpscout-mark.webp']);
+  expect([...block.querySelectorAll('img')].map((i) => i.getAttribute('src'))).toEqual(['/evidence/terpscout-mark-72.webp']);
   expect(block.querySelectorAll('figcaption').length).toBe(0);
   expect(block.querySelector('video')).toBeNull();
   const details = block.querySelector('details')!;
@@ -147,17 +147,26 @@ it('the spin sits in a black figure no wider than 480 px, capped at 52vh, captio
 it('Vantage, Nertia and TerpScout open with their mark on a white tile beside the running head; Work and Practice carry none', () => {
   stubMatchMedia(false);
   const { container } = render(<App />);
-  for (const [id, name, src] of [['vantage', 'Vantage Compute', '/evidence/vantage-mark.svg'], ['nertia', 'Nertia', '/evidence/nertia-mark.svg'], ['terpscout', 'TerpScout', '/evidence/terpscout-mark.webp']]) {
+  for (const [id, name, src] of [['vantage', 'Vantage Compute', '/evidence/vantage-mark.svg'], ['nertia', 'Nertia', '/evidence/nertia-mark.svg'], ['terpscout', 'TerpScout', '/evidence/terpscout-mark-72.webp']]) {
     const m = container.querySelector(`#${id} [data-part="mark"]`)!;
-    expect(m.getAttribute('src')).toBe(src);
-    expect(m.getAttribute('aria-label')).toBe(name);
+    const img = m.querySelector('img')!;
+    expect(img.getAttribute('src')).toBe(src);
+    expect(img.getAttribute('alt')).toBe(name);
+    expect(img.getAttribute('loading')).toBe('lazy');
+    expect(m.classList.contains('wide')).toBe(id === 'vantage');
     expect(m.previousElementSibling!.textContent).toContain(COPY[id as 'vantage'].runningHead);
     expect(m.compareDocumentPosition(container.querySelector(`#${id} h2`)!) & Node.DOCUMENT_POSITION_PRECEDING).toBeTruthy();
   }
   expect(container.querySelector('#work [data-part="mark"], #practice [data-part="mark"]')).toBeNull();
   const css = readFileSync('src/components/Mark.module.css', 'utf8');
-  expect(css).toContain('.mark{display:block;flex:none;width:120px;height:120px;padding:var(--tile-pad);background:var(--tile);border:var(--strike) solid var(--line-strong);object-fit:contain}');
-  expect(css).toContain('.wide{height:48px}');
+  expect(css).toContain('.tile{display:grid;place-items:center;flex:none;width:var(--mark-tile);height:var(--mark-tile);padding:var(--tile-pad);background:var(--tile);border:var(--strike) solid var(--line-strong)}');
+  expect(css).toContain('.wide{width:calc(var(--mark-tile) * 2)}');
+  expect(css).toContain('.mark{display:block;width:calc(var(--mark-tile) * var(--mark-fill))');
+  expect(css).toContain('.wide .mark{width:calc(var(--mark-tile) * 2 * var(--mark-fill))}');
+  const tokens = readFileSync('src/styles/tokens.css', 'utf8');
+  expect(tokens).toContain('--tile:#ffffff;--tile-pad:12px;--mark-tile:120px;--mark-fill:0.6;');
+  expect(tokens).not.toMatch(/--tile:#(?!ffffff)/);
+  expect(readFileSync('public/evidence/nertia-mark.svg', 'utf8')).not.toContain('fill="white"');
   expect(css).not.toMatch(/border-radius|box-shadow/);
   expect(readFileSync('public/evidence/vantage-mark.svg', 'utf8')).not.toContain('fill="white"');
 });
@@ -171,3 +180,65 @@ it('the disclosure holds the spin, the rosin reel at full frame, the Martian Fru
   expect(details.querySelector(`video[poster="${COPY.terpscout.evidence.gated.reel.poster}"]`)).not.toBeNull();
 });
 
+it('every image on the page carries width, height, alt, loading and decoding; rasters carry a 1x and 2x srcset at an allowed ratio', async () => {
+  stubMatchMedia(false);
+  const { container } = render(<App />);
+  const d = container.querySelector<HTMLDetailsElement>('#terpscout details')!;
+  fireEvent.click(d.querySelector('summary')!);
+  await waitFor(() => expect(d.querySelector('img, video')).not.toBeNull());
+  const imgs = [...container.querySelectorAll('img')];
+  expect(imgs.length).toBeGreaterThan(15);
+  const ratios: Record<string, number> = { '3:2': 3 / 2, '2:3': 2 / 3, '1:1': 1, '16:9': 16 / 9 };
+  for (const img of imgs) {
+    const src = img.getAttribute('src')!;
+    for (const a of ['width', 'height', 'alt', 'loading']) expect(img.hasAttribute(a), `${src} ${a}`).toBe(true);
+    expect(Number(img.getAttribute('width')), src).toBeGreaterThan(0);
+    expect(Number(img.getAttribute('height')), src).toBeGreaterThan(0);
+    expect(img.getAttribute('alt')!.length, src).toBeGreaterThan(3);
+    expect(img.getAttribute('alt'), src).not.toMatch(/^(image|picture|photo) of/i);
+    expect(img.getAttribute('loading'), src).toBe('lazy');
+    expect(img.getAttribute('decoding'), src).toBe('async');
+    if (src.endsWith('.svg')) continue;
+    expect(src.endsWith('.webp'), src).toBe(true);
+    expect(img.getAttribute('srcset')!.split(',').length, src).toBeGreaterThanOrEqual(2);
+    if (img.closest('[data-part="mark"]')) continue;
+    const r = img.getAttribute('data-ratio')!;
+    expect(Object.keys(ratios), src).toContain(r);
+    expect(Number(img.getAttribute('width')) / Number(img.getAttribute('height')), src).toBeCloseTo(ratios[r], 2);
+  }
+  const css = readFileSync('src/components/Evidence.module.css', 'utf8');
+  expect(css).toContain('.shot{object-fit:cover;object-position:center}');
+  for (const r of ['3/2', '2/3', '1/1', '16/9']) expect(css).toContain(`{aspect-ratio:${r}}`);
+});
+it('no evidence still outside the age gate is over 300 KB, and the series banner is re-cut to 16:9', () => {
+  const gated = COPY.terpscout.evidence.gated.stills.map((e) => e.src.replace('/evidence/', '').replace('.webp', ''));
+  for (const f of readdirSync('public/evidence').filter((x) => x.endsWith('.webp'))) {
+    if (gated.some((g) => f.startsWith(g))) continue;
+    expect(statSync(`public/evidence/${f}`).size, f).toBeLessThan(300 * 1024);
+  }
+  expect(COPY.practice.evidence[1]).toMatchObject({ width: 818, height: 460, ratio: '16:9' });
+});
+it('figures stack: one column, the caption under its frame, Designed then Built, no margin captions', () => {
+  stubMatchMedia(false);
+  const { container } = render(<App />);
+  for (const fig of container.querySelectorAll('figure')) {
+    const cap = fig.querySelector(':scope > figcaption');
+    if (!cap) continue;
+    expect(fig.lastElementChild).toBe(cap);
+    expect(cap.className).toBe('meta');
+  }
+  const pair = container.querySelector('[data-part="ds-figures"]')!;
+  expect([...pair.children].map((f) => f.querySelector('figcaption')!.textContent!.split(',')[0])).toEqual(['Designed', 'Built']);
+  expect(readFileSync('src/components/DesignStudy.module.css', 'utf8')).toContain('.pair{display:flex;flex-direction:column;gap:var(--r-item)}');
+  expect(readFileSync('src/components/Evidence.tsx', 'utf8')).not.toMatch(/span\.note/);
+});
+it('the head carries a color-scheme meta and the og:image dimensions', () => {
+  const html = readFileSync('bell/index.html', 'utf8');
+  expect(html).toContain('<meta name="color-scheme" content="dark light">');
+  expect(html).toContain('<meta property="og:image:width" content="1200">');
+  expect(readFileSync('specimen/index.html', 'utf8')).toContain('<meta name="color-scheme" content="dark light">');
+});
+it('the punch nav spans the text columns, 1 to 7, on desktop', () => {
+  const css = readFileSync('src/components/PunchNav.module.css', 'utf8');
+  expect(css).toContain('* var(--sp-text) / var(--cols) - var(--col-gap))}.cells{max-width:var(--nav-w)}');
+});

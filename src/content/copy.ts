@@ -1,3 +1,5 @@
+import type { Still } from '@/components/Evidence';
+import type { MarkData } from '@/components/Mark';
 export type TranscriptRow = { when: string; who: string; text: string };
 export type IndexRow = { no: string; name: string; description: string; year: string; struck: boolean };
 export type Sheet = { title: string; fields: Record<string, string>; body?: string; href?: string; label?: string; placeholder?: boolean };
@@ -32,11 +34,10 @@ export const COPY = {
   },
   endpapers: {
     name: 'Scott Campbell, c/o Nertia.ai',
-    portrait: { src: '/evidence/portrait.webp', srcSet: '/evidence/portrait-240.webp 240w, /evidence/portrait.webp 480w, /evidence/portrait-640.webp 640w', width: 480, height: 720, alt: 'Scott Campbell', caption: 'Portrait, SNY00127, 2024' },
     virgil: { when: '2015 to 2016', who: 'Virgil', text: 'I met Virgil once. He dapped me up at 45 East, Euphoria at the time, after playing a cool set.' } as TranscriptRow,
   },
   vantage: {
-    mark: { src: '/evidence/vantage-mark.svg', width: 175, height: 40, name: 'Vantage Compute', wide: true },
+    mark: { src: '/evidence/vantage-mark.svg', width: 175, height: 40, name: 'Vantage Compute', wide: true } as MarkData,
     tools: ["Product positioning", "Competitive intelligence", "Sales enablement", "Technical messaging", "Naming and trademark", "Investor communications", "SEO/GEO", "Figma", "HubSpot", "Zoho", "GA4", "Slurm", "Kubernetes", "NVIDIA GPU architecture", "Docker"] as string[],
     eyebrow: 'Vantage Compute', runningHead: 'Vantage [2024 to 2026]', title: 'Founding product marketing',
     lead: 'Early-stage orchestration platform: one chip-agnostic control plane over Slurm and Kubernetes for AI/ML training, inference, simulation, and life sciences workloads, running across public cloud, private cloud, and on-prem. I was the first marketing hire and built the function from nothing, July 2024 to August 2026.',
@@ -52,7 +53,7 @@ export const COPY = {
     tools: ["Next.js", "React", "TypeScript", "Tailwind CSS", "Firebase", "Claude API", "MCP server development", "LLM tool schema design", "Agent-native product design", "CSS token systems", "Brand system design", "Git/GitHub", "Core Web Vitals"] as string[],
     eyebrow: 'Nertia', runningHead: 'Nertia', title: "A product designed from the buyer's side",
     lead: 'An agent-native site builder, shipped as a web application and as an MCP server. I designed it, built it, and took it to market.',
-    mark: { src: '/evidence/nertia-mark.svg', width: 240, height: 199, name: 'Nertia' },
+    mark: { src: '/evidence/nertia-mark.svg', width: 240, height: 199, name: 'Nertia' } as MarkData,
     rows: [
       { when: 'December 2025', who: 'Origin', text: 'It started as a design system generator: a brand schema, tokens, typography, animation, decision logic. The site builder came later. Ten months on, the design system is the part every site inherits.' },
       { when: '16 April 2026', who: 'Evidence', text: 'Launched as an AI brand generator. Research said the durable need was shipping and maintaining live sites, not generating identity assets. Changed the product rather than the messaging.' },
@@ -111,7 +112,7 @@ export const COPY = {
     },
   },
   terpscout: {
-    mark: { src: '/evidence/terpscout-mark.webp', width: 240, height: 240, name: 'TerpScout' },
+    mark: { src: '/evidence/terpscout-mark-72.webp', srcSet: '/evidence/terpscout-mark-72.webp 1x, /evidence/terpscout-mark-144.webp 2x', width: 72, height: 72, name: 'TerpScout' } as MarkData,
     tools: ["P&L", "Sales and distribution", "Territory strategy", "Compliance", "Cannabis photography", "Adobe Premiere Pro", "Print design"] as string[],
     eyebrow: 'TerpScout', runningHead: 'TerpScout [2016 to 2022]', title: 'Proof of positioning',
     lead: 'A brand I built became a network I sold through, at half the going rate. TerpScout, dba of ScoutCamp, was an OLCC-regulated recreational cannabis distribution consultancy: it facilitated product-to-cash transfers and rented space from established wholesale licenses. The site is gone. The sales logs are not.',
@@ -128,15 +129,23 @@ export const COPY = {
         spin: { src: '/evidence/terpscout-spin.mp4', poster: '/evidence/terpscout-spin-poster.webp', width: 720, height: 1280, caption: 'Product turntable, TerpScout studio, 2022', alt: 'A purple and green cola turns slowly on a turntable against a black ground, every trichome lit.' },
         reel: { src: '/evidence/rosin-press-reel.mp4', poster: '/evidence/rosin-press-reel-poster.webp', width: 720, height: 1280, caption: 'Rosin press reel, slow motion, 2024', alt: 'Slow motion close-up: gloved fingers fold a white mesh press bag with an orange edge, and golden rosin spreads glossy and stringy across it.' },
         stills: [
-          { src: '/evidence/martian-fruit-print.webp', width: 1000, height: 1404, caption: 'Strain print, Martian Fruit, for a TerpScout client, 2022', alt: 'Strain print: a Martian Fruit cola on black framed by torn white paper, MARTIAN FRUIT set in black over yellow, and a yellow credit block reading Modified Bananas x Pineapple Pez, breeder Ronin Seeds, cultivator Boring Glory, photography Terpscouting.' },
-          { src: '/evidence/terp-scouts-per-image-pricing.webp', width: 1600, height: 900, caption: 'Per image pricing, Terp-Scouts cannabis photography, summer 2022', alt: 'Pricing page headed PER IMAGE PRICING: five photographs on black, priced Full bud $100 (3 minimum), Portrait $200, Macro $300, Concentrate $75 (3 minimum), Flower $75 (3 minimum).' },
-        ],
+          { src: '/evidence/martian-fruit-print.webp', srcSet: '/evidence/martian-fruit-print-500.webp 500w, /evidence/martian-fruit-print.webp 1000w', width: 936, height: 1404, ratio: '2:3', caption: 'Strain print, Martian Fruit, for a TerpScout client, 2022', alt: 'Strain print: a Martian Fruit cola on black framed by torn white paper, MARTIAN FRUIT set in black over yellow, and a yellow credit block reading Modified Bananas x Pineapple Pez, breeder Ronin Seeds, cultivator Boring Glory, photography Terpscouting.' },
+          { src: '/evidence/terp-scouts-per-image-pricing.webp', srcSet: '/evidence/terp-scouts-per-image-pricing-800.webp 800w, /evidence/terp-scouts-per-image-pricing.webp 1600w', width: 1600, height: 900, ratio: '16:9', caption: 'Per image pricing, Terp-Scouts cannabis photography, summer 2022', alt: 'Pricing page headed PER IMAGE PRICING: five photographs on black, priced Full bud $100 (3 minimum), Portrait $200, Macro $300, Concentrate $75 (3 minimum), Flower $75 (3 minimum).' },
+        ] as Still[],
       },
     },
   },
   designSystem: {
     runningHead: 'Design system [2026]', title: 'ICONS',
-    book: { src: '/evidence/book.webp', srcSet: '/evidence/book-640.webp 640w, /evidence/book.webp 1280w', width: 1280, height: 1280, alt: 'The book, cover edge, cloth and swoosh', caption: 'ICONS, IMG_2975, iPhone, 13 October 2026' },
+    book: { src: '/evidence/book.webp', srcSet: '/evidence/book-640.webp 640w, /evidence/book.webp 1280w', width: 1280, height: 1280, ratio: '1:1', alt: 'The book, cover edge, cloth and swoosh', caption: 'ICONS, IMG_2975, iPhone, 13 October 2026' } as Still,
+    contactSheet: [
+      { frame: 'IMG_2939', alt: 'Grey board meeting the white page edge, a dark seam between them' },
+      { frame: 'IMG_2976', alt: 'The volt green cloth, the weave filling the frame' },
+      { frame: 'IMG_2981', alt: 'The spine in softer light: yellow and white signatures sewn with black thread beside grey board' },
+      { frame: 'IMG_2983', alt: 'The spine in sharp focus: yellow and white signatures, black stitching and a red mark' },
+      { frame: 'IMG_2999', alt: 'A blank white page with the green cloth edge along the bottom' },
+      { frame: 'IMG_3027', alt: 'The green cloth chip at the corner of a grey board' },
+    ],
     lead: 'The system comes from one physical object: my copy of the book Zak Group made for Virgil Abloh and Nike (Taschen, 2021). One layer removed: the cloth, paper, board and spine, not the page layouts. A book about icons, so the site is a book too.',
     surfaces: [
       { key: 'cloth', name: 'Volt cloth, the cover', value: '#2bf52b' },
@@ -166,9 +175,9 @@ export const COPY = {
       { when: 'Spine rail', who: '', text: 'A fixed spine layer sits under the page. Every section starts on a 2 px transparent cut, so the spine shows through between them.' },
     ] as TranscriptRow[],
     figures: [
-      { src: '/evidence/specimen-designed.webp', width: 720, height: 1000, caption: 'Designed, Claude Design canvas export, light half', alt: 'The canvas specimen in light mode: five surface swatches, four texture tiles, the type ramp from Display 700 down to Transcript, and the punch nav cells.' },
-      { src: '/evidence/specimen-built.webp', width: 720, height: 1000, caption: 'Built, live /specimen page, light mode', alt: 'The live specimen page in light mode on eggshell: surface swatches for dark and light, the volt cloth cover reading Something Click\'d, and the start of the type group.' },
-    ],
+      { src: '/evidence/specimen-designed.webp', srcSet: '/evidence/specimen-designed-360.webp 360w, /evidence/specimen-designed.webp 720w', width: 667, height: 1000, ratio: '2:3', caption: 'Designed, Claude Design canvas export, light half', alt: 'The canvas specimen in light mode: five surface swatches, four texture tiles, the type ramp from Display 700 down to Transcript, and the punch nav cells.' },
+      { src: '/evidence/specimen-built.webp', srcSet: '/evidence/specimen-built-360.webp 360w, /evidence/specimen-built.webp 720w', width: 667, height: 1000, ratio: '2:3', caption: 'Built, live /specimen page, light mode', alt: 'The live specimen page in light mode on eggshell: surface swatches for dark and light, the volt cloth cover reading Something Click\'d, and the start of the type group.' },
+    ] as Still[],
     closing: { line: 'Designed on a canvas, exported, implemented by agents from that export, documented live on this page.', label: 'Documentation', href: '/specimen' },
     tiers: [
       ['Primitive', '--s-ink, --s-page, --s-white, --s-board, --s-endpaper, --s-cloth', 'The surfaces as raw values'],
@@ -225,12 +234,13 @@ export const COPY = {
       { when: '2017', who: 'Scott', text: 'Marquee Mondays, District, 2017: seventeen weekly nights of curated live DJs, residents Purple Scott, Dirty Deeds and Token, ending 5 June 2017.' },
     ] as TranscriptRow[],
     evidence: [
-      { src: '/evidence/marquee-mondays-017.webp', width: 1600, height: 1066, caption: 'Event banner, Marquee Mondays 017, District, 5 June 2017', alt: 'Black event banner: [Marquee Mondays] 017, 06 05 17, Bad Technique, Everettz, Residents (Purple Scott, Dirty Deeds, Token), District est. 2014, 220 SW Ankeny St, 9 PM, no cover, beside a crushed can in glitch colours.' },
-      { src: '/evidence/marquee-mondays-series.webp', width: 1535, height: 460, caption: 'Series banner, Marquee Mondays, District, 2017', alt: 'Series banner photographed in the room: the Marquee Mondays, Purple Scott and District marks over a brick wall with a painted portrait, purple chandeliers and people at the balcony rail.' },
-    ],
+      { src: '/evidence/marquee-mondays-017.webp', srcSet: '/evidence/marquee-mondays-017-800.webp 800w, /evidence/marquee-mondays-017.webp 1600w', width: 1600, height: 1067, ratio: '3:2', caption: 'Event banner, Marquee Mondays 017, District, 5 June 2017', alt: 'Black event banner: [Marquee Mondays] 017, 06 05 17, Bad Technique, Everettz, Residents (Purple Scott, Dirty Deeds, Token), District est. 2014, 220 SW Ankeny St, 9 PM, no cover, beside a crushed can in glitch colours.' },
+      { src: '/evidence/marquee-mondays-series.webp', srcSet: '/evidence/marquee-mondays-series-409.webp 409w, /evidence/marquee-mondays-series.webp 818w', width: 818, height: 460, ratio: '16:9', caption: 'Series banner, Marquee Mondays, District, 2017', alt: 'Series banner photographed in the room: the Marquee Mondays, Purple Scott and District marks over bare brick and torn plaster, the edge of a painted portrait at the left, two purple chandeliers and a woman at the balcony rail at the right.' },
+    ] as Still[],
   },
   contact: {
     eyebrow: 'Contact', runningHead: 'Contact', title: "Let's talk",
+    portrait: { src: '/evidence/portrait.webp', srcSet: '/evidence/portrait-240.webp 240w, /evidence/portrait.webp 480w, /evidence/portrait-640.webp 640w', width: 480, height: 720, ratio: '2:3', alt: 'Scott Campbell', caption: 'Portrait, SNY00127, 2024' } as Still,
     lead: "I'm looking for a senior role where design systems, product marketing and agents meet: AI infrastructure, developer platforms, or something equally hard to explain. Portland-based, remote-friendly, happy to travel.",
     rows: [
       { when: 'Email', who: '', text: 'ps2pdx@gmail.com' },

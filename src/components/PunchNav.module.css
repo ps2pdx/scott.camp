@@ -12,3 +12,4 @@
   .punches{padding:8px 20% 4px}
   .cell{min-height:44px;padding:0;justify-content:center}
 }
+@media (min-width:1024px){.nav{container-type:inline-size}.cells,.punches{--nav-w:calc((min(100cqw, var(--max) - var(--rail)) - 2 * var(--gutter) + var(--col-gap)) * var(--sp-text) / var(--cols) - var(--col-gap))}.cells{max-width:var(--nav-w)}.punches{max-width:calc(var(--nav-w) + 2 * var(--gutter));padding-left:calc(var(--gutter) + var(--nav-w) * 0.25);padding-right:calc(var(--gutter) + var(--nav-w) * 0.25)}}
