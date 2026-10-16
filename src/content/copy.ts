@@ -99,8 +99,8 @@ export const COPY = {
       ],
       battlezone: {
         figures: [
-          { src: '/evidence/battlezone-gameplay.webp', srcSet: '/evidence/battlezone-gameplay-640.webp 640w, /evidence/battlezone-gameplay.webp 1280w', width: 1280, height: 853, ratio: '3:2', caption: 'Battlezone gameplay, live site screenshot, 16 October 2026', alt: 'Battlezone in a browser at battlezone.app: a green wireframe tank on a vector grid under wireframe mountains, the player chat at the left, the powerups key at the top right and the radar at the bottom right.' },
-          { src: '/evidence/battlezone-login.webp', srcSet: '/evidence/battlezone-login-640.webp 640w, /evidence/battlezone-login.webp 1280w', width: 1280, height: 853, ratio: '3:2', caption: 'Battlezone sign in, live site screenshot, 16 October 2026', alt: 'The Battlezone start screen: the title, the line A faithful revival of a forgotten frontier, a name field and a Start Game button over the green vector grid.' },
+          { src: '/evidence/battlezone-gameplay.webp', srcSet: '/evidence/battlezone-gameplay-640.webp 640w, /evidence/battlezone-gameplay.webp 1280w', width: 1280, height: 853, ratio: '3:2', caption: 'Battlezone gameplay, live site screenshot, January 2026', alt: 'Battlezone in a browser at battlezone.app: a green wireframe tank on a vector grid under wireframe mountains, the player chat at the left, the powerups key at the top right and the radar at the bottom right.' },
+          { src: '/evidence/battlezone-login.webp', srcSet: '/evidence/battlezone-login-640.webp 640w, /evidence/battlezone-login.webp 1280w', width: 1280, height: 853, ratio: '3:2', caption: 'Battlezone sign in, live site screenshot, January 2026', alt: 'The Battlezone start screen: the title, the line A faithful revival of a forgotten frontier, a name field and a Start Game button over the green vector grid.' },
         ] as Still[],
         description: 'A faithful revival of a forgotten frontier: classic vector tank combat, multiplayer on Firebase.',
         link: { label: 'Play', href: 'https://www.battlezone.app' },

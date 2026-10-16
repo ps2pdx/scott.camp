@@ -203,7 +203,7 @@ it('the Nertia block carries the Zero-Point evolution: the generator, the v1 fra
   expect(bz.previousElementSibling!.textContent).toBe(COPY.nertia.evolution.steps[0]);
   expect(bz.nextElementSibling!.textContent).toBe(COPY.nertia.evolution.steps[1]);
   expect([...bz.querySelectorAll('figure')].map((f) => [f.querySelector('img')!.getAttribute('data-ratio'), f.querySelector('img')!.getAttribute('loading'), f.querySelector('figcaption')!.textContent])).toEqual([
-    ['3:2', 'lazy', 'Battlezone gameplay, live site screenshot, 16 October 2026'], ['3:2', 'lazy', 'Battlezone sign in, live site screenshot, 16 October 2026'],
+    ['3:2', 'lazy', 'Battlezone gameplay, live site screenshot, January 2026'], ['3:2', 'lazy', 'Battlezone sign in, live site screenshot, January 2026'],
   ]);
   expect([...bz.querySelectorAll('[data-part="about"] dt')].map((d) => d.textContent)).toEqual(['Place', 'Type', 'Year', 'Source']);
   expect([...bz.querySelectorAll('[data-part="about"] dd')].map((d) => d.textContent)).toEqual(['battlezone.app', 'Game, multiplayer', '2025', 'Live site']);
