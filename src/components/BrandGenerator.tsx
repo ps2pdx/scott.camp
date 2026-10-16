@@ -39,7 +39,7 @@ function Sample({ system, scheme }: { system: BrandSystem; scheme: 'light' | 'da
       <h3 className={s.h}>{v.headlines[0]}</h3>
       <p className={s.p}>{v.descriptions[0]}</p>
       <span className={s.label}>Display: {system.typography.fontFamily.display}</span>
-      <div className={s.btns}><a className={s.primary} href="#design-system">{v.cta[0]}</a><a className={s.outline} href="#design-system">{v.cta[1]}</a></div>
+      <div className={s.btns}><a className={s.primary} href="#nertia">{v.cta[0]}</a><a className={s.outline} href="#nertia">{v.cta[1]}</a></div>
       <div className={s.card}><strong>{system.metadata.name}</strong><span>{v.descriptions[1]}</span></div>
     </div>
   );

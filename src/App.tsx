@@ -15,6 +15,7 @@ import { Footer } from '@/components/Footer';
 import { Plate, Spin } from '@/components/Evidence';
 import { DataTable } from '@/components/DataTable';
 import { BrandGenerator } from '@/components/BrandGenerator';
+import { FigurePair, SurfaceRow, TextureList, TypeStack } from '@/components/DesignStudy';
 import { Disclosure } from '@/components/Disclosure';
 import s from './App.module.css';
 
@@ -51,22 +52,51 @@ export function App() {
             <Label>Tech sheets</Label>
             <div className={s.techGrid}>{COPY.nertia.tech.map((t) => <TechSheet key={t.sheet} data={t} />)}</div>
           </div>
+          <div className={s.block}>
+            <Label>Generator</Label>
+            <p className={`transcript ${s.gap}`}>{COPY.nertia.generator.intro}</p>
+            <div className={s.gap}><BrandGenerator /></div>
+          </div>
+          <div className={s.block}>
+            <Label>Token tiers</Label>
+            <p className={`transcript ${s.gap}`}>{COPY.nertia.contract.lead}</p>
+            <div className={s.gap}><DataTable label="Skin contract tokens by tier" rows={COPY.nertia.contract.tiers} /></div>
+          </div>
+          <div className={s.block}>
+            <Label>Tools that act on the system</Label>
+            <div className={s.gap}><DataTable label="MCP tools that act on the design system or publish" rows={COPY.nertia.contract.tools} /></div>
+            <p className={`transcript ${s.gap}`}><a href={COPY.nertia.contract.link.href}>{COPY.nertia.contract.link.label} ↗</a></p>
+          </div>
           <p className={`transcript ${s.after}`}>{COPY.nertia.codeSiteLine} <a href={COPY.nertia.source.href}>{COPY.nertia.source.label} ↗</a></p>
           <p className={`transcript ${s.next}`}>{COPY.nertia.docs.line} <a href={COPY.nertia.docs.href}>{COPY.nertia.docs.label} ↗</a></p>
         </Section>
 
         <Section id="design-system" tools={COPY.designSystem.watermark} runningHead={COPY.designSystem.runningHead} title={COPY.designSystem.title} lead={COPY.designSystem.lead}>
-          <Label>Token tiers</Label>
-          <div className={s.gap}><DataTable label="Skin contract tokens by tier" rows={COPY.designSystem.tiers} /></div>
+          <Label>Surfaces</Label>
+          <div className={s.gap}><SurfaceRow /></div>
           <div className={s.block}>
-            <Label>Generator</Label>
-            <div className={s.gap}><BrandGenerator /></div>
+            <Label>Textures</Label>
+            <p className={`transcript ${s.gap}`}>{COPY.designSystem.texturesLine}</p>
+            <div className={s.gap}><TextureList /></div>
           </div>
           <div className={s.block}>
-            <Label>Tools that act on the system</Label>
-            <div className={s.gap}><DataTable label="MCP tools that act on the design system or publish" rows={COPY.designSystem.tools} /></div>
+            <Label>Type</Label>
+            <div className={s.gap}><TypeStack /></div>
+            <p className={`meta ${s.gap}`}>{COPY.designSystem.typeLine}</p>
           </div>
-          <p className={`transcript ${s.after}`}><a href={COPY.designSystem.links.docs.href}>{COPY.designSystem.links.docs.label} ↗</a> <a href={COPY.designSystem.links.contract.href}>{COPY.designSystem.links.contract.label} ↗</a></p>
+          <div className={s.block}>
+            <Label>Signature components</Label>
+            <Transcript rows={COPY.designSystem.signature} className={s.gap} />
+          </div>
+          <div className={s.block}>
+            <Label>Designed, then built</Label>
+            <div className={s.gap}><FigurePair /></div>
+          </div>
+          <p className={`transcript ${s.after}`}>{COPY.designSystem.closing.line} <a href={COPY.designSystem.closing.href}>{COPY.designSystem.closing.label} ↗</a></p>
+          <div className={s.block}>
+            <Label>Token tiers</Label>
+            <div className={s.gap}><DataTable label="This site's tokens by tier" rows={COPY.designSystem.tiers} /></div>
+          </div>
         </Section>
 
         <Section id="work" tools={COPY.work.tools} runningHead={COPY.work.runningHead} eyebrow={COPY.work.eyebrow} title={COPY.work.title}>

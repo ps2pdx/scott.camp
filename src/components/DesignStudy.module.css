@@ -1,0 +1,25 @@
+.surfaces{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:var(--s-3)}
+.surface{display:flex;flex-direction:column;gap:var(--s-1);min-width:0}
+.swatch{display:block;height:96px;border:1px solid var(--line);margin-bottom:var(--s-1)}
+.swatch[data-swatch="cloth"]{background:var(--s-cloth) url(/textures/cloth.webp);background-size:189px 204px}
+.swatch[data-swatch="endpaper"]{background:var(--s-endpaper)}
+.swatch[data-swatch="eggshell"]{background:var(--s-page)}
+.swatch[data-swatch="white"]{background:var(--s-white)}
+.swatch[data-swatch="dark"]{background:linear-gradient(90deg,var(--s-ink) 50%,#1c1b19 50%)}
+.textures{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:var(--s-4)}
+.texture{display:grid;grid-template-columns:160px minmax(0,1fr);gap:var(--s-4);align-items:start}
+.tile{display:block;height:120px;border:1px solid var(--line);background-size:256px auto}
+.tile[data-tile="paper"]{background-image:url(/textures/paper-512.webp)}
+.tile[data-tile="board"]{background-image:url(/textures/board-512.webp)}
+.tile[data-tile="cloth"]{background-image:url(/textures/cloth.webp);background-size:189px 204px}
+.tile[data-tile="spine"]{background-image:url(/textures/spine.webp);background-size:auto 100%;background-repeat:repeat-x}
+.tile[data-tile="chip"]{background:#fff url(/textures/chip.png) no-repeat center;background-size:114px 114px}
+.caption{display:flex;flex-direction:column;gap:var(--s-1);min-width:0}
+.type{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
+.typeRow{display:flex;flex-direction:column;gap:var(--s-2);padding:var(--s-4) 0;border-top:1px solid var(--line);min-width:0}
+.typeRow:last-child{border-bottom:1px solid var(--line)}
+.sample{overflow-wrap:anywhere}
+.pair{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--s-5);align-items:start}
+.pair img{border:1px solid var(--line)}
+@media (max-width:1023px){.surfaces{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (max-width:639px){.surfaces{grid-template-columns:repeat(2,minmax(0,1fr))}.swatch{height:64px}.texture{grid-template-columns:96px minmax(0,1fr);gap:var(--s-3)}.tile{height:96px}.pair{grid-template-columns:1fr}}
