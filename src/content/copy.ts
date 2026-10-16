@@ -185,7 +185,7 @@ export const COPY = {
     typeLine: 'Distinct font declarations reduced from 34 to 19.',
     signature: [
       { when: 'Punch nav', who: '', text: 'Eight punched cells, 01 to 08, numbers only. Each name lives in the aria-label: a store without price tags.' },
-      { when: 'Spine rail', who: '', text: 'A fixed spine layer sits under the page. Every section starts on a 2 px transparent cut, so the spine shows through between them.' },
+      { when: 'Spine rail', who: '', text: 'Every section starts on a 2 px cut that carries a strip of the spine band, so the spine shows between them. No fixed layer under the page, so scrolling never repaints it.' },
     ] as TranscriptRow[],
     figures: [
       { src: '/evidence/specimen-designed.webp', srcSet: '/evidence/specimen-designed-360.webp 360w, /evidence/specimen-designed.webp 720w', width: 667, height: 1000, ratio: '2:3', caption: 'Designed, Claude Design canvas export, light half', alt: 'The canvas specimen in light mode: five surface swatches, four texture tiles, the type ramp from Display 700 down to Transcript, and the punch nav cells.' },

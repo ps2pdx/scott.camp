@@ -1,7 +1,8 @@
 .grain{position:relative}
 .grain::before{content:"";position:absolute;inset:0;pointer-events:none;background-size:512px 512px;mix-blend-mode:multiply;opacity:var(--grain);background-image:var(--tex);filter:brightness(2)}
 .grain>*{position:relative}
-.cut{border-top:2px solid transparent;background-clip:padding-box}
+.cut{position:relative;border-top:2px solid transparent;background-clip:padding-box}
+.cut::after{content:"";position:absolute;left:0;right:0;top:-2px;height:2px;pointer-events:none;background:#1c1b19 url(/textures/spine-band.webp) repeat-x 0 50%;background-size:auto clamp(80px,10vw,112px)}
 :root{--wm-k:1}
 @media (max-width:639px){:root{--wm-k:0.5}}
 [data-wm-size="72"]{--wm-size:72px}
@@ -20,7 +21,7 @@
   .grain::before{display:none}
   .rail{background-image:none !important;width:2px !important}
   .band{background-image:none !important}
-  .reveal{display:none !important}
+  .cut::after{display:none !important}
   .cut{border-top-color:var(--line-strong) !important}
   .chip{background-image:none !important}
   .hole{filter:none !important}

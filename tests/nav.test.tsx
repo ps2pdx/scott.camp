@@ -53,9 +53,9 @@ it('on phones the spine band sits above the nav and the footer carries none', as
   expect(container.querySelector('footer [data-part="band"]')).toBeNull();
   expect(container.querySelectorAll('[data-part="band"]').length).toBe(1);
 });
-it('the cover comes first, above the rail and the nav; every section after it is a cut over one fixed spine layer', async () => {
+it('the cover comes first, above the rail and the nav; every section after it is a cut carrying the spine band, with no page-sized fixed layer', async () => {
   const { container } = renderPage('hero');
-  expect(container.querySelectorAll('[data-part="reveal"]').length).toBe(1);
+  expect(container.querySelectorAll('[data-part="reveal"]').length).toBe(0);
   const cover = container.querySelector('#hero')!;
   expect(cover).toHaveAttribute('data-part', 'cover');
   for (const sel of ['[data-part="rail"]', '[data-part="band"]', 'nav', 'main']) expect(cover.compareDocumentPosition(container.querySelector(sel)!) & Node.DOCUMENT_POSITION_FOLLOWING, sel).toBeTruthy();

@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from 'react';
 import s from './ToolMark.module.css';
 
 const SIZES = [72, 96, 128, 160] as const;
@@ -17,8 +18,17 @@ export function watermarkPlacement(id: string) {
 export function ToolMark({ id, items, className }: { id: string; items: readonly string[]; className?: string }) {
   const p = watermarkPlacement(id);
   const run = `${items.join(' · ')} · `;
+  const ref = useRef<HTMLDivElement>(null);
+  const [live, setLive] = useState(true);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el || typeof IntersectionObserver === 'undefined') return;
+    const io = new IntersectionObserver(([e]) => setLive(e.isIntersecting), { rootMargin: '200px 0px' });
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
   return (
-    <div data-part="tools" data-size={p.size} data-offset={p.offset} data-start={p.start} className={`${s.wm} ${className ?? ''}`}>
+    <div ref={ref} data-part="tools" {...(live ? { 'data-live': '' } : {})} data-size={p.size} data-offset={p.offset} data-start={p.start} className={`${s.wm} ${className ?? ''}`}>
       <ul className="sr-only" aria-label="Skills and tools">{items.map((t) => <li key={t}>{t}</li>)}</ul>
       <div className={`watermark ${s.viewport}`} aria-hidden="true">
         <div className={s.track}><span className={s.run}>{run}</span><span className={s.run}>{run}</span></div>

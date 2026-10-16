@@ -42,17 +42,17 @@ it('the primary chip is one cloth weave across the whole box: no 9-slice, no rad
   expect(primary).toMatch(/url\(\/textures\/cloth\.webp\)/);
   expect(primary).toMatch(/background-origin:border-box;background-clip:border-box/);
 });
-it('section dividers are 2 px cuts over one fixed spine layer, and plain rules under reduced-data', () => {
+it('section dividers are 2 px cuts that carry the spine band themselves, no page-sized fixed layer, and plain rules under reduced-data', () => {
   const tex = readFileSync('src/styles/textures.css', 'utf8');
-  expect(tex).toContain('.cut{border-top:2px solid transparent;background-clip:padding-box}');
+  expect(tex).toContain('.cut{position:relative;border-top:2px solid transparent;background-clip:padding-box}');
+  const strip = tex.match(/\.cut::after\{[^}]*\}/)![0];
+  expect(strip).toMatch(/position:absolute;left:0;right:0;top:-2px;height:2px/);
+  expect(strip).toContain('url(/textures/spine-band.webp)');
+  expect(strip).not.toMatch(/fixed|filter|mix-blend|will-change/);
   const reduced = tex.slice(tex.indexOf('@media (prefers-reduced-data: reduce),(forced-colors: active)'));
-  expect(reduced).toContain('.reveal{display:none !important}');
+  expect(reduced).toContain('.cut::after{display:none !important}');
   expect(reduced).toContain('.cut{border-top-color:var(--line-strong) !important}');
-  const rail = readFileSync('src/components/SpineRail.module.css', 'utf8');
-  const reveal = rail.match(/\.reveal\{[^}]*\}/)![0];
-  expect(reveal).toMatch(/position:fixed;inset:0;z-index:-1;pointer-events:none;will-change:transform/);
-  expect(reveal).toContain('url(/textures/spine-band.webp)');
-  expect(reveal).not.toMatch(/filter|mix-blend|background-attachment/);
+  expect(readFileSync('src/components/SpineRail.module.css', 'utf8')).not.toContain('.reveal');
   for (const f of ['src/components/Section.module.css', 'src/components/Footer.module.css']) expect(readFileSync(f, 'utf8')).toContain('background-color:var(--bg)');
 });
 it('the light page is eggshell, and pure white stays for the punch holes and the sheet', () => {

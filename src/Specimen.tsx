@@ -9,7 +9,7 @@ import { Surface } from '@/components/Surface';
 import { Button } from '@/components/Button';
 import { SpecSheet } from '@/components/SpecSheet';
 import { TechSheet } from '@/components/TechSheet';
-import { SpineBand, SpineReveal } from '@/components/SpineRail';
+import { SpineBand } from '@/components/SpineRail';
 import { Disclosure } from '@/components/Disclosure';
 import { Plate, Spin } from '@/components/Evidence';
 import { ToolMark } from '@/components/ToolMark';
@@ -108,7 +108,6 @@ export function Specimen() {
   return (
     <>
       <PunchFilterDefs />
-      <SpineReveal />
       <main className={s.sp}>
         <p className={`meta ${s.living}`}>{LIVING_LINE}</p>
         {GROUPS.map((g) => (

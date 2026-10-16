@@ -170,7 +170,7 @@ it('the design system block is the case study of this site: surfaces, textures w
   expect([...d.querySelectorAll('[data-part="ds-type"] [data-role]')].map((x) => x.getAttribute('data-role'))).toEqual(['Display', 'Title', 'Text', 'Meta', 'Watermark']);
   expect(d.textContent).toContain('Distinct font declarations reduced from 34 to 19.');
   expect(d.textContent).toContain('a store without price tags');
-  expect(d.textContent).toContain('2 px transparent cut');
+  expect(d.textContent).toContain('2 px cut that carries a strip of the spine band');
   const figs = [...d.querySelectorAll('[data-part="ds-figures"] figure')];
   expect(figs.map((f) => f.querySelector('img')!.getAttribute('src'))).toEqual(['/evidence/specimen-designed.webp', '/evidence/specimen-built.webp']);
   expect(figs.map((f) => f.querySelector('figcaption')!.textContent!.split(',')[0])).toEqual(['Designed', 'Built']);
