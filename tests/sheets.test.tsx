@@ -188,6 +188,9 @@ it('one tone per data set: the yellow pages after the cover carry the lead, the 
   const work = container.querySelector('#work')!;
   expect(work.querySelector('table')).toBeNull();
   expect(work.querySelectorAll('article').length).toBe(COPY.work.sheets.length);
+  const stack = work.querySelector('[data-part="work-sheets"]')!;
+  expect([...stack.children].map((c) => c.querySelectorAll('article').length)).toEqual(COPY.work.sheets.map(() => 1));
+  expect(work.querySelector('[data-part="cell"]')).toBeNull();
   expect(work.querySelectorAll('svg[role="img"]').length).toBe(5);
 });
 it('Work carries five tech sheets, Typeshit last, read from the live site, in a scroll-snap slider with Prev and Next', async () => {
