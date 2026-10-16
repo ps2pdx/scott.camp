@@ -64,7 +64,16 @@ describe('page entries', () => {
       expect(sec.querySelector('h2'), x.id).toBeNull();
       const cover = container.querySelector('[data-part="cover"][data-chapter]')!;
       expect(cover.querySelector('h1')!.textContent, x.id).toBe(chapterTitle(x.id));
-      expect(cover.querySelector('.meta')!.textContent, x.id).toBe(`"${x.label}"`);
+      expect(cover.children.length, x.id).toBe(1);
+      expect(cover.querySelector('.meta, a, [data-part="title-line"], [data-part="cover-links"]'), x.id).toBeNull();
+      expect(cover.textContent, x.id).toBe(chapterTitle(x.id));
+      const row = container.querySelector('footer [data-part="footer-cover"]')!;
+      expect(row.classList.contains('meta'), x.id).toBe(true);
+      expect(row.compareDocumentPosition(container.querySelector('footer ul')!) & Node.DOCUMENT_POSITION_FOLLOWING, x.id).toBeTruthy();
+      expect(row.querySelector('[data-part="title-line"]')!.textContent, x.id).toBe('Scott Campbell, c/o Nertia.ai, Portland, Oregon');
+      const links = [...row.querySelectorAll('[data-part="cover-links"] a')].map((a) => [a.firstChild!.textContent, a.getAttribute('href')]);
+      const all = [['Nertia', '/bell/nertia'], ['Contact', '/bell/contact'], ['Resume', '/Scott_Campbell_Resume.pdf'], ['Book', 'https://cal.com/scott-campbell/consulting']];
+      expect(links, x.id).toEqual(all.filter(([, href]) => href !== pageHref(x.id)));
       expect([...container.querySelectorAll('h1,h2')].filter((h) => h.textContent === chapterTitle(x.id)).length, x.id).toBe(1);
       expect(cover.compareDocumentPosition(container.querySelector('nav')!) & Node.DOCUMENT_POSITION_FOLLOWING, x.id).toBeTruthy();
       expect(container.querySelector('[data-part="snippet"]'), x.id).toBeNull();
@@ -167,5 +176,29 @@ describe('Zen Holo', () => {
     expect(figs.map((f) => f.querySelector('img')!.getAttribute('data-ratio'))).toEqual(['1:1', '16:9']);
     expect(c.querySelector('a[href="https://www.youtube.com/channel/UC9rkFGejFF3rypgemxebUKg"]')!.textContent).toBe('YouTube ↗');
     expect(c.textContent).not.toMatch(/Headshot|Diablo|get in touch|[\u2013\u2014]/i);
+  });
+});
+
+describe('chapter cover and footer row', () => {
+  it('the chapter cover is a compact band on its token, title only; the footer links hide their underline until hover', () => {
+    expect(readFileSync('src/styles/tokens.css', 'utf8')).toContain('--cover-chapter:clamp(240px,32vh,360px)');
+    expect(readFileSync('src/styles/tokens.css', 'utf8')).toContain('--cover-chapter:200px');
+    expect(readFileSync('src/components/Cover.module.css', 'utf8')).toContain('.chapter{min-height:var(--cover-chapter);justify-content:center;');
+    const css = readFileSync('src/components/Footer.module.css', 'utf8');
+    expect(css).toMatch(/\.row a\{[^}]*text-decoration:none/);
+    expect(css).toContain('.row a:hover,.row a:focus-visible{text-decoration:underline}');
+  });
+  it('drops the current page link: Nertia and Contact each omit themselves', () => {
+    for (const [id, gone] of [['nertia', 'Nertia'], ['contact', 'Contact']] as const) {
+      const { container, unmount } = renderPage(id);
+      const labels = [...container.querySelectorAll('footer [data-part="cover-links"] a')].map((a) => a.firstChild!.textContent);
+      expect(labels.length).toBe(3);
+      expect(labels).not.toContain(gone);
+      unmount();
+    }
+  });
+  it('the landing footer keeps its layout, the row stays on the cover', () => {
+    const { container } = renderPage('hero');
+    expect(container.querySelector('footer [data-part="footer-cover"]')).toBeNull();
   });
 });

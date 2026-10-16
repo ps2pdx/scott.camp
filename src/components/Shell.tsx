@@ -12,12 +12,12 @@ export function Shell({ current, cover, children }: { current: PageId; cover?: R
   return (
     <>
       <PunchFilterDefs />
-      {cover ?? (current === 'hero' ? null : <Cover chapter={{ label: pageLabel(current), title: chapterTitle(current) }} />)}
+      {cover ?? (current === 'hero' ? null : <Cover chapter={{ title: chapterTitle(current) }} />)}
       <SpineRail />
       <SpineBand />
       <PunchNav current={current} />
       <main>{current === 'hero' ? null : <Section id="contents" surface="endpaper" first><Index rows={chapterIndex(current)} label={`Contents. ${pageLabel(current)} is this page; struck rows are the other chapters.`} /></Section>}{children}</main>
-      <Footer />
+      <Footer current={current} />
       <SpineEnd />
     </>
   );

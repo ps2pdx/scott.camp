@@ -3,3 +3,7 @@
 @media (min-width:1024px){.wrap{padding-left:calc(var(--rail) + var(--gutter))}}
 .links{list-style:none;margin:0;padding:0;display:flex;column-gap:var(--s-5);flex-wrap:wrap}
 .links a,.links button{display:inline-flex;align-items:center;min-height:44px;text-decoration:none}
+.cover{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:var(--s-2) var(--s-4)}
+.row{display:flex;flex-wrap:wrap;column-gap:var(--s-5)}
+.row a{display:inline-flex;align-items:center;min-height:44px;text-decoration:none;text-decoration-thickness:var(--strike);text-underline-offset:0.25em}
+.row a:hover,.row a:focus-visible{text-decoration:underline}
