@@ -3,5 +3,3 @@
 .band{display:block;height:clamp(80px,10vw,112px);background:#1c1b19 url(/textures/spine-band.webp) repeat-x;background-size:auto 100%}
 @media (min-width:1024px){.band{display:none}}
 .end.end{display:block;position:relative;z-index:6}
-
-@media (min-width:1440px){.rail{z-index:7}}

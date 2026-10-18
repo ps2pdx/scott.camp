@@ -15,9 +15,11 @@ export function Shell({ current, cover, children }: { current: PageId; cover?: R
       {cover ?? (current === 'hero' ? null : <Cover chapter={{ title: chapterTitle(current) }} />)}
       <SpineRail />
       <SpineBand />
+      <div className="shell-body">
       <PunchNav current={current} />
       <main>{current === 'hero' ? null : <Section id="contents" surface="endpaper" first><Index rows={chapterIndex(current)} label={`Contents. ${pageLabel(current)} is this page; struck rows are the other chapters.`} /></Section>}{children}</main>
       <Footer current={current} />
+      </div>
       <SpineEnd />
     </>
   );

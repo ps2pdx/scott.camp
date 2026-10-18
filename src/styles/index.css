@@ -6,3 +6,6 @@ html{transition:background-color var(--motion-theme),color var(--motion-theme);s
 a{text-decoration:underline;text-underline-offset:0.15em;text-decoration-thickness:1px}
 a:hover{text-decoration-color:var(--accent)}
 a:focus-visible,button:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+
+/* 1440+: the nav is a sticky sidebar column that starts under the cover and pins to the top once the cover has scrolled past. */
+@media (min-width:1440px){.shell-body{display:grid;grid-template-columns:var(--side) minmax(0,1fr);margin-left:var(--rail)}.shell-body>main{grid-column:2;grid-row:1;min-width:0}.shell-body>footer{grid-column:2;grid-row:2;min-width:0}}

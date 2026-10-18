@@ -17,7 +17,7 @@
 @media (max-width:639px){.sub{display:none}}
 /* Wide desktop (1440+): the numbered cells stand up into a paper sidebar beside the spine rail. The three punches move to its left margin, still at 25, 50 and 75 percent of the height, so it reads as the same sheet turned on its side. */
 @media (min-width:1440px){
-  .nav{position:fixed;top:0;bottom:0;left:var(--rail);width:var(--side);z-index:7;padding-left:0;border-bottom:0;border-right:1px solid var(--line-strong);display:flex;flex-direction:column;justify-content:flex-start;overflow-y:auto}
+  .nav{position:sticky;top:0;grid-column:1;grid-row:1 / span 2;align-self:start;height:100vh;z-index:4;padding-left:0;border-bottom:0;border-right:1px solid var(--line-strong);display:flex;flex-direction:column;justify-content:flex-start;overflow-y:auto}
   .punches{position:absolute;top:0;bottom:0;left:0;width:var(--s-5);max-width:none;margin:0;padding:25vh 0;flex-direction:column;align-items:center;justify-content:space-between;pointer-events:none;z-index:2}
   .cells{grid-template-columns:1fr;max-width:none;margin:0;border:0}
   .cells li{border-right:0;border-bottom:1px solid var(--line-strong)}

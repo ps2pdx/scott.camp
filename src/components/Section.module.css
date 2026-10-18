@@ -3,7 +3,8 @@
 .board{background-color:var(--s-board);--paper:var(--s-board);--fg-muted:var(--fg)}
 .endpaper{background-color:var(--s-endpaper);color:#000;--fg:#000;--fg-muted:rgba(0,0,0,0.75);--line:rgba(0,0,0,0.25);--line-strong:#000;--grain:0.14;--focus:#005a14;--paper:var(--s-endpaper)}
 .wrap{max-width:var(--max);padding:0 var(--gutter);margin:0;position:relative;z-index:1}
-@media (min-width:1024px){.wrap{padding-left:calc(var(--rail) + var(--side) + var(--gutter))}}
+@media (min-width:1024px){.wrap{padding-left:calc(var(--rail) + var(--gutter))}}
+@media (min-width:1440px){.wrap{padding-left:var(--gutter)}}
 .head{margin-bottom:var(--r-block);align-items:baseline}
 .titles{row-gap:var(--r-lead);align-items:start}
 .side{display:flex;flex-direction:column;align-items:flex-start;gap:var(--r-lead)}

@@ -78,7 +78,8 @@ it('the spine bookends the page: a band after the footer, at every width, above 
   const { container } = renderPage('hero');
   const end = container.querySelector('[data-part="band-end"]')!;
   expect(end).toHaveAttribute('aria-hidden', 'true');
-  expect(container.querySelector('footer')!.nextElementSibling).toBe(end);
+  const foot = container.querySelector('footer')!;
+  expect((foot.closest('.shell-body') ?? foot).nextElementSibling).toBe(end);
   expect(end.nextElementSibling).toBeNull();
   expect(readFileSync('src/components/SpineRail.module.css', 'utf8')).toContain('.end.end{display:block;position:relative;z-index:6}');
 });
