@@ -15,3 +15,14 @@
 }
 @media (min-width:1024px){.nav{container-type:inline-size}.cells,.punches{--nav-w:calc((min(100cqw, var(--max) - var(--rail)) - 2 * var(--gutter) + var(--col-gap)) - var(--col-gap))}.cells{max-width:var(--nav-w)}.punches{max-width:calc(var(--nav-w) + 2 * var(--gutter));padding-left:calc(var(--gutter) + var(--nav-w) * 0.25);padding-right:calc(var(--gutter) + var(--nav-w) * 0.25)}}
 @media (max-width:639px){.sub{display:none}}
+/* Wide desktop (1440+): the numbered cells stand up into a paper sidebar beside the spine rail. The three punches move to its left margin, still at 25, 50 and 75 percent of the height, so it reads as the same sheet turned on its side. */
+@media (min-width:1440px){
+  .nav{position:fixed;top:0;bottom:0;left:var(--rail);width:var(--side);z-index:4;padding-left:0;border-bottom:0;border-right:1px solid var(--line-strong);display:flex;flex-direction:column;justify-content:center;overflow-y:auto}
+  .punches{position:absolute;top:0;bottom:0;left:0;width:var(--s-5);max-width:none;margin:0;padding:25vh 0;flex-direction:column;align-items:center;justify-content:space-between;pointer-events:none}
+  .cells{grid-template-columns:1fr;max-width:none;margin:var(--s-5) var(--s-4) var(--s-5) var(--s-5)}
+  .cells li{border-right:0;border-bottom:1px solid var(--line-strong)}
+  .cells li:last-child{border-bottom:0}
+  .cell{flex-direction:row;align-items:baseline;justify-content:flex-start;gap:var(--s-3);min-height:48px;padding:12px 12px}
+  .sub{display:block;overflow-wrap:anywhere}
+}
+
