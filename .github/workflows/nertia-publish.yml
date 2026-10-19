@@ -1,19 +1,18 @@
+# .github/workflows/nertia-publish.yml
+# No secrets: when a run passes, the Nertia GitHub app publishes the nertia-site artifact.
 name: Publish to nertia
 on:
   push: { branches: [main] }
   workflow_dispatch: { inputs: { ref: { description: 'ref to build', required: false } } }
 permissions: { contents: read }
 jobs:
-  publish:
+  build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
-        with: { ref: '${{ inputs.ref || github.ref }}' }
+        with: { ref: ${{ inputs.ref || github.ref }} }
       - uses: actions/setup-node@v5
         with: { node-version: 22, cache: npm }
-      - name: Require the NERTIA_SITE variable
-        run: test -n "${{ vars.NERTIA_SITE }}" || { echo "::error::Set the repository variable NERTIA_SITE (Settings, Variables, Actions) to the nertia site slug, scottcamp."; exit 1; }
       - run: npm ci && npm run build && test -f out/index.html
-      - run: npx @nersh/publish out --site ${{ vars.NERTIA_SITE }}
-        env:
-          NERTIA_PUBLISH_TOKEN: ${{ secrets.NERTIA_PUBLISH_TOKEN }}
+      - uses: actions/upload-artifact@v4
+        with: { name: nertia-site, path: out, retention-days: 3, if-no-files-found: error }
