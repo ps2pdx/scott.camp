@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
-        with: { ref: ${{ inputs.ref || github.ref }} }
+        with: { ref: '${{ inputs.ref || github.ref }}' }
       - uses: actions/setup-node@v5
         with: { node-version: 22, cache: npm }
       - run: npm ci && npm run build && test -f out/index.html
