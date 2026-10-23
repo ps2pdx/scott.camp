@@ -90,7 +90,10 @@ it('the cover holds the eyebrow, the name line, three inline Meta links and the 
   expect(cover.querySelector('h1')!.classList.contains('bleed-btn')).toBe(true);
   expect(cover.querySelectorAll('button').length).toBe(0);
   const links = [...cover.querySelectorAll('[data-part="cover-links"] a')];
-  expect(cover.querySelectorAll('a').length).toBe(4);
+  expect(cover.querySelectorAll('a').length).toBe(4 + COPY.socials.length);
+  const socials = [...cover.querySelectorAll('[data-part="cover-socials"] a')];
+  expect(socials.map((a) => [a.getAttribute('aria-label'), a.getAttribute('href'), a.getAttribute('target')])).toEqual(COPY.socials.map((x) => [x.label, x.href, '_blank']));
+  expect(socials.every((a) => a.querySelector('svg[aria-hidden="true"] path'))).toBe(true);
   expect(links.map((a) => [a.firstChild!.textContent, a.getAttribute('href'), a.getAttribute('target')])).toEqual([['Nertia', '/bell/nertia', null], ['Contact', '/bell/contact', null], ['Resume', '/Scott_Campbell_Resume.pdf', '_blank'], ['Book', 'https://cal.com/scott-campbell/consulting', '_blank']]);
   expect(links.map((a) => a.querySelector('[aria-hidden="true"]')?.textContent ?? null)).toEqual([null, null, ' ↗', ' ↗']);
   const coverCss = readFileSync('src/components/Cover.module.css', 'utf8');
@@ -98,7 +101,7 @@ it('the cover holds the eyebrow, the name line, three inline Meta links and the 
   expect(coverCss).toContain('.links a:hover,.links a:focus-visible{text-decoration:underline}');
   expect(readFileSync('src/components/PunchNav.module.css', 'utf8')).toContain('.cell{text-decoration:none;');
   expect(cover.querySelector('[data-part="cover-links"]')!.classList.contains('meta')).toBe(true);
-  expect(cover.querySelector('p, ul, table')).toBeNull();
+  expect(cover.querySelector('p, table, ul:not([data-part="cover-socials"])')).toBeNull();
   const name = container.querySelector('#endpapers [data-part="yellow-name"]')!;
   expect(name.textContent).toBe('Scott Campbell, c/o Nertia.ai');
   expect(name.classList.contains('meta')).toBe(true);
