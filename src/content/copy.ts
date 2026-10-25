@@ -301,8 +301,12 @@ export const COPY = {
     consulting: { eyebrow: 'Consulting', headline: '60 minutes.', text: 'One hour on your brand, design system, positioning or agent workflow.', label: 'Book a session', href: BOOKING_URL },
   },
   socials: [
-    { network: 'linkedin', label: 'LinkedIn', href: 'https://linkedin.com/in/scottsuper' },
+    { network: 'instagram', label: 'Instagram', href: 'https://instagram.com/scottysup' },
+    { network: 'youtube', label: 'YouTube', href: 'https://youtube.com/@scottysup' },
+    { network: 'x', label: 'X', href: 'https://x.com/ps2pdx' },
     { network: 'github', label: 'GitHub', href: 'https://github.com/ps2pdx' },
+    { network: 'linkedin', label: 'LinkedIn', href: 'https://linkedin.com/in/scottsuper' },
+    { network: 'facebook', label: 'Facebook', href: 'https://facebook.com/purplescott' },
   ] as { network: SocialNetwork; label: string; href: string }[],
   footer: {
     links: [
