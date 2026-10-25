@@ -1,6 +1,7 @@
 import type { Still } from '@/components/Evidence';
 import type { MarkData } from '@/components/Mark';
 import { lede } from '@/lib/lede';
+import type { SocialNetwork } from './socialMarks';
 
 export const BOOKING_URL = 'https://cal.com/scott-campbell/consulting';
 export type TranscriptRow = { when: string; who: string; text: string };
@@ -299,6 +300,14 @@ export const COPY = {
     resume: { label: 'Download resume', bracket: 'PDF', href: '/Scott_Campbell_Resume.pdf' },
     consulting: { eyebrow: 'Consulting', headline: '60 minutes.', text: 'One hour on your brand, design system, positioning or agent workflow.', label: 'Book a session', href: BOOKING_URL },
   },
+  socials: [
+    { network: 'instagram', label: 'Instagram', href: 'https://instagram.com/scottysup' },
+    { network: 'youtube', label: 'YouTube', href: 'https://youtube.com/@scottysup' },
+    { network: 'x', label: 'X', href: 'https://x.com/ps2pdx' },
+    { network: 'github', label: 'GitHub', href: 'https://github.com/ps2pdx' },
+    { network: 'linkedin', label: 'LinkedIn', href: 'https://linkedin.com/in/scottsuper' },
+    { network: 'facebook', label: 'Facebook', href: 'https://facebook.com/purplescott' },
+  ] as { network: SocialNetwork; label: string; href: string }[],
   footer: {
     links: [
       { label: 'LinkedIn', href: 'https://linkedin.com/in/scottsuper' },
