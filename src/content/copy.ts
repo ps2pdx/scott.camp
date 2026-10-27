@@ -306,7 +306,7 @@ export const COPY = {
     { network: 'x', label: 'X', href: 'https://x.com/ps2pdx' },
     { network: 'github', label: 'GitHub', href: 'https://github.com/ps2pdx' },
     { network: 'linkedin', label: 'LinkedIn', href: 'https://linkedin.com/in/scottsuper' },
-    { network: 'facebook', label: 'Facebook', href: 'https://facebook.com/purplescott' },
+    { network: 'facebook', label: 'Facebook', href: 'https://www.facebook.com/scottysup/' },
   ] as { network: SocialNetwork; label: string; href: string }[],
   footer: {
     links: [
