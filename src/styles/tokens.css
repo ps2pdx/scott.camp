@@ -16,7 +16,7 @@
   --particle:var(--accent);--particle-wall:var(--fg-muted);
   --volt:var(--s-cloth);--volt-edge:#189a18;
   --emboss-ink:color-mix(in oklch,#000000 86%,var(--s-cloth));--emboss-hi:rgba(255,255,255,0.35);--emboss-lo:rgba(0,0,0,0.4);
-  --emboss-text:-1px -1px 0 var(--emboss-lo),0.009em 0.009em 0 var(--emboss-hi);--emboss-meta:0.5px 0.5px 0 rgba(255,255,255,0.28);
+  --emboss-text:calc(-1 * max(0.5px,0.009em)) calc(-1 * max(0.5px,0.009em)) 0 var(--emboss-lo),max(0.5px,0.009em) max(0.5px,0.009em) 0 var(--emboss-hi);--emboss-meta:0.5px 0.5px 0 rgba(255,255,255,0.28);
   --motion-fast:120ms;--motion-theme:200ms;--motion-chip:160ms;
   color-scheme:dark;
 }

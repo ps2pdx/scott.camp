@@ -18,7 +18,9 @@
 .socials a:hover{opacity:0.7}
 .socials a:focus-visible{outline:2px solid #000;outline-offset:2px}
 @media (max-width:639px){
-  .links{flex-direction:column;align-items:center;gap:var(--s-2);margin-block:auto;text-align:center;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-weight:700;font-size:var(--t-title);letter-spacing:-0.02em;line-height:0.95;-webkit-text-stroke:0}
+  .links{flex:1;flex-direction:column;flex-wrap:nowrap;align-items:center;justify-content:space-evenly;gap:var(--s-2);margin-block:0;text-align:center;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-weight:700;font-size:var(--t-title);letter-spacing:-0.02em;line-height:0.95;-webkit-text-stroke:0}
   .links a{color:var(--emboss-ink);text-shadow:var(--emboss-text)}
+  .top{flex-direction:column;gap:var(--s-1)}
+  .name{order:-1;margin-left:0;text-align:left}
   .socials{justify-content:center}
 }
