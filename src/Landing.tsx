@@ -17,6 +17,7 @@ export function Landing() {
   const { designSystem: ds, vantage: v, nertia: n, work: w, terpscout: t, practice: p, contact: c } = COPY;
   return (
     <Shell current="hero" cover={<Cover id="hero" />}>
+      <Snippet page="contact" runningHead={c.runningHead} title={c.title} lead={lede(c.lead, 1)}><div className={snippetClass.portrait}><Portrait p={c.portrait} /></div></Snippet>
       <Section id="endpapers" surface="endpaper">
         <p data-part="yellow-name" className={`meta ${s.name}`}>{COPY.endpapers.name}</p>
         <p className={`text ${width.text} ${s.lead}`}>{h.lead}</p>
@@ -30,7 +31,6 @@ export function Landing() {
       <Snippet page="work" runningHead={w.runningHead} title={w.title} lead={lede(w.lead, 1)}><Grid columns={2}><WorkSheet sheet={w.sheets[0]} no={workNo(0)} /></Grid></Snippet>
       <Snippet page="terpscout" runningHead={t.runningHead} title={t.title} lead={lede(t.lead, 1)}><Mark mark={t.mark} /></Snippet>
       <Snippet page="practice" surface="board" runningHead={p.runningHead} title={p.title} lead={lede(p.zenHolo.lead, 1)}><Plate e={p.zenHolo.figures[0]} /></Snippet>
-      <Snippet page="contact" runningHead={c.runningHead} title={c.title} lead={lede(c.lead, 1)}><div className={snippetClass.portrait}><Portrait p={c.portrait} /></div></Snippet>
     </Shell>
   );
 }

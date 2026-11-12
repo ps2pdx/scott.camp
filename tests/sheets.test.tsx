@@ -190,11 +190,11 @@ it('phones keep the tables: no two-row nav, no stacked index, no portrait tech s
   expect(readFileSync('src/components/TechSheet.tsx', 'utf8')).not.toMatch(/NARROW|useNarrow/);
   expect(readFileSync('src/components/Transcript.module.css', 'utf8')).not.toMatch(/grid-template-columns:1fr/);
 });
-it('one tone per data set: the yellow pages after the cover carry the lead, the facts, the Virgil row and the index; Work is neutral', async () => {
+it('one tone per data set: the yellow pages after the cover and the Contact snippet carry the lead, the facts, the Virgil row and the index; Work is neutral', async () => {
   const { container } = renderBook();
   const y = container.querySelector('#endpapers')!;
   expect(y).toHaveAttribute('data-surface', 'endpaper');
-  expect(container.querySelector('#hero')!.nextElementSibling!.contains(y) || container.querySelectorAll('main > section')[0] === y).toBe(true);
+  expect(container.querySelectorAll('main > section')[1]).toBe(y);
   expect(y.querySelector('table')).not.toBeNull();
   expect(y.textContent).toContain(COPY.hero.lead);
   for (const f of COPY.hero.facts) expect(y.textContent).toContain(f.text);
