@@ -6,9 +6,9 @@ import { FRAMES } from '@/components/BookGallery';
 
 beforeAll(() => { (globalThis as any).IntersectionObserver = class { observe() {} unobserve() {} disconnect() {} }; });
 
-it('the landing renders the cover, the yellow pages and one snippet per chapter in order', () => {
+it('the landing renders the cover, the Contact snippet right under it, the yellow pages, then one snippet per chapter in order', () => {
   const { container } = renderPage('hero');
-  expect([...container.querySelectorAll('section')].map((s) => s.id)).toEqual(['hero', 'endpapers', ...SECTIONS.slice(1).map((s) => `snippet-${s.id}`)]);
+  expect([...container.querySelectorAll('section')].map((s) => s.id)).toEqual(['hero', 'snippet-contact', 'endpapers', ...SECTIONS.slice(1).filter((s) => s.id !== 'contact').map((s) => `snippet-${s.id}`)]);
   expect(document.querySelector('#hero [data-part="title-line"]')!.textContent).toBe('Scott Campbell, c/o Nertia.ai, Portland, Oregon');
   expect(screen.getByText('"I design systems agents ship."')).toBeInTheDocument();
   expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent("Something Click'd");

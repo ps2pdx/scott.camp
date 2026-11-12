@@ -104,10 +104,10 @@ describe('old anchors', () => {
 });
 
 describe('landing snippets', () => {
-  it('one snippet per chapter, in nav order, each with its title, a trimmed existing lead and a Continue link to its page', () => {
+  it('one snippet per chapter, Contact first under the cover, then nav order, each with its title, a trimmed existing lead and a Continue link to its page', () => {
     const { container } = renderPage('hero');
     const snips = [...container.querySelectorAll('[data-part="snippet"]')];
-    expect(snips.map((s) => s.getAttribute('data-page'))).toEqual(CHAPTERS.map((x) => x.id));
+    expect(snips.map((s) => s.getAttribute('data-page'))).toEqual(['contact', ...CHAPTERS.map((x) => x.id).filter((id) => id !== 'contact')]);
     for (const s of snips) {
       const id = s.getAttribute('data-page') as (typeof CHAPTERS)[number]['id'];
       const sec = s.closest('section')!;
@@ -132,9 +132,9 @@ describe('landing snippets', () => {
     expect(container.querySelector('#snippet-contact img')!.getAttribute('src')).toBe('/evidence/portrait.webp');
     for (const id of ['vantage', 'nertia', 'terpscout']) expect(container.querySelector(`#snippet-${id} [data-part="mark"]`), id).not.toBeNull();
   });
-  it('the landing keeps the cover and the yellow pages exactly as before the split', () => {
+  it('the landing keeps the cover and the yellow pages, with Contact first under the cover', () => {
     const { container } = renderPage('hero');
-    expect(container.querySelector('main > section')!.id).toBe('endpapers');
+    expect([...container.querySelectorAll('main > section')].slice(0, 2).map((x) => x.id)).toEqual(['snippet-contact', 'endpapers']);
     expect(container.querySelector('#endpapers [data-part="index"]')).not.toBeNull();
   });
   it('the Continue link underlines on hover only, like the cover links', () => {
