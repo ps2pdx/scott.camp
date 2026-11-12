@@ -24,6 +24,8 @@
   .top>:not([data-part]){display:none}
   .name{order:1;margin-left:0;text-align:left}
   .headline.headline{order:2;margin-top:var(--s-1);max-width:none;font-family:'Courier New',Courier,monospace;font-weight:400;font-size:var(--t-meta);letter-spacing:0.04em;line-height:1.4;text-shadow:var(--emboss-meta);-webkit-text-stroke:var(--meta-stroke) currentColor}
+  .headline.headline::before{content:"\""}
+  .headline.headline::after{content:"\""}
   .links{order:3;flex:1;display:grid;grid-template-columns:1fr 1fr;grid-auto-rows:1fr;gap:0;margin-block:var(--s-6);border-top:var(--strike) solid var(--line-strong);border-left:var(--strike) solid var(--line-strong);text-align:center;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-weight:700;font-size:var(--t-title);letter-spacing:-0.02em;line-height:0.95;-webkit-text-stroke:0}
   .links a{display:flex;align-items:center;justify-content:center;gap:0.25em;padding:var(--s-2);border-right:var(--strike) solid var(--line-strong);border-bottom:var(--strike) solid var(--line-strong)}
   .links a{color:var(--emboss-ink);text-shadow:var(--emboss-text)}
