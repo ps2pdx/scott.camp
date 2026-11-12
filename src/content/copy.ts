@@ -35,6 +35,7 @@ export const COPY = {
       { label: 'Book', href: BOOKING_URL, newTab: true },
     ],
     headline: "Something Click'd",
+    begin: { label: 'Begin', href: '#endpapers' },
     lead: 'Around last year, when I was building my portfolio, it pivoted into a design system generator, which is now Nertia: an agentic wormhole out of the corporate web.',
     facts: [
       { when: 'Nertia', who: '', text: 'Shipped as a web app and an MCP server' },

@@ -6,6 +6,7 @@
 .compact{min-height:0;z-index:auto;padding:var(--s-5) var(--s-4)}
 .top{display:flex;justify-content:space-between;align-items:flex-start;gap:var(--s-2) var(--s-4);flex-wrap:wrap}
 .name{margin-left:auto;text-align:right}
+.name a{color:inherit;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:0.25em}
 .links{display:flex;flex-wrap:wrap;gap:var(--s-1) var(--s-4);margin-top:calc(var(--s-2) - var(--s-6));margin-bottom:auto}
 .links a{color:#000;text-decoration:none;text-decoration-thickness:var(--strike);text-underline-offset:0.25em}
 .links a:hover,.links a:focus-visible{text-decoration:underline}
@@ -18,9 +19,15 @@
 .socials a:hover{opacity:0.7}
 .socials a:focus-visible{outline:2px solid #000;outline-offset:2px}
 @media (max-width:639px){
-  .links{flex:1;flex-direction:column;flex-wrap:nowrap;align-items:center;justify-content:space-evenly;gap:var(--s-2);margin-block:0;text-align:center;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-weight:700;font-size:var(--t-title);letter-spacing:-0.02em;line-height:0.95;-webkit-text-stroke:0}
+  .cover{gap:0}
+  .top,.foot{display:contents}
+  .top>:not([data-part]){display:none}
+  .name{order:1;margin-left:0;text-align:left}
+  .headline.headline{order:2;margin-top:var(--s-1);max-width:none;font-family:'Courier New',Courier,monospace;font-weight:400;font-size:var(--t-meta);letter-spacing:0.04em;line-height:1.4;text-shadow:var(--emboss-meta);-webkit-text-stroke:var(--meta-stroke) currentColor}
+  .headline.headline::before{content:"\""}
+  .headline.headline::after{content:"\""}
+  .links{order:3;flex:1;display:grid;grid-template-columns:1fr 1fr;grid-auto-rows:1fr;gap:0;margin-block:var(--s-6);border-top:var(--strike) solid var(--line-strong);border-left:var(--strike) solid var(--line-strong);text-align:center;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-weight:700;font-size:var(--t-title);letter-spacing:-0.02em;line-height:0.95;-webkit-text-stroke:0}
+  .links a{display:flex;align-items:center;justify-content:center;gap:0.25em;padding:var(--s-2);border-right:var(--strike) solid var(--line-strong);border-bottom:var(--strike) solid var(--line-strong)}
   .links a{color:var(--emboss-ink);text-shadow:var(--emboss-text)}
-  .top{flex-direction:column;gap:var(--s-1)}
-  .name{order:-1;margin-left:0;text-align:left}
-  .socials{justify-content:center}
+  .socials{order:4;justify-content:center}
 }
