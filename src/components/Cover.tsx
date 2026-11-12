@@ -1,4 +1,4 @@
-import { COPY } from '@/content/copy';
+import { COPY, pageHref } from '@/content/copy';
 import { SOCIAL_MARKS } from '@/content/socialMarks';
 import { Label } from './Label';
 import s from './Cover.module.css';
@@ -7,10 +7,12 @@ export function Cover({ id, compact, chapter }: { id?: string; compact?: boolean
   const h = COPY.hero;
   const Tag = compact ? 'div' : 'section';
   const headline = chapter ? chapter.title : h.headline;
+  const links = [h.begin, ...h.links.filter((l) => l.href !== pageHref('nertia'))];
+  const [before, after] = h.titleLine.split('Nertia.ai');
   return (
     <Tag {...(id ? { id } : {})} data-part="cover" {...(chapter ? { 'data-chapter': '' } : {})} className={`chip ${s.cover} ${compact ? s.compact : ''} ${chapter ? s.chapter : ''}`}>
-      {chapter ? null : <div className={s.top}><Label>{h.eyebrow}</Label><span data-part="title-line" className={`meta ${s.name}`}>{h.titleLine}</span></div>}
-      {chapter || compact ? null : <div data-part="cover-links" className={`meta ${s.links}`}>{h.links.map((l) => 'newTab' in l ? <a key={l.href} href={l.href} target="_blank" rel="noopener">{l.label}<span aria-hidden="true"> ↗</span></a> : <a key={l.href} href={l.href}>{l.label}</a>)}</div>}
+      {chapter ? null : <div className={s.top}><Label>{h.eyebrow}</Label><span data-part="title-line" className={`meta ${s.name}`}>{before}<a href={pageHref('nertia')}>Nertia.ai</a>{after}</span></div>}
+      {chapter || compact ? null : <div data-part="cover-links" className={`meta ${s.links}`}>{links.map((l) => 'newTab' in l ? <a key={l.href} href={l.href} target="_blank" rel="noopener">{l.label}<span aria-hidden="true"> ↗</span></a> : <a key={l.href} href={l.href}>{l.label}</a>)}</div>}
       <div className={s.foot}>
         {compact ? <div className={`display t-display bleed-btn ${s.headline}`}>{headline}</div> : <h1 className={`display t-display bleed-btn ${s.headline}`}>{headline}</h1>}
         {chapter || compact ? null : <ul data-part="cover-socials" className={s.socials}>{COPY.socials.map((x) => (

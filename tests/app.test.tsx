@@ -9,7 +9,7 @@ beforeAll(() => { (globalThis as any).IntersectionObserver = class { observe() {
 it('the landing renders the cover, the yellow pages and one snippet per chapter in order', () => {
   const { container } = renderPage('hero');
   expect([...container.querySelectorAll('section')].map((s) => s.id)).toEqual(['hero', 'endpapers', ...SECTIONS.slice(1).map((s) => `snippet-${s.id}`)]);
-  expect(screen.getByText('Scott Campbell, c/o Nertia.ai, Portland, Oregon')).toBeInTheDocument();
+  expect(document.querySelector('#hero [data-part="title-line"]')!.textContent).toBe('Scott Campbell, c/o Nertia.ai, Portland, Oregon');
   expect(screen.getByText('"I design systems agents ship."')).toBeInTheDocument();
   expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent("Something Click'd");
 });
@@ -83,18 +83,19 @@ it('every content section carries a tool watermark: its own facts, a unique seed
   expect(type).toMatch(/\.watermark\{font-family:'Courier New'[^}]*font-weight:700/);
 });
 
-it('the cover holds the eyebrow, the name line, three inline Meta links and the headline, no buttons; the yellow pages open on the name; the Virgil row sits on the yellow pages, once', () => {
+it('the cover holds the eyebrow, the name line with Nertia.ai linked, Begin plus three inline Meta links and the headline, no buttons; the yellow pages open on the name; the Virgil row sits on the yellow pages, once', () => {
   const { container } = renderPage('hero');
   const cover = container.querySelector('#hero')!;
   expect(cover.querySelector('h1')!.textContent).toBe("Something Click'd");
   expect(cover.querySelector('h1')!.classList.contains('bleed-btn')).toBe(true);
   expect(cover.querySelectorAll('button').length).toBe(0);
   const links = [...cover.querySelectorAll('[data-part="cover-links"] a')];
-  expect(cover.querySelectorAll('a').length).toBe(4 + COPY.socials.length);
+  expect(cover.querySelectorAll('a').length).toBe(5 + COPY.socials.length);
+  expect(cover.querySelector('[data-part="title-line"] a')!.getAttribute('href')).toBe('/bell/nertia');
   const socials = [...cover.querySelectorAll('[data-part="cover-socials"] a')];
   expect(socials.map((a) => [a.getAttribute('aria-label'), a.getAttribute('href'), a.getAttribute('target')])).toEqual(COPY.socials.map((x) => [x.label, x.href, '_blank']));
   expect(socials.every((a) => a.querySelector('svg[aria-hidden="true"] path'))).toBe(true);
-  expect(links.map((a) => [a.firstChild!.textContent, a.getAttribute('href'), a.getAttribute('target')])).toEqual([['Nertia', '/bell/nertia', null], ['Contact', '/bell/contact', null], ['Resume', '/Scott_Campbell_Resume.pdf', '_blank'], ['Book', 'https://cal.com/scott-campbell/consulting', '_blank']]);
+  expect(links.map((a) => [a.firstChild!.textContent, a.getAttribute('href'), a.getAttribute('target')])).toEqual([['Begin', '#endpapers', null], ['Contact', '/bell/contact', null], ['Resume', '/Scott_Campbell_Resume.pdf', '_blank'], ['Book', 'https://cal.com/scott-campbell/consulting', '_blank']]);
   expect(links.map((a) => a.querySelector('[aria-hidden="true"]')?.textContent ?? null)).toEqual([null, null, ' ↗', ' ↗']);
   const coverCss = readFileSync('src/components/Cover.module.css', 'utf8');
   expect(coverCss).toContain('.links a{color:#000;text-decoration:none;');
